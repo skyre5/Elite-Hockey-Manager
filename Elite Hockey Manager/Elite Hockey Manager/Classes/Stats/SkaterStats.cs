@@ -49,7 +49,7 @@ namespace Elite_Hockey_Manager.Classes
             _goals++;
             _powerplayGoals++;
         }
-        public void scoreShorthandedGoal()
+        public void ScoreShorthandedGoal()
         {
             _goals++;
             _shorthandedGoals++;

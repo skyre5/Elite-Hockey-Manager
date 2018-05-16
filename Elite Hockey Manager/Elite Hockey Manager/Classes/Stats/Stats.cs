@@ -16,5 +16,16 @@ namespace Elite_Hockey_Manager.Classes
             _year = year;
             _team = teamID;
         }
+        public int Year
+        {
+            get;
+        }
+        /// <summary>
+        /// Team id of current set of stats
+        /// </summary>
+        public int Team
+        {
+            get;
+        }
     }
 }

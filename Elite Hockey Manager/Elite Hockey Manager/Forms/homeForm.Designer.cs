@@ -36,7 +36,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 684);
             this.Name = "homeForm";
-            this.Text = "Form1";
+            this.Text = "Elite Hockey Manager - Home";
+            this.Load += new System.EventHandler(this.homeForm_Load);
             this.ResumeLayout(false);
 
         }
