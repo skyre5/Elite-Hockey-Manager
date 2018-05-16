@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public abstract class Stats
+    public class GoalieStats : Stats
     {
-        private int _year;
-        private int _team;
-
-        public Stats(int year, int teamID)
+        public GoalieStats(int year, int teamID) : base(year, teamID)
         {
-            _year = year;
-            _team = teamID;
         }
     }
 }
