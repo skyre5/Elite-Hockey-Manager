@@ -57,5 +57,17 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _reboundControl, value);
             }
         }
+
+        public int GoalieOverall()
+        {
+            //90% of rating is from average of high, low, speed, and rebound control
+            double baseTotal = (((double)(High + Low + Speed + ReboundControl)) / 4);
+            baseTotal *= 0.90;
+            //Takes goalies clutch rating as 10% of goalies rating
+            double clutchTotal = ((double)(Clutchness)) / 10;
+            //Rounds up addition of base and total and rounds up into int
+            int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
+            return overall;
+        }
     }
 }

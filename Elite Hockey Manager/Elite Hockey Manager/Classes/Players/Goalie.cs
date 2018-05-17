@@ -14,7 +14,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return _attributes.High;
+                return _attributes.GoalieOverall();
             }
         }
 

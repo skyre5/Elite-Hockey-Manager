@@ -8,14 +8,17 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class SkaterAttributes : Attributes
     {
+        //Shooting stats
         private int _wristShot = 50;
         private int _slapShot = 50;
-        private int _deking = 50;
-        private int _faceoff = 50;
-
-        private int _speed = 50;
-        private int _defense = 50;
+        //Defense stats
+        private int _awareness = 50;
         private int _checking = 50;
+
+        private int _deking = 50;
+        private int _speed = 50;
+        //Mainly set for centers
+        private int _faceoff = 50;
 
         public int WristShot
         {
@@ -72,15 +75,15 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _speed, value);
             }
         }
-        public int Defense
+        public int Awareness
         {
             get
             {
-                return _defense;
+                return _awareness;
             }
             set
             {
-                CheckRating(ref _defense, value);
+                CheckRating(ref _awareness, value);
             }
         }
         public int Checking
@@ -94,6 +97,60 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _checking, value);
             }
         }
-
+        /// <summary>
+        /// Average of wrist shot and slap shot skill
+        /// </summary>
+        public int Shooting
+        {
+            get
+            {
+                return (_wristShot + _slapShot) / 2;
+            }
+        }
+        /// <summary>
+        /// Average of awareness and checking skill
+        /// </summary>
+        public int Defense
+        {
+            get
+            {
+                return (_awareness + _checking) / 2;
+            }
+        }
+        public int CenterRating()
+        {
+            //Takes the 4 attributes (A weighted version of the 6 main attributes) and weighs them as 90% of overall
+            double baseTotal = (((double)(Shooting + Defense + Deking + Speed))/4);
+            baseTotal *= 0.9;
+            //Takes the faceoff as 10% of the players overall
+            double faceoffTotal = ((double)(Faceoff)) / 10;
+            //Adds the together and rounds it up back into an integer
+            int overall = (int)Math.Ceiling(baseTotal + faceoffTotal);
+            return overall;
+        }
+        public int WingerRating()
+        {
+            //Takes 80 percent of the overall as the average of the shooting deking and speed attributes
+            double baseTotal = (((double)(Shooting + Deking + Speed)) / 3);
+            baseTotal *= 0.8;
+            //Takes the defense as 20% of the player overall
+            //Slightly less than the other 3 categories values
+            double defenseTotal = ((double)(Defense)) / 5;
+            //Rounds up the addition of the two parts and rounds it up
+            int overall = (int)Math.Ceiling(baseTotal + defenseTotal);
+            return overall;
+        }
+        public int DefenseRating()
+        {
+            //Takes 85 percent of the overall as the average of the shooting defense and speed
+            double baseTotal = (((double)(Shooting + Defense + Speed)) / 3);
+            baseTotal *= 0.85;
+            //Takes the deking as 15% of the player overall
+            //Slightly less than the other 3 categories values
+            double defenseTotal = ((double)(Deking)) * 0.15;
+            //Rounds up the addition of the two parts and rounds it up
+            int overall = (int)Math.Ceiling(baseTotal + defenseTotal);
+            return overall;
+        }
     }
 }
