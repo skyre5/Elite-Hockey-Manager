@@ -126,47 +126,80 @@ namespace Elite_Hockey_Manager.Classes
         }
         public int GamesPlayed
         {
-            get;
+            get
+            {
+                return _gamesPlayed;
+            }
         }
         public int Goals
         {
-            get;
+            get
+            {
+                return _goals;
+            }
         }
         public int Assists
         {
-            get;
+            get
+            {
+                return _assists;
+            }
         }
         public int PlusMinus
         {
-            get;
+            get
+            {
+                return _plusMinus;
+            }
         }
         public int PenaltyMinutes
         {
-            get;
+            get
+            {
+                return _penaltyMinutes;
+            }
         }
         public int PowerplayGoals
         {
-            get;
+            get
+            {
+                return _powerplayGoals;
+            }
         }
         public int PowerplayAssists
         {
-            get;
+            get
+            {
+                return _powerplayAssists;
+            }
         }
         public int ShorthandedGoals
         {
-            get;
+            get
+            {
+                return _shorthandedGoals;
+            }
         }
         public int ShorthandedAssists
         {
-            get;
+            get
+            {
+                return _shortHandedAssists;
+            }
         }
         public int FaceoffWins
         {
-            get;
+            get
+            {
+                return _faceoffWins;
+            }
         }
         public int FaceoffLosses
         {
-            get;
+            get
+            {
+                return _faceoffLosses;
+            }
         }
         public int Points
         {

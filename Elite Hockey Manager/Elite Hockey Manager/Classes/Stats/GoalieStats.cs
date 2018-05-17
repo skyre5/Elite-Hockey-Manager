@@ -81,55 +81,94 @@ namespace Elite_Hockey_Manager.Classes
         }
         public int GamesPlayed
         {
-            get;
+            get
+            {
+                return _gamesPlayed;
+            }
         }
         public int GamesStarted
         {
-            get;
+            get
+            {
+                return _gamesStarted;
+            }
         }
         public int TimeOnIce
         {
-            get;
+            get
+            {
+                return _timeOnIce;
+            }
         }
         public int Wins
         {
-            get;
+            get
+            {
+                return _wins;
+            }
         }
         public int Losses
         {
-            get;
+            get
+            {
+                return _losses;
+            }
         }
         public int ShotsFaced
         {
-            get;
+            get
+            {
+                return _shotsFaced;
+            }
         }
         public int GoalsAllowed
         {
-            get;
+            get
+            {
+                return _goalsAllowed;
+            }
         }
         public int BreakawayShots
         {
-            get;
+            get
+            {
+                return _breakawayShots;
+            }
         }
         public int BreakawayGoalsAllowed
         {
-            get;
+            get
+            {
+                return _breakawayGoalsAllowed;
+            }
         }
         public int PowerplayShots
         {
-            get;
+            get
+            {
+                return _powerplayShots;
+            }
         }
         public int PowerplayGoalsAllowed
         {
-            get;
+            get
+            {
+                return _powerplayGoalsAllowed;
+            }
         }
         public int ShorthandedShots
         {
-            get;
+            get
+            {
+                return _shorthandedShots;
+            }
         }
         public int ShorthandedGoalsAllowed
         {
-            get;
+            get
+            {
+                return _shorthandedGoalsAllowed;
+            }
         }
         public double SavePercentage
         {

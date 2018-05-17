@@ -30,7 +30,10 @@ namespace Elite_Hockey_Manager.Classes
         
         public GoalieAttributes Attributes
         {
-            get;
+            get
+            {
+                return _attributes;
+            }
         }
     }
 }

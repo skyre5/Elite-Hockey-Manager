@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Elite_Hockey_Manager.Classes.LeagueComponents
+namespace Elite_Hockey_Manager.Classes
 {
     class League
     {

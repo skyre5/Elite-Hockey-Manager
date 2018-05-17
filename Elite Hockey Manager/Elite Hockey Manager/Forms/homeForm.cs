@@ -23,8 +23,8 @@ namespace Elite_Hockey_Manager
             Center c = new Center("1", "2", 20);
             List<Forward> list1 = new List<Forward>();
             List<Center> list2 = new List<Center>();
-            list1.Add(c);
-            list2.Add(c);
+            Team x = new Team("Philly Flyers");
+            
 
 
         }

@@ -18,14 +18,20 @@ namespace Elite_Hockey_Manager.Classes
         }
         public int Year
         {
-            get;
+            get
+            {
+                return _year;
+            }
         }
         /// <summary>
         /// Team id of current set of stats
         /// </summary>
         public int Team
         {
-            get;
+            get
+            {
+                return _team;
+            }
         }
     }
 }
