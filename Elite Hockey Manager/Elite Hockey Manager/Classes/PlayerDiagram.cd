@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Elite_Hockey_Manager.Classes.Center" Collapsed="true">
+    <Position X="6" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Center.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Skater" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Skater.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Player" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAQEAAAAAAAAAIAEEAQABAAAAAAAgAAAAEAAAAAAg=</HashCode>
+      <FileName>Classes\Players\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Goalie" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Goalie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Forward" Collapsed="true">
+    <Position X="6" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Forward.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.WingerBase" Collapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\WingerBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.LeftWinger" Collapsed="true">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Wingers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.RightWinger" Collapsed="true">
+    <Position X="8.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Wingers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Defender" Collapsed="true">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Defender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Players.LeftDefensemen" Collapsed="true">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Defensemen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elite_Hockey_Manager.Classes.Players.RightDefensemen" Collapsed="true">
+    <Position X="2" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Players\Defensemen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

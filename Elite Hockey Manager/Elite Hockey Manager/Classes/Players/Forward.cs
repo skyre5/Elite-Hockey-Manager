@@ -8,13 +8,14 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class Forward : Skater
     {
+        public Forward(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
+        {
+            this._attributes = attributes;
+        }
         public Forward(string first, string last, int age) : base(first, last, age)
         {
+            this._attributes = new SkaterAttributes();
         }
 
-        public override int GetOverall()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

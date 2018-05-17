@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public class Center : Forward
+    public abstract class WingerBase : Forward
     {
-        public Center(string first, string last, int age) : base(first, last, age)
+        public WingerBase(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
+
         }
-        public Center(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
+        public WingerBase(string first, string last, int age) : base(first, last, age)
         {
         }
         public override int Overall
         {
             get
             {
-                return this._attributes.Faceoff;
+                return this._attributes.SlapShot;
             }
         }
     }

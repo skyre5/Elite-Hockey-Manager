@@ -53,6 +53,7 @@
     <Compile Include="Classes\Players\Defender.cs" />
     <Compile Include="Classes\Players\Forward.cs" />
     <Compile Include="Classes\Players\Goalie.cs" />
+    <Compile Include="Classes\Players\WingerBase.cs" />
     <Compile Include="Classes\Players\Wingers.cs" />
     <Compile Include="Classes\Players\Defensemen.cs" />
     <Compile Include="Classes\Players\Skater.cs" />
@@ -80,6 +81,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Classes\PlayerDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

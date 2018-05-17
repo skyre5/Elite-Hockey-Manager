@@ -8,99 +8,24 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class Goalie : Player
     {
-        private int _high;
-        private int _low;
-        private int _breakaway;
-        private int _poise;
+        private GoalieAttributes _attributes;
 
-        private int _fatigue = 100;
-
-        private int _goalieStats;
-
-        public Goalie(string first, string last, int age, int high, int low, int breakaway, int poise) : base(first, last, age)
-        {
-            _high = high;
-            _low = low;
-            _breakaway = breakaway;
-            _poise = poise;
-        }
-
-        public override int GetOverall()
-        {
-            int total = this._high + this._low + this._breakaway;
-            return total / 3;
-        }
-        public int High
+        public override int Overall
         {
             get
             {
-                return _high;
-            }
-            set
-            {
-                if (CheckRating(value))
-                {
-                    _high = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
+                return _attributes.High;
             }
         }
-        public int Low
+
+        public Goalie(string first, string last, int age, GoalieAttributes Attributes) : base(first, last, age)
         {
-            get
-            {
-                return _low;
-            }
-            set
-            {
-                if (CheckRating(value))
-                {
-                    _low = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-            }
+            _attributes = Attributes;
         }
-        public int Breakaway
+        
+        public Goalie(string first, string last, int age) : base(first, last, age)
         {
-            get
-            {
-                return _breakaway;
-            }
-            set
-            {
-                if (CheckRating(value))
-                {
-                    _breakaway = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-        public int Poise
-        {
-            get
-            {
-                return _poise;
-            }
-            set
-            {
-                if (CheckRating(value))
-                {
-                    _poise = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-            }
+            _attributes = new GoalieAttributes();
         }
     }
 }

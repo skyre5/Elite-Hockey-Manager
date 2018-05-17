@@ -8,24 +8,23 @@ namespace Elite_Hockey_Manager.Classes.Players
 {
     public class LeftDefensemen : Defender
     {
+        public LeftDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
+        {
+
+        }
         public LeftDefensemen(string first, string last, int age) : base(first, last, age)
         {
         }
 
-        public override int GetOverall()
-        {
-            throw new NotImplementedException();
-        }
     }
     public class RightDefensemen : Defender
     {
+        public RightDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
+        {
+
+        }
         public RightDefensemen(string first, string last, int age) : base(first, last, age)
         {
-        }
-
-        public override int GetOverall()
-        {
-            throw new NotImplementedException();
         }
     }
 }

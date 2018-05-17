@@ -87,22 +87,13 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-        public abstract int GetOverall();
+        public abstract int Overall
+        {
+            get;
+        }
         public void IncrementYear()
         {
             _age++;
-        }
-        public static bool CheckRating(int rating)
-        {
-            if (rating < 1 || rating > 100)
-            {
-                return false;
-            } 
-            else
-            {
-                return true;
-            }
-            
         }
     }
 }
