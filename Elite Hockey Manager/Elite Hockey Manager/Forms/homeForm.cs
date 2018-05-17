@@ -20,9 +20,13 @@ namespace Elite_Hockey_Manager
 
         private void homeForm_Load(object sender, EventArgs e)
         {
-            GoalieStats x = new GoalieStats(0, 2);
-            Console.WriteLine(x.ShotsFaced);
-            Console.WriteLine(x.SavePercentage);
+            Center c = new Center("1", "2", 20);
+            List<Forward> list1 = new List<Forward>();
+            List<Center> list2 = new List<Center>();
+            list1.Add(c);
+            list2.Add(c);
+
+
         }
     }
 }

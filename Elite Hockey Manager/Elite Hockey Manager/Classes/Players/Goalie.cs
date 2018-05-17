@@ -17,7 +17,7 @@ namespace Elite_Hockey_Manager.Classes
 
         private int _goalieStats;
 
-        public Goalie(string first, string last, int high, int low, int breakaway, int poise) : base(first, last)
+        public Goalie(string first, string last, int age, int high, int low, int breakaway, int poise) : base(first, last, age)
         {
             _high = high;
             _low = low;

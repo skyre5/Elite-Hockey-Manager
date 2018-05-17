@@ -46,11 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Defender.cs" />
-    <Compile Include="Classes\Forward.cs" />
-    <Compile Include="Classes\Goalie.cs" />
+    <Compile Include="Classes\Attributes\Attributes.cs" />
+    <Compile Include="Classes\Attributes\GoalieAttributes.cs" />
+    <Compile Include="Classes\Attributes\SkaterAttributes.cs" />
+    <Compile Include="Classes\Players\Center.cs" />
+    <Compile Include="Classes\Players\Defender.cs" />
+    <Compile Include="Classes\Players\Forward.cs" />
+    <Compile Include="Classes\Players\Goalie.cs" />
+    <Compile Include="Classes\Players\Wingers.cs" />
+    <Compile Include="Classes\Players\Defensemen.cs" />
+    <Compile Include="Classes\Players\Skater.cs" />
     <Compile Include="Classes\Stats\GoalieStats.cs" />
-    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Players\Player.cs" />
     <Compile Include="Classes\Stats\SkaterStats.cs" />
     <Compile Include="Classes\Stats\Stats.cs" />
     <Compile Include="Forms\homeForm.cs">

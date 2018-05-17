@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    class Defender
+    public abstract class Skater : Player
     {
+        public Skater(string first, string last, int age) : base(first, last, age)
+        {
+        }
     }
 }
