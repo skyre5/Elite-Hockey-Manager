@@ -27,5 +27,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = new GoalieAttributes();
         }
+        
+        public GoalieAttributes Attributes
+        {
+            get;
+        }
     }
 }

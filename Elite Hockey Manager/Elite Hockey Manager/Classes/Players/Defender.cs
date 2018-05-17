@@ -19,7 +19,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return this._attributes.DefenseRating();
+                return this.Attributes.DefenseRating();
             }
         }
     }

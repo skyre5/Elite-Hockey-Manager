@@ -8,7 +8,7 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class Skater : Player
     {
-        protected SkaterAttributes _attributes;
+        private SkaterAttributes _attributes;
         public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
         {
             _attributes = attributes;
@@ -16,6 +16,10 @@ namespace Elite_Hockey_Manager.Classes
         public Skater(string first, string last, int age) : base(first, last, age)
         {
             _attributes = new SkaterAttributes();
+        }
+        public SkaterAttributes Attributes
+        {
+            get;
         }
     }
 }

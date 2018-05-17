@@ -49,6 +49,8 @@
     <Compile Include="Classes\Attributes\Attributes.cs" />
     <Compile Include="Classes\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Attributes\SkaterAttributes.cs" />
+    <Compile Include="Classes\LeagueComponents\League.cs" />
+    <Compile Include="Classes\LeagueComponents\Team.cs" />
     <Compile Include="Classes\Players\Center.cs" />
     <Compile Include="Classes\Players\Defender.cs" />
     <Compile Include="Classes\Players\Forward.cs" />
