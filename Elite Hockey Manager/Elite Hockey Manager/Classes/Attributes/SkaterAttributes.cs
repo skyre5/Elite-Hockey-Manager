@@ -19,7 +19,10 @@ namespace Elite_Hockey_Manager.Classes
         private int _speed = 50;
         //Mainly set for centers
         private int _faceoff = 50;
+        public SkaterAttributes()
+        {
 
+        }
         public int WristShot
         {
             get

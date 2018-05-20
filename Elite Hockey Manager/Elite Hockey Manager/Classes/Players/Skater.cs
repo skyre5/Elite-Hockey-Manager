@@ -19,7 +19,10 @@ namespace Elite_Hockey_Manager.Classes
         }
         public SkaterAttributes Attributes
         {
-            get;
+            get
+            {
+                return _attributes;
+            }
         }
     }
 }

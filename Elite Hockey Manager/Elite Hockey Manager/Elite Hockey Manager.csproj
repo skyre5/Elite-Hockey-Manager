@@ -50,6 +50,7 @@
     <Compile Include="Classes\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Attributes\SkaterAttributes.cs" />
     <Compile Include="Classes\LeagueComponents\League.cs" />
+    <Compile Include="Classes\LeagueComponents\PlayerGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\Team.cs" />
     <Compile Include="Classes\Players\Center.cs" />
     <Compile Include="Classes\Players\Defender.cs" />
@@ -69,10 +70,19 @@
     <Compile Include="Forms\homeForm.Designer.cs">
       <DependentUpon>homeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PlayersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PlayersForm.Designer.cs">
+      <DependentUpon>PlayersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PlayersForm.resx">
+      <DependentUpon>PlayersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

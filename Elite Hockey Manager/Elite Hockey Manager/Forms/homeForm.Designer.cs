@@ -28,13 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.playersBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // playersBtn
+            // 
+            this.playersBtn.Location = new System.Drawing.Point(476, 508);
+            this.playersBtn.Name = "playersBtn";
+            this.playersBtn.Size = new System.Drawing.Size(146, 46);
+            this.playersBtn.TabIndex = 0;
+            this.playersBtn.Text = "Add/Edit Custom Players";
+            this.playersBtn.UseVisualStyleBackColor = true;
+            this.playersBtn.Click += new System.EventHandler(this.playersBtn_Click);
             // 
             // homeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 684);
+            this.Controls.Add(this.playersBtn);
             this.Name = "homeForm";
             this.Text = "Elite Hockey Manager - Home";
             this.Load += new System.EventHandler(this.homeForm_Load);
@@ -43,6 +55,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button playersBtn;
     }
 }
 
