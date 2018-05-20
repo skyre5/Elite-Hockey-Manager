@@ -24,5 +24,6 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+
     }
 }

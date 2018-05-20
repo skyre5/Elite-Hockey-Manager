@@ -8,6 +8,14 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class LeftWinger : WingerBase
     {
+        public override string Position
+        {
+            get
+            {
+                return "LW";
+            }
+        }
+
         public LeftWinger(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
 
@@ -20,6 +28,14 @@ namespace Elite_Hockey_Manager.Classes
 
     public class RightWinger : WingerBase
     {
+        public override string Position
+        {
+            get
+            {
+                return "RW";
+            }
+        }
+
         public RightWinger(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
 

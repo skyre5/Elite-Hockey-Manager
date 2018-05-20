@@ -5,23 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Elite_Hockey_Manager.Classes.LeagueComponents
+namespace Elite_Hockey_Manager.Classes
 {
     public static class PlayerGenerator
     {
-        public static int status = 0;
+        public static int Status
+        {
+            get
+            {
+                return _status;
+            }
+        }
+        private static int _status = 0;
         private static List<string> firstNames;
         private static List<string> lastNames;
         private static Random rand = new Random();
         static PlayerGenerator()
         {
-            firstNames = ReadFromFile("firstNames.txt");
-            lastNames = ReadFromFile("lastNames.txt");
+            firstNames = ReadFromFile("Files/firstNames.txt");
+            lastNames = ReadFromFile("Files/lastNames.txt");
             CheckNames();
         }
         public static Center CreateRandomCenter()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -37,7 +44,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static LeftWinger CreateRandomLeftWing()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -53,7 +60,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static RightWinger CreateRandomRightWing()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -69,7 +76,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static LeftDefensemen CreateRandomLeftDefender()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -85,7 +92,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static RightDefensemen CreateRandomRightDefender()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -101,7 +108,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static Goalie CreateRandomGoalie()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -116,7 +123,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 
         }
         /// <summary>
-        /// Weighted age from 18-42 weighted towards around 25
+        /// Weighted age from 18-40 weighted towards around 25
         /// </summary>
         /// <returns></returns>
         public static int GetAge()
@@ -145,7 +152,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static Tuple<string ,string> GetFirstLastName()
         {
-            if (status == -1)
+            if (_status == -1)
             {
                 return null;
             }
@@ -160,29 +167,41 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public static List<string> ReadFromFile(string filename)
         {
             List<string> list = new List<string>();
-
-            StreamReader reader = new StreamReader(filename);
-
-            String line;
-            while ((line = reader.ReadLine()) != null)
+            StreamReader reader = null;
+            try
             {
-                list.Add(line);
+                reader = new StreamReader(filename);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            if (reader != null)
+            {
+                String line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
 
-            reader.Close();
+                reader.Close();
 
-            return list;
+                return list;
+            }
+            else
+            {
+                return null;
+            }
         }
         private static void CheckNames()
         {
             if (firstNames == null || lastNames == null)
             {
-                status = -1;
-                throw new MissingMemberException("Error: First or last names were not set");
+                _status = -1;
             }
             else
             {
-                status = 0;
+                _status = 0;
             }
         }
         public static void SetFirstNames()

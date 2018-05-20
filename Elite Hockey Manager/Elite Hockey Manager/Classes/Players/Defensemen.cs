@@ -8,9 +8,16 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class LeftDefensemen : Defender
     {
+        public override string Position
+        {
+            get
+            {
+                return "LD";
+            }
+        }
+
         public LeftDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
-
         }
         public LeftDefensemen(string first, string last, int age) : base(first, last, age)
         {
@@ -19,6 +26,14 @@ namespace Elite_Hockey_Manager.Classes
     }
     public class RightDefensemen : Defender
     {
+        public override string Position
+        {
+            get
+            {
+                return "RD";
+            }
+        }
+
         public RightDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
 

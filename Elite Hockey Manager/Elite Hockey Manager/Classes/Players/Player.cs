@@ -8,6 +8,10 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class Player
     {
+        public abstract string Position
+        {
+            get;
+        }
         private string _firstName;
         private string _lastName;
         private int _age;
@@ -94,6 +98,10 @@ namespace Elite_Hockey_Manager.Classes
         public void IncrementYear()
         {
             _age++;
+        }
+        public override string ToString()
+        {
+            return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.getName(), this.Overall);
         }
     }
 }

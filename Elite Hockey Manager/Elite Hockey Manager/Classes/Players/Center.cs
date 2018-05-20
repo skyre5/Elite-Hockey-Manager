@@ -21,5 +21,13 @@ namespace Elite_Hockey_Manager.Classes
                 return Attributes.CenterRating();
             }
         }
+
+        public override string Position
+        {
+            get
+            {
+                return "C";
+            }
+        }
     }
 }
