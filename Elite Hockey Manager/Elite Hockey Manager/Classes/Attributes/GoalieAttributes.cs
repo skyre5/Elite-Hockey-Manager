@@ -1,17 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    [Serializable]
     public class GoalieAttributes : Attributes
     {
         private int _high = 50;
         private int _low = 50;
         private int _speed = 50;
         private int _reboundControl = 50;
+
+        public GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            this._high = (int)info.GetValue("High", typeof(int));
+            this._low = (int)info.GetValue("Low", typeof(int));
+            this._speed = (int)info.GetValue("Speed", typeof(int));
+            this._reboundControl = (int)info.GetValue("ReboundControl", typeof(int));
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("High", this._high);
+            info.AddValue("Low", this._low);
+            info.AddValue("Speed", this._speed);
+            info.AddValue("ReboundControl", this._reboundControl);
+        }
+        public GoalieAttributes()
+        {
+        }
 
         public int High
         {

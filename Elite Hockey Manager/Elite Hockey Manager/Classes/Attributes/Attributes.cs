@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public abstract class Attributes
+    public abstract class Attributes : ISerializable
     {
         private int _fatigue = 0;
         private int _clutchness = 50;
@@ -17,7 +18,10 @@ namespace Elite_Hockey_Manager.Classes
         //2 Major injury
         //3 Can't play
         private int _injurySeverity = 0;
+        public Attributes()
+        {
 
+        }
         public static void CheckRating(ref int attribute, int rating)
         {
             if (rating < 1 || rating > 100)
@@ -29,6 +33,21 @@ namespace Elite_Hockey_Manager.Classes
                 attribute = rating;
             }
         }
+        public Attributes(SerializationInfo info, StreamingContext context)
+        {
+            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
+            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
+            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
+            this._injurySeverity = (int)info.GetValue("InjurySeverity", typeof(int));
+        }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Fatigue", this._fatigue);
+            info.AddValue("Clutchness", this._clutchness);
+            info.AddValue("InjuryLength", this._injuryLength);
+            info.AddValue("InjurySeverity", this._injurySeverity);
+        }
+
         public int Fatigue
         {
             get

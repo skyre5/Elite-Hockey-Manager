@@ -50,6 +50,7 @@
             this.randomRwRadio = new System.Windows.Forms.RadioButton();
             this.randomLwRadio = new System.Windows.Forms.RadioButton();
             this.randomCRadio = new System.Windows.Forms.RadioButton();
+            this.button2 = new System.Windows.Forms.Button();
             this.searchGroup.SuspendLayout();
             this.positionGroup.SuspendLayout();
             this.SuspendLayout();
@@ -305,11 +306,22 @@
             this.randomCRadio.UseVisualStyleBackColor = true;
             this.randomCRadio.CheckedChanged += new System.EventHandler(this.randomCheckChange);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(809, 362);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // PlayersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1036, 653);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.positionGroup);
             this.Controls.Add(this.searchGroup);
             this.Controls.Add(this.button1);
@@ -351,5 +363,6 @@
         private System.Windows.Forms.RadioButton randomRwRadio;
         private System.Windows.Forms.RadioButton randomLwRadio;
         private System.Windows.Forms.RadioButton randomCRadio;
+        private System.Windows.Forms.Button button2;
     }
 }

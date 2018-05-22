@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    [Serializable]
     public class SkaterAttributes : Attributes
     {
         //Shooting stats
@@ -22,6 +24,27 @@ namespace Elite_Hockey_Manager.Classes
         public SkaterAttributes()
         {
 
+        }
+        public SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            this._wristShot = (int)info.GetValue("WristShot", typeof(int));
+            this._slapShot = (int)info.GetValue("SlapShot", typeof(int));
+            this._awareness = (int)info.GetValue("Awareness", typeof(int));
+            this._checking = (int)info.GetValue("Checking", typeof(int));
+            this._deking = (int)info.GetValue("Deking", typeof(int));
+            this._speed = (int)info.GetValue("Speed", typeof(int));
+            this._faceoff = (int)info.GetValue("Faceoff", typeof(int));
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("WristShot", this._wristShot);
+            info.AddValue("SlapShot", this._slapShot);
+            info.AddValue("Awareness", this._awareness);
+            info.AddValue("Checking", this._checking);
+            info.AddValue("Deking", this._deking);
+            info.AddValue("Speed", this._speed);
+            info.AddValue("Faceoff", this._faceoff);
         }
         public int WristShot
         {

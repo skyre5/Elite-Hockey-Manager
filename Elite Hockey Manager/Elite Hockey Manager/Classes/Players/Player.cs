@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public abstract class Player
+    [Serializable]
+    public abstract class Player : ISerializable
     {
         public abstract string Position
         {
@@ -20,7 +23,7 @@ namespace Elite_Hockey_Manager.Classes
         //Set in constructor after incrementing the id count
         private int _playerID;
 
-        List<Stats> careerStats = new List<Stats>();
+        private List<Stats> careerStats = new List<Stats>();
 
         public Player(string first, string last, int age)
         {
@@ -102,6 +105,21 @@ namespace Elite_Hockey_Manager.Classes
         public override string ToString()
         {
             return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.getName(), this.Overall);
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("First", this._firstName);
+            info.AddValue("Last", this._lastName);
+            info.AddValue("Age", this._age);
+            info.AddValue("PlayerID", this._playerID);
+        }
+        public Player(SerializationInfo info, StreamingContext context)
+        {
+            this._firstName = (string)info.GetValue("First", typeof(string));
+            this._lastName = (string)info.GetValue("Last", typeof(string));
+            this._age = (int)info.GetValue("Age", typeof(int));
+            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
         }
     }
 }

@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Elite_Hockey_Manager.Forms
 {
@@ -35,7 +38,12 @@ namespace Elite_Hockey_Manager.Forms
 
         private void PlayersForm_Load(object sender, EventArgs e)
         {
+            LeftWinger c = new LeftWinger("John", "Smith", 31);
 
+            Stream stream = File.Open("PlayerData.data", FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(stream, c);
+            stream.Close();
         }
 
         private void randomCheckChange(object sender, EventArgs e)
@@ -94,6 +102,14 @@ namespace Elite_Hockey_Manager.Forms
             }
             //Pushes added player to Player containing list box for dispaly
             FillPlayerListBox();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Stream stream = File.Open("PlayerData.data", FileMode.Open);
+            BinaryFormatter bf2 = new BinaryFormatter();
+            RightWinger x = (RightWinger)bf2.Deserialize(stream);
+            stream.Close();
         }
     }
 }

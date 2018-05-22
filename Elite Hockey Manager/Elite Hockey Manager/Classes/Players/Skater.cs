@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,17 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = new SkaterAttributes();
         }
+
+        public Skater(SerializationInfo info, StreamingContext context): base(info, context)
+        {
+            this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("Attributes", this._attributes);
+        }
+
         public SkaterAttributes Attributes
         {
             get
