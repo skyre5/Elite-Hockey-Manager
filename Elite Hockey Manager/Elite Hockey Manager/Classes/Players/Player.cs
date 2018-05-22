@@ -8,7 +8,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    [Serializable]
     public abstract class Player : ISerializable
     {
         public abstract string Position

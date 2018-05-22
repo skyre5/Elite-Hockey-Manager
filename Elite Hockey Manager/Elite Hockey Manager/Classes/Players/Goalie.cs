@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    [Serializable]
     public class Goalie : Player
     {
         private GoalieAttributes _attributes;
@@ -27,7 +29,15 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = new GoalieAttributes();
         }
-        
+        public Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            this._attributes = (GoalieAttributes)info.GetValue("Attributes", typeof(GoalieAttributes));
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("Attributes", this._attributes);
+        }
         public GoalieAttributes Attributes
         {
             get

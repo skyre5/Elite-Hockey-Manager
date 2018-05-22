@@ -306,16 +306,6 @@
             this.randomCRadio.UseVisualStyleBackColor = true;
             this.randomCRadio.CheckedChanged += new System.EventHandler(this.randomCheckChange);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(809, 362);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // PlayersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);

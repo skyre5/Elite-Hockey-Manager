@@ -44,6 +44,10 @@ namespace Elite_Hockey_Manager.Forms
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(stream, c);
             stream.Close();
+            Stream stream = File.Open("PlayerData.data", FileMode.Open);
+            BinaryFormatter bf2 = new BinaryFormatter();
+            RightWinger x = (RightWinger)bf2.Deserialize(stream);
+            stream.Close();
         }
 
         private void randomCheckChange(object sender, EventArgs e)
@@ -102,14 +106,6 @@ namespace Elite_Hockey_Manager.Forms
             }
             //Pushes added player to Player containing list box for dispaly
             FillPlayerListBox();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Stream stream = File.Open("PlayerData.data", FileMode.Open);
-            BinaryFormatter bf2 = new BinaryFormatter();
-            RightWinger x = (RightWinger)bf2.Deserialize(stream);
-            stream.Close();
         }
     }
 }
