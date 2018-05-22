@@ -50,7 +50,6 @@
             this.randomRwRadio = new System.Windows.Forms.RadioButton();
             this.randomLwRadio = new System.Windows.Forms.RadioButton();
             this.randomCRadio = new System.Windows.Forms.RadioButton();
-            this.button2 = new System.Windows.Forms.Button();
             this.searchGroup.SuspendLayout();
             this.positionGroup.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +71,7 @@
             this.playerListBox.ItemHeight = 16;
             this.playerListBox.Location = new System.Drawing.Point(12, 25);
             this.playerListBox.Name = "playerListBox";
+            this.playerListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.playerListBox.Size = new System.Drawing.Size(360, 388);
             this.playerListBox.TabIndex = 1;
             // 
@@ -122,8 +122,10 @@
             this.radioButton10.Size = new System.Drawing.Size(44, 21);
             this.radioButton10.TabIndex = 9;
             this.radioButton10.TabStop = true;
+            this.radioButton10.Tag = "0";
             this.radioButton10.Text = "All";
             this.radioButton10.UseVisualStyleBackColor = true;
+            this.radioButton10.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton9
             // 
@@ -134,8 +136,10 @@
             this.radioButton9.Name = "radioButton9";
             this.radioButton9.Size = new System.Drawing.Size(49, 21);
             this.radioButton9.TabIndex = 8;
+            this.radioButton9.Tag = "9";
             this.radioButton9.Text = "RD";
             this.radioButton9.UseVisualStyleBackColor = false;
+            this.radioButton9.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton8
             // 
@@ -144,8 +148,10 @@
             this.radioButton8.Name = "radioButton8";
             this.radioButton8.Size = new System.Drawing.Size(47, 21);
             this.radioButton8.TabIndex = 7;
+            this.radioButton8.Tag = "8";
             this.radioButton8.Text = "LD";
             this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton7
             // 
@@ -154,8 +160,10 @@
             this.radioButton7.Name = "radioButton7";
             this.radioButton7.Size = new System.Drawing.Size(52, 21);
             this.radioButton7.TabIndex = 6;
+            this.radioButton7.Tag = "7";
             this.radioButton7.Text = "RW";
             this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton6
             // 
@@ -164,8 +172,10 @@
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.Size = new System.Drawing.Size(50, 21);
             this.radioButton6.TabIndex = 5;
+            this.radioButton6.Tag = "6";
             this.radioButton6.Text = "LW";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton5
             // 
@@ -174,8 +184,10 @@
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(38, 21);
             this.radioButton5.TabIndex = 4;
+            this.radioButton5.Tag = "5";
             this.radioButton5.Text = "C";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton4
             // 
@@ -184,8 +196,10 @@
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(77, 21);
             this.radioButton4.TabIndex = 3;
+            this.radioButton4.Tag = "2";
             this.radioButton4.Text = "Goalies";
             this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton3
             // 
@@ -194,8 +208,10 @@
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(95, 21);
             this.radioButton3.TabIndex = 2;
+            this.radioButton3.Tag = "4";
             this.radioButton3.Text = "Defenders";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton2
             // 
@@ -204,8 +220,10 @@
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(87, 21);
             this.radioButton2.TabIndex = 1;
+            this.radioButton2.Tag = "3";
             this.radioButton2.Text = "Forwards";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // radioButton1
             // 
@@ -214,8 +232,10 @@
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(77, 21);
             this.radioButton1.TabIndex = 0;
+            this.radioButton1.Tag = "1";
             this.radioButton1.Text = "Skaters";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.sortRadioChange);
             // 
             // positionGroup
             // 
@@ -311,7 +331,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1036, 653);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.positionGroup);
             this.Controls.Add(this.searchGroup);
             this.Controls.Add(this.button1);
@@ -353,6 +372,5 @@
         private System.Windows.Forms.RadioButton randomRwRadio;
         private System.Windows.Forms.RadioButton randomLwRadio;
         private System.Windows.Forms.RadioButton randomCRadio;
-        private System.Windows.Forms.Button button2;
     }
 }

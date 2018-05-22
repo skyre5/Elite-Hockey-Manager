@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Elite_Hockey_Manager.Classes
 {
     public abstract class Player : ISerializable
     {
-        public abstract string Position
-        {
-            get;
-        }
+
         private string _firstName;
         private string _lastName;
         private int _age;
@@ -34,10 +30,20 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _playerID = idCount;
         }
-
-        public string getName()
+        public Player(SerializationInfo info, StreamingContext context)
         {
-            return _firstName + " " + _lastName;
+            this._firstName = (string)info.GetValue("First", typeof(string));
+            this._lastName = (string)info.GetValue("Last", typeof(string));
+            this._age = (int)info.GetValue("Age", typeof(int));
+            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return _firstName + " " + _lastName;
+            }
         }
         public string FirstName
         {
@@ -97,13 +103,17 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
         }
+        public abstract string Position
+        {
+            get;
+        }
         public void IncrementYear()
         {
             _age++;
         }
         public override string ToString()
         {
-            return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.getName(), this.Overall);
+            return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.FullName, this.Overall);
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -112,13 +122,6 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Last", this._lastName);
             info.AddValue("Age", this._age);
             info.AddValue("PlayerID", this._playerID);
-        }
-        public Player(SerializationInfo info, StreamingContext context)
-        {
-            this._firstName = (string)info.GetValue("First", typeof(string));
-            this._lastName = (string)info.GetValue("Last", typeof(string));
-            this._age = (int)info.GetValue("Age", typeof(int));
-            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
         }
     }
 }
