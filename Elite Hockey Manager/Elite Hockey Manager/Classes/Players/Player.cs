@@ -22,7 +22,7 @@ namespace Elite_Hockey_Manager.Classes
 
         public Player(string first, string last, int age)
         {
-            //Input validation done in private setters
+            //Input validation done in setters
             FirstName = first;
             LastName = last;
             Age = age;
@@ -51,7 +51,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _firstName;
             }
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -69,7 +69,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _lastName;
             }
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -87,7 +87,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _age;
             }
-            private set
+            set
             {
                 if (value < 17 || value > 50)
                 {

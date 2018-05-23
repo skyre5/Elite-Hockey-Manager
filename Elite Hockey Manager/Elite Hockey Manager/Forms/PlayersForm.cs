@@ -24,6 +24,7 @@ namespace Elite_Hockey_Manager.Forms
         public PlayersForm()
         {
             InitializeComponent();
+            createPositionDropdown.SelectedIndex = 0;
         }
         /// <summary>
         /// Fills the PlayerListBox with all the user created players
@@ -211,6 +212,62 @@ namespace Elite_Hockey_Manager.Forms
             {
                 displayList.Remove(player);
                 playerList.Remove(player);
+            }
+        }
+
+        private void createPositionDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //TODO Can probably be done in a better way 
+            string position = (string)createPositionDropdown.SelectedItem;
+            if (position == "G")
+            {
+                stat1Label.Text = "High:";
+                stat2Label.Text = "Low:";
+                stat3Label.Text = "Speed:";
+                stat4Label.Text = "Rebound Control:";
+                stat5Label.Visible = false;
+                stat5Text.Visible = false;
+                stat6Label.Visible = false;
+                stat6Text.Visible = false;
+                stat7Label.Visible = false;
+                stat7Text.Visible = false;
+            }
+            else if (!stat7Text.Visible)
+            {
+                stat1Label.Text = "Wrist Shot:";
+                stat2Label.Text = "Slap Shot:";
+                stat3Label.Text = "Awareness:";
+                stat4Label.Text = "Checking:";
+                stat5Label.Text = "Deking:";
+                stat6Label.Text = "Speed:";
+                stat7Label.Text = "Faceoff:";
+                stat5Label.Visible = true;
+                stat5Text.Visible = true;
+                stat6Label.Visible = true;
+                stat6Text.Visible = true;
+                stat7Label.Visible = true;
+                stat7Text.Visible = true;
+            }
+        }
+
+        private void createPlayerBtn_Click(object sender, EventArgs e)
+        {
+            if ((string)createPositionDropdown.SelectedItem == "G")
+            {
+                GoalieAttributes GA = new GoalieAttributes();
+                string firstName = firstText.Text;
+                string lastName = lastText.Text;
+                int age = int.Parse(ageText.Text);
+                if (!string.IsNullOrWhiteSpace(stat1Text.Text)) { GA.High = int.Parse(stat1Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat2Text.Text)) { GA.Low = int.Parse(stat2Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat3Text.Text)) { GA.Speed = int.Parse(stat3Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat4Text.Text)) { GA.ReboundControl = int.Parse(stat4Text.Text); }
+                Goalie newPlayer = new Goalie(firstName, lastName, age, GA);
+                playerList.Add(newPlayer);
+                if (sortType.IsInstanceOfType(newPlayer))
+                {
+                    displayList.Add(newPlayer);
+                }
             }
         }
     }
