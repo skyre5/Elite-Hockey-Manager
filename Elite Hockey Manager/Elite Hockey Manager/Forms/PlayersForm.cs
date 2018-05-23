@@ -17,8 +17,10 @@ namespace Elite_Hockey_Manager.Forms
     public partial class PlayersForm : Form
     {
         int randomChoice = 0;
+        Type sortType = typeof(Player);
         //List of user created players
-        List<Player> playerList;
+        BindingList<Player> playerList;
+        BindingList<Player> displayList = new BindingList<Player>();
         public PlayersForm()
         {
             InitializeComponent();
@@ -28,12 +30,10 @@ namespace Elite_Hockey_Manager.Forms
         /// </summary>
         private void FillPlayerListBox()
         {
-            //Empties the playerListBox so can be redisplayed
-            playerListBox.Items.Clear();
-            foreach (Player x in playerList)
-            {
-                playerListBox.Items.Add(x.ToString());
-            }
+            playerListBox.DataSource = null;
+            CategorizePlayerList<Player>();
+            playerListBox.DataSource = displayList;
+            
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -56,7 +56,7 @@ namespace Elite_Hockey_Manager.Forms
                 Stream playersStream = File.Open("PlayerData.data", FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 //Takes the list of players and deserializes it into playerList class object
-                playerList = (List<Player>)bf.Deserialize(playersStream);
+                playerList = (BindingList<Player>)bf.Deserialize(playersStream);
                 playersStream.Close();
                 //Places players into list box
                 FillPlayerListBox();
@@ -64,7 +64,7 @@ namespace Elite_Hockey_Manager.Forms
             else
             {
                 //If no playerList exists makes a new one
-                playerList = new List<Player>();
+                playerList = new BindingList<Player>();
             }
         }
 
@@ -122,8 +122,13 @@ namespace Elite_Hockey_Manager.Forms
                         break;
                 }
             }
-            //Pushes added player to Player containing list box for dispaly
-            FillPlayerListBox();
+            //Pushes added player to Player containing list box for display
+            //Only if it matches the current sort type
+            Player newPlayer = playerList[playerList.Count - 1];
+            if (sortType.IsInstanceOfType(newPlayer)) 
+            {
+                displayList.Add(newPlayer);
+            }
         }
         private void sortRadioChange(object sender, EventArgs e)
         {
@@ -144,43 +149,68 @@ namespace Elite_Hockey_Manager.Forms
             {
                 case 0:
                     CategorizePlayerList<Player>();
+                    sortType = typeof(Player);
                     break;
                 case 1:
                     CategorizePlayerList<Skater>();
+                    sortType = typeof(Skater);
                     break;
                 case 2:
                     CategorizePlayerList<Goalie>();
+                    sortType = typeof(Goalie);
                     break;
                 case 3:
                     CategorizePlayerList<Forward>();
+                    sortType = typeof(Forward);
                     break;
                 case 4:
                     CategorizePlayerList<Defender>();
+                    sortType = typeof(Defender);
                     break;
                 case 5:
                     CategorizePlayerList<Center>();
+                    sortType = typeof(Center);
                     break;
                 case 6:
                     CategorizePlayerList<LeftWinger>();
+                    sortType = typeof(LeftWinger);
                     break;
                 case 7:
                     CategorizePlayerList<RightWinger>();
+                    sortType = typeof(RightWinger);
                     break;
                 case 8:
                     CategorizePlayerList<LeftDefensemen>();
+                    sortType = typeof(LeftDefensemen);
                     break;
                 case 9:
                     CategorizePlayerList<RightDefensemen>();
+                    sortType = typeof(RightDefensemen);
                     break;
             }
         }
         public void CategorizePlayerList<T>()
         {
-            playerListBox.Items.Clear();
+            displayList = new BindingList<Player>();
             foreach (object x in playerList.OfType<T>())
             {
                 Player p = (Player)x;
-                playerListBox.Items.Add(p.ToString());
+                displayList.Add(p);
+            }
+            playerListBox.DataSource = displayList;
+        }
+
+        private void DeleteButtonClick(object sender, EventArgs e)
+        {
+            List<Player> removedPlayers = new List<Player>();
+            foreach (Player player in playerListBox.SelectedItems)
+            {
+                removedPlayers.Add(player);
+            }
+            foreach (Player player in removedPlayers)
+            {
+                displayList.Remove(player);
+                playerList.Remove(player);
             }
         }
     }
