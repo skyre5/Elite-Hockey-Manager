@@ -252,7 +252,8 @@ namespace Elite_Hockey_Manager.Forms
 
         private void createPlayerBtn_Click(object sender, EventArgs e)
         {
-            if ((string)createPositionDropdown.SelectedItem == "G")
+            string pos = (string)createPositionDropdown.SelectedItem;
+            if (pos == "G")
             {
                 GoalieAttributes GA = new GoalieAttributes();
                 string firstName = firstText.Text;
@@ -267,6 +268,47 @@ namespace Elite_Hockey_Manager.Forms
                 if (sortType.IsInstanceOfType(newPlayer))
                 {
                     displayList.Add(newPlayer);
+                }
+            }
+            else
+            {
+                Skater newPlayer = null;
+                SkaterAttributes SA = new SkaterAttributes();
+                string firstName = firstText.Text;
+                string lastName = lastText.Text;
+                int age = int.Parse(ageText.Text);
+                if (!string.IsNullOrWhiteSpace(stat1Text.Text)) { SA.WristShot = int.Parse(stat1Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat2Text.Text)) { SA.SlapShot = int.Parse(stat2Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat3Text.Text)) { SA.Awareness = int.Parse(stat3Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat4Text.Text)) { SA.Checking = int.Parse(stat4Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat5Text.Text)) { SA.Deking = int.Parse(stat5Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat6Text.Text)) { SA.Speed = int.Parse(stat6Text.Text); }
+                if (!string.IsNullOrWhiteSpace(stat7Text.Text)) { SA.Faceoff = int.Parse(stat7Text.Text); }
+                switch (pos)
+                {
+                    case "C":
+                        newPlayer = new Center(firstName, lastName, age, SA);
+                        break;
+                    case "LW":
+                        newPlayer = new LeftWinger(firstName, lastName, age, SA);
+                        break;
+                    case "RW":
+                        newPlayer = new RightWinger(firstName, lastName, age, SA);
+                        break;
+                    case "LD":
+                        newPlayer = new LeftDefensemen(firstName, lastName, age, SA);
+                        break;
+                    case "RD":
+                        newPlayer = new RightDefensemen(firstName, lastName, age, SA);
+                        break;
+                }
+                if (newPlayer != null)
+                {
+                    playerList.Add(newPlayer);
+                    if (sortType.IsInstanceOfType(newPlayer))
+                    {
+                        displayList.Add(newPlayer);
+                    }
                 }
             }
         }
