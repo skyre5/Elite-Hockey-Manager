@@ -64,6 +64,12 @@
     <Compile Include="Classes\Players\Player.cs" />
     <Compile Include="Classes\Stats\SkaterStats.cs" />
     <Compile Include="Classes\Stats\Stats.cs" />
+    <Compile Include="Forms\EditPlayerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditPlayerForm.Designer.cs">
+      <DependentUpon>EditPlayerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\homeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\editPlayerForm.resx">
+      <DependentUpon>EditPlayerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.cs</DependentUpon>
     </EmbeddedResource>

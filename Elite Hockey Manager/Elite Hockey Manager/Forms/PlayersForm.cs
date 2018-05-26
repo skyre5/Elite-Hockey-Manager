@@ -312,5 +312,29 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            int index = playerListBox.SelectedIndex;
+            if (index != -1) {
+                Player editPlayer = displayList[index];
+                OpenEditPlayer(editPlayer);
+            }
+        }
+        private void OpenEditPlayer(Player editPlayer)
+        {
+            EditPlayerForm form = new EditPlayerForm(editPlayer);
+            form.ShowDialog();
+        }
+
+        private void playerListBox_DoubleClicked(object sender, EventArgs e)
+        {
+            int index = playerListBox.SelectedIndex;
+            if (index != -1)
+            {
+                Player editPlayer = displayList[index];
+                OpenEditPlayer(editPlayer);
+            }
+        }
     }
 }
