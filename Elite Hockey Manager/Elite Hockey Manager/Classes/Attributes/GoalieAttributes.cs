@@ -33,7 +33,18 @@ namespace Elite_Hockey_Manager.Classes
         public GoalieAttributes()
         {
         }
-
+        public new Tuple<string, int>[] GetStatNames()
+        {
+            Tuple<string, int>[] parentNames = base.GetStatNames();
+            Tuple<string, int>[] newNames = {
+                Tuple.Create("High", this._high),
+                Tuple.Create("Low", this._low),
+                Tuple.Create("Speed", this._speed),
+                Tuple.Create("ReboundControl", this._reboundControl)
+            };
+            Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
+            return statNames;
+        }
         public int High
         {
             get

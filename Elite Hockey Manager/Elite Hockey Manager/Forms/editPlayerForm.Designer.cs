@@ -29,20 +29,22 @@
         private void InitializeComponent()
         {
             this.generalGroup = new System.Windows.Forms.GroupBox();
+            this.idText = new System.Windows.Forms.TextBox();
+            this.ageText = new System.Windows.Forms.TextBox();
+            this.lastText = new System.Windows.Forms.TextBox();
+            this.firstText = new System.Windows.Forms.TextBox();
             this.idLabel = new System.Windows.Forms.Label();
             this.ageLabel = new System.Windows.Forms.Label();
             this.lastLabel = new System.Windows.Forms.Label();
             this.firstLabel = new System.Windows.Forms.Label();
-            this.firstText = new System.Windows.Forms.TextBox();
-            this.lastText = new System.Windows.Forms.TextBox();
-            this.ageText = new System.Windows.Forms.TextBox();
-            this.idText = new System.Windows.Forms.TextBox();
             this.statsGroup = new System.Windows.Forms.GroupBox();
+            this.overallLabel = new System.Windows.Forms.Label();
             this.generalGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // generalGroup
             // 
+            this.generalGroup.Controls.Add(this.overallLabel);
             this.generalGroup.Controls.Add(this.idText);
             this.generalGroup.Controls.Add(this.ageText);
             this.generalGroup.Controls.Add(this.lastText);
@@ -51,94 +53,116 @@
             this.generalGroup.Controls.Add(this.ageLabel);
             this.generalGroup.Controls.Add(this.lastLabel);
             this.generalGroup.Controls.Add(this.firstLabel);
-            this.generalGroup.Location = new System.Drawing.Point(13, 13);
+            this.generalGroup.Location = new System.Drawing.Point(15, 15);
+            this.generalGroup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.generalGroup.Name = "generalGroup";
-            this.generalGroup.Size = new System.Drawing.Size(301, 127);
+            this.generalGroup.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.generalGroup.Size = new System.Drawing.Size(351, 174);
             this.generalGroup.TabIndex = 0;
             this.generalGroup.TabStop = false;
             this.generalGroup.Text = "General Information";
             // 
+            // idText
+            // 
+            this.idText.Location = new System.Drawing.Point(203, 116);
+            this.idText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.idText.Name = "idText";
+            this.idText.ReadOnly = true;
+            this.idText.Size = new System.Drawing.Size(116, 21);
+            this.idText.TabIndex = 7;
+            // 
+            // ageText
+            // 
+            this.ageText.Location = new System.Drawing.Point(203, 85);
+            this.ageText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ageText.Name = "ageText";
+            this.ageText.Size = new System.Drawing.Size(116, 21);
+            this.ageText.TabIndex = 6;
+            this.ageText.Tag = "Age";
+            // 
+            // lastText
+            // 
+            this.lastText.Location = new System.Drawing.Point(203, 54);
+            this.lastText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lastText.Name = "lastText";
+            this.lastText.Size = new System.Drawing.Size(116, 21);
+            this.lastText.TabIndex = 5;
+            this.lastText.Tag = "LastName";
+            // 
+            // firstText
+            // 
+            this.firstText.Location = new System.Drawing.Point(203, 22);
+            this.firstText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.firstText.Name = "firstText";
+            this.firstText.Size = new System.Drawing.Size(116, 21);
+            this.firstText.TabIndex = 4;
+            this.firstText.Tag = "FirstName";
+            // 
             // idLabel
             // 
             this.idLabel.AutoSize = true;
-            this.idLabel.Location = new System.Drawing.Point(7, 101);
+            this.idLabel.Location = new System.Drawing.Point(8, 116);
             this.idLabel.Name = "idLabel";
-            this.idLabel.Size = new System.Drawing.Size(53, 13);
+            this.idLabel.Size = new System.Drawing.Size(77, 15);
             this.idLabel.TabIndex = 3;
             this.idLabel.Text = "Player ID:";
             // 
             // ageLabel
             // 
             this.ageLabel.AutoSize = true;
-            this.ageLabel.Location = new System.Drawing.Point(6, 74);
+            this.ageLabel.Location = new System.Drawing.Point(7, 85);
             this.ageLabel.Name = "ageLabel";
-            this.ageLabel.Size = new System.Drawing.Size(29, 13);
+            this.ageLabel.Size = new System.Drawing.Size(35, 15);
             this.ageLabel.TabIndex = 2;
             this.ageLabel.Text = "Age:";
             // 
             // lastLabel
             // 
             this.lastLabel.AutoSize = true;
-            this.lastLabel.Location = new System.Drawing.Point(7, 47);
+            this.lastLabel.Location = new System.Drawing.Point(8, 54);
             this.lastLabel.Name = "lastLabel";
-            this.lastLabel.Size = new System.Drawing.Size(61, 13);
+            this.lastLabel.Size = new System.Drawing.Size(77, 15);
             this.lastLabel.TabIndex = 1;
             this.lastLabel.Text = "Last Name:";
             // 
             // firstLabel
             // 
             this.firstLabel.AutoSize = true;
-            this.firstLabel.Location = new System.Drawing.Point(7, 20);
+            this.firstLabel.Location = new System.Drawing.Point(8, 22);
             this.firstLabel.Name = "firstLabel";
-            this.firstLabel.Size = new System.Drawing.Size(60, 13);
+            this.firstLabel.Size = new System.Drawing.Size(84, 15);
             this.firstLabel.TabIndex = 0;
             this.firstLabel.Text = "First Name:";
             // 
-            // firstText
-            // 
-            this.firstText.Location = new System.Drawing.Point(174, 20);
-            this.firstText.Name = "firstText";
-            this.firstText.Size = new System.Drawing.Size(100, 20);
-            this.firstText.TabIndex = 4;
-            // 
-            // lastText
-            // 
-            this.lastText.Location = new System.Drawing.Point(174, 47);
-            this.lastText.Name = "lastText";
-            this.lastText.Size = new System.Drawing.Size(100, 20);
-            this.lastText.TabIndex = 5;
-            // 
-            // ageText
-            // 
-            this.ageText.Location = new System.Drawing.Point(174, 74);
-            this.ageText.Name = "ageText";
-            this.ageText.Size = new System.Drawing.Size(100, 20);
-            this.ageText.TabIndex = 6;
-            // 
-            // idText
-            // 
-            this.idText.Location = new System.Drawing.Point(174, 101);
-            this.idText.Name = "idText";
-            this.idText.ReadOnly = true;
-            this.idText.Size = new System.Drawing.Size(100, 20);
-            this.idText.TabIndex = 7;
-            // 
             // statsGroup
             // 
-            this.statsGroup.Location = new System.Drawing.Point(13, 147);
+            this.statsGroup.Location = new System.Drawing.Point(15, 197);
+            this.statsGroup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.statsGroup.Name = "statsGroup";
-            this.statsGroup.Size = new System.Drawing.Size(301, 280);
+            this.statsGroup.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.statsGroup.Size = new System.Drawing.Size(351, 322);
             this.statsGroup.TabIndex = 1;
             this.statsGroup.TabStop = false;
             this.statsGroup.Text = "Stats:";
             // 
+            // overallLabel
+            // 
+            this.overallLabel.AutoSize = true;
+            this.overallLabel.Location = new System.Drawing.Point(11, 154);
+            this.overallLabel.Name = "overallLabel";
+            this.overallLabel.Size = new System.Drawing.Size(63, 15);
+            this.overallLabel.TabIndex = 8;
+            this.overallLabel.Text = "Overall:";
+            // 
             // EditPlayerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 461);
+            this.ClientSize = new System.Drawing.Size(380, 532);
             this.Controls.Add(this.statsGroup);
             this.Controls.Add(this.generalGroup);
+            this.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EditPlayerForm";
             this.Text = "editPlayerForm";
             this.Load += new System.EventHandler(this.EditPlayerForm_Load);
@@ -160,5 +184,6 @@
         private System.Windows.Forms.TextBox lastText;
         private System.Windows.Forms.TextBox firstText;
         private System.Windows.Forms.GroupBox statsGroup;
+        private System.Windows.Forms.Label overallLabel;
     }
 }

@@ -37,11 +37,5 @@ namespace Elite_Hockey_Manager
             PlayersForm form = new PlayersForm();
             form.ShowDialog();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SkaterAttributes x = new SkaterAttributes();
-            x.GetType().GetProperty("WristShot").SetValue(x, 99);
-        }
     }
 }

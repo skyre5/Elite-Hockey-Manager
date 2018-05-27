@@ -26,11 +26,11 @@ namespace Elite_Hockey_Manager.Classes
         {
 
         }
-        public static string[] GetStatNames()
+        public Tuple<string, int>[] GetStatNames()
         {
-            string[] names = {
-                "Clutchness",
-                "Consistency"
+            Tuple<string, int>[] names = {
+                Tuple.Create("Clutchness", this._clutchness),
+                Tuple.Create("Consistency", this._consistency)
             };
             return names;
         }

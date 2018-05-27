@@ -24,7 +24,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return Attributes.CenterRating();
+                return _attributes.CenterRating();
             }
         }
 

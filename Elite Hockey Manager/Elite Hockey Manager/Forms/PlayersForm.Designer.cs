@@ -422,7 +422,7 @@
             // 
             this.stat7Text.Location = new System.Drawing.Point(124, 286);
             this.stat7Text.Name = "stat7Text";
-            this.stat7Text.Size = new System.Drawing.Size(100, 20);
+            this.stat7Text.Size = new System.Drawing.Size(43, 20);
             this.stat7Text.TabIndex = 21;
             // 
             // ageLabel
@@ -536,49 +536,49 @@
             // 
             this.stat6Text.Location = new System.Drawing.Point(124, 260);
             this.stat6Text.Name = "stat6Text";
-            this.stat6Text.Size = new System.Drawing.Size(100, 20);
+            this.stat6Text.Size = new System.Drawing.Size(43, 20);
             this.stat6Text.TabIndex = 8;
             // 
             // stat5Text
             // 
             this.stat5Text.Location = new System.Drawing.Point(124, 234);
             this.stat5Text.Name = "stat5Text";
-            this.stat5Text.Size = new System.Drawing.Size(100, 20);
+            this.stat5Text.Size = new System.Drawing.Size(43, 20);
             this.stat5Text.TabIndex = 7;
             // 
             // stat4Text
             // 
             this.stat4Text.Location = new System.Drawing.Point(124, 208);
             this.stat4Text.Name = "stat4Text";
-            this.stat4Text.Size = new System.Drawing.Size(100, 20);
+            this.stat4Text.Size = new System.Drawing.Size(43, 20);
             this.stat4Text.TabIndex = 6;
             // 
             // stat3Text
             // 
             this.stat3Text.Location = new System.Drawing.Point(124, 182);
             this.stat3Text.Name = "stat3Text";
-            this.stat3Text.Size = new System.Drawing.Size(100, 20);
+            this.stat3Text.Size = new System.Drawing.Size(43, 20);
             this.stat3Text.TabIndex = 5;
             // 
             // stat2Text
             // 
             this.stat2Text.Location = new System.Drawing.Point(124, 156);
             this.stat2Text.Name = "stat2Text";
-            this.stat2Text.Size = new System.Drawing.Size(100, 20);
+            this.stat2Text.Size = new System.Drawing.Size(43, 20);
             this.stat2Text.TabIndex = 4;
             // 
             // stat1Text
             // 
             this.stat1Text.Location = new System.Drawing.Point(124, 130);
             this.stat1Text.Name = "stat1Text";
-            this.stat1Text.Size = new System.Drawing.Size(100, 20);
+            this.stat1Text.Size = new System.Drawing.Size(43, 20);
             this.stat1Text.TabIndex = 3;
             // 
             // ageText
             // 
             this.ageText.Location = new System.Drawing.Point(124, 104);
             this.ageText.Name = "ageText";
-            this.ageText.Size = new System.Drawing.Size(100, 20);
+            this.ageText.Size = new System.Drawing.Size(43, 20);
             this.ageText.TabIndex = 2;
             // 
             // lastText

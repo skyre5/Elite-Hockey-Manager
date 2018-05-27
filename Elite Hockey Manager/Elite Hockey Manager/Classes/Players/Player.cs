@@ -114,6 +114,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
         }
+        public abstract Attributes Attributes
+        {
+            get;
+        }
         public void IncrementYear()
         {
             _age++;

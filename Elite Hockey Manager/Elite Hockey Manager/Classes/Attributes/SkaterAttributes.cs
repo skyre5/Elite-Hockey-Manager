@@ -25,9 +25,20 @@ namespace Elite_Hockey_Manager.Classes
         {
 
         }
-        public static string[] GetStatNames()
+        public new Tuple<string, int>[] GetStatNames()
         {
-
+            Tuple<string, int>[] parentNames = base.GetStatNames();
+            Tuple<string, int>[] newNames = {
+                Tuple.Create("WristShot", this._wristShot),
+                Tuple.Create("SlapShot", this._slapShot),
+                Tuple.Create("Awareness", this._awareness),
+                Tuple.Create("Checking", this._checking),
+                Tuple.Create("Deking", this._deking),
+                Tuple.Create("Speed", this._speed),
+                Tuple.Create("Faceoff", this._faceoff)
+            };
+            Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
+            return statNames;
         }
         public SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {

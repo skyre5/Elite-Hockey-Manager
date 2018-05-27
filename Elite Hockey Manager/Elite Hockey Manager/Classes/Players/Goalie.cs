@@ -11,7 +11,6 @@ namespace Elite_Hockey_Manager.Classes
     public class Goalie : Player
     {
         private GoalieAttributes _attributes;
-
         public override int Overall
         {
             get
@@ -27,7 +26,7 @@ namespace Elite_Hockey_Manager.Classes
         
         public Goalie(string first, string last, int age) : base(first, last, age)
         {
-            _attributes = new GoalieAttributes();
+            this._attributes = new GoalieAttributes();
         }
         public Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
         {
@@ -38,13 +37,6 @@ namespace Elite_Hockey_Manager.Classes
             base.GetObjectData(info, context);
             info.AddValue("Attributes", this._attributes);
         }
-        public GoalieAttributes Attributes
-        {
-            get
-            {
-                return _attributes;
-            }
-        }
 
 
         public override string Position
@@ -52,6 +44,13 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return "G";
+            }
+        }
+        public override Attributes Attributes
+        {
+            get
+            {
+                return _attributes;
             }
         }
     }

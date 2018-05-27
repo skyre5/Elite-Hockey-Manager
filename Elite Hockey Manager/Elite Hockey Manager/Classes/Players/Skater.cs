@@ -28,8 +28,7 @@ namespace Elite_Hockey_Manager.Classes
             base.GetObjectData(info, context);
             info.AddValue("Attributes", this._attributes);
         }
-
-        public SkaterAttributes Attributes
+        public override Attributes Attributes
         {
             get
             {
