@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.generalGroup = new System.Windows.Forms.GroupBox();
+            this.overallLabel = new System.Windows.Forms.Label();
             this.idText = new System.Windows.Forms.TextBox();
             this.ageText = new System.Windows.Forms.TextBox();
             this.lastText = new System.Windows.Forms.TextBox();
@@ -38,7 +39,6 @@
             this.lastLabel = new System.Windows.Forms.Label();
             this.firstLabel = new System.Windows.Forms.Label();
             this.statsGroup = new System.Windows.Forms.GroupBox();
-            this.overallLabel = new System.Windows.Forms.Label();
             this.generalGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +62,15 @@
             this.generalGroup.TabStop = false;
             this.generalGroup.Text = "General Information";
             // 
+            // overallLabel
+            // 
+            this.overallLabel.AutoSize = true;
+            this.overallLabel.Location = new System.Drawing.Point(11, 154);
+            this.overallLabel.Name = "overallLabel";
+            this.overallLabel.Size = new System.Drawing.Size(63, 15);
+            this.overallLabel.TabIndex = 8;
+            this.overallLabel.Text = "Overall:";
+            // 
             // idText
             // 
             this.idText.Location = new System.Drawing.Point(203, 116);
@@ -79,6 +88,8 @@
             this.ageText.Size = new System.Drawing.Size(116, 21);
             this.ageText.TabIndex = 6;
             this.ageText.Tag = "Age";
+            this.ageText.Enter += new System.EventHandler(this.TextBoxEnter);
+            this.ageText.Leave += new System.EventHandler(this.GeneralTextBoxLeave);
             // 
             // lastText
             // 
@@ -88,6 +99,8 @@
             this.lastText.Size = new System.Drawing.Size(116, 21);
             this.lastText.TabIndex = 5;
             this.lastText.Tag = "LastName";
+            this.lastText.Enter += new System.EventHandler(this.TextBoxEnter);
+            this.lastText.Leave += new System.EventHandler(this.GeneralTextBoxLeave);
             // 
             // firstText
             // 
@@ -97,6 +110,8 @@
             this.firstText.Size = new System.Drawing.Size(116, 21);
             this.firstText.TabIndex = 4;
             this.firstText.Tag = "FirstName";
+            this.firstText.Enter += new System.EventHandler(this.TextBoxEnter);
+            this.firstText.Leave += new System.EventHandler(this.GeneralTextBoxLeave);
             // 
             // idLabel
             // 
@@ -144,15 +159,6 @@
             this.statsGroup.TabIndex = 1;
             this.statsGroup.TabStop = false;
             this.statsGroup.Text = "Stats:";
-            // 
-            // overallLabel
-            // 
-            this.overallLabel.AutoSize = true;
-            this.overallLabel.Location = new System.Drawing.Point(11, 154);
-            this.overallLabel.Name = "overallLabel";
-            this.overallLabel.Size = new System.Drawing.Size(63, 15);
-            this.overallLabel.TabIndex = 8;
-            this.overallLabel.Text = "Overall:";
             // 
             // EditPlayerForm
             // 

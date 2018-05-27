@@ -45,17 +45,15 @@ namespace Elite_Hockey_Manager.Forms
                 try
                 {
                     property = player.Attributes.GetType().GetProperty(propertyName);
-                    property.SetValue(player.Attributes, Convert.ChangeType(newValue, property.PropertyType));
+                    property.SetValue(player.Attributes, Convert.ChangeType(newValue, property.PropertyType), null);
+                    statText.Text = property.GetValue(player.Attributes).ToString();
                     overallLabel.Text = String.Format("Overall: {0}", player.Overall);
                 }
-                catch (FormatException ex)
+                catch (Exception ex)
                 {
+                    statText.Text = initialValue;
                     MessageBox.Show(ex.ToString());
                     return;
-                }
-                catch (ArgumentException ex)
-                {
-                    MessageBox.Show(ex.ToString());
                 }
             }
         }
@@ -63,6 +61,36 @@ namespace Elite_Hockey_Manager.Forms
         {
             TextBox statBox = (TextBox)sender;
             initialValue = statBox.Text.Trim();
+        }
+        private void GeneralTextBoxLeave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string generalText = textBox.Text.Trim();
+            //If a change has occured
+            if (generalText == initialValue)
+            {
+                return;
+            }
+            try
+            {
+                switch (textBox.Tag.ToString())
+                {
+                    case "FirstName":
+                        player.FirstName = generalText;
+                        break;
+                    case "LastName":
+                        player.LastName = generalText;
+                        break;
+                    case "Age":
+                        player.Age = int.Parse(generalText);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                textBox.Text = initialValue;
+                MessageBox.Show(ex.ToString());
+            }
         }
         private void FillStats()
         {

@@ -38,7 +38,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             if (rating < 1 || rating > 100)
             {
-                throw new ArgumentException("Error: Value entered needs to be within the range of (1-100)");
+                Console.WriteLine("Invalid input error");
+                //PropertyInfo.SetValue produces unhandleable handling for this exception
+                //Common problem online with no solution
+                //throw new ArgumentException("Error: Value entered needs to be within the range of (1-100)");
             }
             else
             {
@@ -81,7 +84,15 @@ namespace Elite_Hockey_Manager.Classes
             }
             set
             {
-                CheckRating(ref _clutchness, value);
+                if (value < 1 || value > 100)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                else
+                {
+                    _clutchness = value;
+                }
+                //CheckRating(ref _clutchness, value);
             }
         }
         public int Consistency
