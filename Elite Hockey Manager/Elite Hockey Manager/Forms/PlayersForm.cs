@@ -21,6 +21,8 @@ namespace Elite_Hockey_Manager.Forms
         //List of user created players
         BindingList<Player> playerList;
         BindingList<Player> displayList = new BindingList<Player>();
+        //Bool variable to track whether to ask player to save before exiting
+        private bool changeMade = false;
         public PlayersForm()
         {
             InitializeComponent();
@@ -39,6 +41,26 @@ namespace Elite_Hockey_Manager.Forms
 
         private void exitBtn_Click(object sender, EventArgs e)
         {
+            if (!changeMade)
+            {
+                this.Close();
+            }
+            else
+            {
+                DialogResult x = MessageBox.Show("Do you want to save before exiting?", "Save", MessageBoxButtons.YesNoCancel);
+                if (x == DialogResult.Yes)
+                {
+                    SavePlayersToFile();
+                    this.Close();
+                }
+                else if (x == DialogResult.No)
+                {
+                    this.Close();
+                }
+            }
+        }
+        private void SavePlayersToFile()
+        {
             //Saves the contents of the playerList into a data file
             //Creates it if one did not exist
             Stream playersStream = File.Open("PlayerData.data", FileMode.Create);
@@ -48,7 +70,6 @@ namespace Elite_Hockey_Manager.Forms
             //Closes player window form
             this.Close();
         }
-
         private void PlayersForm_Load(object sender, EventArgs e)
         {
             //Loads the user created players if they are found
@@ -98,6 +119,8 @@ namespace Elite_Hockey_Manager.Forms
             }
             else
             {
+                //A change will have been made at this point
+                changeMade = true;
                 switch (randomChoice)
                 {
                     case 0:
@@ -203,6 +226,9 @@ namespace Elite_Hockey_Manager.Forms
 
         private void DeleteButtonClick(object sender, EventArgs e)
         {
+            //change will probably have been made at this point
+            changeMade = true;
+
             List<Player> removedPlayers = new List<Player>();
             foreach (Player player in playerListBox.SelectedItems)
             {
@@ -252,6 +278,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void createPlayerBtn_Click(object sender, EventArgs e)
         {
+            changeMade = true;
             string pos = (string)createPositionDropdown.SelectedItem;
             if (pos == "G")
             {
@@ -315,6 +342,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void editButton_Click(object sender, EventArgs e)
         {
+            changeMade = true;
             int index = playerListBox.SelectedIndex;
             if (index != -1) {
                 Player editPlayer = displayList[index];
@@ -325,6 +353,10 @@ namespace Elite_Hockey_Manager.Forms
         {
             EditPlayerForm form = new EditPlayerForm(editPlayer);
             form.ShowDialog();
+            //Will show player changes
+            //TODO set property change up
+            playerListBox.DataSource = null;
+            playerListBox.DataSource = displayList;
         }
 
         private void playerListBox_DoubleClicked(object sender, EventArgs e)
@@ -335,6 +367,12 @@ namespace Elite_Hockey_Manager.Forms
                 Player editPlayer = displayList[index];
                 OpenEditPlayer(editPlayer);
             }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            changeMade = false;
+            SavePlayersToFile();
         }
     }
 }

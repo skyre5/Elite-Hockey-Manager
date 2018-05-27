@@ -74,6 +74,7 @@
             this.lastText = new System.Windows.Forms.TextBox();
             this.firstText = new System.Windows.Forms.TextBox();
             this.editButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.searchGroup.SuspendLayout();
             this.positionGroup.SuspendLayout();
             this.createPlayerGroupBox.SuspendLayout();
@@ -605,11 +606,22 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(139, 479);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(124, 43);
+            this.saveButton.TabIndex = 8;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // PlayersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 531);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.createPlayerGroupBox);
             this.Controls.Add(this.positionGroup);
@@ -680,5 +692,6 @@
         private System.Windows.Forms.Label ageLabel;
         private System.Windows.Forms.Button createPlayerBtn;
         private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button saveButton;
     }
 }

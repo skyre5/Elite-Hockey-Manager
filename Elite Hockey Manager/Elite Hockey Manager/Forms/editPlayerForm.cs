@@ -132,5 +132,9 @@ namespace Elite_Hockey_Manager.Forms
             }
         }
 
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

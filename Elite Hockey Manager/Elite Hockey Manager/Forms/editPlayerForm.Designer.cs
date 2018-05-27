@@ -39,6 +39,7 @@
             this.lastLabel = new System.Windows.Forms.Label();
             this.firstLabel = new System.Windows.Forms.Label();
             this.statsGroup = new System.Windows.Forms.GroupBox();
+            this.exitButton = new System.Windows.Forms.Button();
             this.generalGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,11 +161,22 @@
             this.statsGroup.TabStop = false;
             this.statsGroup.Text = "Stats:";
             // 
+            // exitButton
+            // 
+            this.exitButton.Location = new System.Drawing.Point(15, 527);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.TabIndex = 2;
+            this.exitButton.Text = "button1";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
             // EditPlayerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 532);
+            this.ClientSize = new System.Drawing.Size(380, 560);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.statsGroup);
             this.Controls.Add(this.generalGroup);
             this.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -191,5 +203,6 @@
         private System.Windows.Forms.TextBox firstText;
         private System.Windows.Forms.GroupBox statsGroup;
         private System.Windows.Forms.Label overallLabel;
+        private System.Windows.Forms.Button exitButton;
     }
 }
