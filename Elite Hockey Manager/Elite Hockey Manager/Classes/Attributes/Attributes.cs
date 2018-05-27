@@ -9,8 +9,12 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class Attributes : ISerializable
     {
+        public const int DefaultRating = 50;
+        //General stats
+        private int _clutchness = DefaultRating;
+        private int _consistency = DefaultRating;
+
         private int _fatigue = 0;
-        private int _clutchness = 50;
 
         private int _injuryLength = 0;
         //0 Healthy
@@ -21,6 +25,14 @@ namespace Elite_Hockey_Manager.Classes
         public Attributes()
         {
 
+        }
+        public static string[] GetStatNames()
+        {
+            string[] names = {
+                "Clutchness",
+                "Consistency"
+            };
+            return names;
         }
         public static void CheckRating(ref int attribute, int rating)
         {
@@ -35,15 +47,17 @@ namespace Elite_Hockey_Manager.Classes
         }
         public Attributes(SerializationInfo info, StreamingContext context)
         {
-            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
             this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
+            this._consistency = (int)info.GetValue("Consistency", typeof(int));
+            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
             this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
             this._injurySeverity = (int)info.GetValue("InjurySeverity", typeof(int));
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Fatigue", this._fatigue);
             info.AddValue("Clutchness", this._clutchness);
+            info.AddValue("Consistency", this._consistency);
+            info.AddValue("Fatigue", this._fatigue);
             info.AddValue("InjuryLength", this._injuryLength);
             info.AddValue("InjurySeverity", this._injurySeverity);
         }
@@ -68,6 +82,17 @@ namespace Elite_Hockey_Manager.Classes
             set
             {
                 CheckRating(ref _clutchness, value);
+            }
+        }
+        public int Consistency
+        {
+            get
+            {
+                return _consistency;
+            }
+            set
+            {
+                CheckRating(ref _consistency, value);
             }
         }
         public int InjuryLength

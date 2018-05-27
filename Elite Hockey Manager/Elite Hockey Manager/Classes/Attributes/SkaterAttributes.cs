@@ -11,17 +11,21 @@ namespace Elite_Hockey_Manager.Classes
     public class SkaterAttributes : Attributes
     {
         //Shooting stats
-        private int _wristShot = 50;
-        private int _slapShot = 50;
+        private int _wristShot = DefaultRating;
+        private int _slapShot = DefaultRating;
         //Defense stats
-        private int _awareness = 50;
-        private int _checking = 50;
+        private int _awareness = DefaultRating;
+        private int _checking = DefaultRating;
 
-        private int _deking = 50;
-        private int _speed = 50;
+        private int _deking = DefaultRating;
+        private int _speed = DefaultRating;
         //Mainly set for centers
-        private int _faceoff = 50;
+        private int _faceoff = DefaultRating;
         public SkaterAttributes()
+        {
+
+        }
+        public static string[] GetStatNames()
         {
 
         }

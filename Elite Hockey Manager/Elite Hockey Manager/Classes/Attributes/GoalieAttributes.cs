@@ -10,10 +10,10 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class GoalieAttributes : Attributes
     {
-        private int _high = 50;
-        private int _low = 50;
-        private int _speed = 50;
-        private int _reboundControl = 50;
+        private int _high = DefaultRating;
+        private int _low = DefaultRating;
+        private int _speed = DefaultRating;
+        private int _reboundControl = DefaultRating;
 
         public GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {

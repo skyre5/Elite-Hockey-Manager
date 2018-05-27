@@ -99,6 +99,13 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+        public int ID
+        {
+            get
+            {
+                return _playerID;
+            }
+        }
         public abstract int Overall
         {
             get;

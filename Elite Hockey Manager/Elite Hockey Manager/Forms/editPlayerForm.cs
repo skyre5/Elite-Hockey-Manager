@@ -23,6 +23,23 @@ namespace Elite_Hockey_Manager.Forms
         private void EditPlayerForm_Load(object sender, EventArgs e)
         {
             this.Text = player.FullName + " - Edit";
+            firstText.Text = player.FirstName;
+            lastText.Text = player.LastName;
+            ageText.Text = player.Age.ToString();
+            idText.Text = player.ID.ToString();
+            FillStats();
+
+        }
+        private void FillStats()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Label label = new Label();
+                label.AutoSize = true;
+                label.Text = "Hello";
+                label.Location = new System.Drawing.Point(13,  150 + (i * 10));
+                statsGroup.Controls.Add(label);
+            }
         }
     }
 }
