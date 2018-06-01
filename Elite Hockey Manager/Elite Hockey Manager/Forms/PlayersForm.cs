@@ -41,6 +41,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void exitBtn_Click(object sender, EventArgs e)
         {
+            //If no changes have been made or it has been saved it will close without prompt
             if (!changeMade)
             {
                 this.Close();
@@ -48,10 +49,18 @@ namespace Elite_Hockey_Manager.Forms
             else
             {
                 DialogResult x = MessageBox.Show("Do you want to save before exiting?", "Save", MessageBoxButtons.YesNoCancel);
+                //Close player form with saving
                 if (x == DialogResult.Yes)
                 {
-                    SavePlayersToFile();
-                    this.Close();
+                    if (SaveLoadUtils.SavePlayersToFile("PlayerData.data", playerList))
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Save Failed: Check Console for details");
+                        this.Close();
+                    }
                 }
                 else if (x == DialogResult.No)
                 {
@@ -59,35 +68,13 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
-        private void SavePlayersToFile()
-        {
-            //Saves the contents of the playerList into a data file
-            //Creates it if one did not exist
-            Stream playersStream = File.Open("PlayerData.data", FileMode.Create);
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(playersStream, playerList);
-            playersStream.Close();
-            //Closes player window form
-            this.Close();
-        }
         private void PlayersForm_Load(object sender, EventArgs e)
         {
-            //Loads the user created players if they are found
-            if (File.Exists("PlayerData.data"))
+            if (!SaveLoadUtils.LoadPlayersToFile("PlayerData.data", out playerList))
             {
-                Stream playersStream = File.Open("PlayerData.data", FileMode.Open);
-                BinaryFormatter bf = new BinaryFormatter();
-                //Takes the list of players and deserializes it into playerList class object
-                playerList = (BindingList<Player>)bf.Deserialize(playersStream);
-                playersStream.Close();
-                //Places players into list box
-                FillPlayerListBox();
+                MessageBox.Show("Saved player data not loaded in correctly");
             }
-            else
-            {
-                //If no playerList exists makes a new one
-                playerList = new BindingList<Player>();
-            }
+            FillPlayerListBox();
         }
 
         private void randomCheckChange(object sender, EventArgs e)
@@ -372,7 +359,10 @@ namespace Elite_Hockey_Manager.Forms
         private void saveButton_Click(object sender, EventArgs e)
         {
             changeMade = false;
-            SavePlayersToFile();
+            if (!SaveLoadUtils.SavePlayersToFile("PlayerData.data", playerList))
+            {
+                MessageBox.Show("Save Failed: Check console");
+            }
         }
     }
 }

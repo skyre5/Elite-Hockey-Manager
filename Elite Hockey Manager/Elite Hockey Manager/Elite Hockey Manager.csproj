@@ -76,6 +76,7 @@
     <Compile Include="Classes\Players\Wingers.cs" />
     <Compile Include="Classes\Players\Defensemen.cs" />
     <Compile Include="Classes\Players\Skater.cs" />
+    <Compile Include="Classes\SaveLoadUtils.cs" />
     <Compile Include="Classes\Stats\GoalieStats.cs" />
     <Compile Include="Classes\Players\Player.cs" />
     <Compile Include="Classes\Stats\SkaterStats.cs" />
