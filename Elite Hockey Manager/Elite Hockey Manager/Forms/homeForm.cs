@@ -26,7 +26,7 @@ namespace Elite_Hockey_Manager
             Center center2 = new Center("1", "2", 22, attrib);
             List<Forward> list1 = new List<Forward>();
             List<Center> list2 = new List<Center>();
-            Team x = new Team("Philly Flyers");
+            //Team x = new Team("Philly Flyers");
             
 
 
@@ -35,6 +35,12 @@ namespace Elite_Hockey_Manager
         private void playersBtn_Click(object sender, EventArgs e)
         {
             PlayersForm form = new PlayersForm();
+            form.ShowDialog();
+        }
+
+        private void teamsButton_Click(object sender, EventArgs e)
+        {
+            TeamForm form = new TeamForm();
             form.ShowDialog();
         }
     }

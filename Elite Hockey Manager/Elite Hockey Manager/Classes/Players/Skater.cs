@@ -35,6 +35,13 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+        public SkaterAttributes SkaterAttributes
+        {
+            get
+            {
+                return (SkaterAttributes)_attributes;
+            }
+        }
 
     }
 }

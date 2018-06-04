@@ -117,6 +117,7 @@ namespace Elite_Hockey_Manager.Classes
         public abstract Attributes Attributes
         {
             get;
+            //set;
         }
         public void IncrementYear()
         {

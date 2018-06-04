@@ -53,5 +53,12 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+        public GoalieAttributes GoalieAttributes
+        {
+            get
+            {
+                return (GoalieAttributes)_attributes;
+            }
+        }
     }
 }
