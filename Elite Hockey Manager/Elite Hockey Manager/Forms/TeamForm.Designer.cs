@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TeamForm));
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.components = new System.ComponentModel.Container();
+            this.teamListBox = new System.Windows.Forms.ListBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.addGrup = new System.Windows.Forms.GroupBox();
             this.nameLabel = new System.Windows.Forms.Label();
@@ -38,20 +38,22 @@
             this.cityLabel = new System.Windows.Forms.Label();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageLabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.importButton = new System.Windows.Forms.Button();
             this.imageTreeView = new System.Windows.Forms.TreeView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.imageListView = new System.Windows.Forms.ListView();
             this.addGrup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // listBox1
+            // teamListBox
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(13, 13);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(206, 277);
-            this.listBox1.TabIndex = 0;
+            this.teamListBox.FormattingEnabled = true;
+            this.teamListBox.Location = new System.Drawing.Point(13, 13);
+            this.teamListBox.Name = "teamListBox";
+            this.teamListBox.Size = new System.Drawing.Size(206, 277);
+            this.teamListBox.TabIndex = 0;
             // 
             // exitButton
             // 
@@ -65,9 +67,10 @@
             // 
             // addGrup
             // 
+            this.addGrup.Controls.Add(this.imageListView);
             this.addGrup.Controls.Add(this.imageTreeView);
             this.addGrup.Controls.Add(this.importButton);
-            this.addGrup.Controls.Add(this.pictureBox1);
+            this.addGrup.Controls.Add(this.logoPictureBox);
             this.addGrup.Controls.Add(this.imageLabel);
             this.addGrup.Controls.Add(this.nameLabel);
             this.addGrup.Controls.Add(this.nameText);
@@ -75,7 +78,7 @@
             this.addGrup.Controls.Add(this.cityLabel);
             this.addGrup.Location = new System.Drawing.Point(226, 13);
             this.addGrup.Name = "addGrup";
-            this.addGrup.Size = new System.Drawing.Size(712, 338);
+            this.addGrup.Size = new System.Drawing.Size(712, 447);
             this.addGrup.TabIndex = 2;
             this.addGrup.TabStop = false;
             this.addGrup.Text = "Create Team";
@@ -125,20 +128,19 @@
             this.imageLabel.TabIndex = 4;
             this.imageLabel.Text = "Team Logo:";
             // 
-            // pictureBox1
+            // logoPictureBox
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(11, 103);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.logoPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.logoPictureBox.Location = new System.Drawing.Point(11, 103);
+            this.logoPictureBox.Name = "logoPictureBox";
+            this.logoPictureBox.Size = new System.Drawing.Size(128, 128);
+            this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.logoPictureBox.TabIndex = 5;
+            this.logoPictureBox.TabStop = false;
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(11, 238);
+            this.importButton.Location = new System.Drawing.Point(145, 338);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(128, 23);
             this.importButton.TabIndex = 6;
@@ -148,10 +150,33 @@
             // 
             // imageTreeView
             // 
-            this.imageTreeView.Location = new System.Drawing.Point(240, 103);
+            this.imageTreeView.Location = new System.Drawing.Point(145, 103);
             this.imageTreeView.Name = "imageTreeView";
             this.imageTreeView.Size = new System.Drawing.Size(167, 229);
             this.imageTreeView.TabIndex = 7;
+            this.imageTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.imageTreeView_AfterSelect);
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(44, 44);
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // imageListView
+            // 
+            this.imageListView.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.imageListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.imageListView.Location = new System.Drawing.Point(319, 103);
+            this.imageListView.MultiSelect = false;
+            this.imageListView.Name = "imageListView";
+            this.imageListView.ShowGroups = false;
+            this.imageListView.Size = new System.Drawing.Size(68, 229);
+            this.imageListView.SmallImageList = this.imageList;
+            this.imageListView.TabIndex = 8;
+            this.imageListView.TileSize = new System.Drawing.Size(1, 1);
+            this.imageListView.UseCompatibleStateImageBehavior = false;
+            this.imageListView.View = System.Windows.Forms.View.SmallIcon;
+            this.imageListView.DoubleClick += new System.EventHandler(this.imageListView_DoubleClick);
             // 
             // TeamForm
             // 
@@ -160,20 +185,20 @@
             this.ClientSize = new System.Drawing.Size(950, 472);
             this.Controls.Add(this.addGrup);
             this.Controls.Add(this.exitButton);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.teamListBox);
             this.Name = "TeamForm";
             this.Text = "Edit/Add Teams";
             this.Load += new System.EventHandler(this.TeamForm_Load);
             this.addGrup.ResumeLayout(false);
             this.addGrup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox teamListBox;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.GroupBox addGrup;
         private System.Windows.Forms.Label nameLabel;
@@ -181,9 +206,11 @@
         private System.Windows.Forms.TextBox cityText;
         private System.Windows.Forms.Label cityLabel;
         private System.Windows.Forms.Button importButton;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox logoPictureBox;
         private System.Windows.Forms.Label imageLabel;
         private System.Windows.Forms.OpenFileDialog imageFileDialog;
         private System.Windows.Forms.TreeView imageTreeView;
+        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.ListView imageListView;
     }
 }
