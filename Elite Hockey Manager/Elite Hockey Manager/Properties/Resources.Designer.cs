@@ -185,6 +185,16 @@ namespace Elite_Hockey_Manager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Images {
+            get {
+                object obj = ResourceManager.GetObject("Images", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aaberg
         ///Aaby
         ///Aadland

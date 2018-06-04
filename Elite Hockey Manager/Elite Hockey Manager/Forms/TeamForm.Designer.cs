@@ -40,6 +40,7 @@
             this.imageLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.importButton = new System.Windows.Forms.Button();
+            this.imageTreeView = new System.Windows.Forms.TreeView();
             this.addGrup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -64,6 +65,7 @@
             // 
             // addGrup
             // 
+            this.addGrup.Controls.Add(this.imageTreeView);
             this.addGrup.Controls.Add(this.importButton);
             this.addGrup.Controls.Add(this.pictureBox1);
             this.addGrup.Controls.Add(this.imageLabel);
@@ -73,7 +75,7 @@
             this.addGrup.Controls.Add(this.cityLabel);
             this.addGrup.Location = new System.Drawing.Point(226, 13);
             this.addGrup.Name = "addGrup";
-            this.addGrup.Size = new System.Drawing.Size(467, 338);
+            this.addGrup.Size = new System.Drawing.Size(712, 338);
             this.addGrup.TabIndex = 2;
             this.addGrup.TabStop = false;
             this.addGrup.Text = "Create Team";
@@ -144,16 +146,24 @@
             this.importButton.UseVisualStyleBackColor = true;
             this.importButton.Click += new System.EventHandler(this.imageButton_Click);
             // 
+            // imageTreeView
+            // 
+            this.imageTreeView.Location = new System.Drawing.Point(240, 103);
+            this.imageTreeView.Name = "imageTreeView";
+            this.imageTreeView.Size = new System.Drawing.Size(167, 229);
+            this.imageTreeView.TabIndex = 7;
+            // 
             // TeamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 472);
+            this.ClientSize = new System.Drawing.Size(950, 472);
             this.Controls.Add(this.addGrup);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.listBox1);
             this.Name = "TeamForm";
             this.Text = "Edit/Add Teams";
+            this.Load += new System.EventHandler(this.TeamForm_Load);
             this.addGrup.ResumeLayout(false);
             this.addGrup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -174,5 +184,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label imageLabel;
         private System.Windows.Forms.OpenFileDialog imageFileDialog;
+        private System.Windows.Forms.TreeView imageTreeView;
     }
 }
