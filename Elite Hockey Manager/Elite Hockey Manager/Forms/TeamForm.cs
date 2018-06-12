@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -14,6 +15,7 @@ namespace Elite_Hockey_Manager.Forms
 {
     public partial class TeamForm : Form
     {
+        string currentDirectory = null;
         public TeamForm()
         {
             InitializeComponent();
@@ -29,13 +31,25 @@ namespace Elite_Hockey_Manager.Forms
             //System.IO.File.Copy("Source", "Destination");
             if (imageFileDialog.ShowDialog() == DialogResult.OK)
             {
-                foreach (string x in imageFileDialog.SafeFileNames)
+                foreach (string filePath in imageFileDialog.FileNames)
                 {
-                    MessageBox.Show(x);
+                    CopyImage(filePath);
                 }
             }
         }
+        private void CopyImage(string filePath)
+        {
+            try
+            {
+                string fileName = System.IO.Path.GetFileName(filePath);
+                System.IO.File.Copy(filePath, currentDirectory + fileName);
 
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void TeamForm_Load(object sender, EventArgs e)
         {
             LoadTreeView();
@@ -43,33 +57,41 @@ namespace Elite_Hockey_Manager.Forms
             if (Directory.Exists(@"Files/Images/Default"))
             {
                 LoadImagesFromDirectory(@"Files/Images/Default");
+                setDirectoryName("Default");
             }
             else
             {
                 LoadImagesFromDirectory(imageTreeView.TopNode.Name);
+                setDirectoryName(imageTreeView.TopNode.Text);
             }
+            
             //Expands the top level of the treeview
             imageTreeView.TopNode.Expand();
 
         }
         private void LoadTreeView()
         {
-            if (Directory.Exists(@"Files\Images"))
+            if (!Directory.Exists(@"Files\Images"))
             {
-                Directory.Delete(@"Files\Images", true);
+                try
+                {
+                    ZipFile.ExtractToDirectory(@"Files\Images.zip", @"Files\");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            if (File.Exists(@"Files\Images.zip"))
+            if (!Directory.Exists(@"Files\Images"))
             {
-                ZipFile.ExtractToDirectory(@"Files\Images.zip", @"Files\");
+                System.IO.Directory.CreateDirectory(@"Files\Images");
             }
-            if (Directory.Exists(@"Files\Images"))
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(@"Files\Images");
-                BuildTree(directoryInfo, imageTreeView.Nodes);
-            }
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"Files\Images");
+            BuildTree(directoryInfo, imageTreeView.Nodes);
         }
         private void LoadImagesFromDirectory(string path)
         {
+            currentDirectory = path + @"/";
             imageList.Images.Clear();
             imageListView.Clear();
             if (!String.IsNullOrWhiteSpace(path))
@@ -116,14 +138,19 @@ namespace Elite_Hockey_Manager.Forms
             TreeNode node = imageTreeView.SelectedNode;
             if (node.Name == "Count")
             {
+                setDirectoryName(node.Parent.Text);
                 LoadImagesFromDirectory(node.Parent.Name);
             }
             else
             {
+                setDirectoryName(node.Text);
                 LoadImagesFromDirectory(node.Name);
             }
         }
-
+        private void setDirectoryName(string name)
+        {
+            directoryLabel.Text = String.Format("Current Directory: {0}", name);
+        }
         private void imageListView_DoubleClick(object sender, EventArgs e)
         {
 
@@ -131,6 +158,30 @@ namespace Elite_Hockey_Manager.Forms
             logoPictureBox.Image = Image.FromFile((string)item.Tag);
 
 
+        }
+
+        private void clearLogoButton_Click(object sender, EventArgs e)
+        {
+            logoPictureBox.Image = null;
+        }
+
+        private void openDirectoryButton_Click(object sender, EventArgs e)
+        {
+            if (currentDirectory != null)
+            {
+                Process.Start(System.IO.Path.GetFullPath(currentDirectory));
+            }
+        }
+
+        private void imageSystemWatcherUpdate(object sender, FileSystemEventArgs e)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"Files\Images");
+            imageTreeView.Nodes.Clear();
+            BuildTree(directoryInfo, imageTreeView.Nodes);
+
+            //Expands the top level of the treeview
+            imageTreeView.TopNode.Expand();
+            LoadImagesFromDirectory(currentDirectory);
         }
     }
 }

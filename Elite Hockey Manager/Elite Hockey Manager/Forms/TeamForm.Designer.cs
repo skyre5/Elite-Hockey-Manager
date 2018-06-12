@@ -32,19 +32,24 @@
             this.teamListBox = new System.Windows.Forms.ListBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.addGrup = new System.Windows.Forms.GroupBox();
+            this.openDirectoryButton = new System.Windows.Forms.Button();
+            this.directoryLabel = new System.Windows.Forms.Label();
+            this.clearLogoButton = new System.Windows.Forms.Button();
+            this.imageListView = new System.Windows.Forms.ListView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.imageTreeView = new System.Windows.Forms.TreeView();
+            this.importButton = new System.Windows.Forms.Button();
+            this.logoPictureBox = new System.Windows.Forms.PictureBox();
+            this.imageLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.nameText = new System.Windows.Forms.TextBox();
             this.cityText = new System.Windows.Forms.TextBox();
             this.cityLabel = new System.Windows.Forms.Label();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.imageLabel = new System.Windows.Forms.Label();
-            this.logoPictureBox = new System.Windows.Forms.PictureBox();
-            this.importButton = new System.Windows.Forms.Button();
-            this.imageTreeView = new System.Windows.Forms.TreeView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.imageListView = new System.Windows.Forms.ListView();
+            this.imageSystemWatcher = new System.IO.FileSystemWatcher();
             this.addGrup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageSystemWatcher)).BeginInit();
             this.SuspendLayout();
             // 
             // teamListBox
@@ -67,6 +72,9 @@
             // 
             // addGrup
             // 
+            this.addGrup.Controls.Add(this.openDirectoryButton);
+            this.addGrup.Controls.Add(this.directoryLabel);
+            this.addGrup.Controls.Add(this.clearLogoButton);
             this.addGrup.Controls.Add(this.imageListView);
             this.addGrup.Controls.Add(this.imageTreeView);
             this.addGrup.Controls.Add(this.importButton);
@@ -82,6 +90,94 @@
             this.addGrup.TabIndex = 2;
             this.addGrup.TabStop = false;
             this.addGrup.Text = "Create Team";
+            // 
+            // openDirectoryButton
+            // 
+            this.openDirectoryButton.Location = new System.Drawing.Point(145, 74);
+            this.openDirectoryButton.Name = "openDirectoryButton";
+            this.openDirectoryButton.Size = new System.Drawing.Size(128, 23);
+            this.openDirectoryButton.TabIndex = 11;
+            this.openDirectoryButton.Text = "Open Current Directory";
+            this.openDirectoryButton.UseVisualStyleBackColor = true;
+            this.openDirectoryButton.Click += new System.EventHandler(this.openDirectoryButton_Click);
+            // 
+            // directoryLabel
+            // 
+            this.directoryLabel.AutoSize = true;
+            this.directoryLabel.Location = new System.Drawing.Point(142, 53);
+            this.directoryLabel.Name = "directoryLabel";
+            this.directoryLabel.Size = new System.Drawing.Size(89, 13);
+            this.directoryLabel.TabIndex = 10;
+            this.directoryLabel.Text = "Current Directory:";
+            // 
+            // clearLogoButton
+            // 
+            this.clearLogoButton.Location = new System.Drawing.Point(11, 237);
+            this.clearLogoButton.Name = "clearLogoButton";
+            this.clearLogoButton.Size = new System.Drawing.Size(128, 23);
+            this.clearLogoButton.TabIndex = 9;
+            this.clearLogoButton.Text = "Clear Logo";
+            this.clearLogoButton.UseVisualStyleBackColor = true;
+            this.clearLogoButton.Click += new System.EventHandler(this.clearLogoButton_Click);
+            // 
+            // imageListView
+            // 
+            this.imageListView.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.imageListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.imageListView.Location = new System.Drawing.Point(319, 103);
+            this.imageListView.MultiSelect = false;
+            this.imageListView.Name = "imageListView";
+            this.imageListView.ShowGroups = false;
+            this.imageListView.Size = new System.Drawing.Size(68, 229);
+            this.imageListView.SmallImageList = this.imageList;
+            this.imageListView.TabIndex = 8;
+            this.imageListView.TileSize = new System.Drawing.Size(1, 1);
+            this.imageListView.UseCompatibleStateImageBehavior = false;
+            this.imageListView.View = System.Windows.Forms.View.SmallIcon;
+            this.imageListView.DoubleClick += new System.EventHandler(this.imageListView_DoubleClick);
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(44, 44);
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // imageTreeView
+            // 
+            this.imageTreeView.Location = new System.Drawing.Point(145, 103);
+            this.imageTreeView.Name = "imageTreeView";
+            this.imageTreeView.Size = new System.Drawing.Size(167, 229);
+            this.imageTreeView.TabIndex = 7;
+            this.imageTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.imageTreeView_AfterSelect);
+            // 
+            // importButton
+            // 
+            this.importButton.Location = new System.Drawing.Point(145, 338);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(128, 23);
+            this.importButton.TabIndex = 6;
+            this.importButton.Text = "Import Logo(s)";
+            this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.imageButton_Click);
+            // 
+            // logoPictureBox
+            // 
+            this.logoPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.logoPictureBox.Location = new System.Drawing.Point(11, 103);
+            this.logoPictureBox.Name = "logoPictureBox";
+            this.logoPictureBox.Size = new System.Drawing.Size(128, 128);
+            this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.logoPictureBox.TabIndex = 5;
+            this.logoPictureBox.TabStop = false;
+            // 
+            // imageLabel
+            // 
+            this.imageLabel.AutoSize = true;
+            this.imageLabel.Location = new System.Drawing.Point(11, 75);
+            this.imageLabel.Name = "imageLabel";
+            this.imageLabel.Size = new System.Drawing.Size(64, 13);
+            this.imageLabel.TabIndex = 4;
+            this.imageLabel.Text = "Team Logo:";
             // 
             // nameLabel
             // 
@@ -117,66 +213,17 @@
             // 
             // imageFileDialog
             // 
-            this.imageFileDialog.Filter = "Images|*.pngf";
+            this.imageFileDialog.Filter = "Images|*.png";
+            this.imageFileDialog.Multiselect = true;
             // 
-            // imageLabel
+            // imageSystemWatcher
             // 
-            this.imageLabel.AutoSize = true;
-            this.imageLabel.Location = new System.Drawing.Point(11, 75);
-            this.imageLabel.Name = "imageLabel";
-            this.imageLabel.Size = new System.Drawing.Size(64, 13);
-            this.imageLabel.TabIndex = 4;
-            this.imageLabel.Text = "Team Logo:";
-            // 
-            // logoPictureBox
-            // 
-            this.logoPictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.logoPictureBox.Location = new System.Drawing.Point(11, 103);
-            this.logoPictureBox.Name = "logoPictureBox";
-            this.logoPictureBox.Size = new System.Drawing.Size(128, 128);
-            this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.logoPictureBox.TabIndex = 5;
-            this.logoPictureBox.TabStop = false;
-            // 
-            // importButton
-            // 
-            this.importButton.Location = new System.Drawing.Point(145, 338);
-            this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(128, 23);
-            this.importButton.TabIndex = 6;
-            this.importButton.Text = "Import Logo(s)";
-            this.importButton.UseVisualStyleBackColor = true;
-            this.importButton.Click += new System.EventHandler(this.imageButton_Click);
-            // 
-            // imageTreeView
-            // 
-            this.imageTreeView.Location = new System.Drawing.Point(145, 103);
-            this.imageTreeView.Name = "imageTreeView";
-            this.imageTreeView.Size = new System.Drawing.Size(167, 229);
-            this.imageTreeView.TabIndex = 7;
-            this.imageTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.imageTreeView_AfterSelect);
-            // 
-            // imageList
-            // 
-            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList.ImageSize = new System.Drawing.Size(44, 44);
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // imageListView
-            // 
-            this.imageListView.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.imageListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.imageListView.Location = new System.Drawing.Point(319, 103);
-            this.imageListView.MultiSelect = false;
-            this.imageListView.Name = "imageListView";
-            this.imageListView.ShowGroups = false;
-            this.imageListView.Size = new System.Drawing.Size(68, 229);
-            this.imageListView.SmallImageList = this.imageList;
-            this.imageListView.TabIndex = 8;
-            this.imageListView.TileSize = new System.Drawing.Size(1, 1);
-            this.imageListView.UseCompatibleStateImageBehavior = false;
-            this.imageListView.View = System.Windows.Forms.View.SmallIcon;
-            this.imageListView.DoubleClick += new System.EventHandler(this.imageListView_DoubleClick);
+            this.imageSystemWatcher.EnableRaisingEvents = true;
+            this.imageSystemWatcher.IncludeSubdirectories = true;
+            this.imageSystemWatcher.Path = "Files\\Images";
+            this.imageSystemWatcher.SynchronizingObject = this;
+            this.imageSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
+            this.imageSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             // 
             // TeamForm
             // 
@@ -192,6 +239,7 @@
             this.addGrup.ResumeLayout(false);
             this.addGrup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageSystemWatcher)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -212,5 +260,9 @@
         private System.Windows.Forms.TreeView imageTreeView;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.ListView imageListView;
+        private System.Windows.Forms.Button clearLogoButton;
+        private System.Windows.Forms.Label directoryLabel;
+        private System.Windows.Forms.Button openDirectoryButton;
+        private System.IO.FileSystemWatcher imageSystemWatcher;
     }
 }
