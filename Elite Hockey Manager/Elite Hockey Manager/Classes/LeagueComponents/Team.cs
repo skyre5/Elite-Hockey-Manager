@@ -10,6 +10,7 @@ namespace Elite_Hockey_Manager.Classes
     {
         private string _location;
         private string _teamName;
+        private string _logoPath = null;
         private int _teamID;
         private static int idCount = 0;
         private List<Player> roster = new List<Player>();
@@ -19,10 +20,18 @@ namespace Elite_Hockey_Manager.Classes
         private Defender[,] defenders = new Defender[3, 2];
         private Goalie[] goalies = new Goalie[2];
         private Skater[] scratched = new Skater[3];
-        public Team(string city, string teamName)
+        public Team(string location, string name)
         {
-            _location = city;
-            _teamName = teamName;
+            Location = location;
+            TeamName = name;
+            idCount++;
+            _teamID = idCount;
+        }
+        public Team(string location, string name, string imagePath)
+        {
+            Location = location;
+            TeamName = name;
+            LogoPath = imagePath;
             idCount++;
             _teamID = idCount;
         }
@@ -32,6 +41,28 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _teamName;
             }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Team name must contain characters");
+                }
+                else
+                {
+                    _teamName = value.Trim();
+                }
+            }
+        }
+        public string LogoPath
+        {
+            get
+            {
+                return _logoPath;
+            }
+            set
+            {
+                _logoPath = value;
+            }
         }
         public string Location
         {
@@ -39,12 +70,24 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _location;
             }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("location must contain characters");
+                }
+                else
+                {
+                    _location = value.Trim();
+                }
+
+            }
         }
         public string FullName
         {
             get
             {
-                return _location + _teamName;
+                return String.Format("{0} {1}", _location, _teamName);
             }
         }
         public int TeamID
@@ -53,6 +96,10 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _teamID;
             }
+        }
+        public override string ToString()
+        {
+            return FullName;
         }
     }
 }

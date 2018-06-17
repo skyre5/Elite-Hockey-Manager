@@ -47,6 +47,8 @@
             this.cityLabel = new System.Windows.Forms.Label();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageSystemWatcher = new System.IO.FileSystemWatcher();
+            this.createEditButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.addGrup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageSystemWatcher)).BeginInit();
@@ -72,6 +74,8 @@
             // 
             // addGrup
             // 
+            this.addGrup.Controls.Add(this.resetButton);
+            this.addGrup.Controls.Add(this.createEditButton);
             this.addGrup.Controls.Add(this.openDirectoryButton);
             this.addGrup.Controls.Add(this.directoryLabel);
             this.addGrup.Controls.Add(this.clearLogoButton);
@@ -225,6 +229,26 @@
             this.imageSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             this.imageSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             // 
+            // createEditButton
+            // 
+            this.createEditButton.Location = new System.Drawing.Point(11, 367);
+            this.createEditButton.Name = "createEditButton";
+            this.createEditButton.Size = new System.Drawing.Size(172, 32);
+            this.createEditButton.TabIndex = 12;
+            this.createEditButton.Text = "Create Team";
+            this.createEditButton.UseVisualStyleBackColor = true;
+            this.createEditButton.Click += new System.EventHandler(this.createEditButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(190, 367);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(162, 32);
+            this.resetButton.TabIndex = 13;
+            this.resetButton.Text = "Reset Fields";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
             // TeamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -264,5 +288,7 @@
         private System.Windows.Forms.Label directoryLabel;
         private System.Windows.Forms.Button openDirectoryButton;
         private System.IO.FileSystemWatcher imageSystemWatcher;
+        private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.Button createEditButton;
     }
 }

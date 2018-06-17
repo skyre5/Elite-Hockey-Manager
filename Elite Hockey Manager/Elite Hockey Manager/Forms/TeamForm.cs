@@ -10,12 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Elite_Hockey_Manager.Classes;
 
 namespace Elite_Hockey_Manager.Forms
 {
     public partial class TeamForm : Form
     {
         string currentDirectory = null;
+        BindingList<Team> teamList = new BindingList<Team>();
         public TeamForm()
         {
             InitializeComponent();
@@ -52,6 +54,7 @@ namespace Elite_Hockey_Manager.Forms
         }
         private void TeamForm_Load(object sender, EventArgs e)
         {
+            teamListBox.DataSource = teamList;
             LoadTreeView();
             //If the default folder is found load it 
             if (Directory.Exists(@"Files/Images/Default"))
@@ -156,6 +159,8 @@ namespace Elite_Hockey_Manager.Forms
 
             ListViewItem item = imageListView.SelectedItems[0];
             logoPictureBox.Image = Image.FromFile((string)item.Tag);
+            logoPictureBox.Image.Tag = item.Tag;
+            MessageBox.Show((string)item.Tag);
 
 
         }
@@ -183,5 +188,43 @@ namespace Elite_Hockey_Manager.Forms
             imageTreeView.TopNode.Expand();
             LoadImagesFromDirectory(currentDirectory);
         }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            resetTeamGroup();
+        }
+        private void resetTeamGroup()
+        {
+            cityText.Clear();
+            nameText.Clear();
+            logoPictureBox.Image = null;
+        }
+        private void createEditButton_Click(object sender, EventArgs e)
+        {
+            string location = cityText.Text;
+            string teamName = nameText.Text;
+            try
+            {
+                Team newTeam;
+                Uri basePath = new Uri(Directory.GetCurrentDirectory());
+                if (logoPictureBox.Image == null)
+                {
+                    newTeam = new Team(location, teamName);
+                }
+                else
+                {
+                    Uri imagePath = new Uri((string)logoPictureBox.Image.Tag);
+                    string relPath = basePath.MakeRelativeUri(imagePath).ToString();
+                    newTeam = new Team(location, teamName, relPath);
+                }
+                teamList.Add(newTeam);
+                resetTeamGroup();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }
