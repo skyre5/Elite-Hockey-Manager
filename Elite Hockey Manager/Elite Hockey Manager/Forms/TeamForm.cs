@@ -160,9 +160,6 @@ namespace Elite_Hockey_Manager.Forms
             ListViewItem item = imageListView.SelectedItems[0];
             logoPictureBox.Image = Image.FromFile((string)item.Tag);
             logoPictureBox.Image.Tag = item.Tag;
-            MessageBox.Show((string)item.Tag);
-
-
         }
 
         private void clearLogoButton_Click(object sender, EventArgs e)
@@ -206,7 +203,7 @@ namespace Elite_Hockey_Manager.Forms
             try
             {
                 Team newTeam;
-                Uri basePath = new Uri(Directory.GetCurrentDirectory());
+                Uri basePath = new Uri(Directory.GetCurrentDirectory() + @"\Files");
                 if (logoPictureBox.Image == null)
                 {
                     newTeam = new Team(location, teamName);
@@ -226,5 +223,15 @@ namespace Elite_Hockey_Manager.Forms
             }
         }
 
+        private void teamListBox_DoubleClick(object sender, EventArgs e)
+        {
+            Team selectedTeam = (Team)teamListBox.SelectedItem;
+            cityText.Text = selectedTeam.Location;
+            nameText.Text = selectedTeam.TeamName;
+            if (selectedTeam.LogoPath != null)
+            {
+                logoPictureBox.Image = selectedTeam.Logo;
+            }
+        }
     }
 }

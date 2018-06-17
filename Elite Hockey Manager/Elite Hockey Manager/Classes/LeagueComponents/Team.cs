@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,21 @@ namespace Elite_Hockey_Manager.Classes
                     _location = value.Trim();
                 }
 
+            }
+        }
+        public Image Logo
+        {
+            get
+            {
+                try
+                {
+                    Image image = Image.FromFile(_logoPath);
+                    return image;
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
         public string FullName
