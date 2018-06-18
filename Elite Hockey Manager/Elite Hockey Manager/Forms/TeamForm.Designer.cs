@@ -49,6 +49,9 @@
             this.cityLabel = new System.Windows.Forms.Label();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageSystemWatcher = new System.IO.FileSystemWatcher();
+            this.editCloseButton = new System.Windows.Forms.Button();
+            this.saveExitButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.addGrup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageSystemWatcher)).BeginInit();
@@ -69,12 +72,13 @@
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(110, 38);
             this.exitButton.TabIndex = 1;
-            this.exitButton.Text = "Exit";
+            this.exitButton.Text = "Exit Without Saving";
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // addGrup
             // 
+            this.addGrup.Controls.Add(this.editCloseButton);
             this.addGrup.Controls.Add(this.resetButton);
             this.addGrup.Controls.Add(this.createEditButton);
             this.addGrup.Controls.Add(this.openDirectoryButton);
@@ -250,11 +254,44 @@
             this.imageSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             this.imageSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             // 
+            // editCloseButton
+            // 
+            this.editCloseButton.Location = new System.Drawing.Point(11, 406);
+            this.editCloseButton.Name = "editCloseButton";
+            this.editCloseButton.Size = new System.Drawing.Size(172, 32);
+            this.editCloseButton.TabIndex = 14;
+            this.editCloseButton.Text = "Exit Edit Mode";
+            this.editCloseButton.UseVisualStyleBackColor = true;
+            this.editCloseButton.Visible = false;
+            this.editCloseButton.Click += new System.EventHandler(this.editCloseButton_Click);
+            // 
+            // saveExitButton
+            // 
+            this.saveExitButton.Location = new System.Drawing.Point(13, 380);
+            this.saveExitButton.Name = "saveExitButton";
+            this.saveExitButton.Size = new System.Drawing.Size(110, 38);
+            this.saveExitButton.TabIndex = 3;
+            this.saveExitButton.Text = "Save and Exit";
+            this.saveExitButton.UseVisualStyleBackColor = true;
+            this.saveExitButton.Click += new System.EventHandler(this.saveExitButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(13, 336);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(110, 38);
+            this.saveButton.TabIndex = 4;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // TeamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 472);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.saveExitButton);
             this.Controls.Add(this.addGrup);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.teamListBox);
@@ -291,5 +328,8 @@
         private System.IO.FileSystemWatcher imageSystemWatcher;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Button createEditButton;
+        private System.Windows.Forms.Button editCloseButton;
+        private System.Windows.Forms.Button saveExitButton;
+        private System.Windows.Forms.Button saveButton;
     }
 }

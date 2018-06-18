@@ -30,13 +30,6 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _playerID = idCount;
         }
-        public Player(SerializationInfo info, StreamingContext context)
-        {
-            this._firstName = (string)info.GetValue("First", typeof(string));
-            this._lastName = (string)info.GetValue("Last", typeof(string));
-            this._age = (int)info.GetValue("Age", typeof(int));
-            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
-        }
 
         public string FullName
         {
@@ -134,6 +127,13 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Last", this._lastName);
             info.AddValue("Age", this._age);
             info.AddValue("PlayerID", this._playerID);
+        }
+        public Player(SerializationInfo info, StreamingContext context)
+        {
+            this._firstName = (string)info.GetValue("First", typeof(string));
+            this._lastName = (string)info.GetValue("Last", typeof(string));
+            this._age = (int)info.GetValue("Age", typeof(int));
+            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
         }
     }
 }

@@ -17,7 +17,8 @@ namespace Elite_Hockey_Manager.Forms
     public partial class TeamForm : Form
     {
         string currentDirectory = null;
-        BindingList<Team> teamList = new BindingList<Team>();
+        Team selectedTeam = null;
+        BindingList<Team> teamList;
         public TeamForm()
         {
             InitializeComponent();
@@ -54,6 +55,10 @@ namespace Elite_Hockey_Manager.Forms
         }
         private void TeamForm_Load(object sender, EventArgs e)
         {
+            if (!SaveLoadUtils.LoadPlayersToFile<Team>("TeamData.data", out teamList))
+            {
+                MessageBox.Show("Saved team data not loaded in correctly");
+            }
             teamListBox.DataSource = teamList;
             LoadTreeView();
             //If the default folder is found load it 
@@ -198,21 +203,55 @@ namespace Elite_Hockey_Manager.Forms
         }
         private void createEditButton_Click(object sender, EventArgs e)
         {
+            if (selectedTeam == null)
+            {
+                CreateTeam();
+            }
+            //Team is being edited
+            else
+            {
+                try
+                {
+                    selectedTeam.Location = cityText.Text;
+                    selectedTeam.TeamName = nameText.Text;
+                    selectedTeam.LogoPath = GetImagePath();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Edit failed: " + ex.Message);
+                }
+            }
+        }
+        private string GetImagePath()
+        {
+            Uri basePath = new Uri(Directory.GetCurrentDirectory() + @"\Files");
+            if (logoPictureBox.Image == null)
+            {
+                return null;
+            }
+            else
+            {
+                Uri imagePath = new Uri((string)logoPictureBox.Image.Tag);
+                string relPath = basePath.MakeRelativeUri(imagePath).ToString();
+                return relPath;
+            }
+        }
+        private void CreateTeam()
+        {
             string location = cityText.Text;
             string teamName = nameText.Text;
+            Team newTeam;
             try
             {
-                Team newTeam;
-                Uri basePath = new Uri(Directory.GetCurrentDirectory() + @"\Files");
-                if (logoPictureBox.Image == null)
+                string imagePath = GetImagePath();
+                if (imagePath == null)
                 {
                     newTeam = new Team(location, teamName);
                 }
                 else
                 {
-                    Uri imagePath = new Uri((string)logoPictureBox.Image.Tag);
-                    string relPath = basePath.MakeRelativeUri(imagePath).ToString();
-                    newTeam = new Team(location, teamName, relPath);
+                    
+                    newTeam = new Team(location, teamName, imagePath);
                 }
                 teamList.Add(newTeam);
                 resetTeamGroup();
@@ -222,15 +261,51 @@ namespace Elite_Hockey_Manager.Forms
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void teamListBox_DoubleClick(object sender, EventArgs e)
         {
-            Team selectedTeam = (Team)teamListBox.SelectedItem;
-            cityText.Text = selectedTeam.Location;
-            nameText.Text = selectedTeam.TeamName;
-            if (selectedTeam.LogoPath != null)
+            createEditButton.Text = "Save Changes";
+            editCloseButton.Visible = true;
+            selectedTeam = (Team)teamListBox.SelectedItem;
+            if (selectedTeam != null)
             {
-                logoPictureBox.Image = selectedTeam.Logo;
+                cityText.Text = selectedTeam.Location;
+                nameText.Text = selectedTeam.TeamName;
+                if (selectedTeam.LogoPath != null)
+                {
+                    logoPictureBox.Image = selectedTeam.Logo;
+                }
+                else
+                {
+                    logoPictureBox.Image = null;
+                }
+            }
+        }
+
+        private void editCloseButton_Click(object sender, EventArgs e)
+        {
+            selectedTeam = null;
+            editCloseButton.Visible = false;
+            createEditButton.Text = "Create Team";
+            resetTeamGroup();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.SavePlayersToFile<Team>("TeamData.data", teamList))
+            {
+                MessageBox.Show("Save Failed");
+            }
+        }
+
+        private void saveExitButton_Click(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.SavePlayersToFile<Team>("TeamData.data", teamList))
+            {
+                MessageBox.Show("Save Failed");
+            }
+            else
+            {
+                this.Close();
             }
         }
     }

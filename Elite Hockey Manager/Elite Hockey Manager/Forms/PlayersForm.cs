@@ -52,7 +52,7 @@ namespace Elite_Hockey_Manager.Forms
                 //Close player form with saving
                 if (x == DialogResult.Yes)
                 {
-                    if (SaveLoadUtils.SavePlayersToFile("PlayerData.data", playerList))
+                    if (SaveLoadUtils.SavePlayersToFile<Player>("PlayerData.data", playerList))
                     {
                         this.Close();
                     }
@@ -70,7 +70,7 @@ namespace Elite_Hockey_Manager.Forms
         }
         private void PlayersForm_Load(object sender, EventArgs e)
         {
-            if (!SaveLoadUtils.LoadPlayersToFile("PlayerData.data", out playerList))
+            if (!SaveLoadUtils.LoadPlayersToFile<Player>("PlayerData.data", out playerList))
             {
                 MessageBox.Show("Saved player data not loaded in correctly");
             }
@@ -359,7 +359,7 @@ namespace Elite_Hockey_Manager.Forms
         private void saveButton_Click(object sender, EventArgs e)
         {
             changeMade = false;
-            if (!SaveLoadUtils.SavePlayersToFile("PlayerData.data", playerList))
+            if (!SaveLoadUtils.SavePlayersToFile<Player>("PlayerData.data", playerList))
             {
                 MessageBox.Show("Save Failed: Check console");
             }

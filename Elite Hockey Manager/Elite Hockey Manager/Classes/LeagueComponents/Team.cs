@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public class Team
+    [Serializable]
+    public class Team : ISerializable
     {
         private string _location;
         private string _teamName;
@@ -116,6 +118,19 @@ namespace Elite_Hockey_Manager.Classes
         public override string ToString()
         {
             return FullName;
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("TeamName", this._teamName);
+            info.AddValue("Location", this._location);
+            info.AddValue("Logo", this._logoPath);
+        }
+        public Team(SerializationInfo info, StreamingContext context)
+        {
+            this._teamName = (string)info.GetValue("TeamName", typeof(string));
+            this._location = (string)info.GetValue("Location", typeof(string));
+            this._logoPath = (string)info.GetValue("Logo", typeof(string));
         }
     }
 }
