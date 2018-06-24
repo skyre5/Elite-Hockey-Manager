@@ -11,7 +11,7 @@ namespace Elite_Hockey_Manager.Classes
 {
     public static class SaveLoadUtils
     {
-        public static bool SavePlayersToFile<T>(string fileName, BindingList<T> playerList)
+        public static bool SaveListToFile<T>(string fileName, BindingList<T> bindingList)
         {
             try
             {
@@ -19,7 +19,7 @@ namespace Elite_Hockey_Manager.Classes
                 //Creates it if one did not exist
                 Stream playersStream = File.Open(fileName, FileMode.Create);
                 BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(playersStream, playerList);
+                bf.Serialize(playersStream, bindingList);
                 playersStream.Close();
                 return true;
             }
@@ -29,9 +29,9 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
         }
-        public static bool LoadPlayersToFile<T>(string fileName, out BindingList<T> playerList)
+        public static bool LoadListToFile<T>(string fileName, out BindingList<T> bindingList)
         {
-            //Loads the user created players if they are found
+            //Loads the file of the given name if it is found
             if (File.Exists(fileName))
             {
                 try
@@ -39,21 +39,21 @@ namespace Elite_Hockey_Manager.Classes
                     Stream playersStream = File.Open(fileName, FileMode.Open);
                     BinaryFormatter bf = new BinaryFormatter();
                     //Takes the list of players and deserializes it into playerList class object
-                    playerList = (BindingList<T>)bf.Deserialize(playersStream);
+                    bindingList = (BindingList<T>)bf.Deserialize(playersStream);
                     playersStream.Close();
                     return true;
                 }
                 catch (Exception ex)
                 {
                     Console.Write(ex);
-                    playerList = new BindingList<T>();
+                    bindingList = new BindingList<T>();
                     return false;
                 }
             }
             else
             {
                 //If no playerList exists makes a new one
-                playerList = new BindingList<T>();
+                bindingList = new BindingList<T>();
                 return true;
             }
         }

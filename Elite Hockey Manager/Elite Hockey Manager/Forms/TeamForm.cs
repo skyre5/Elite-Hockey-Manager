@@ -55,7 +55,7 @@ namespace Elite_Hockey_Manager.Forms
         }
         private void TeamForm_Load(object sender, EventArgs e)
         {
-            if (!SaveLoadUtils.LoadPlayersToFile<Team>("TeamData.data", out teamList))
+            if (!SaveLoadUtils.LoadListToFile<Team>("TeamData.data", out teamList))
             {
                 MessageBox.Show("Saved team data not loaded in correctly");
             }
@@ -210,22 +210,38 @@ namespace Elite_Hockey_Manager.Forms
             //Team is being edited
             else
             {
+                string location = selectedTeam.Location;
+                string teamName = selectedTeam.TeamName;
+                string logoPath = selectedTeam.LogoPath;
                 try
                 {
                     selectedTeam.Location = cityText.Text;
                     selectedTeam.TeamName = nameText.Text;
-                    selectedTeam.LogoPath = GetImagePath();
+                    if (logoPictureBox.Image == null || logoPictureBox.Image.Tag != null)
+                    {
+                        selectedTeam.LogoPath = GetImagePath();
+                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Edit failed: " + ex.Message);
+                    //Assigns the values that were initially present back to the team
+                    selectedTeam.Location = location;
+                    cityText.Text = location;
+
+                    selectedTeam.TeamName = teamName;
+                    nameText.Text = teamName;
+
+                    selectedTeam.LogoPath = logoPath;
+                    logoPictureBox.Image = selectedTeam.Logo;
+
                 }
             }
         }
         private string GetImagePath()
         {
             Uri basePath = new Uri(Directory.GetCurrentDirectory() + @"\Files");
-            if (logoPictureBox.Image == null)
+            if (logoPictureBox.Image == null || logoPictureBox.Image.Tag == null)
             {
                 return null;
             }
@@ -291,7 +307,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (!SaveLoadUtils.SavePlayersToFile<Team>("TeamData.data", teamList))
+            if (!SaveLoadUtils.SaveListToFile<Team>("TeamData.data", teamList))
             {
                 MessageBox.Show("Save Failed");
             }
@@ -299,7 +315,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void saveExitButton_Click(object sender, EventArgs e)
         {
-            if (!SaveLoadUtils.SavePlayersToFile<Team>("TeamData.data", teamList))
+            if (!SaveLoadUtils.SaveListToFile<Team>("TeamData.data", teamList))
             {
                 MessageBox.Show("Save Failed");
             }
