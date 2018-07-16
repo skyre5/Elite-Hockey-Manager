@@ -100,6 +100,7 @@
             this.createLeagueButton.TabIndex = 6;
             this.createLeagueButton.Text = "Create League";
             this.createLeagueButton.UseVisualStyleBackColor = true;
+            this.createLeagueButton.Click += new System.EventHandler(this.createLeagueButton_Click);
             // 
             // LeagueInfoForm
             // 
