@@ -324,5 +324,24 @@ namespace Elite_Hockey_Manager.Forms
                 this.Close();
             }
         }
+
+        private void deleteTeamButton_Click(object sender, EventArgs e)
+        {
+            List<Team> deleteList = teamListBox.SelectedItems.Cast<Team>().ToList();
+            foreach (Team x in deleteList)
+            {
+                teamList.Remove(x);
+            }
+            if (selectedTeam != null)
+            {
+                if (!teamList.Contains(selectedTeam))
+                {
+                    resetTeamGroup();
+                    selectedTeam = null;
+                    //Should be written into a function instead
+                    editCloseButton.PerformClick();
+                }
+            }
+        }
     }
 }

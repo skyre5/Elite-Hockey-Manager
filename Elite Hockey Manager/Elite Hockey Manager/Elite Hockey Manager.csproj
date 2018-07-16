@@ -89,11 +89,23 @@
     <Compile Include="Forms\EditPlayerForm.Designer.cs">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\HelperForms\LeagueInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\HelperForms\LeagueInfoForm.Designer.cs">
+      <DependentUpon>LeagueInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\homeForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\homeForm.Designer.cs">
       <DependentUpon>homeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LeagueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LeagueForm.Designer.cs">
+      <DependentUpon>LeagueForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PlayersForm.cs">
       <SubType>Form</SubType>
@@ -112,8 +124,14 @@
     <EmbeddedResource Include="Forms\editPlayerForm.resx">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\HelperForms\LeagueInfoForm.resx">
+      <DependentUpon>LeagueInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LeagueForm.resx">
+      <DependentUpon>LeagueForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PlayersForm.resx">
       <DependentUpon>PlayersForm.cs</DependentUpon>

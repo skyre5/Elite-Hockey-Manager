@@ -32,6 +32,7 @@
             this.teamListBox = new System.Windows.Forms.ListBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.addGrup = new System.Windows.Forms.GroupBox();
+            this.editCloseButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.createEditButton = new System.Windows.Forms.Button();
             this.openDirectoryButton = new System.Windows.Forms.Button();
@@ -49,9 +50,9 @@
             this.cityLabel = new System.Windows.Forms.Label();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageSystemWatcher = new System.IO.FileSystemWatcher();
-            this.editCloseButton = new System.Windows.Forms.Button();
             this.saveExitButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.deleteTeamButton = new System.Windows.Forms.Button();
             this.addGrup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageSystemWatcher)).BeginInit();
@@ -62,6 +63,7 @@
             this.teamListBox.FormattingEnabled = true;
             this.teamListBox.Location = new System.Drawing.Point(13, 13);
             this.teamListBox.Name = "teamListBox";
+            this.teamListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.teamListBox.Size = new System.Drawing.Size(206, 277);
             this.teamListBox.TabIndex = 0;
             this.teamListBox.DoubleClick += new System.EventHandler(this.teamListBox_DoubleClick);
@@ -93,12 +95,23 @@
             this.addGrup.Controls.Add(this.nameText);
             this.addGrup.Controls.Add(this.cityText);
             this.addGrup.Controls.Add(this.cityLabel);
-            this.addGrup.Location = new System.Drawing.Point(226, 13);
+            this.addGrup.Location = new System.Drawing.Point(375, 13);
             this.addGrup.Name = "addGrup";
-            this.addGrup.Size = new System.Drawing.Size(712, 447);
+            this.addGrup.Size = new System.Drawing.Size(563, 447);
             this.addGrup.TabIndex = 2;
             this.addGrup.TabStop = false;
             this.addGrup.Text = "Create Team";
+            // 
+            // editCloseButton
+            // 
+            this.editCloseButton.Location = new System.Drawing.Point(11, 406);
+            this.editCloseButton.Name = "editCloseButton";
+            this.editCloseButton.Size = new System.Drawing.Size(172, 32);
+            this.editCloseButton.TabIndex = 14;
+            this.editCloseButton.Text = "Exit Edit Mode";
+            this.editCloseButton.UseVisualStyleBackColor = true;
+            this.editCloseButton.Visible = false;
+            this.editCloseButton.Click += new System.EventHandler(this.editCloseButton_Click);
             // 
             // resetButton
             // 
@@ -254,17 +267,6 @@
             this.imageSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             this.imageSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             // 
-            // editCloseButton
-            // 
-            this.editCloseButton.Location = new System.Drawing.Point(11, 406);
-            this.editCloseButton.Name = "editCloseButton";
-            this.editCloseButton.Size = new System.Drawing.Size(172, 32);
-            this.editCloseButton.TabIndex = 14;
-            this.editCloseButton.Text = "Exit Edit Mode";
-            this.editCloseButton.UseVisualStyleBackColor = true;
-            this.editCloseButton.Visible = false;
-            this.editCloseButton.Click += new System.EventHandler(this.editCloseButton_Click);
-            // 
             // saveExitButton
             // 
             this.saveExitButton.Location = new System.Drawing.Point(13, 380);
@@ -285,11 +287,22 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // deleteTeamButton
+            // 
+            this.deleteTeamButton.Location = new System.Drawing.Point(225, 12);
+            this.deleteTeamButton.Name = "deleteTeamButton";
+            this.deleteTeamButton.Size = new System.Drawing.Size(110, 33);
+            this.deleteTeamButton.TabIndex = 5;
+            this.deleteTeamButton.Text = "Delete Team(s)";
+            this.deleteTeamButton.UseVisualStyleBackColor = true;
+            this.deleteTeamButton.Click += new System.EventHandler(this.deleteTeamButton_Click);
+            // 
             // TeamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 472);
+            this.Controls.Add(this.deleteTeamButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.saveExitButton);
             this.Controls.Add(this.addGrup);
@@ -331,5 +344,6 @@
         private System.Windows.Forms.Button editCloseButton;
         private System.Windows.Forms.Button saveExitButton;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button deleteTeamButton;
     }
 }

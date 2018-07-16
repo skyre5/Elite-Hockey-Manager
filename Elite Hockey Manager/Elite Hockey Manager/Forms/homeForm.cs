@@ -43,5 +43,11 @@ namespace Elite_Hockey_Manager
             TeamForm form = new TeamForm();
             form.ShowDialog();
         }
+
+        private void leagueButton_Click(object sender, EventArgs e)
+        {
+            LeagueForm form = new LeagueForm();
+            form.ShowDialog();
+        }
     }
 }

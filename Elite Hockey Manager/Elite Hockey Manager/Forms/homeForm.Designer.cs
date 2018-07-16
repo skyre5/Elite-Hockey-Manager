@@ -31,6 +31,7 @@
             this.playersBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.teamsButton = new System.Windows.Forms.Button();
+            this.leagueButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // playersBtn
@@ -63,11 +64,22 @@
             this.teamsButton.UseVisualStyleBackColor = true;
             this.teamsButton.Click += new System.EventHandler(this.teamsButton_Click);
             // 
+            // leagueButton
+            // 
+            this.leagueButton.Location = new System.Drawing.Point(357, 328);
+            this.leagueButton.Name = "leagueButton";
+            this.leagueButton.Size = new System.Drawing.Size(110, 37);
+            this.leagueButton.TabIndex = 3;
+            this.leagueButton.Text = "Add/Edit Leagues";
+            this.leagueButton.UseVisualStyleBackColor = true;
+            this.leagueButton.Click += new System.EventHandler(this.leagueButton_Click);
+            // 
             // homeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 556);
+            this.Controls.Add(this.leagueButton);
             this.Controls.Add(this.teamsButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.playersBtn);
@@ -84,6 +96,7 @@
         private System.Windows.Forms.Button playersBtn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button teamsButton;
+        private System.Windows.Forms.Button leagueButton;
     }
 }
 
