@@ -70,6 +70,7 @@
     <Compile Include="Classes\LeagueComponents\League.cs" />
     <Compile Include="Classes\LeagueComponents\PlayerGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\Team.cs" />
+    <Compile Include="Classes\LeagueComponents\TeamGenerator.cs" />
     <Compile Include="Classes\Players\Center.cs" />
     <Compile Include="Classes\Players\Defender.cs" />
     <Compile Include="Classes\Players\Forward.cs" />

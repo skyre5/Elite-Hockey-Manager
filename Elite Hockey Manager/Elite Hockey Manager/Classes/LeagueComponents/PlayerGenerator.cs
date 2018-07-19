@@ -204,13 +204,5 @@ namespace Elite_Hockey_Manager.Classes
                 _status = 0;
             }
         }
-        public static void SetFirstNames()
-        {
-
-        }
-        public static void SetLastNames()
-        {
-
-        }
     }
 }

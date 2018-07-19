@@ -57,5 +57,34 @@ namespace Elite_Hockey_Manager.Classes
                 return true;
             }
         }
+        public static List<string> ReadFromFile(string filename)
+        {
+            List<string> list = new List<string>();
+            StreamReader reader = null;
+            try
+            {
+                reader = new StreamReader(filename);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            if (reader != null)
+            {
+                String line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
+
+                reader.Close();
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
