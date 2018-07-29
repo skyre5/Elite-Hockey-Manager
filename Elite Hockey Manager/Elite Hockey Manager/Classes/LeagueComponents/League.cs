@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -12,9 +13,24 @@ namespace Elite_Hockey_Manager.Classes
     {
         public int NumberOfTeams
         {
-            get;
-            private set;
+            get
+            {
+                return NumberOfTeams;
+            }
+            private set
+            {
+                if (value < 6 || value > 32)
+                {
+                    throw new ArgumentException("Error: Team value must be between 6 and 32");
+                }
+                else
+                {
+                    NumberOfTeams = value;
+                }
+            }
         }
+
+
         public string LeagueName
         {
             get;
@@ -63,6 +79,55 @@ namespace Elite_Hockey_Manager.Classes
 
             this.FirstConferenceName = firstName;
             this.SecondConferenceName = secondName;
+        }
+        public void FillRemainingTeams()
+        {
+            if (FirstConference.Count + SecondConference.Count == NumberOfTeams)
+            {
+                return;
+            }
+            //If the number of teams is odd
+            if (NumberOfTeams % 2 == 1)
+            {
+                //gets the max conference size
+                int largeConferenceSize = (NumberOfTeams + 1) / 2;
+                if (FirstConference.Count != largeConferenceSize && SecondConference.Count != largeConferenceSize)
+                {
+                    FillConference(FirstConference, largeConferenceSize);
+                    FillConference(SecondConference, largeConferenceSize - 1);
+                }
+                else
+                {
+                    if (FirstConference.Count == largeConferenceSize)
+                    {
+                        FillConference(SecondConference, largeConferenceSize - 1);
+                    }
+                    else
+                    {
+                        FillConference(FirstConference, largeConferenceSize - 1);
+                    }
+                }
+            }
+            else
+            {
+                int maxConferenceSize = (NumberOfTeams / 2);
+                FillConference(FirstConference, maxConferenceSize);
+                FillConference(SecondConference, maxConferenceSize);
+            }
+        }
+        public static void FillConference(List<Team> conference, int desiredSize)
+        {
+            if (desiredSize < 0)
+            {
+                throw new ArgumentOutOfRangeException("Argument must be 0 or greater");
+            }
+            int addCount = desiredSize - conference.Count;
+            for (int i = 0; i < addCount; i++)
+            {
+                Tuple<string, string> teamInfo = TeamGenerator.GetFullTeamName();
+                Team addTeam = new Team(teamInfo.Item1, teamInfo.Item2);
+                conference.Add(addTeam);
+            }
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

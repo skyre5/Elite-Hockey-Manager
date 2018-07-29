@@ -103,9 +103,9 @@ namespace Elite_Hockey_Manager.Properties {
         ///New Jersey
         ///Falls Perk.
         /// </summary>
-        internal static string cities {
+        internal static string cityNames {
             get {
-                return ResourceManager.GetString("cities", resourceCulture);
+                return ResourceManager.GetString("cityNames", resourceCulture);
             }
         }
         
@@ -307,9 +307,9 @@ namespace Elite_Hockey_Manager.Properties {
         ///Treehuggers
         ///Sneks.
         /// </summary>
-        internal static string teams {
+        internal static string teamNames {
             get {
-                return ResourceManager.GetString("teams", resourceCulture);
+                return ResourceManager.GetString("teamNames", resourceCulture);
             }
         }
     }
