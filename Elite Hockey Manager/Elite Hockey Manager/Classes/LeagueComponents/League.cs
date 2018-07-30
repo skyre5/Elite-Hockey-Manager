@@ -11,11 +11,12 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class League : ISerializable
     {
+        private int _numberOfTeams;
         public int NumberOfTeams
         {
             get
             {
-                return NumberOfTeams;
+                return _numberOfTeams;
             }
             private set
             {
@@ -25,7 +26,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    NumberOfTeams = value;
+                    _numberOfTeams = value;
                 }
             }
         }

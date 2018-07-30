@@ -32,7 +32,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             CityNames = SaveLoadUtils.ReadFromFile(cityPath);
             string teamPath = new Uri(basePath + @"\Files\teamNames.txt").LocalPath;
             TeamNames = SaveLoadUtils.ReadFromFile(teamPath);
-            if (CityNames == null || TeamNames == null)
+            if (CityNames == null || TeamNames == null || CityNames.Count == 0 || TeamNames.Count == 0)
             {
                 //There was an error in loading the team names
                 //Displays status to parent using static class
@@ -52,8 +52,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             if (CityNames.Count == 0 || TeamNames.Count == 0)
             {
-                Status = -1;
-                return null;
+                TeamGenerator.Initialize();
+                return GetFullTeamName();
             }
             if (Status == -1)
             {
