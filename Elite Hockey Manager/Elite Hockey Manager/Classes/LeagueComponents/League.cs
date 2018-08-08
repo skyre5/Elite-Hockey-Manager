@@ -62,7 +62,13 @@ namespace Elite_Hockey_Manager.Classes
             get;
             private set;
         } = new List<Team>();
-        
+        public List<Team> AllTeams
+        {
+            get
+            {
+                return FirstConference.Concat(SecondConference).ToList();
+            }
+        }
         public League(string name, string abbreviation, int teamsCount)
         {
             this.LeagueName = name;
@@ -130,6 +136,10 @@ namespace Elite_Hockey_Manager.Classes
                 conference.Add(addTeam);
             }
         }
+        public bool IsFull()
+        {
+            return FirstConference.Count + SecondConference.Count == _numberOfTeams;
+        }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("LeagueName", this.LeagueName);
@@ -157,6 +167,65 @@ namespace Elite_Hockey_Manager.Classes
         public override string ToString()
         {
             return String.Format("{0} - {1} - Teams:{2}", this.Abbreviation, this.LeagueName, this.NumberOfTeams);
+        }
+        private bool DoesTeamExist(Team team)
+        {
+            return AllTeams.Contains(team);
+        }
+        private bool ConferenceSpaceCheck(int conference)
+        {
+            int selectedConferenceSize;
+            if (conference == 1)
+            {
+                selectedConferenceSize = FirstConference.Count;
+            }
+            else
+            {
+                selectedConferenceSize = SecondConference.Count;
+            }
+            if (_numberOfTeams % 2 == 0)
+            {
+                int maxTeams = _numberOfTeams / 2;
+                return !(selectedConferenceSize == maxTeams);
+            }
+            //If odd
+            else
+            {
+                int maxTeams = (_numberOfTeams + 1) / 2;
+                return !(selectedConferenceSize == maxTeams);
+
+            }
+        }
+        public void AddTeam(Team team, int conference = 1)
+        {
+            if (team == null)
+            {
+                throw new ArgumentNullException("Team is not defined. Cannot be added to conference");
+            }
+            //Throws exception if an exact team object already exists in league
+            if (DoesTeamExist(team))
+            {
+                throw new ArgumentException("Team already exists within the league, league can't have mutliples of a single team");
+            }
+            if (AllTeams.Count == _numberOfTeams)
+            {
+                throw new ArgumentException("League is full, can not add another team");
+            }
+            if (!ConferenceSpaceCheck(conference))
+            {
+                throw new ArgumentException("Conference is full, can only add to the other conference");
+            }
+            switch (conference)
+            {
+                case 1:
+                    FirstConference.Add(team);
+                    break;
+                case 2:
+                    SecondConference.Add(team);
+                    break;
+                default:
+                    throw new ArgumentException("Conference is not defined");
+            }
         }
     }
 }

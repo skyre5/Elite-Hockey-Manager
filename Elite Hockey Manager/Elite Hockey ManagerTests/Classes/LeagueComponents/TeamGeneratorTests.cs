@@ -30,7 +30,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
             Assert.IsNotNull(names.Item2);
         }
         [Test()]
-        public void StatusTest()
+        public void TeamGeneratorStatusTest()
         {
             TeamGenerator.CityNames = null;
             TeamGenerator.TeamNames = null;

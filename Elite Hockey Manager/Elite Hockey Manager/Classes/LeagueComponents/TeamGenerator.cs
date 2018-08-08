@@ -43,6 +43,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 Status = 0;
             }
         }
+        public static Team GetTeam()
+        {
+            Tuple<string, string> teamName = GetFullTeamName();
+            if (teamName == null)
+            {
+                return null;
+            }
+            Team team = new Team(teamName.Item1, teamName.Item2);
+            return team;
+        }
         public static Tuple<string, string> GetFullTeamName()
         {
             if (CityNames == null || TeamNames == null)
