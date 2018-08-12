@@ -21,7 +21,7 @@ namespace Elite_Hockey_Manager.Classes
 
         private List<Stats> careerStats = new List<Stats>();
         private List<Contract> _careerContracts;
-        public Player(string first, string last, int age)
+        public Player(string first, string last, int age, Contract contract)
         {
             //Input validation done in setters
             FirstName = first;
@@ -30,7 +30,15 @@ namespace Elite_Hockey_Manager.Classes
             //Increments player id
             idCount++;
             _playerID = idCount;
+
+            _careerContracts = new List<Contract>();
+            _careerContracts.Add(contract);
         }
+
+        public Player(string first, string last, int age) : this(first, last, age, new Contract())
+        {
+        }
+
 
         public string FullName
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -21,7 +22,13 @@ namespace Elite_Hockey_Manager.Classes
         public LeftDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
         }
+        public LeftDefensemen(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
+        {
+        }
         public LeftDefensemen(string first, string last, int age) : base(first, last, age)
+        {
+        }
+        public LeftDefensemen(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
         public LeftDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -42,9 +49,14 @@ namespace Elite_Hockey_Manager.Classes
 
         public RightDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
-
+        }
+        public RightDefensemen(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
+        {
         }
         public RightDefensemen(string first, string last, int age) : base(first, last, age)
+        {
+        }
+        public RightDefensemen(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
         public RightDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)

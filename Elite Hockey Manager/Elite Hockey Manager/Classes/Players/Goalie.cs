@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -23,8 +24,16 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = Attributes;
         }
-        
+        public Goalie(string first, string last, int age, Contract contract, GoalieAttributes Attributes) : base(first, last, age, contract)
+        {
+            _attributes = Attributes;
+        }
+
         public Goalie(string first, string last, int age) : base(first, last, age)
+        {
+            this._attributes = new GoalieAttributes();
+        }
+        public Goalie(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
             this._attributes = new GoalieAttributes();
         }

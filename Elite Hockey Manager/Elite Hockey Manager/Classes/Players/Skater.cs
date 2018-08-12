@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -14,11 +15,18 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = attributes;
         }
+        public Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
+        {
+            _attributes = attributes;
+        }
         public Skater(string first, string last, int age) : base(first, last, age)
         {
             _attributes = new SkaterAttributes();
         }
-
+        public Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        {
+            _attributes = new SkaterAttributes();
+        }
         public Skater(SerializationInfo info, StreamingContext context): base(info, context)
         {
             this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
