@@ -67,12 +67,12 @@ namespace Elite_Hockey_Manager.Forms
             }
             else
             {
-                List<Team> userTeamChoices = UserCreatedTeamList.Except(league.AllTeams).ToList();
+                BindingList<Team> displayUserCreatedTeamList = new BindingList<Team>(UserCreatedTeamList.Except(league.AllTeams).ToList());
                 firstConference = new BindingList<Team>(league.FirstConference);
                 secondConference = new BindingList<Team>(league.SecondConference);
                 firstConferenceListBox.DataSource = firstConference;
                 secondConferenceListBox.DataSource = secondConference;
-                userTeamsListBox.DataSource = userTeamChoices;
+                userTeamsListBox.DataSource = displayUserCreatedTeamList;
             }
 
         }
@@ -122,9 +122,48 @@ namespace Elite_Hockey_Manager.Forms
 
         private void addFirstConferenceBtn_Click(object sender, EventArgs e)
         {
-            if (userTeamsListBox.SelectedItem != null)
+            if (userTeamsListBox.SelectedItem != null && selectedLeague != null)
             {
+                Team addedTeam = (Team)userTeamsListBox.SelectedItem;
+                AddTeamToLeague(1, firstConferenceListBox, addedTeam);
             }
         }
+        private void addSecondConferenceBtn_Click(object sender, EventArgs e)
+        {
+            if (userTeamsListBox.SelectedItem != null && selectedLeague != null)
+            {
+                Team addedTeam = (Team)userTeamsListBox.SelectedItem;
+                AddTeamToLeague(2, secondConferenceListBox, addedTeam);
+            }
+        }
+        private void AddTeamToLeague(int conferenceID, ListBox conferenceListBox, Team addedTeam)
+        {
+            List<Team> conference;
+            switch (conferenceID)
+            {
+                case 1:
+                    conference = selectedLeague.FirstConference;
+                    break;
+                case 2:
+                    conference = selectedLeague.SecondConference;
+                    break;
+                default:
+                    conference = new List<Team>();
+                    break;
+            }
+            try
+            {
+                selectedLeague.AddTeam(addedTeam, conferenceID);
+                conferenceListBox.DataSource = null;
+                conferenceListBox.DataSource = conference;
+                UserCreatedTeamList.Remove(addedTeam);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
     }
 }

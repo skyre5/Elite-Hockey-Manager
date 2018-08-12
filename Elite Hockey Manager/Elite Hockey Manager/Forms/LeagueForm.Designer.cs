@@ -153,6 +153,7 @@
             this.addSecondConferenceBtn.TabIndex = 11;
             this.addSecondConferenceBtn.Text = "Add To Second Conference";
             this.addSecondConferenceBtn.UseVisualStyleBackColor = true;
+            this.addSecondConferenceBtn.Click += new System.EventHandler(this.addSecondConferenceBtn_Click);
             // 
             // LeagueForm
             // 

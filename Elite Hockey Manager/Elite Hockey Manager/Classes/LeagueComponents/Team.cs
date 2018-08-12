@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace Elite_Hockey_Manager.Classes
 {
     [Serializable]
-    public class Team : ISerializable
+    public class Team : ISerializable, IEquatable<Team>
     {
         private string _location;
         private string _teamName;
         private string _logoPath = null;
-        private int _teamID;
+        private int _teamID = -1;
         private static int idCount = 0;
         private List<Player> roster = new List<Player>();
         private List<Player> farm = new List<Player>();
@@ -119,18 +119,38 @@ namespace Elite_Hockey_Manager.Classes
         {
             return FullName;
         }
+        public override int GetHashCode()
+        {
+            return _teamID.GetHashCode() ^ FullName.GetHashCode();
+        }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("TeamName", this._teamName);
             info.AddValue("Location", this._location);
             info.AddValue("Logo", this._logoPath);
+            info.AddValue("ID", this._teamID);
         }
+
+        public bool Equals(Team other)
+        {
+            return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
+        }
+
         public Team(SerializationInfo info, StreamingContext context)
         {
             this._teamName = (string)info.GetValue("TeamName", typeof(string));
             this._location = (string)info.GetValue("Location", typeof(string));
             this._logoPath = (string)info.GetValue("Logo", typeof(string));
+            try
+            {
+                this._teamID = (int)info.GetValue("ID", typeof(int));
+            }
+            catch (SerializationException ex)
+            {
+                //For previous versions that didn't save teamID
+                this._teamID = -1;
+            }
         }
     }
 }

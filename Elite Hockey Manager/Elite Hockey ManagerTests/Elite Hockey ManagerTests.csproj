@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Classes\LeagueComponents\LeagueTests.cs" />
     <Compile Include="Classes\LeagueComponents\TeamGeneratorTests.cs" />
+    <Compile Include="Classes\LeagueComponents\TeamTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
