@@ -82,6 +82,7 @@
     <Compile Include="Classes\Players\Defender.cs" />
     <Compile Include="Classes\Players\Forward.cs" />
     <Compile Include="Classes\Players\Goalie.cs" />
+    <Compile Include="Classes\Players\PlayerComponents\Contract.cs" />
     <Compile Include="Classes\Players\WingerBase.cs" />
     <Compile Include="Classes\Players\Wingers.cs" />
     <Compile Include="Classes\Players\Defensemen.cs" />

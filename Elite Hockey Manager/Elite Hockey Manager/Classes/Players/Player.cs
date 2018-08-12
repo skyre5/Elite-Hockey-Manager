@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -19,7 +20,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _playerID;
 
         private List<Stats> careerStats = new List<Stats>();
-
+        private List<Contract> _careerContracts;
         public Player(string first, string last, int age)
         {
             //Input validation done in setters
@@ -112,7 +113,7 @@ namespace Elite_Hockey_Manager.Classes
             get;
             //set;
         }
-        public void IncrementYear()
+        private void IncrementYear()
         {
             _age++;
         }
@@ -127,6 +128,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Last", this._lastName);
             info.AddValue("Age", this._age);
             info.AddValue("PlayerID", this._playerID);
+            info.AddValue("Contracts", this._careerContracts);
         }
         public Player(SerializationInfo info, StreamingContext context)
         {
@@ -134,6 +136,17 @@ namespace Elite_Hockey_Manager.Classes
             this._lastName = (string)info.GetValue("Last", typeof(string));
             this._age = (int)info.GetValue("Age", typeof(int));
             this._playerID = (int)info.GetValue("PlayerID", typeof(int));
+            //For versioning for past players made before contracts added to player
+            try
+            {
+                this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
+            }
+            catch (SerializationException ex)
+            {
+                this._careerContracts = new List<Contract>();
+                //If no contract is found it gives a default contract of 1 year and 1m
+                this._careerContracts.Add(new Players.PlayerComponents.Contract());
+            }
         }
     }
 }

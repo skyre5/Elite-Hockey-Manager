@@ -20,6 +20,7 @@ namespace Elite_Hockey_Manager.Forms
         BindingList<League> LeagueList;
 
         BindingList<Team> UserCreatedTeamList;
+        BindingList<Team> displayUserCreatedTeamList;
         public LeagueForm()
         {
             InitializeComponent();
@@ -67,7 +68,7 @@ namespace Elite_Hockey_Manager.Forms
             }
             else
             {
-                BindingList<Team> displayUserCreatedTeamList = new BindingList<Team>(UserCreatedTeamList.Except(league.AllTeams).ToList());
+                displayUserCreatedTeamList = new BindingList<Team>(UserCreatedTeamList.Except(league.AllTeams).ToList());
                 firstConference = new BindingList<Team>(league.FirstConference);
                 secondConference = new BindingList<Team>(league.SecondConference);
                 firstConferenceListBox.DataSource = firstConference;
@@ -156,7 +157,10 @@ namespace Elite_Hockey_Manager.Forms
                 selectedLeague.AddTeam(addedTeam, conferenceID);
                 conferenceListBox.DataSource = null;
                 conferenceListBox.DataSource = conference;
-                UserCreatedTeamList.Remove(addedTeam);
+                //Doesn't select the newly entered item in listbox
+                //For remove item button consistency
+                conferenceListBox.ClearSelected();
+                displayUserCreatedTeamList.Remove(addedTeam);
             }
             catch (Exception ex)
             {
@@ -164,6 +168,39 @@ namespace Elite_Hockey_Manager.Forms
             }
         }
 
+        private void ConferenceListBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            ListBox listBox = (ListBox)sender;
+            if (listBox == firstConferenceListBox)
+            {
+                secondConferenceListBox.ClearSelected();
+            }
+            else if (listBox == secondConferenceListBox)
+            {
+                firstConferenceListBox.ClearSelected();
+            }
+        }
 
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            if (firstConferenceListBox.SelectedItem != null)
+            {
+                Team selectedTeam = (Team)firstConferenceListBox.SelectedItem;
+                firstConference.Remove(selectedTeam);
+                if (UserCreatedTeamList.Contains(selectedTeam))
+                {
+                    displayUserCreatedTeamList.Add(selectedTeam);
+                }
+            }
+            else if (secondConferenceListBox.SelectedItem != null)
+            {
+                Team selectedTeam = (Team)secondConferenceListBox.SelectedItem;
+                secondConference.Remove(selectedTeam);
+                if (UserCreatedTeamList.Contains(selectedTeam))
+                {
+                    displayUserCreatedTeamList.Add(selectedTeam);
+                }
+            }
+        }
     }
 }

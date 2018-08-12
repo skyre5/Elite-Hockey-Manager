@@ -40,6 +40,7 @@
             this.userTeamsListBox = new System.Windows.Forms.ListBox();
             this.addFirstConferenceBtn = new System.Windows.Forms.Button();
             this.addSecondConferenceBtn = new System.Windows.Forms.Button();
+            this.removeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createLeagueBtn
@@ -88,6 +89,7 @@
             this.firstConferenceListBox.Name = "firstConferenceListBox";
             this.firstConferenceListBox.Size = new System.Drawing.Size(207, 277);
             this.firstConferenceListBox.TabIndex = 4;
+            this.firstConferenceListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConferenceListBox_MouseClick);
             // 
             // secondConferenceListBox
             // 
@@ -96,6 +98,7 @@
             this.secondConferenceListBox.Name = "secondConferenceListBox";
             this.secondConferenceListBox.Size = new System.Drawing.Size(207, 277);
             this.secondConferenceListBox.TabIndex = 5;
+            this.secondConferenceListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConferenceListBox_MouseClick);
             // 
             // saveBtn
             // 
@@ -155,11 +158,22 @@
             this.addSecondConferenceBtn.UseVisualStyleBackColor = true;
             this.addSecondConferenceBtn.Click += new System.EventHandler(this.addSecondConferenceBtn_Click);
             // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(729, 12);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(113, 46);
+            this.removeButton.TabIndex = 12;
+            this.removeButton.Text = "Remove Team";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
             // LeagueForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 517);
+            this.Controls.Add(this.removeButton);
             this.Controls.Add(this.addSecondConferenceBtn);
             this.Controls.Add(this.addFirstConferenceBtn);
             this.Controls.Add(this.userTeamsListBox);
@@ -193,5 +207,6 @@
         private System.Windows.Forms.ListBox userTeamsListBox;
         private System.Windows.Forms.Button addFirstConferenceBtn;
         private System.Windows.Forms.Button addSecondConferenceBtn;
+        private System.Windows.Forms.Button removeButton;
     }
 }
