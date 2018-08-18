@@ -11,8 +11,8 @@ namespace Elite_Hockey_Manager.Classes
     {
         public const int DefaultRating = 50;
         //General stats
-        private int _clutchness = DefaultRating;
-        private int _consistency = DefaultRating;
+        protected int _clutchness = DefaultRating;
+        protected int _consistency = DefaultRating;
 
         private int _fatigue = 0;
 
@@ -64,7 +64,103 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("InjuryLength", this._injuryLength);
             info.AddValue("InjurySeverity", this._injurySeverity);
         }
-
+        public void GenerateStatRanges(int playerRating, int age = 27)
+        {
+            playerRating = 4;
+            int lowerBound, upperBound, guaranteedStat;
+            switch(playerRating)
+            {
+                case (int)PlayerStatus.Unset:
+                    lowerBound = 50;
+                    upperBound = 55;
+                    guaranteedStat = 53;
+                    break;
+                case (int)PlayerStatus.Generational:
+                    lowerBound = 80;
+                    upperBound = 100;
+                    guaranteedStat = 95;
+                    break;
+                case (int)PlayerStatus.Superstar:
+                    lowerBound = 75;
+                    upperBound = 95;
+                    guaranteedStat = 90;
+                    break;
+                case (int)PlayerStatus.FirstLine:
+                    lowerBound = 75;
+                    upperBound = 90;
+                    guaranteedStat = 85;
+                    break;
+                case (int)PlayerStatus.TopSix:
+                    lowerBound = 70;
+                    upperBound = 85;
+                    guaranteedStat = 82;
+                    break;
+                case (int)PlayerStatus.TopNine:
+                    lowerBound = 65;
+                    upperBound = 80;
+                    guaranteedStat = 75;
+                    break;
+                case (int)PlayerStatus.BottomSix:
+                    lowerBound = 60;
+                    upperBound = 78;
+                    guaranteedStat = 72;
+                    break;
+                case (int)PlayerStatus.RolePlayer:
+                    lowerBound = 55;
+                    upperBound = 75;
+                    guaranteedStat = 65;
+                    break;
+                default:
+                    lowerBound = 50;
+                    upperBound = 50;
+                    guaranteedStat = 50;
+                    break;
+            }
+            GenerateStats(age, lowerBound, upperBound, guaranteedStat);
+        }
+        protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
+        {
+            if (baseStat < guaranteedRating)
+            {
+                baseStat = guaranteedRating;
+            }
+            else if (baseStat < 100)
+            {
+                baseStat++;
+            }
+        }
+        protected abstract void GenerateStats(int age, int lower, int upper, int guarantee);
+        protected abstract void GuaranteedStatChoice(int rating);
+        protected void ModifyBoundsToAge(int age, ref int lower, ref int upper, ref int guarantee)
+        {
+            if (age == 18)
+            {
+                lower -= 10;
+                upper -= 10;
+                guarantee -= 5;
+            }
+            else if (age == 19)
+            {
+                lower -= 7;
+                upper -= 7;
+                guarantee -= 3;
+            }
+            else if (age == 20)
+            {
+                lower -= 5;
+                upper -= 3;
+            }
+            else if (age == 21)
+            {
+                lower -= 3;
+            }
+            else if (age >= 36)
+            {
+                lower -= 1 + (2 * (age - 36));
+                upper -= 1 + (age - 36);
+                guarantee -= (age - 36);
+            }
+        }
         public int Fatigue
         {
             get

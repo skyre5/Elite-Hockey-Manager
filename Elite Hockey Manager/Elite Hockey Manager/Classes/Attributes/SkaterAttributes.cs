@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    enum SkaterStats : int
+    {
+        WristShot,
+        SlapShot,
+        Awareness,
+        Checking,
+        Deking,
+        Speed,
+        //Not included in guaranteed stat
+        Faceoff
+    }
     [Serializable]
     public class SkaterAttributes : Attributes
     {
@@ -39,6 +50,48 @@ namespace Elite_Hockey_Manager.Classes
             };
             Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
             return statNames;
+        }
+        protected override void GenerateStats(int age, int lower, int upper, int guarantee)
+        {
+            ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
+            Random rand = new Random();
+            _wristShot = rand.Next(lower, upper + 1);
+            _slapShot = rand.Next(lower, upper + 1);
+            _awareness = rand.Next(lower, upper + 1);
+            _checking = rand.Next(lower, upper + 1);
+            _deking = rand.Next(lower, upper + 1);
+            _speed = rand.Next(lower, upper + 1);
+            _faceoff = rand.Next(lower, upper + 1);
+            GuaranteedStatChoice(guarantee);
+        }
+
+        protected override void GuaranteedStatChoice(int rating)
+        {
+            Random rand = new Random();
+            //0-5
+            //Does not include faceoff(6)
+            int choice = rand.Next(0, 7);
+            switch (choice)
+            {
+                case SkaterStats.WristShot:
+                    GuaranteedStatSet(ref _wristShot, rating);
+                    break;
+                case SkaterStats.SlapShot:
+                    GuaranteedStatSet(ref _slapShot, rating);
+                    break;
+                case SkaterStats.Awareness:
+                    GuaranteedStatSet(ref _awareness, rating);
+                    break;
+                case SkaterStats.Checking:
+                    GuaranteedStatSet(ref _checking, rating);
+                    break;
+                case SkaterStats.Deking:
+                    GuaranteedStatSet(ref _deking, rating);
+                    break;
+                case SkaterStats.Speed:
+                    GuaranteedStatSet(ref _speed, rating);
+                    break;
+            }
         }
         public SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {
@@ -193,5 +246,6 @@ namespace Elite_Hockey_Manager.Classes
             int overall = (int)Math.Ceiling(baseTotal + defenseTotal);
             return overall;
         }
+
     }
 }

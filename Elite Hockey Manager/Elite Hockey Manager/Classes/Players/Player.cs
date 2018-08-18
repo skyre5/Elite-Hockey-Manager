@@ -8,6 +8,17 @@ using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    enum PlayerStatus : int
+    {
+        Unset,
+        Generational,
+        Superstar,
+        FirstLine,
+        TopSix,
+        TopNine,
+        BottomSix,
+        RolePlayer
+    }
     public abstract class Player : ISerializable
     {
 
@@ -166,7 +177,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.FullName, this.Overall);
         }
-
+        public abstract void GenerateStats(int playerRating);
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("First", this._firstName);

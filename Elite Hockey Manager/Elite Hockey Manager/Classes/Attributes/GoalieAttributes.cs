@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    enum GoalieStats : int
+    {
+        High,
+        Low,
+        Speed,
+        ReboundControl
+    }
     [Serializable]
     public class GoalieAttributes : Attributes
     {
@@ -44,6 +51,39 @@ namespace Elite_Hockey_Manager.Classes
             };
             Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
             return statNames;
+        }
+
+        protected override void GenerateStats(int age, int lower, int upper, int guarantee)
+        {
+            ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
+            Random rand = new Random();
+            _high = rand.Next(lower, upper + 1);
+            _low = rand.Next(lower, upper + 1);
+            _speed = rand.Next(lower, upper + 1);
+            _reboundControl = rand.Next(lower, upper + 1);
+            GuaranteedStatChoice(guarantee);
+        }
+
+        protected override void GuaranteedStatChoice(int rating)
+        {
+            Random rand = new Random();
+            //0-3
+            int choice = rand.Next(0, 4);
+            switch (choice)
+            {
+                case GoalieStats.High:
+                    GuaranteedStatSet(ref _high, rating);
+                    break;
+                case GoalieStats.Low:
+                    GuaranteedStatSet(ref _low, rating);
+                    break;
+                case GoalieStats.Speed:
+                    GuaranteedStatSet(ref _speed, rating);
+                    break;
+                case GoalieStats.ReboundControl:
+                    GuaranteedStatSet(ref _reboundControl, rating);
+                    break;
+            }
         }
         public int High
         {
@@ -101,5 +141,6 @@ namespace Elite_Hockey_Manager.Classes
             int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
             return overall;
         }
+
     }
 }

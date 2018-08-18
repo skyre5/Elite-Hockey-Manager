@@ -50,6 +50,9 @@ namespace Elite_Hockey_Manager.Classes
                 return (SkaterAttributes)_attributes;
             }
         }
-
+        public override void GenerateStats(int playerRating)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

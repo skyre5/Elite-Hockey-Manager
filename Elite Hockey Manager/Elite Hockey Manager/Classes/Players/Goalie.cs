@@ -47,6 +47,10 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Attributes", this._attributes);
         }
 
+        public override void GenerateStats(int playerRating)
+        {
+            throw new NotImplementedException();
+        }
 
         public override string Position
         {
