@@ -122,6 +122,117 @@ namespace Elite_Hockey_Manager.Classes
             return player;
 
         }
+        private static Forward GenerateBaseForward(int position)
+        {
+            switch (position)
+            {
+                //Left Winger
+                case 0:
+                    return CreateRandomLeftWing();
+                //Center
+                case 1:
+                    return CreateRandomCenter();
+                //Right Winger
+                case 2:
+                    return CreateRandomRightWing();
+                //Error
+                default:
+                    throw new ArgumentException("Player position out of ranger within GenerateForward function");
+            }
+        }
+        /// <summary>
+        /// Generates a forward of a specificed type with a quality given by the player.
+        /// Used primariliy in team generation for initial rosters
+        /// </summary>
+        /// <param name="position">
+        /// 0 - Left Winger
+        /// 1 - Center
+        /// 2 - Right Winger
+        /// </param>
+        /// <param name="quality">
+        /// 1-First Line Potential Player
+        /// 2-Second Line Potential Player
+        /// 3-Third Line Potential Player
+        /// 4-Fourth Line Potential Player
+        /// </param>
+        /// <returns>Returns type of player specificed</returns>
+        /// 
+        public static Forward GenerateForward(int position, int quality)
+        {
+            Forward newForward = GenerateBaseForward(position);
+            switch (quality)
+            {
+                case 1:
+                    WeightedPlayerRatingsGenerator(newForward
+                        ,2 //% Generational
+                        ,4 //% Superstar
+                        ,54//% 1st Line
+                        ,35//% Top 6
+                        ,5 //% Top 9
+                        );
+                    break;
+                case 2:
+                    WeightedPlayerRatingsGenerator(newForward
+                        ,0 //% Generational
+                        ,2 //% Superstar
+                        ,4 //% 1st Line
+                        ,64//% top 6
+                        ,25//% Top 9
+                        ,5 //% Bottom 6
+                        );
+                    break;
+                case 3:
+                    WeightedPlayerRatingsGenerator(newForward
+                        ,0 //% Generational
+                        ,0 //% Superstar
+                        ,0 //% 1st Line
+                        ,10//% Top 6
+                        ,50//% Top 9
+                        ,30//% Bottom 6
+                         //10% Role
+                        );
+                    break;
+                case 4:
+                    WeightedPlayerRatingsGenerator(newForward
+                        ,0 //% Generational
+                        ,0 //% Superstar
+                        ,0 //% 1st Line
+                        ,0 //% Top 6
+                        ,5 //% Top 9
+                        ,30//% Bottom 6
+                         //65% Role
+                        );
+                    break;
+                default:
+                    WeightedPlayerRatingsGenerator(newForward
+                        ,0 //% Generational
+                        ,0 //% Superstar
+                        ,0 //% 1st Line
+                        ,0 //% Top 6
+                        ,5 //% Top 9
+                        ,30//% Bottom 6
+                         //65% Role
+                        );
+                    break;
+
+            }
+            return newForward;
+
+        }
+        /// <summary>
+        /// Weighted randomization of good a player is gonna be into certain classes
+        /// </summary>
+        /// <param name="player">Player that is getting player stats altered and player rating added to player</param>
+        /// <param name="genWeight">Generational Player %</param>
+        /// <param name="starWeight">Superstar Player %</param>
+        /// <param name="firstWeight">First Line Player %</param>
+        /// <param name="topSixWeight">Top Six Player(2nd line) %</param>
+        /// <param name="topNineWeight">Top Nine Player(2nd/3rd line) %</param>
+        /// <param name="bottomSixWeight">Bottom Six Player(3rd/4th line)</param>
+        private static void WeightedPlayerRatingsGenerator(Player player, int genWeight = 0, int starWeight = 0, int firstWeight = 0, int topSixWeight = 0, int topNineWeight = 0, int bottomSixWeight = 0)
+        {
+
+        }
         /// <summary>
         /// Weighted age from 18-40 weighted towards around 25
         /// </summary>
@@ -154,7 +265,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             if (_status == -1)
             {
-                return null;
+                throw new IOException("Player names not loaded correctly");
             }
             Tuple<string, string> names;
             int firstIndex = rand.Next(firstNames.Count);

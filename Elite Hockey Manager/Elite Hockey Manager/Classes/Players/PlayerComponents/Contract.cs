@@ -29,7 +29,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
         }
         private int _yearSigned = 1;
         private int _contractDuration = 1;
-        private double _contractAmount = 1;
+        private double _contractAmount = 0;
         public int ContractDuration
         {
             get
@@ -67,7 +67,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
         }
         
-        public Contract(int year, int duration, int amount)
+        public Contract(int year, int duration, double amount)
         {
             this.YearSigned = year;
             this.ContractDuration = duration;

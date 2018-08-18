@@ -18,9 +18,40 @@ namespace Elite_Hockey_Manager.Classes
         private static int idCount = 0;
         //Set in constructor after incrementing the id count
         private int _playerID;
+        /// <summary>
+        /// 0 - Unset
+        /// 1 - Generational
+        /// 2 - Superstar
+        /// 3 - 1st Line
+        /// 4 - Top 6(2nd line)
+        /// 5 - Top 9(2nd/3rd line)
+        /// 6 - Botton 6(3rd/4th line)
+        /// 7 - Role Player(4th line)
+        /// </summary>
+        private int _playerRating = 0;
+
+        public int PlayerRating
+        {
+            get
+            {
+                return _playerRating;
+            }
+            set
+            {
+                if (value < 0 || value > 7)
+                {
+                    throw new ArgumentOutOfRangeException("Player rating must be between 0 and 7");
+                }
+                else
+                {
+                    _playerRating = value;
+                }
+            }
+        }
 
         private List<Stats> careerStats = new List<Stats>();
         private List<Contract> _careerContracts;
+        
         public Player(string first, string last, int age, Contract contract)
         {
             //Input validation done in setters
@@ -39,7 +70,13 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-
+        public Contract CurrentContract
+        {
+            get
+            {
+                return _careerContracts.Last();
+            }
+        }
         public string FullName
         {
             get

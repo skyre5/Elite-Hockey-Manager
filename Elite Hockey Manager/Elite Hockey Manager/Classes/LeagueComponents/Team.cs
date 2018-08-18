@@ -16,8 +16,11 @@ namespace Elite_Hockey_Manager.Classes
         private string _logoPath = null;
         private int _teamID = -1;
         private static int idCount = 0;
-        private List<Player> roster = new List<Player>();
-        private List<Player> farm = new List<Player>();
+        public List<Player> Roster
+        {
+            get;
+            private set;
+        } = new List<Player>();
 
         private Forward[,] forwards = new Forward[4, 3];
         private Defender[,] defenders = new Defender[3, 2];
@@ -151,6 +154,23 @@ namespace Elite_Hockey_Manager.Classes
                 //For previous versions that didn't save teamID
                 this._teamID = -1;
             }
+        }
+        public int GetPositionCount<T>()
+        {
+            return Roster.Where(player => player is T).Count();
+        }
+        public double GetTotalCapSpace()
+        {
+            double totalCap = 0;
+            for (int i = 0; i < Roster.Count; i++)
+            {
+                totalCap += Roster[i].CurrentContract.ContractAmount;
+            }
+            return totalCap;
+        }
+        public double GetCapSpace()
+        {
+            throw new NotImplementedException();
         }
     }
 }

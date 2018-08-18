@@ -86,5 +86,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return LocationAndName;
 
         }
+        public static void FillTeam(Team team)
+        {
+            double salaryCap = League.MINSALARYCAP;
+            //double capSpace = 
+        }
     }
 }

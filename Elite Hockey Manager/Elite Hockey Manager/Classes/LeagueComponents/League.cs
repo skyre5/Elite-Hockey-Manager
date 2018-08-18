@@ -12,6 +12,7 @@ namespace Elite_Hockey_Manager.Classes
     public class League : ISerializable
     {
         private int _numberOfTeams;
+        public const double MINSALARYCAP = 40;
         public int NumberOfTeams
         {
             get
