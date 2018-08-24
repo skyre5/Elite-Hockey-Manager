@@ -11,6 +11,11 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Goalie : Player
     {
+        public GoaliePlayerStatus PlayerStatus
+        {
+            get;
+            protected set;
+        } = GoaliePlayerStatus.Unset;
         private GoalieAttributes _attributes;
         public override int Overall
         {
@@ -47,9 +52,10 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Attributes", this._attributes);
         }
 
-        public override void GenerateStats(int playerRating)
+        public override void GenerateStats(int playerStatus)
         {
-            throw new NotImplementedException();
+            GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
+            _attributes.GenerateGoalieStatRanges(status, _age);
         }
 
         public override string Position
@@ -66,11 +72,25 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+        protected override void GenerateInitialContract()
+        {
+            //if (CurrentContract)
+        }
+
+
         public GoalieAttributes GoalieAttributes
         {
             get
             {
                 return (GoalieAttributes)_attributes;
+            }
+        }
+
+        public override int PlayerStatusID
+        {
+            get
+            {
+                return (int)PlayerStatus;
             }
         }
     }

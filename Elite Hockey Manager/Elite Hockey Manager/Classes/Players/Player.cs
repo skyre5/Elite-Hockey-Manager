@@ -8,7 +8,7 @@ using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    enum PlayerStatus : int
+    public enum ForwardPlayerStatus : int
     {
         Unset,
         Generational,
@@ -19,49 +19,45 @@ namespace Elite_Hockey_Manager.Classes
         BottomSix,
         RolePlayer
     }
+    public enum DefensePlayerStatus: int
+    {
+        Unset,
+        Generational,
+        Superstar,
+        FirstPairing,
+        SecondPairing,
+        BottomPairing,
+        Role
+    }
+    public enum GoaliePlayerStatus: int
+    {
+        Unset,
+        Generational,
+        Elite,
+        Starter,
+        LowStarter,
+        Backup,
+        Role
+    }
     public abstract class Player : ISerializable
     {
 
-        private string _firstName;
-        private string _lastName;
-        private int _age;
+        protected string _firstName;
+        protected string _lastName;
+        protected int _age;
         //Incrementing int that will hold all players that play in the league
         private static int idCount = 0;
         //Set in constructor after incrementing the id count
         private int _playerID;
-        /// <summary>
-        /// 0 - Unset
-        /// 1 - Generational
-        /// 2 - Superstar
-        /// 3 - 1st Line
-        /// 4 - Top 6(2nd line)
-        /// 5 - Top 9(2nd/3rd line)
-        /// 6 - Botton 6(3rd/4th line)
-        /// 7 - Role Player(4th line)
-        /// </summary>
-        private int _playerRating = 0;
 
-        public int PlayerRating
+
+        public abstract int PlayerStatusID
         {
-            get
-            {
-                return _playerRating;
-            }
-            set
-            {
-                if (value < 0 || value > 7)
-                {
-                    throw new ArgumentOutOfRangeException("Player rating must be between 0 and 7");
-                }
-                else
-                {
-                    _playerRating = value;
-                }
-            }
+            get;
         }
 
-        private List<Stats> careerStats = new List<Stats>();
-        private List<Contract> _careerContracts;
+        private List<Stats> _careerStats = new List<Stats>();
+        protected List<Contract> _careerContracts = new List<Contract>();
         
         public Player(string first, string last, int age, Contract contract)
         {
@@ -73,12 +69,19 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _playerID = idCount;
 
-            _careerContracts = new List<Contract>();
+            //Adds initial contract to player
             _careerContracts.Add(contract);
         }
 
-        public Player(string first, string last, int age) : this(first, last, age, new Contract())
+        public Player(string first, string last, int age)
         {
+            //Input validation done in setters
+            FirstName = first;
+            LastName = last;
+            Age = age;
+            //Increments player id
+            idCount++;
+            _playerID = idCount;
         }
 
         public Contract CurrentContract
@@ -169,6 +172,9 @@ namespace Elite_Hockey_Manager.Classes
             get;
             //set;
         }
+        protected abstract void GenerateInitialContract();
+        //TODO Generate Extension Contract
+        //protected abstract Contract GenerateExtensionContract();
         private void IncrementYear()
         {
             _age++;
@@ -177,7 +183,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.FullName, this.Overall);
         }
-        public abstract void GenerateStats(int playerRating);
+        public abstract void GenerateStats(int playerStatus);
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("First", this._firstName);
@@ -197,12 +203,14 @@ namespace Elite_Hockey_Manager.Classes
             {
                 this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
             }
-            catch (SerializationException ex)
+            catch
             {
                 this._careerContracts = new List<Contract>();
                 //If no contract is found it gives a default contract of 1 year and 1m
                 this._careerContracts.Add(new Players.PlayerComponents.Contract());
             }
         }
+        //protected abstract void GenerateYoungContract();
+
     }
 }

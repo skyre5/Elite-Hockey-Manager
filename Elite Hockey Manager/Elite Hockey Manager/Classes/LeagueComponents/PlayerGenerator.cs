@@ -229,15 +229,15 @@ namespace Elite_Hockey_Manager.Classes
         /// <param name="topSixWeight">Top Six Player(2nd line) %</param>
         /// <param name="topNineWeight">Top Nine Player(2nd/3rd line) %</param>
         /// <param name="bottomSixWeight">Bottom Six Player(3rd/4th line)</param>
-        private static void WeightedPlayerRatingsGenerator(Player player, int genWeight = 0, int starWeight = 0, int firstWeight = 0, int topSixWeight = 0, int topNineWeight = 0, int bottomSixWeight = 0)
+        private static void WeightedPlayerRatingsGenerator(Player player, params int[] weights)
         {
-            int[] playerWeights = new int[] { genWeight, starWeight, firstWeight, topSixWeight, topNineWeight, bottomSixWeight };
+            //int[] playerWeights = new int[] { genWeight, starWeight, firstWeight, topSixWeight, topNineWeight, bottomSixWeight };
             Random rand = new Random();
             int decidingNumber = rand.Next(1, 101);
             int total = 0;
-            for (int i = 0; i < playerWeights.Count(); i++)
+            for (int i = 0; i < weights.Count(); i++)
             {
-                total += playerWeights[i];
+                total += weights[i];
                 if (decidingNumber < total)
                 {
                     player.GenerateStats(i + 1);

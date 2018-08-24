@@ -8,8 +8,14 @@ using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
+
     public abstract class Forward : Skater
     {
+        public ForwardPlayerStatus PlayerStatus
+        {
+            get;
+            protected set;
+        } = ForwardPlayerStatus.Unset;
         public Forward(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
         }
@@ -25,6 +31,26 @@ namespace Elite_Hockey_Manager.Classes
         public Forward(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+        protected override void GenerateInitialContract()
+        {
+            //If other contracts are found doesn't generate one
+            if (_careerContracts.Count == 0)
+            {
 
+            }
+        }
+        public override int PlayerStatusID
+        {
+            get
+            {
+                return (int)PlayerStatus;
+            }
+        }
+        public override void GenerateStats(int playerStatus)
+        {
+            ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
+            _attributes.GenerateForwardStatRanges(status, _age);
+            
+        }
     }
 }

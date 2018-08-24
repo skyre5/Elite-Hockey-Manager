@@ -64,60 +64,6 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("InjuryLength", this._injuryLength);
             info.AddValue("InjurySeverity", this._injurySeverity);
         }
-        public void GenerateStatRanges(int playerRating, int age = 27)
-        {
-            playerRating = 4;
-            int lowerBound, upperBound, guaranteedStat;
-            switch(playerRating)
-            {
-                case (int)PlayerStatus.Unset:
-                    lowerBound = 50;
-                    upperBound = 55;
-                    guaranteedStat = 53;
-                    break;
-                case (int)PlayerStatus.Generational:
-                    lowerBound = 80;
-                    upperBound = 100;
-                    guaranteedStat = 95;
-                    break;
-                case (int)PlayerStatus.Superstar:
-                    lowerBound = 75;
-                    upperBound = 95;
-                    guaranteedStat = 90;
-                    break;
-                case (int)PlayerStatus.FirstLine:
-                    lowerBound = 75;
-                    upperBound = 90;
-                    guaranteedStat = 85;
-                    break;
-                case (int)PlayerStatus.TopSix:
-                    lowerBound = 70;
-                    upperBound = 85;
-                    guaranteedStat = 82;
-                    break;
-                case (int)PlayerStatus.TopNine:
-                    lowerBound = 65;
-                    upperBound = 80;
-                    guaranteedStat = 75;
-                    break;
-                case (int)PlayerStatus.BottomSix:
-                    lowerBound = 60;
-                    upperBound = 78;
-                    guaranteedStat = 72;
-                    break;
-                case (int)PlayerStatus.RolePlayer:
-                    lowerBound = 55;
-                    upperBound = 75;
-                    guaranteedStat = 65;
-                    break;
-                default:
-                    lowerBound = 50;
-                    upperBound = 50;
-                    guaranteedStat = 50;
-                    break;
-            }
-            GenerateStats(age, lowerBound, upperBound, guaranteedStat);
-        }
         protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
         {
             if (baseStat < guaranteedRating)

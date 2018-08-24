@@ -55,6 +55,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
             Random rand = new Random();
+            //Base attribute stats ranging from lower bound to 100
+            _clutchness = rand.Next(lower, 101);
+            _consistency = rand.Next(lower, 101);
+
             _wristShot = rand.Next(lower, upper + 1);
             _slapShot = rand.Next(lower, upper + 1);
             _awareness = rand.Next(lower, upper + 1);
@@ -245,6 +249,107 @@ namespace Elite_Hockey_Manager.Classes
             //Rounds up the addition of the two parts and rounds it up
             int overall = (int)Math.Ceiling(baseTotal + defenseTotal);
             return overall;
+        }
+        public void GenerateForwardStatRanges(ForwardPlayerStatus playerStatus, int age = 27)
+        {
+            int lowerBound, upperBound, guaranteedStat;
+            switch (playerStatus)
+            {
+                case ForwardPlayerStatus.Unset:
+                    lowerBound = 50;
+                    upperBound = 55;
+                    guaranteedStat = 53;
+                    break;
+                case ForwardPlayerStatus.Generational:
+                    lowerBound = 80;
+                    upperBound = 100;
+                    guaranteedStat = 95;
+                    break;
+                case ForwardPlayerStatus.Superstar:
+                    lowerBound = 75;
+                    upperBound = 95;
+                    guaranteedStat = 90;
+                    break;
+                case ForwardPlayerStatus.FirstLine:
+                    lowerBound = 75;
+                    upperBound = 90;
+                    guaranteedStat = 85;
+                    break;
+                case ForwardPlayerStatus.TopSix:
+                    lowerBound = 70;
+                    upperBound = 85;
+                    guaranteedStat = 82;
+                    break;
+                case ForwardPlayerStatus.TopNine:
+                    lowerBound = 65;
+                    upperBound = 80;
+                    guaranteedStat = 75;
+                    break;
+                case ForwardPlayerStatus.BottomSix:
+                    lowerBound = 60;
+                    upperBound = 78;
+                    guaranteedStat = 72;
+                    break;
+                case ForwardPlayerStatus.RolePlayer:
+                    lowerBound = 55;
+                    upperBound = 75;
+                    guaranteedStat = 65;
+                    break;
+                default:
+                    lowerBound = 50;
+                    upperBound = 50;
+                    guaranteedStat = 50;
+                    break;
+            }
+            GenerateStats(age, lowerBound, upperBound, guaranteedStat);
+        }
+        public void GenerateDefenseStatRanges(DefensePlayerStatus playerStatus, int age = 27)
+        {
+            int lowerBound, upperBound, guaranteedStat;
+            switch (playerStatus)
+            {
+                case DefensePlayerStatus.Unset:
+                    lowerBound = 50;
+                    upperBound = 55;
+                    guaranteedStat = 53;
+                    break;
+                case DefensePlayerStatus.Generational:
+                    lowerBound = 80;
+                    upperBound = 100;
+                    guaranteedStat = 95;
+                    break;
+                case DefensePlayerStatus.Superstar:
+                    lowerBound = 75;
+                    upperBound = 95;
+                    guaranteedStat = 90;
+                    break;
+                case DefensePlayerStatus.FirstPairing:
+                    lowerBound = 75;
+                    upperBound = 90;
+                    guaranteedStat = 85;
+                    break;
+                case DefensePlayerStatus.SecondPairing:
+                    lowerBound = 70;
+                    upperBound = 85;
+                    guaranteedStat = 82;
+                    break;
+                case DefensePlayerStatus.BottomPairing:
+                    lowerBound = 65;
+                    upperBound = 80;
+                    guaranteedStat = 75;
+                    break;
+                case DefensePlayerStatus.Role:
+                    lowerBound = 60;
+                    upperBound = 78;
+                    guaranteedStat = 72;
+                    break;
+                default:
+                    lowerBound = 50;
+                    upperBound = 50;
+                    guaranteedStat = 50;
+                    break;
+            }
+            GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
 
     }

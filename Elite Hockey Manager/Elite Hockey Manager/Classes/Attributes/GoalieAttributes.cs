@@ -141,6 +141,53 @@ namespace Elite_Hockey_Manager.Classes
             int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
             return overall;
         }
-
+        public void GenerateGoalieStatRanges(GoaliePlayerStatus playerStatus, int age = 27)
+        {
+            int lowerBound, upperBound, guaranteedStat;
+            switch (playerStatus)
+            {
+                case GoaliePlayerStatus.Unset:
+                    lowerBound = 50;
+                    upperBound = 55;
+                    guaranteedStat = 53;
+                    break;
+                case GoaliePlayerStatus.Generational:
+                    lowerBound = 80;
+                    upperBound = 100;
+                    guaranteedStat = 95;
+                    break;
+                case GoaliePlayerStatus.Elite:
+                    lowerBound = 75;
+                    upperBound = 95;
+                    guaranteedStat = 90;
+                    break;
+                case GoaliePlayerStatus.Starter:
+                    lowerBound = 75;
+                    upperBound = 90;
+                    guaranteedStat = 85;
+                    break;
+                case GoaliePlayerStatus.LowStarter:
+                    lowerBound = 70;
+                    upperBound = 85;
+                    guaranteedStat = 82;
+                    break;
+                case GoaliePlayerStatus.Backup:
+                    lowerBound = 65;
+                    upperBound = 80;
+                    guaranteedStat = 75;
+                    break;
+                case GoaliePlayerStatus.Role:
+                    lowerBound = 60;
+                    upperBound = 78;
+                    guaranteedStat = 72;
+                    break;
+                default:
+                    lowerBound = 50;
+                    upperBound = 50;
+                    guaranteedStat = 50;
+                    break;
+            }
+            GenerateStats(age, lowerBound, upperBound, guaranteedStat);
+        }
     }
 }
