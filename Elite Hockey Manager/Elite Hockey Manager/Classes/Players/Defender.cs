@@ -53,5 +53,36 @@ namespace Elite_Hockey_Manager.Classes
             DefensePlayerStatus status = (DefensePlayerStatus)playerStatus;
             _attributes.GenerateDefenseStatRanges(status, _age);
         }
+        protected override void GenerateYoungContract()
+        {
+            int years = YearsForEntryContract();
+            double amount = 0;
+            switch (PlayerStatus)
+            {
+                case DefensePlayerStatus.Generational:
+                    amount = 2.5;
+                    break;
+                case DefensePlayerStatus.Superstar:
+                    amount = 2;
+                    break;
+                case DefensePlayerStatus.FirstPairing:
+                    amount = 1.5;
+                    break;
+                case DefensePlayerStatus.SecondPairing:
+                    amount = 1;
+                    break;
+                case DefensePlayerStatus.BottomPairing:
+                    amount = .5;
+                    break;
+                case DefensePlayerStatus.Role:
+                    amount = 0;
+                    break;
+                case DefensePlayerStatus.Unset:
+                    amount = 0;
+                    break;
+            }
+            Contract contract = new Contract(1, years, amount);
+            _careerContracts.Add(contract);
+        }
     }
 }

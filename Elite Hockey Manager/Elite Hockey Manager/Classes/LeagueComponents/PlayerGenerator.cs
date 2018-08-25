@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
@@ -22,8 +23,11 @@ namespace Elite_Hockey_Manager.Classes
         private static Random rand = new Random();
         static PlayerGenerator()
         {
-            firstNames = ReadFromFile("Files/firstNames.txt");
-            lastNames = ReadFromFile("Files/lastNames.txt");
+            string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+            string firstPath = new Uri(basePath + @"\Files\firstNames.txt").LocalPath;
+            firstNames = SaveLoadUtils.ReadFromFile(firstPath);
+            string lastPath = new Uri(basePath + @"\Files\lastNames.txt").LocalPath;
+            lastNames = SaveLoadUtils.ReadFromFile(lastPath);
             CheckNames();
         }
         public static Center CreateRandomCenter()
@@ -141,6 +145,28 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
         /// <summary>
+        /// Returns a randomly created left or right defensemen
+        /// </summary>
+        /// <param name="position">
+        /// 0 - Left Defender
+        /// 1 - Right Defender
+        /// </param>
+        /// <returns></returns>
+        private static Defender GenerateBaseDefender(int position)
+        {
+            switch (position)
+            {
+                //Left Defender
+                case 0:
+                    return CreateRandomLeftDefender();
+                //Right Defender
+                case 1:
+                    return CreateRandomRightDefender();
+                default:
+                    throw new ArgumentException("Player position out of ranger within GenerateDefender function");
+            }
+        }
+        /// <summary>
         /// Generates a forward of a specificed type with a quality given by the player.
         /// Used primariliy in team generation for initial rosters
         /// </summary>
@@ -154,6 +180,7 @@ namespace Elite_Hockey_Manager.Classes
         /// 2-Second Line Potential Player
         /// 3-Third Line Potential Player
         /// 4-Fourth Line Potential Player
+        /// 5-Role Player
         /// </param>
         /// <returns>Returns type of player specificed</returns>
         /// 
@@ -189,7 +216,7 @@ namespace Elite_Hockey_Manager.Classes
                         , 10//% Top 6
                         , 50//% Top 9
                         , 30//% Bottom 6
-                            //10% Role
+                        , 10//% Role
                         );
                     break;
                 case 4:
@@ -200,7 +227,18 @@ namespace Elite_Hockey_Manager.Classes
                         , 0 //% Top 6
                         , 5 //% Top 9
                         , 30//% Bottom 6
-                            //65% Role
+                        , 65//% Role
+                        );
+                    break;
+                case 5:
+                    WeightedPlayerRatingsGenerator(newForward
+                        , 0 //% Generational
+                        , 0 //% Superstar
+                        , 0 //% 1st Line
+                        , 0 //% Top 6
+                        , 0 //% Top 9
+                        , 20//% Bottom 6
+                        , 80//% Role
                         );
                     break;
                 default:
@@ -211,7 +249,7 @@ namespace Elite_Hockey_Manager.Classes
                         , 0 //% Top 6
                         , 5 //% Top 9
                         , 30//% Bottom 6
-                            //65% Role
+                        , 65//% Role
                         );
                     break;
 
@@ -220,18 +258,134 @@ namespace Elite_Hockey_Manager.Classes
 
         }
         /// <summary>
-        /// Weighted randomization of good a player is gonna be into certain classes
+        /// Returns a generated defensemen of a certain quality
         /// </summary>
-        /// <param name="player">Player that is getting player stats altered and player rating added to player</param>
-        /// <param name="genWeight">Generational Player %</param>
-        /// <param name="starWeight">Superstar Player %</param>
-        /// <param name="firstWeight">First Line Player %</param>
-        /// <param name="topSixWeight">Top Six Player(2nd line) %</param>
-        /// <param name="topNineWeight">Top Nine Player(2nd/3rd line) %</param>
-        /// <param name="bottomSixWeight">Bottom Six Player(3rd/4th line)</param>
+        /// <param name="position">
+        /// 0 - Left Defender
+        /// 1 - Right Defender
+        /// </param>
+        /// <param name="quality">
+        /// 1 - 1st Pairing
+        /// 2 - 2nd Pairing
+        /// 3 - 3rd Pairing
+        /// 4 - Role Defender
+        /// </param>
+        /// <returns></returns>
+        public static Defender GenerateDefender(int position, int quality)
+        {
+            Defender newDefender = GenerateBaseDefender(position);
+            switch (quality)
+            {
+                case 1:
+                    WeightedPlayerRatingsGenerator(newDefender
+                        , 3 //% Generational
+                        , 8 //% Superstar
+                        , 19//% First Pairing
+                        , 60//% Second Pairing
+                        );
+                    break;
+                case 2:
+                    WeightedPlayerRatingsGenerator(newDefender
+                        , 0 //% Generational
+                        , 0 //% Superstar
+                        , 5 //% First Pairing
+                        , 75//% Second Pairing
+                        , 20//% Bottom Pairing
+                        );
+                    break;
+                case 3:
+                    WeightedPlayerRatingsGenerator(newDefender
+                        , 0 //% Generational
+                        , 0 //% Superstar
+                        , 0 //% First Pairing
+                        , 20//% Second Pairing
+                        , 70//% Bottom Pairing
+                        , 10//% Role Defender
+                        );
+                    break;
+                case 4:
+                    WeightedPlayerRatingsGenerator(newDefender
+                        , 0 //% Generational
+                        , 0 //% Superstar
+                        , 0 //% First Pairing
+                        , 0 //% Second Pairing
+                        , 20//% Bottom Pairing
+                        , 80//% Role Defender
+                        );
+                    break;
+                default:
+                    WeightedPlayerRatingsGenerator(newDefender
+                        , 0 //% Generational
+                        , 0 //% Superstar
+                        , 0 //% First Pairing
+                        , 0 //% Second Pairing
+                        , 25//% Bottom Pairing
+                        , 75//% Role Defender
+                        );
+                    break;
+
+            }
+            return newDefender;
+
+        }
+        /// <summary>
+        /// Returns a randomly generated goalie of a certain quality
+        /// </summary>
+        /// <param name="quality">
+        /// 1 - Starter
+        /// 2 - Backup
+        /// 3 - Role
+        /// </param>
+        /// <returns></returns>
+        public static Goalie GenerateGoalie(int quality)
+        {
+            Goalie newGoalie = CreateRandomGoalie();
+            switch (quality)
+            {
+                case 1:
+                    WeightedPlayerRatingsGenerator(newGoalie
+                        , 3 //% Generational
+                        , 7 //% Elite
+                        , 70//% Starter
+                        , 10//% LowStarter
+                        , 10//% Backup
+                        );
+                    break;
+                case 2:
+                    WeightedPlayerRatingsGenerator(newGoalie
+                        , 0 //% Generational
+                        , 0 //% Elite
+                        , 5 //% Starter
+                        , 20//% LowStarter
+                        , 60//% Backup
+                        , 15//% Role
+                        );
+                    break;
+                case 3:
+                    WeightedPlayerRatingsGenerator(newGoalie
+                        , 0 //% Generational
+                        , 0 //% Elite
+                        , 0 //% Starter
+                        , 0 //% LowStarter
+                        , 20//% Backup
+                        , 80//% Role
+                        );
+                    break;
+                default:
+                    WeightedPlayerRatingsGenerator(newGoalie
+                        , 0 //% Generational
+                        , 0 //% Elite
+                        , 0 //% Starter
+                        , 0 //% LowStarter
+                        , 20//% Backup
+                        , 80//% Role
+                        );
+                    break;
+            }
+            return newGoalie;
+        }
         private static void WeightedPlayerRatingsGenerator(Player player, params int[] weights)
         {
-            //int[] playerWeights = new int[] { genWeight, starWeight, firstWeight, topSixWeight, topNineWeight, bottomSixWeight };
             Random rand = new Random();
             int decidingNumber = rand.Next(1, 101);
             int total = 0;

@@ -210,7 +210,27 @@ namespace Elite_Hockey_Manager.Classes
                 this._careerContracts.Add(new Players.PlayerComponents.Contract());
             }
         }
-        //protected abstract void GenerateYoungContract();
-
+        protected abstract void GenerateYoungContract();
+        protected int YearsForEntryContract()
+        {
+            int years = 1;
+            switch (_age)
+            {
+                case 18:
+                    years = 4;
+                    break;
+                case 19:
+                    years = 3;
+                    break;
+                case 20:
+                    years = 2;
+                    break;
+                case 21:
+                default:
+                    years = 1;
+                    break;
+            }
+            return years;
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    enum SkaterStats : int
+    enum SkaterStatNames : int
     {
         WristShot,
         SlapShot,
@@ -77,22 +77,22 @@ namespace Elite_Hockey_Manager.Classes
             int choice = rand.Next(0, 7);
             switch (choice)
             {
-                case SkaterStats.WristShot:
+                case (int)SkaterStatNames.WristShot:
                     GuaranteedStatSet(ref _wristShot, rating);
                     break;
-                case SkaterStats.SlapShot:
+                case (int)SkaterStatNames.SlapShot:
                     GuaranteedStatSet(ref _slapShot, rating);
                     break;
-                case SkaterStats.Awareness:
+                case (int)SkaterStatNames.Awareness:
                     GuaranteedStatSet(ref _awareness, rating);
                     break;
-                case SkaterStats.Checking:
+                case (int)SkaterStatNames.Checking:
                     GuaranteedStatSet(ref _checking, rating);
                     break;
-                case SkaterStats.Deking:
+                case (int)SkaterStatNames.Deking:
                     GuaranteedStatSet(ref _deking, rating);
                     break;
-                case SkaterStats.Speed:
+                case (int)SkaterStatNames.Speed:
                     GuaranteedStatSet(ref _speed, rating);
                     break;
             }

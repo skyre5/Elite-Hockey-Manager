@@ -172,5 +172,21 @@ namespace Elite_Hockey_Manager.Classes
         {
             throw new NotImplementedException();
         }
+        public bool ValidMinimumTeamSize()
+        {
+            if (Roster.OfType<Forward>().Count() < 12)
+            {
+                return false;
+            }
+            if (Roster.OfType<Defender>().Count() < 6)
+            {
+                return false;
+            }
+            if (Roster.OfType<Goalie>().Count() < 2)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

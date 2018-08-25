@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    enum GoalieStats : int
+    enum GoalieStatNames : int
     {
         High,
         Low,
@@ -71,16 +71,16 @@ namespace Elite_Hockey_Manager.Classes
             int choice = rand.Next(0, 4);
             switch (choice)
             {
-                case GoalieStats.High:
+                case (int)GoalieStatNames.High:
                     GuaranteedStatSet(ref _high, rating);
                     break;
-                case GoalieStats.Low:
+                case (int)GoalieStatNames.Low:
                     GuaranteedStatSet(ref _low, rating);
                     break;
-                case GoalieStats.Speed:
+                case (int)GoalieStatNames.Speed:
                     GuaranteedStatSet(ref _speed, rating);
                     break;
-                case GoalieStats.ReboundControl:
+                case (int)GoalieStatNames.ReboundControl:
                     GuaranteedStatSet(ref _reboundControl, rating);
                     break;
             }

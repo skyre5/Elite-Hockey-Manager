@@ -88,8 +88,36 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         public static void FillTeam(Team team)
         {
-            double salaryCap = League.MINSALARYCAP;
-            //double capSpace = 
+            FillForwards(team);
+            FillDefenders(team);
+            FillGoalies(team);
+        }
+        public static void FillForwards(Team team)
+        {
+            for (int position = 0; position <= 2; position++)
+            {
+                for (int line = 1; line <= 5; line++)
+                {
+                    team.Roster.Add(PlayerGenerator.GenerateForward(position, line));
+                }
+            }
+        }
+        public static void FillDefenders(Team team)
+        {
+            for (int position = 0; position <= 1; position++)
+            {
+                for (int line = 1; line <= 4; line++)
+                {
+                    team.Roster.Add(PlayerGenerator.GenerateDefender(position, line));
+                }
+            }
+        }
+        public static void FillGoalies(Team team)
+        {
+            for (int line = 0; line <= 2; line++)
+            {
+                team.Roster.Add(PlayerGenerator.GenerateGoalie(line));
+            }
         }
     }
 }
