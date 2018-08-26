@@ -31,7 +31,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return _attributes.WingerRating();
+                return _attributes.WingerOverall();
             }
         }
     }

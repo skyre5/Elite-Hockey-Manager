@@ -31,8 +31,6 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-
-
         public string LeagueName
         {
             get;
@@ -88,7 +86,10 @@ namespace Elite_Hockey_Manager.Classes
             this.FirstConferenceName = firstName;
             this.SecondConferenceName = secondName;
         }
-        public void FillRemainingTeams()
+        /// <summary>
+        /// Creates random teams to fill out the rest of the leagues teams
+        /// </summary>
+        public  void FillRemainingTeams()
         {
             if (FirstConference.Count + SecondConference.Count == NumberOfTeams)
             {
@@ -123,6 +124,11 @@ namespace Elite_Hockey_Manager.Classes
                 FillConference(SecondConference, maxConferenceSize);
             }
         }
+        /// <summary>
+        /// Fills a conference with randomly generated teams to fill the conferences size
+        /// </summary>
+        /// <param name="conference">Conference that will have teams added onto it</param>
+        /// <param name="desiredSize">Desired size of conference</param>
         public static void FillConference(List<Team> conference, int desiredSize)
         {
             if (desiredSize < 0)
@@ -137,6 +143,10 @@ namespace Elite_Hockey_Manager.Classes
                 conference.Add(addTeam);
             }
         }
+        /// <summary>
+        /// Function that returns whether the league is at its specified size
+        /// </summary>
+        /// <returns>Returns boolean of whether league is full of teams</returns>
         public bool IsFull()
         {
             return FirstConference.Count + SecondConference.Count == _numberOfTeams;
@@ -169,10 +179,24 @@ namespace Elite_Hockey_Manager.Classes
         {
             return String.Format("{0} - {1} - Teams:{2}", this.Abbreviation, this.LeagueName, this.NumberOfTeams);
         }
+        /// <summary>
+        /// Checks if a team exists within the league. Exists for avoiding duplicates within the league
+        /// </summary>
+        /// <param name="team">Team to be checked within the league for its existence</param>
+        /// <returns></returns>
         private bool DoesTeamExist(Team team)
         {
             return AllTeams.Contains(team);
         }
+        /// <summary>
+        /// Checks if a team can be added to a certain conference. 
+        /// Used primarily for odd sized league logic
+        /// </summary>
+        /// <param name="conference">
+        /// 1 - First Conference
+        /// 2 - Second conference
+        /// </param>
+        /// <returns></returns>
         private bool ConferenceSpaceCheck(int conference)
         {
             int selectedConferenceSize;
@@ -180,9 +204,14 @@ namespace Elite_Hockey_Manager.Classes
             {
                 selectedConferenceSize = FirstConference.Count;
             }
-            else
+            else if (conference == 2)
             {
                 selectedConferenceSize = SecondConference.Count;
+            }
+            else
+            {
+                //Error, not specified conference
+                throw new ArgumentException("Invalid conference selection");
             }
             if (_numberOfTeams % 2 == 0)
             {
@@ -226,6 +255,20 @@ namespace Elite_Hockey_Manager.Classes
                     break;
                 default:
                     throw new ArgumentException("Conference is not defined");
+            }
+        }
+        /// <summary>
+        /// Fills each team in the league with the minimum number of players to function
+        /// </summary>
+        public void FillLeagueWithPlayers()
+        {
+            foreach (Team team in FirstConference)
+            {
+                TeamGenerator.FillTeam(team);
+            }
+            foreach (Team team in SecondConference)
+            {
+                TeamGenerator.FillTeam(team);
             }
         }
     }

@@ -28,6 +28,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
         }
         private int _yearSigned = 1;
+        private int _yearsRemaining = 1;
         private int _contractDuration = 1;
         private double _contractAmount = 0;
         public int ContractDuration
@@ -66,11 +67,18 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
-        
+        public int YearsRemaining
+        {
+            get
+            {
+                return _yearsRemaining;
+            }
+        }
         public Contract(int year, int duration, double amount)
         {
             this.YearSigned = year;
             this.ContractDuration = duration;
+            this._yearsRemaining = duration;
             this.ContractAmount = amount;
         }
         public Contract()
@@ -82,12 +90,22 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             this._yearSigned = (int)info.GetValue("Year", typeof(int));
             this._contractDuration = (int)info.GetValue("Duration", typeof(int));
             this._contractAmount = (double)info.GetValue("Amount", typeof(double));
+            //Versioning of contracts prior to contracts having remaining years
+            try
+            {
+                this._yearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
+            }
+            catch
+            {
+                this._yearsRemaining = 1;
+            }
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Year", this._yearSigned);
             info.AddValue("Duration", this._contractDuration);
             info.AddValue("Amount", this._contractAmount);
+            info.AddValue("YearsRemaining", this._yearsRemaining);
         }
     }
 }

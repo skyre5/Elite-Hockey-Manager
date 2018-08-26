@@ -226,7 +226,7 @@ namespace Elite_Hockey_Manager.Classes
             int overall = (int)Math.Ceiling(baseTotal + faceoffTotal);
             return overall;
         }
-        public int WingerRating()
+        public int WingerOverall()
         {
             //Takes 80 percent of the overall as the average of the shooting deking and speed attributes
             double baseTotal = (((double)(Shooting + Deking + Speed)) / 3);

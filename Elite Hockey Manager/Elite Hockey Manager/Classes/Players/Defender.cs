@@ -29,6 +29,14 @@ namespace Elite_Hockey_Manager.Classes
         }
         public Defender(SerializationInfo info, StreamingContext context): base(info, context)
         {
+            try
+            {
+                this.PlayerStatus = (DefensePlayerStatus)info.GetValue("PlayerStatus", typeof(DefensePlayerStatus));
+            }
+            catch
+            {
+                this.PlayerStatus = DefensePlayerStatus.Unset;
+            }
         }
         protected override void GenerateInitialContract()
         {
@@ -51,6 +59,7 @@ namespace Elite_Hockey_Manager.Classes
         public override void GenerateStats(int playerStatus)
         {
             DefensePlayerStatus status = (DefensePlayerStatus)playerStatus;
+            PlayerStatus = status;
             _attributes.GenerateDefenseStatRanges(status, _age);
         }
         protected override void GenerateYoungContract()
@@ -83,6 +92,11 @@ namespace Elite_Hockey_Manager.Classes
             }
             Contract contract = new Contract(1, years, amount);
             _careerContracts.Add(contract);
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("PlayerStatus", this.PlayerStatus);
+            base.GetObjectData(info, context);
         }
     }
 }

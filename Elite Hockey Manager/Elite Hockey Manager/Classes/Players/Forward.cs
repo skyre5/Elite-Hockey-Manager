@@ -30,15 +30,21 @@ namespace Elite_Hockey_Manager.Classes
         }
         public Forward(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-        }
-        protected override void GenerateInitialContract()
-        {
-            //If other contracts are found doesn't generate one
-            if (_careerContracts.Count == 0)
+            try
             {
-
+                this.PlayerStatus = (ForwardPlayerStatus)info.GetValue("PlayerStatus", typeof(ForwardPlayerStatus));
+            }
+            catch
+            {
+                this.PlayerStatus = ForwardPlayerStatus.Unset;
             }
         }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("PlayerStatus", this.PlayerStatus);
+            base.GetObjectData(info, context);
+        }
+
         public override int PlayerStatusID
         {
             get
@@ -49,8 +55,26 @@ namespace Elite_Hockey_Manager.Classes
         public override void GenerateStats(int playerStatus)
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
+            PlayerStatus = status;
             _attributes.GenerateForwardStatRanges(status, _age);
             
+        }
+        protected override void GenerateInitialContract()
+        {
+            //If other contracts are found doesn't generate one
+            if (_careerContracts.Count == 0)
+            {
+                if (_age <= 21)
+                {
+                    GenerateYoungContract();
+                    int overall = this.Overall;
+                    switch (overall)
+                    {
+                        case int o when (o > 95):
+                        //    break;
+                    }
+                }
+            }
         }
         protected override void GenerateYoungContract()
         {

@@ -45,13 +45,21 @@ namespace Elite_Hockey_Manager.Classes
         public Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._attributes = (GoalieAttributes)info.GetValue("Attributes", typeof(GoalieAttributes));
+            try
+            {
+                this.PlayerStatus = (GoaliePlayerStatus)info.GetValue("PlayerStatus", typeof(GoaliePlayerStatus));
+            }
+            catch
+            {
+                this.PlayerStatus = GoaliePlayerStatus.Unset;
+            }
         }
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            base.GetObjectData(info, context);
             info.AddValue("Attributes", this._attributes);
+            info.AddValue("PlayerStatus", this.PlayerStatus);
+            base.GetObjectData(info, context);
         }
-
         public override void GenerateStats(int playerStatus)
         {
             GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;

@@ -88,6 +88,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
+                if (_careerContracts.Count == 0)
+                {
+                    return null;
+                }
                 return _careerContracts.Last();
             }
         }

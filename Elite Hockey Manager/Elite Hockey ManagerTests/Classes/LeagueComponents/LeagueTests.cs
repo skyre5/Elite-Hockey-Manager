@@ -97,5 +97,22 @@ namespace Elite_Hockey_Manager.Classes.Tests
             testLeague.AddTeam(TeamGenerator.GetTeam(), 2);
             Assert.Throws<ArgumentException>(() => testLeague.AddTeam(TeamGenerator.GetTeam(), 1));
         }
+
+        [Test()]
+        public void FillLeagueWithPlayersTest()
+        {
+            League testLeague = new League("Test", "Test", 32);
+            testLeague.FillRemainingTeams();
+            testLeague.FillLeagueWithPlayers();
+            foreach (Team team in testLeague.AllTeams)
+            {
+                if (!team.ValidMinimumTeamSize())
+                {
+                    Assert.Fail();
+                }
+            }
+            Assert.Pass();
+        }
+
     }
 }
