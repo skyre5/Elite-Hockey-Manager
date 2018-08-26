@@ -71,7 +71,7 @@ namespace Elite_Hockey_Manager.Classes
                     switch (overall)
                     {
                         case int o when (o > 95):
-                        //    break;
+                            break;
                     }
                 }
             }

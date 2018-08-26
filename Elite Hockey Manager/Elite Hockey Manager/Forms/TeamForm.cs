@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,10 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
 
 namespace Elite_Hockey_Manager.Forms
 {
@@ -94,6 +92,7 @@ namespace Elite_Hockey_Manager.Forms
             {
                 System.IO.Directory.CreateDirectory(@"Files\Images");
             }
+            this.imageSystemWatcher.Path = "Files\\Images";
             DirectoryInfo directoryInfo = new DirectoryInfo(@"Files\Images");
             BuildTree(directoryInfo, imageTreeView.Nodes);
         }

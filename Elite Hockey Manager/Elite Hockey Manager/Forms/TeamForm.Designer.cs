@@ -262,7 +262,7 @@
             // 
             this.imageSystemWatcher.EnableRaisingEvents = true;
             this.imageSystemWatcher.IncludeSubdirectories = true;
-            this.imageSystemWatcher.Path = "Files\\Images";
+            //this.imageSystemWatcher.Path = "Files\\Images";
             this.imageSystemWatcher.SynchronizingObject = this;
             this.imageSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
             this.imageSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.imageSystemWatcherUpdate);
