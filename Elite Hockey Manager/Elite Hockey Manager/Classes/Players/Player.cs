@@ -176,9 +176,6 @@ namespace Elite_Hockey_Manager.Classes
             get;
             //set;
         }
-        protected abstract void GenerateInitialContract();
-        //TODO Generate Extension Contract
-        //protected abstract Contract GenerateExtensionContract();
         private void IncrementYear()
         {
             _age++;
@@ -214,27 +211,13 @@ namespace Elite_Hockey_Manager.Classes
                 this._careerContracts.Add(new Players.PlayerComponents.Contract());
             }
         }
-        protected abstract void GenerateYoungContract();
-        protected int YearsForEntryContract()
+        public void AddContract(Contract contract)
         {
-            int years = 1;
-            switch (_age)
+            if (contract == null)
             {
-                case 18:
-                    years = 4;
-                    break;
-                case 19:
-                    years = 3;
-                    break;
-                case 20:
-                    years = 2;
-                    break;
-                case 21:
-                default:
-                    years = 1;
-                    break;
+                throw new ArgumentNullException("Null contract object can not be added");
             }
-            return years;
+            _careerContracts.Add(contract);
         }
     }
 }

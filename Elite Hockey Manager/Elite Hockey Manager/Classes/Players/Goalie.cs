@@ -80,12 +80,6 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
-        protected override void GenerateInitialContract()
-        {
-            //if (CurrentContract)
-        }
-
-
         public GoalieAttributes GoalieAttributes
         {
             get
@@ -100,35 +94,6 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return (int)PlayerStatus;
             }
-        }
-        protected override void GenerateYoungContract()
-        {
-            int years = YearsForEntryContract();
-            double amount = 0;
-            switch (PlayerStatus)
-            {
-                case GoaliePlayerStatus.Generational:
-                    amount = 2.5;
-                    break;
-                case GoaliePlayerStatus.Elite:
-                    amount = 2;
-                    break;
-                case GoaliePlayerStatus.Starter:
-                    amount = 1.5;
-                    break;
-                case GoaliePlayerStatus.LowStarter:
-                    amount = 1;
-                    break;
-                case GoaliePlayerStatus.Backup:
-                    amount = .5;
-                    break;
-                case GoaliePlayerStatus.Role:
-                case GoaliePlayerStatus.Unset:
-                    amount = 0;
-                    break;
-            }
-            Contract contract = new Contract(1, years, amount);
-            _careerContracts.Add(contract);
         }
     }
 }

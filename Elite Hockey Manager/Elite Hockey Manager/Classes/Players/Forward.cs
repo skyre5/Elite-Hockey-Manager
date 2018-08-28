@@ -59,56 +59,5 @@ namespace Elite_Hockey_Manager.Classes
             _attributes.GenerateForwardStatRanges(status, _age);
             
         }
-        protected override void GenerateInitialContract()
-        {
-            //If other contracts are found doesn't generate one
-            if (_careerContracts.Count == 0)
-            {
-                if (_age <= 21)
-                {
-                    GenerateYoungContract();
-                    int overall = this.Overall;
-                    switch (overall)
-                    {
-                        case int o when (o > 95):
-                            break;
-                    }
-                }
-            }
-        }
-        protected override void GenerateYoungContract()
-        {
-            int years = YearsForEntryContract();
-            double amount = 0;
-            switch (PlayerStatus)
-            {
-                case ForwardPlayerStatus.Generational:
-                    amount = 2;
-                    break;
-                case ForwardPlayerStatus.Superstar:
-                    amount = 1.5;
-                    break;
-                case ForwardPlayerStatus.FirstLine:
-                    amount = 1;
-                    break;
-                case ForwardPlayerStatus.TopSix:
-                    amount = .5;
-                    break;
-                case ForwardPlayerStatus.TopNine:
-                    amount = .5;
-                    break;
-                case ForwardPlayerStatus.BottomSix:
-                    amount = .5;
-                    break;
-                case ForwardPlayerStatus.RolePlayer:
-                    amount = 0;
-                    break;
-                case ForwardPlayerStatus.Unset:
-                    amount = 0;
-                    break;
-            }
-            Contract contract = new Contract(1, years, amount);
-            _careerContracts.Add(contract);
-        }
     }
 }
