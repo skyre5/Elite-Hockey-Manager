@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
 {
+    [Serializable]
     public class Contract : ISerializable
     {
         public int YearSigned
@@ -85,7 +86,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
         {
 
         }
-        public Contract(SerializationInfo info, StreamingContext context)
+        protected Contract(SerializationInfo info, StreamingContext context)
         {
             this._yearSigned = (int)info.GetValue("Year", typeof(int));
             this._contractDuration = (int)info.GetValue("Duration", typeof(int));
@@ -100,7 +101,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 this._yearsRemaining = 1;
             }
         }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Year", this._yearSigned);
             info.AddValue("Duration", this._contractDuration);

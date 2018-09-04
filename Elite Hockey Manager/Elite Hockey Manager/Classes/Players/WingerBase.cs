@@ -8,6 +8,7 @@ using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    [Serializable]
     public abstract class WingerBase : Forward
     {
 

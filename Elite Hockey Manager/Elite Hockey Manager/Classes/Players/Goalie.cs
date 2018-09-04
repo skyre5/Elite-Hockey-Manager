@@ -42,7 +42,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             this._attributes = new GoalieAttributes();
         }
-        public Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._attributes = (GoalieAttributes)info.GetValue("Attributes", typeof(GoalieAttributes));
             try

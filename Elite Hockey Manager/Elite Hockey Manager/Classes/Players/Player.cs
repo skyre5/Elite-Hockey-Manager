@@ -39,6 +39,7 @@ namespace Elite_Hockey_Manager.Classes
         Backup,
         Role
     }
+    [Serializable]
     public abstract class Player : ISerializable
     {
 

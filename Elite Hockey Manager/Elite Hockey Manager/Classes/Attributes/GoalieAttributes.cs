@@ -22,7 +22,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _speed = DefaultRating;
         private int _reboundControl = DefaultRating;
 
-        public GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._high = (int)info.GetValue("High", typeof(int));
             this._low = (int)info.GetValue("Low", typeof(int));

@@ -151,7 +151,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             return FirstConference.Count + SecondConference.Count == _numberOfTeams;
         }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("LeagueName", this.LeagueName);
             info.AddValue("LeagueAbbreviation", this.Abbreviation);
@@ -163,7 +163,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("SecondConference", this.SecondConference);
             info.AddValue("SecondConferenceName", this.SecondConferenceName);
         }
-        public League(SerializationInfo info, StreamingContext context)
+        protected League(SerializationInfo info, StreamingContext context)
         {
             this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
             this.Abbreviation = (string)info.GetValue("LeagueAbbreviation", typeof(string));

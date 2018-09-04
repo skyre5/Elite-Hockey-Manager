@@ -27,46 +27,93 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 _salaryCap = newCap;
             }
         }
-        public static void GenerateContract(Player player)
+        public static void GenerateContract(Player player, int year = 1)
         {
             //Players 21 or under will be getting contracts that pass until the end of their 21 year old contracts
             if (player.Age <= 21)
             {
                 if (player is Forward)
-                    GenerateYouthContract((Forward)player);
+                    GenerateYouthContract((Forward)player, year);
                 else if (player is Defender)
-                    GenerateYouthContract((Defender)player);
+                    GenerateYouthContract((Defender)player, year);
                 else if (player is Goalie)
-                    GenerateYouthContract((Goalie)player);
+                    GenerateYouthContract((Goalie)player, year);
                 else
                     throw new ArgumentException("Player passed must be of forward,defender, or goalie type");
             }
             //Players over 21 will be getting veteran contracts
             else
             {
-                if (player is Forward)
-                    GenerateVeteranContract((Forward)player);
-                else if (player is Defender)
-                    GenerateVeteranContract((Forward)player);
-                else if (player is Goalie)
-                    GenerateVeteranContract((Forward)player);
-                else
-                    throw new ArgumentException("Player passed must be of forward,defender, or goalie type");
+                GenerateVeteranContract(player, year);
             }
         }
-        private static void GenerateVeteranContract(Forward player)
+        private static void GenerateVeteranContract(Player player, int year)
         {
-            int years = YearsForVeteranContract(player);
+            int duration = YearsForVeteranContract(player);
+            int overall = player.Overall;
+            double minContractAmount = 0;
+            double maxContractAmount = 0;
+            if (overall > 95)
+            {
+                minContractAmount = 6 + (0.5 * (overall - 95));
+                maxContractAmount = 10 + (0.5 * (overall - 95));
+            }
+            else if (overall > 90)
+            {
+                minContractAmount = 5 + (0.5 * (overall - 90));
+                maxContractAmount = 8.5 + (0.5 * (overall - 90));
+            }
+            else if (overall > 85)
+            {
+                minContractAmount = 4 + (0.5 * (overall - 85));
+                maxContractAmount = 5 + (0.5 * (overall - 85));
+            }
+            else if (overall > 80)
+            {
+                minContractAmount = 3 + (0.5 * (overall - 80));
+                maxContractAmount = 4 + (0.25 * (overall - 80));
+            }
+            else if (overall > 75)
+            {
+                minContractAmount = 1.5 + (0.25 * (overall - 75));
+                maxContractAmount = 2.5 + (0.25 * (overall - 75));
+            }
+            else if (overall > 70)
+            {
+                minContractAmount = 0 + (0.25 * (overall - 70));
+                maxContractAmount = .5 + (0.25 * (overall - 70));
+            }
+            if (minContractAmount == 0 && maxContractAmount == 0)
+            {
+                Contract contract = new Contract(year, duration, 0);
+            }
+            else
+            {
+                double amount = GenerateContractAmount(minContractAmount, maxContractAmount);
+                Contract contract = new Contract(year, duration, amount);
+            }
         }
-        private static void GenerateVeteranContract(Defender player)
+        //private static void GenerateVeteranContract(Forward player)
+        //{
+        //    int years = YearsForVeteranContract(player);
+        //}
+        //private static void GenerateVeteranContract(Defender player)
+        //{
+        //    int years = YearsForVeteranContract(player);
+        //}
+        //private static void GenerateVeteranContract(Goalie player)
+        //{
+        //    int years = YearsForVeteranContract(player);
+        //}
+        private static double GenerateContractAmount(double minAmount, double maxAmount)
         {
-            int years = YearsForVeteranContract(player);
+            Random rand = new Random();
+            int lowerBound = (int)(minAmount / .25);
+            int upperBound = (int)(maxAmount / .25);
+            int amount = rand.Next(lowerBound, upperBound + 1);
+            return (amount * 0.25);
         }
-        private static void GenerateVeteranContract(Goalie player)
-        {
-            int years = YearsForVeteranContract(player);
-        }
-        private static void GenerateYouthContract(Forward player)
+        private static void GenerateYouthContract(Forward player, int year)
         {
             int years = YearsForEntryContract(player);
             double amount = 0;
@@ -97,10 +144,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     amount = 0;
                     break;
             }
-            Contract contract = new Contract(1, years, amount);
+            Contract contract = new Contract(year, years, amount);
             player.AddContract(contract);
         }
-        private static void GenerateYouthContract(Defender player)
+        private static void GenerateYouthContract(Defender player, int year)
         {
             int years = YearsForEntryContract(player);
             double amount = 0;
@@ -128,10 +175,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     amount = 0;
                     break;
             }
-            Contract contract = new Contract(1, years, amount);
+            Contract contract = new Contract(year, years, amount);
             player.AddContract(contract);
         }
-        private static void GenerateYouthContract(Goalie player)
+        private static void GenerateYouthContract(Goalie player, int year)
         {
             int years = YearsForEntryContract(player);
             double amount = 0;
@@ -157,7 +204,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     amount = 0;
                     break;
             }
-            Contract contract = new Contract(1, years, amount);
+            Contract contract = new Contract(year, years, amount);
             player.AddContract(contract);
         }
         private static int YearsForEntryContract(Player player)

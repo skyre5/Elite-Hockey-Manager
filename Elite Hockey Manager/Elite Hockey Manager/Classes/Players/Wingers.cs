@@ -31,7 +31,7 @@ namespace Elite_Hockey_Manager.Classes
         public LeftWinger(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
-        public LeftWinger(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected LeftWinger(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
@@ -58,7 +58,7 @@ namespace Elite_Hockey_Manager.Classes
         public RightWinger(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
-        public RightWinger(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected RightWinger(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

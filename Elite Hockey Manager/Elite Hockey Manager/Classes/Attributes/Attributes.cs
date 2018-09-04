@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    [Serializable]
     public abstract class Attributes : ISerializable
     {
         public const int DefaultRating = 50;

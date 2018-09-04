@@ -127,7 +127,7 @@ namespace Elite_Hockey_Manager.Classes
             return _teamID.GetHashCode() ^ FullName.GetHashCode();
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("TeamName", this._teamName);
             info.AddValue("Location", this._location);
@@ -140,7 +140,7 @@ namespace Elite_Hockey_Manager.Classes
             return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
         }
 
-        public Team(SerializationInfo info, StreamingContext context)
+        protected Team(SerializationInfo info, StreamingContext context)
         {
             this._teamName = (string)info.GetValue("TeamName", typeof(string));
             this._location = (string)info.GetValue("Location", typeof(string));
@@ -149,7 +149,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 this._teamID = (int)info.GetValue("ID", typeof(int));
             }
-            catch (SerializationException ex)
+            catch
             {
                 //For previous versions that didn't save teamID
                 this._teamID = -1;

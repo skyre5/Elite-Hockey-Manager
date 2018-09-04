@@ -97,7 +97,7 @@ namespace Elite_Hockey_Manager.Classes
                     break;
             }
         }
-        public SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._wristShot = (int)info.GetValue("WristShot", typeof(int));
             this._slapShot = (int)info.GetValue("SlapShot", typeof(int));

@@ -24,7 +24,7 @@ namespace Elite_Hockey_Manager.Classes
         public Center(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
         {
         }
-        public Center(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected Center(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
         public override int Overall
