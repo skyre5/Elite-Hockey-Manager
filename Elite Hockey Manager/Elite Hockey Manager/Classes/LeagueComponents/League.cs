@@ -91,7 +91,8 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public  void FillRemainingTeams()
         {
-            if (FirstConference.Count + SecondConference.Count == NumberOfTeams)
+            //If the league is full
+            if (IsFull())
             {
                 return;
             }
@@ -117,6 +118,7 @@ namespace Elite_Hockey_Manager.Classes
                     }
                 }
             }
+            //If the number of teams is even
             else
             {
                 int maxConferenceSize = (NumberOfTeams / 2);

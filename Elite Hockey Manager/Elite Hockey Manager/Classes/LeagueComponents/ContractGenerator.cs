@@ -91,6 +91,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 double amount = GenerateContractAmount(minContractAmount, maxContractAmount);
                 Contract contract = new Contract(year, duration, amount);
+                player.AddContract(contract);
             }
         }
         //private static void GenerateVeteranContract(Forward player)

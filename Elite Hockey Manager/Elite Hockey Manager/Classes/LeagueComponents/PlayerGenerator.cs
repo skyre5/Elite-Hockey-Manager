@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -252,8 +253,9 @@ namespace Elite_Hockey_Manager.Classes
                         , 65//% Role
                         );
                     break;
-
             }
+            //Generates base contract for player based on overall
+            ContractGenerator.GenerateContract(newForward);
             return newForward;
 
         }
@@ -325,6 +327,8 @@ namespace Elite_Hockey_Manager.Classes
                     break;
 
             }
+            //Generates base contract for player based on overall
+            ContractGenerator.GenerateContract(newDefender);
             return newDefender;
 
         }
@@ -382,6 +386,8 @@ namespace Elite_Hockey_Manager.Classes
                         );
                     break;
             }
+            //Generates base contract for player based on overall
+            ContractGenerator.GenerateContract(newGoalie);
             return newGoalie;
         }
         private static void WeightedPlayerRatingsGenerator(Player player, params int[] weights)

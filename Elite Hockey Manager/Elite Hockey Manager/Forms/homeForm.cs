@@ -49,5 +49,13 @@ namespace Elite_Hockey_Manager
             LeagueForm form = new LeagueForm();
             form.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            League league = new Classes.League("Elite Hockey League", "EHL", 32);
+            league.FillRemainingTeams();
+            league.FillLeagueWithPlayers();
+
+        }
     }
 }
