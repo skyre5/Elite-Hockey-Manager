@@ -101,17 +101,29 @@
     <Compile Include="Forms\EditPlayerForm.Designer.cs">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GameForms\MainMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\MainMenuForm.Designer.cs">
+      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\HelperForms\LeagueInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\HelperForms\LeagueInfoForm.Designer.cs">
       <DependentUpon>LeagueInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\homeForm.cs">
+    <Compile Include="Forms\HelperForms\NewGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\homeForm.Designer.cs">
-      <DependentUpon>homeForm.cs</DependentUpon>
+    <Compile Include="Forms\HelperForms\NewGameForm.Designer.cs">
+      <DependentUpon>NewGameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\HomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\HomeForm.Designer.cs">
+      <DependentUpon>HomeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LeagueForm.cs">
       <SubType>Form</SubType>
@@ -136,11 +148,17 @@
     <EmbeddedResource Include="Forms\editPlayerForm.resx">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\MainMenuForm.resx">
+      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\HelperForms\LeagueInfoForm.resx">
       <DependentUpon>LeagueInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\homeForm.resx">
-      <DependentUpon>homeForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\HelperForms\NewGameForm.resx">
+      <DependentUpon>NewGameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\HomeForm.resx">
+      <DependentUpon>HomeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LeagueForm.resx">
       <DependentUpon>LeagueForm.cs</DependentUpon>

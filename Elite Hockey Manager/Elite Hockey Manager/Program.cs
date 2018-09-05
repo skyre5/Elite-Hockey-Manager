@@ -16,7 +16,9 @@ namespace Elite_Hockey_Manager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new homeForm());
+            HomeForm form = new HomeForm();
+            form.Show();
+            Application.Run();
         }
     }
 }

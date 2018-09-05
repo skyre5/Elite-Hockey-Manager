@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Forms;
+using Elite_Hockey_Manager.Forms.HelperForms;
 
 namespace Elite_Hockey_Manager
 {
-    public partial class homeForm : Form
+    public partial class HomeForm : Form
     {
-        public homeForm()
+        public HomeForm()
         {
             InitializeComponent();
         }
@@ -52,10 +53,9 @@ namespace Elite_Hockey_Manager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            League league = new Classes.League("Elite Hockey League", "EHL", 32);
-            league.FillRemainingTeams();
-            league.FillLeagueWithPlayers();
-
+            NewGameForm form = new NewGameForm();
+            form.Show();
+            this.Close();
         }
     }
 }
