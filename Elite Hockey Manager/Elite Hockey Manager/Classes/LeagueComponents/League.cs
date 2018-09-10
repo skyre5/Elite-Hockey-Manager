@@ -13,6 +13,9 @@ namespace Elite_Hockey_Manager.Classes
     {
         private int _numberOfTeams;
         public const double MINSALARYCAP = 40;
+        /// <summary>
+        /// Amount of teams the league will contain
+        /// </summary>
         public int NumberOfTeams
         {
             get
@@ -31,6 +34,16 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+        /// <summary>
+        /// The amount of teams that currently are within the league
+        /// </summary>
+        public int TeamCount
+        {
+            get
+            {
+                return AllTeams.Count;
+            }
+        }
         public string LeagueName
         {
             get;
@@ -40,6 +53,16 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
             private set;
+        }
+        /// <summary>
+        /// The number of players within all the leagues teams
+        /// </summary>
+        public int PlayerCount
+        {
+            get
+            {
+                return AllPlayers.Count;
+            }
         }
         public string FirstConferenceName
         {
@@ -85,6 +108,20 @@ namespace Elite_Hockey_Manager.Classes
 
             this.FirstConferenceName = firstName;
             this.SecondConferenceName = secondName;
+        }
+        public List<Player> AllPlayers
+        {
+            get
+            {
+                List<Team> teams = this.AllTeams;
+                List<Player> players = new List<Player>();
+                foreach (Team team in teams)
+                {
+                    players.AddRange(team.Roster);
+                }
+                return players;
+
+            }
         }
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams
@@ -272,6 +309,19 @@ namespace Elite_Hockey_Manager.Classes
             {
                 TeamGenerator.FillTeam(team);
             }
+        }
+        public int GetTeamErrorCount()
+        {
+            int teamErrors = 0;
+            teamErrors += (this._numberOfTeams - this.TeamCount);
+            foreach (Team team in AllTeams)
+            {
+                if (!team.ValidMinimumTeamSize())
+                {
+                    teamErrors++;
+                }
+            }
+            return teamErrors;
         }
     }
 }

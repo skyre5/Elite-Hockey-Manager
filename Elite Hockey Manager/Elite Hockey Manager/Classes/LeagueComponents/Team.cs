@@ -172,6 +172,13 @@ namespace Elite_Hockey_Manager.Classes
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// Boolean function that returns whether the team has a valid number or greater of forwards(12), defenders(6), and goalies(2)
+        /// </summary>
+        /// <returns>
+        /// True - Team has valid number of players at all positions
+        /// False - Team has an issue at one of the categories
+        /// </returns>
         public bool ValidMinimumTeamSize()
         {
             if (Roster.OfType<Forward>().Count() < 12)

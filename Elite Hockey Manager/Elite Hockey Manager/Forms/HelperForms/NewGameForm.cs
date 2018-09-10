@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Forms.GameForms;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Forms.HelperForms
 {
@@ -32,6 +33,16 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 gameForm.Show();
                 this.Close();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            League league1 = new League("Test", "Test", 32);
+            LeagueControl lg1 = new LeagueControl(league1);
+            flowLayoutPanel1.Controls.Add(lg1);
+            league1.FillRemainingTeams();
+            LeagueControl lg2 = new LeagueControl(league1);
+            flowLayoutPanel1.Controls.Add(lg2);
         }
     }
 }

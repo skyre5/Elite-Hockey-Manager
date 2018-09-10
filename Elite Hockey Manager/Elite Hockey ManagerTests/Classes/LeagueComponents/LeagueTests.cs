@@ -114,5 +114,32 @@ namespace Elite_Hockey_Manager.Classes.Tests
             Assert.Pass();
         }
 
+        [Test()]
+        public void GetTeamErrorCountTest()
+        {
+            League testLeague = new League("Test", "TST", 6);
+
+            //League with six teams should return with 6 team errors
+            Assert.AreEqual(testLeague.GetTeamErrorCount(), 6);
+
+            Team testTeam = new Team("Test", "Test");
+
+            //Adds team to league
+            testLeague.AddTeam(testTeam);
+
+            Assert.AreEqual(testLeague.GetTeamErrorCount(), 6);
+
+            //Makes team valid 
+            TeamGenerator.FillTeam(testTeam);
+
+            //League should return 5 errors since the new team is now valid
+            Assert.AreEqual(testLeague.GetTeamErrorCount(), 5);
+
+            //Fills the remaining teams and players for the league
+            testLeague.FillRemainingTeams();
+            testLeague.FillLeagueWithPlayers();
+            //League should now return zero errors since all teams and players are valid
+            Assert.AreEqual(testLeague.GetTeamErrorCount(), 0);
+        }
     }
 }
