@@ -30,7 +30,7 @@
         {
             this.newLeagueButton = new System.Windows.Forms.Button();
             this.loadLeagueButton = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.leaguesLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -53,13 +53,13 @@
             this.loadLeagueButton.Text = "Load Existing League";
             this.loadLeagueButton.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // leaguesLayoutPanel
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 119);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(495, 220);
-            this.flowLayoutPanel1.TabIndex = 2;
+            this.leaguesLayoutPanel.AutoScroll = true;
+            this.leaguesLayoutPanel.Location = new System.Drawing.Point(13, 119);
+            this.leaguesLayoutPanel.Name = "leaguesLayoutPanel";
+            this.leaguesLayoutPanel.Size = new System.Drawing.Size(553, 220);
+            this.leaguesLayoutPanel.TabIndex = 2;
             // 
             // button1
             // 
@@ -75,13 +75,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 351);
+            this.ClientSize = new System.Drawing.Size(578, 351);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.leaguesLayoutPanel);
             this.Controls.Add(this.loadLeagueButton);
             this.Controls.Add(this.newLeagueButton);
             this.Name = "NewGameForm";
             this.Text = "Create New Game";
+            this.Load += new System.EventHandler(this.NewGameForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -90,7 +91,7 @@
 
         private System.Windows.Forms.Button newLeagueButton;
         private System.Windows.Forms.Button loadLeagueButton;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel leaguesLayoutPanel;
         private System.Windows.Forms.Button button1;
     }
 }

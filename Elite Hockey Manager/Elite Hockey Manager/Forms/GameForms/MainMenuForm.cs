@@ -13,8 +13,17 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class MainMenuForm : Form
     {
+        private League _league;
+        public League League
+        {
+            get
+            {
+                return _league;
+            }
+        }
         public MainMenuForm(League league)
         {
+            _league = league;
             InitializeComponent();
         }
 

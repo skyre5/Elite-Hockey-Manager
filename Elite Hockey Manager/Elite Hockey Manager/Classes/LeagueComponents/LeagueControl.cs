@@ -12,6 +12,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public partial class LeagueControl : UserControl
     {
+        public event EventHandler SelectButtonClicked;
+
         private League _league;
         public League League
         {
@@ -24,20 +26,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         {
             _league = league;
             InitializeComponent();
+
             if (league == null)
             {
                 throw new NullReferenceException("League for LeagueControl componenent is null");
             }
-            lblName.Text = String.Format("{0}({1})", league.LeagueName, league.Abbreviation);
-            lblTeamsCount.Text = String.Format("{0}/{1}", league.TeamCount, league.NumberOfTeams);
-            if (league.IsFull())
-            {
-                picTeamsCheck.Image = Properties.Resources.checkmark;
-                btnFillTeams.Enabled = false;
-                SetupPlayerValidation();
-            }
+            CheckIsLeagueFullTeams();
         }
-        private void SetupPlayerValidation()
+        private void PlayerValidation()
         {
             lblPlayersHeader.Text = String.Format("Players: {0}", _league.PlayerCount);
             int errorCount = _league.GetTeamErrorCount();
@@ -45,12 +41,41 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             if (errorCount == 0)
             {
                 picPlayersCheck.Image = Properties.Resources.checkmark;
+                btnFillPlayers.Enabled = false;
             }
             else
             {
                 picPlayersCheck.Image = Properties.Resources.xmark;
                 btnFillPlayers.Enabled = true;
             }
+        }
+
+        private void btnFillTeams_Click(object sender, EventArgs e)
+        {
+            _league.FillRemainingTeams();
+            CheckIsLeagueFullTeams();
+        }
+        private void CheckIsLeagueFullTeams()
+        {
+            if (_league.IsFull())
+            {
+                lblName.Text = String.Format("{0}({1})", _league.LeagueName, _league.Abbreviation);
+                lblTeamsCount.Text = String.Format("{0}/{1}", _league.TeamCount, _league.NumberOfTeams);
+                picTeamsCheck.Image = Properties.Resources.checkmark;
+                btnFillTeams.Enabled = false;
+                PlayerValidation();
+            }
+        }
+
+        private void btnFillPlayers_Click(object sender, EventArgs e)
+        {
+            _league.FillLeagueWithPlayers();
+            PlayerValidation();
+        }
+
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+            SelectButtonClicked(this, e);
         }
     }
 }

@@ -38,6 +38,7 @@
             this.lblPlayersHeader = new System.Windows.Forms.Label();
             this.lblPlayersCheck = new System.Windows.Forms.Label();
             this.btnDisplayPlayersErrors = new System.Windows.Forms.Button();
+            this.btnSelect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picTeamsCheck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayersCheck)).BeginInit();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             this.btnFillTeams.TabIndex = 1;
             this.btnFillTeams.Text = "Fill Remaining Teams";
             this.btnFillTeams.UseVisualStyleBackColor = true;
+            this.btnFillTeams.Click += new System.EventHandler(this.btnFillTeams_Click);
             // 
             // picTeamsCheck
             // 
@@ -97,6 +99,7 @@
             this.btnFillPlayers.TabIndex = 5;
             this.btnFillPlayers.Text = "Fill Remaining Players";
             this.btnFillPlayers.UseVisualStyleBackColor = true;
+            this.btnFillPlayers.Click += new System.EventHandler(this.btnFillPlayers_Click);
             // 
             // picPlayersCheck
             // 
@@ -136,10 +139,21 @@
             this.btnDisplayPlayersErrors.Text = "v";
             this.btnDisplayPlayersErrors.UseVisualStyleBackColor = true;
             // 
+            // btnSelect
+            // 
+            this.btnSelect.Location = new System.Drawing.Point(6, 60);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(75, 23);
+            this.btnSelect.TabIndex = 10;
+            this.btnSelect.Text = "Select Team";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            // 
             // LeagueControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.btnDisplayPlayersErrors);
             this.Controls.Add(this.lblPlayersCheck);
             this.Controls.Add(this.lblPlayersHeader);
@@ -171,5 +185,6 @@
         private System.Windows.Forms.Label lblPlayersHeader;
         private System.Windows.Forms.Label lblPlayersCheck;
         private System.Windows.Forms.Button btnDisplayPlayersErrors;
+        private System.Windows.Forms.Button btnSelect;
     }
 }
