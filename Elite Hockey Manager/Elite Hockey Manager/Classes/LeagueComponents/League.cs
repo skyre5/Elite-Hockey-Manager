@@ -323,5 +323,17 @@ namespace Elite_Hockey_Manager.Classes
             }
             return teamErrors;
         }
+        public string GetTeamErrorMessage()
+        {
+            string errorMessage = "";
+            foreach (Team team in AllTeams)
+            {
+                if (!team.ValidMinimumTeamSize())
+                {
+                    errorMessage += String.Format("{0}\n", team.FullName);
+                }
+            }
+            return errorMessage;
+        }
     }
 }

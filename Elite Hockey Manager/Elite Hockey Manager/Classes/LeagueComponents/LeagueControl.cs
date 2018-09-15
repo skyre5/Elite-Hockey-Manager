@@ -42,11 +42,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 picPlayersCheck.Image = Properties.Resources.checkmark;
                 btnFillPlayers.Enabled = false;
+                btnDisplayPlayersErrors.Enabled = false;
+                //Allows user to select league when the league becomes valid for play
+                btnSelect.Enabled = true;
             }
             else
             {
                 picPlayersCheck.Image = Properties.Resources.xmark;
                 btnFillPlayers.Enabled = true;
+                btnDisplayPlayersErrors.Enabled = true;
             }
         }
 
@@ -57,10 +61,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private void CheckIsLeagueFullTeams()
         {
+            lblName.Text = String.Format("{0}({1})", _league.LeagueName, _league.Abbreviation);
+            lblTeamsCount.Text = String.Format("{0}/{1}", _league.TeamCount, _league.NumberOfTeams);
             if (_league.IsFull())
             {
-                lblName.Text = String.Format("{0}({1})", _league.LeagueName, _league.Abbreviation);
-                lblTeamsCount.Text = String.Format("{0}/{1}", _league.TeamCount, _league.NumberOfTeams);
                 picTeamsCheck.Image = Properties.Resources.checkmark;
                 btnFillTeams.Enabled = false;
                 PlayerValidation();
@@ -76,6 +80,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private void btnSelect_Click(object sender, EventArgs e)
         {
             SelectButtonClicked(this, e);
+        }
+
+        private void btnDisplayPlayersErrors_Click(object sender, EventArgs e)
+        {
+            string errorList = "These Teams Have Invalid Rosters:\n";
+            errorList += _league.GetTeamErrorMessage();
+            MessageBox.Show(errorList);
         }
     }
 }

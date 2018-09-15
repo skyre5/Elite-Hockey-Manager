@@ -93,7 +93,7 @@
             // btnFillPlayers
             // 
             this.btnFillPlayers.Enabled = false;
-            this.btnFillPlayers.Location = new System.Drawing.Point(345, 60);
+            this.btnFillPlayers.Location = new System.Drawing.Point(289, 60);
             this.btnFillPlayers.Name = "btnFillPlayers";
             this.btnFillPlayers.Size = new System.Drawing.Size(236, 23);
             this.btnFillPlayers.TabIndex = 5;
@@ -103,7 +103,7 @@
             // 
             // picPlayersCheck
             // 
-            this.picPlayersCheck.Location = new System.Drawing.Point(531, 3);
+            this.picPlayersCheck.Location = new System.Drawing.Point(475, 3);
             this.picPlayersCheck.Name = "picPlayersCheck";
             this.picPlayersCheck.Size = new System.Drawing.Size(50, 50);
             this.picPlayersCheck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -113,7 +113,7 @@
             // lblPlayersHeader
             // 
             this.lblPlayersHeader.AutoSize = true;
-            this.lblPlayersHeader.Location = new System.Drawing.Point(343, 28);
+            this.lblPlayersHeader.Location = new System.Drawing.Point(287, 28);
             this.lblPlayersHeader.Name = "lblPlayersHeader";
             this.lblPlayersHeader.Size = new System.Drawing.Size(44, 13);
             this.lblPlayersHeader.TabIndex = 7;
@@ -122,7 +122,7 @@
             // lblPlayersCheck
             // 
             this.lblPlayersCheck.AutoSize = true;
-            this.lblPlayersCheck.Location = new System.Drawing.Point(342, 44);
+            this.lblPlayersCheck.Location = new System.Drawing.Point(286, 44);
             this.lblPlayersCheck.Name = "lblPlayersCheck";
             this.lblPlayersCheck.Size = new System.Drawing.Size(131, 13);
             this.lblPlayersCheck.TabIndex = 8;
@@ -132,15 +132,17 @@
             // btnDisplayPlayersErrors
             // 
             this.btnDisplayPlayersErrors.Enabled = false;
-            this.btnDisplayPlayersErrors.Location = new System.Drawing.Point(497, 37);
+            this.btnDisplayPlayersErrors.Location = new System.Drawing.Point(441, 37);
             this.btnDisplayPlayersErrors.Name = "btnDisplayPlayersErrors";
             this.btnDisplayPlayersErrors.Size = new System.Drawing.Size(28, 23);
             this.btnDisplayPlayersErrors.TabIndex = 9;
             this.btnDisplayPlayersErrors.Text = "v";
             this.btnDisplayPlayersErrors.UseVisualStyleBackColor = true;
+            this.btnDisplayPlayersErrors.Click += new System.EventHandler(this.btnDisplayPlayersErrors_Click);
             // 
             // btnSelect
             // 
+            this.btnSelect.Enabled = false;
             this.btnSelect.Location = new System.Drawing.Point(6, 60);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(75, 23);
@@ -153,6 +155,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.btnDisplayPlayersErrors);
             this.Controls.Add(this.lblPlayersCheck);
@@ -165,7 +168,7 @@
             this.Controls.Add(this.btnFillTeams);
             this.Controls.Add(this.lblName);
             this.Name = "LeagueControl";
-            this.Size = new System.Drawing.Size(596, 86);
+            this.Size = new System.Drawing.Size(527, 84);
             ((System.ComponentModel.ISupportInitialize)(this.picTeamsCheck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayersCheck)).EndInit();
             this.ResumeLayout(false);
