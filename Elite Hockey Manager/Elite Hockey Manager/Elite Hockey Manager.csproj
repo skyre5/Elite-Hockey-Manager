@@ -78,15 +78,27 @@
     <Compile Include="Classes\Attributes\SkaterAttributes.cs" />
     <Compile Include="Classes\LeagueComponents\ContractGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\League.cs" />
-    <Compile Include="Classes\LeagueComponents\LeagueControl.cs">
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControl.Designer.cs">
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueControl.Designer.cs">
       <DependentUpon>LeagueControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\LeagueComponents\PlayerGenerator.cs" />
+    <Compile Include="Classes\LeagueComponents\LeagueControls\StandingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\StandingsControl.Designer.cs">
+      <DependentUpon>StandingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\Team.cs" />
     <Compile Include="Classes\LeagueComponents\TeamGenerator.cs" />
+    <Compile Include="Classes\LeagueComponents\LeagueControls\TeamLogoStandingViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\TeamLogoStandingViewControl.Designer.cs">
+      <DependentUpon>TeamLogoStandingViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Players\Center.cs" />
     <Compile Include="Classes\Players\Defender.cs" />
     <Compile Include="Classes\Players\Forward.cs" />
@@ -113,6 +125,12 @@
     </Compile>
     <Compile Include="Forms\GameForms\MainMenuForm.Designer.cs">
       <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GameForms\ViewTeamForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\ViewTeamForm.Designer.cs">
+      <DependentUpon>ViewTeamForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\HelperForms\LeagueInfoForm.cs">
       <SubType>Form</SubType>
@@ -152,14 +170,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControl.resx">
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueControl.resx">
       <DependentUpon>LeagueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\StandingsControl.resx">
+      <DependentUpon>StandingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\TeamLogoStandingViewControl.resx">
+      <DependentUpon>TeamLogoStandingViewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\editPlayerForm.resx">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\MainMenuForm.resx">
       <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\ViewTeamForm.resx">
+      <DependentUpon>ViewTeamForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\HelperForms\LeagueInfoForm.resx">
       <DependentUpon>LeagueInfoForm.cs</DependentUpon>

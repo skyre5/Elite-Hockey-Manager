@@ -93,6 +93,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
+                //If no logoPath is set, returns null
+                if (_logoPath == null)
+                {
+                    return null;
+                }
+                //Throws an error if the logoPath exists and no image can be found
                 try
                 {
                     Image image = Image.FromFile(_logoPath);
