@@ -35,19 +35,19 @@ namespace Elite_Hockey_Manager
 
         private void playersBtn_Click(object sender, EventArgs e)
         {
-            PlayersForm form = new PlayersForm();
+            CreatePlayerForm form = new CreatePlayerForm();
             form.ShowDialog();
         }
 
         private void teamsButton_Click(object sender, EventArgs e)
         {
-            TeamForm form = new TeamForm();
+            CreateTeamForm form = new CreateTeamForm();
             form.ShowDialog();
         }
 
         private void leagueButton_Click(object sender, EventArgs e)
         {
-            LeagueForm form = new LeagueForm();
+            CreateLeagueForm form = new CreateLeagueForm();
             form.ShowDialog();
         }
 

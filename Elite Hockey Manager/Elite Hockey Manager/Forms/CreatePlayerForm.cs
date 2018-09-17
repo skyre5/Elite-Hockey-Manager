@@ -14,7 +14,7 @@ using System.IO;
 
 namespace Elite_Hockey_Manager.Forms
 {
-    public partial class PlayersForm : Form
+    public partial class CreatePlayerForm : Form
     {
         int randomChoice = 0;
         Type sortType = typeof(Player);
@@ -23,7 +23,7 @@ namespace Elite_Hockey_Manager.Forms
         BindingList<Player> displayList = new BindingList<Player>();
         //Bool variable to track whether to ask player to save before exiting
         private bool changeMade = false;
-        public PlayersForm()
+        public CreatePlayerForm()
         {
             InitializeComponent();
             createPositionDropdown.SelectedIndex = 0;

@@ -12,7 +12,7 @@ using Elite_Hockey_Manager.Classes;
 
 namespace Elite_Hockey_Manager.Forms
 {
-    public partial class LeagueForm : Form
+    public partial class CreateLeagueForm : Form
     {
         League selectedLeague = null;
         BindingList<Team> firstConference;
@@ -21,7 +21,7 @@ namespace Elite_Hockey_Manager.Forms
 
         BindingList<Team> UserCreatedTeamList;
         BindingList<Team> displayUserCreatedTeamList;
-        public LeagueForm()
+        public CreateLeagueForm()
         {
             InitializeComponent();
         }

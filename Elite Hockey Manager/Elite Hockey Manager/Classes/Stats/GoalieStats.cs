@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public class GoalieStats : Stats
+    public class GoalieStats : PlayerStats
     {
         private int _gamesPlayed = 0;
         private int _gamesStarted = 0;

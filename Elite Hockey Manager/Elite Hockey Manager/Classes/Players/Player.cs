@@ -57,7 +57,7 @@ namespace Elite_Hockey_Manager.Classes
             get;
         }
 
-        private List<Stats> _careerStats = new List<Stats>();
+        private List<PlayerStats> _careerStats = new List<PlayerStats>();
         protected List<Contract> _careerContracts = new List<Contract>();
         
         public Player(string first, string last, int age, Contract contract)

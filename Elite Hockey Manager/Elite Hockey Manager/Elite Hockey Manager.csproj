@@ -100,7 +100,8 @@
     <Compile Include="Classes\Stats\GoalieStats.cs" />
     <Compile Include="Classes\Players\Player.cs" />
     <Compile Include="Classes\Stats\SkaterStats.cs" />
-    <Compile Include="Classes\Stats\Stats.cs" />
+    <Compile Include="Classes\Stats\PlayerStats.cs" />
+    <Compile Include="Classes\Stats\TeamStats.cs" />
     <Compile Include="Forms\EditPlayerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,23 +132,23 @@
     <Compile Include="Forms\HomeForm.Designer.cs">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\LeagueForm.cs">
+    <Compile Include="Forms\CreateLeagueForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LeagueForm.Designer.cs">
-      <DependentUpon>LeagueForm.cs</DependentUpon>
+    <Compile Include="Forms\CreateLeagueForm.Designer.cs">
+      <DependentUpon>CreateLeagueForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PlayersForm.cs">
+    <Compile Include="Forms\CreatePlayerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\PlayersForm.Designer.cs">
-      <DependentUpon>PlayersForm.cs</DependentUpon>
+    <Compile Include="Forms\CreatePlayerForm.Designer.cs">
+      <DependentUpon>CreatePlayerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TeamForm.cs">
+    <Compile Include="Forms\CreateTeamForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\TeamForm.Designer.cs">
-      <DependentUpon>TeamForm.cs</DependentUpon>
+    <Compile Include="Forms\CreateTeamForm.Designer.cs">
+      <DependentUpon>CreateTeamForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,14 +170,14 @@
     <EmbeddedResource Include="Forms\HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LeagueForm.resx">
-      <DependentUpon>LeagueForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateLeagueForm.resx">
+      <DependentUpon>CreateLeagueForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PlayersForm.resx">
-      <DependentUpon>PlayersForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreatePlayerForm.resx">
+      <DependentUpon>CreatePlayerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TeamForm.resx">
-      <DependentUpon>TeamForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateTeamForm.resx">
+      <DependentUpon>CreateTeamForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

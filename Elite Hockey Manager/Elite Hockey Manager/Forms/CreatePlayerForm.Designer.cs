@@ -1,6 +1,6 @@
 ﻿namespace Elite_Hockey_Manager.Forms
 {
-    partial class PlayersForm
+    partial class CreatePlayerForm
     {
         /// <summary>
         /// Required designer variable.

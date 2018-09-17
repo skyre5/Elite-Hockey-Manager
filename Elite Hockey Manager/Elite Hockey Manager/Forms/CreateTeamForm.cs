@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms
 {
-    public partial class TeamForm : Form
+    public partial class CreateTeamForm : Form
     {
         string currentDirectory = null;
         Team selectedTeam = null;
         BindingList<Team> teamList;
-        public TeamForm()
+        public CreateTeamForm()
         {
             InitializeComponent();
         }

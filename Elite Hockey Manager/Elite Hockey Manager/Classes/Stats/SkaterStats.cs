@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    public class SkaterStats : Stats
+    public class SkaterStats : PlayerStats
     {
         int _gamesPlayed = 0;
         //Assuming game takes place in 20 second increments
