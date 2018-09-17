@@ -36,16 +36,6 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            League league1 = new League("Test", "Test", 32);
-            LeagueControl lg1 = new LeagueControl(league1);
-            leaguesLayoutPanel.Controls.Add(lg1);
-            league1.FillRemainingTeams();
-            LeagueControl lg2 = new LeagueControl(league1);
-            leaguesLayoutPanel.Controls.Add(lg2);
-        }
-
         private void NewGameForm_Load(object sender, EventArgs e)
         {
             if (!SaveLoadUtils.LoadListToFile<League>("LeagueData.data", out leagueList))
