@@ -36,6 +36,7 @@
             // 
             // firstConferenceLayout
             // 
+            this.firstConferenceLayout.AutoScroll = true;
             this.firstConferenceLayout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.firstConferenceLayout.Location = new System.Drawing.Point(3, 28);
             this.firstConferenceLayout.Name = "firstConferenceLayout";
@@ -44,6 +45,7 @@
             // 
             // secondConferenceLayout
             // 
+            this.secondConferenceLayout.AutoScroll = true;
             this.secondConferenceLayout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.secondConferenceLayout.Location = new System.Drawing.Point(230, 28);
             this.secondConferenceLayout.Name = "secondConferenceLayout";

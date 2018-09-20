@@ -31,6 +31,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 return;
             }
+            firstConfereneLabel.Text = ActiveLeague.FirstConferenceName;
+            secondConferenceLabel.Text = ActiveLeague.SecondConferenceName;
             foreach (Team team in ActiveLeague.FirstConference)
             {
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);

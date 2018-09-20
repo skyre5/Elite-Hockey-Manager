@@ -41,6 +41,7 @@
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.logoPictureBox.TabIndex = 0;
             this.logoPictureBox.TabStop = false;
+            this.logoPictureBox.DoubleClick += new System.EventHandler(this.TeamLogoStandingViewControl_DoubleClick);
             // 
             // teamLabel
             // 
@@ -51,6 +52,7 @@
             this.teamLabel.Size = new System.Drawing.Size(74, 15);
             this.teamLabel.TabIndex = 1;
             this.teamLabel.Text = "TeamStanding";
+            this.teamLabel.DoubleClick += new System.EventHandler(this.TeamLogoStandingViewControl_DoubleClick);
             // 
             // TeamLogoStandingViewControl
             // 
