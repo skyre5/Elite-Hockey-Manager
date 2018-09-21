@@ -14,27 +14,54 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
     public partial class TeamLinesControl : UserControl
     {
+        private Team _team;
+        public Team Team
+        {
+            get
+            {
+                return _team;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("Null Team error");
+                }
+                else
+                {
+                    _team = value;
+                    DisplayLines();
+                }
+            }
+        }
         public TeamLinesControl()
         {
             InitializeComponent();
         }
-
-        private void playerLabel_DoubleClick(object sender, EventArgs e)
+        public void DisplayLines()
         {
-            try
+            FillTableLayout<LeftWinger>(ForwardLayoutPanel, 0, 4);
+            FillTableLayout<Center>(ForwardLayoutPanel, 1, 4);
+            FillTableLayout<RightWinger>(ForwardLayoutPanel, 2, 4);
+            FillTableLayout<LeftDefensemen>(defenseLayoutPanel, 0, 3);
+            FillTableLayout<RightDefensemen>(defenseLayoutPanel, 1, 3);
+            FillTableLayout<Goalie>(goalieLayoutPanel, 0, 2);
+        }
+        private void FillTableLayout<T>(TableLayoutPanel panel, int column, int rowSize)
+        {
+            List<Player> players = _team.GetPlayersOfType<T>();
+            if (players.Count < rowSize)
             {
-                Player player = ((PlayerLabel)sender).Player;
-                if (player != null)
-                {
-                    PlayerDisplayForm form = new PlayerDisplayForm(player);
-                    form.ShowDialog();
-                }
+                rowSize = players.Count;
             }
-            catch
+            for (int i = 0; i < rowSize; i++)
             {
-                MessageBox.Show("Error loading player to display");
+                panel.Controls.Add(new PlayerLabel(players[i]), column, i);
             }
         }
+        private void TeamLinesControl_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

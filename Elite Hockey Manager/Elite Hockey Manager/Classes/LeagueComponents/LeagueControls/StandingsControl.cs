@@ -31,6 +31,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 return;
             }
+            //Puts the names of the conference into the top of the control
             firstConfereneLabel.Text = ActiveLeague.FirstConferenceName;
             secondConferenceLabel.Text = ActiveLeague.SecondConferenceName;
             foreach (Team team in ActiveLeague.FirstConference)

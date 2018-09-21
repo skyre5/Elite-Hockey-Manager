@@ -165,6 +165,18 @@ namespace Elite_Hockey_Manager.Classes
         {
             return Roster.Where(player => player is T).Count();
         }
+        /// <summary>
+        /// Returns a list of players of position T
+        /// Sorted by overall
+        /// </summary>
+        /// <typeparam name="T">The type of player E.G Center,Goalie</typeparam>
+        /// <returns>Returns list of type Player that is shared by all positions through inheritance</returns>
+        public List<Player> GetPlayersOfType<T>()
+        {
+            //Returns a list of a certain position, sorted by overall
+            return Roster.Where(player => player is T)
+                .OrderBy(item => item.Overall).ToList();
+        }
         public double GetTotalCapSpace()
         {
             double totalCap = 0;
