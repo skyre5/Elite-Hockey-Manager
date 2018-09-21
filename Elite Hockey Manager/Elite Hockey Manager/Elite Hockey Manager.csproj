@@ -87,6 +87,12 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\PlayerLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.Designer.cs">
+      <DependentUpon>TeamCapControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamLinesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueControl.resx">
       <DependentUpon>LeagueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.resx">
+      <DependentUpon>TeamCapControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\StandingsControl.resx">
       <DependentUpon>StandingsControl.cs</DependentUpon>

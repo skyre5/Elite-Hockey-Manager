@@ -23,6 +23,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             _team = team;
             InitializeComponent();
             teamLinesControl.Team = team;
+            teamCapControl.Team = team;
         }
 
         private void ViewTeamForm_Load(object sender, EventArgs e)

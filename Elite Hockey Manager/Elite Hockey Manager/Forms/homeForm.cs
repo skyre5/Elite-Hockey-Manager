@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Forms;
 using Elite_Hockey_Manager.Forms.HelperForms;
+using System.Collections;
 
 namespace Elite_Hockey_Manager
 {
@@ -56,6 +58,29 @@ namespace Elite_Hockey_Manager
             NewGameForm form = new NewGameForm();
             form.Show();
             this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            int overall = 0;
+            IDictionary dic = new Dictionary<int, int>();
+            for (int i = 0; i < 10000; i++)
+            {
+                Player x = PlayerGenerator.GenerateForward(0, 1);
+                if (x.Overall > overall)
+                {
+                    if (!dic.Contains(x.Overall))
+                    {
+                        dic.Add(x.Overall, 1);
+                    }
+                    else
+                    {
+                        dic[x.Overall] = (int)dic[x.Overall] + 1;
+                    }
+                }
+
+            }
+            Console.Write("f");
         }
     }
 }

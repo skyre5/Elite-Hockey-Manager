@@ -177,7 +177,7 @@ namespace Elite_Hockey_Manager.Classes
             return Roster.Where(player => player is T)
                 .OrderBy(item => item.Overall).ToList();
         }
-        public double GetTotalCapSpace()
+        public double GetCapSpent()
         {
             double totalCap = 0;
             for (int i = 0; i < Roster.Count; i++)
@@ -185,10 +185,6 @@ namespace Elite_Hockey_Manager.Classes
                 totalCap += Roster[i].CurrentContract.ContractAmount;
             }
             return totalCap;
-        }
-        public double GetCapSpace()
-        {
-            throw new NotImplementedException();
         }
         /// <summary>
         /// Boolean function that returns whether the team has a valid number or greater of forwards(12), defenders(6), and goalies(2)

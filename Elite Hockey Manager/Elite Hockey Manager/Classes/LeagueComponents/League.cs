@@ -12,6 +12,7 @@ namespace Elite_Hockey_Manager.Classes
     public class League : ISerializable
     {
         private int _numberOfTeams;
+        private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
         /// <summary>
         /// Amount of teams the league will contain
@@ -42,6 +43,24 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return AllTeams.Count;
+            }
+        }
+        public static double SalaryCap
+        {
+            get
+            {
+                return _salaryCap;
+            }
+            set
+            {
+                if (value < MINSALARYCAP)
+                {
+                    throw new ArgumentException("SalaryCap must be lower than MinimumSalaryCap constant");
+                }
+                else
+                {
+                    _salaryCap = value;
+                }
             }
         }
         public string LeagueName

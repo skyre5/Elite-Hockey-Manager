@@ -23,11 +23,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("Null Team error");
-                }
-                else
+                if (value != null)
                 {
                     _team = value;
                     DisplayLines();

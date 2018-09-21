@@ -86,6 +86,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             if (minContractAmount == 0 && maxContractAmount == 0)
             {
                 Contract contract = new Contract(year, duration, 0);
+                player.AddContract(contract);
             }
             else
             {

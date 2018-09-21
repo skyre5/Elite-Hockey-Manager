@@ -41,12 +41,12 @@ namespace Elite_Hockey_Manager.Classes.Tests
         public void GetTotalCapSpaceTest()
         {
             Team testTeam = new Team("Test", "test");
-            Assert.AreEqual(0, testTeam.GetTotalCapSpace());
+            Assert.AreEqual(0, testTeam.GetCapSpent());
 
             Contract testContract = new Contract(1, 1, 5.0);
             Center testCenter = new Center("Test", "Test", 21, testContract);
             testTeam.Roster.Add(testCenter);
-            Assert.AreEqual(5.0, testTeam.GetTotalCapSpace());
+            Assert.AreEqual(5.0, testTeam.GetCapSpent());
         }
 
         [TestCase(0, 0, 0, false)]
