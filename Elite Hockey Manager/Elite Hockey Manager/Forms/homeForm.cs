@@ -64,7 +64,7 @@ namespace Elite_Hockey_Manager
         {
             int overall = 0;
             IDictionary dic = new Dictionary<int, int>();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Player x = PlayerGenerator.GenerateForward(0, 1);
                 if (x.Overall > overall)

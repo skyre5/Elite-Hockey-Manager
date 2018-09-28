@@ -76,6 +76,7 @@
     <Compile Include="Classes\Attributes\Attributes.cs" />
     <Compile Include="Classes\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Attributes\SkaterAttributes.cs" />
+    <Compile Include="Classes\Game\Game.cs" />
     <Compile Include="Classes\LeagueComponents\ContractGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\League.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueControl.cs">
