@@ -63,13 +63,13 @@ namespace Elite_Hockey_Manager
         private void button1_Click_1(object sender, EventArgs e)
         {
             int overall = 0;
-            IDictionary dic = new Dictionary<int, int>();
-            for (int i = 0; i < 1000; i++)
+            SortedDictionary<int, int> dic = new SortedDictionary<int, int>();
+            for (int i = 0; i < 10000; i++)
             {
                 Player x = PlayerGenerator.GenerateForward(0, 1);
                 if (x.Overall > overall)
                 {
-                    if (!dic.Contains(x.Overall))
+                    if (!dic.ContainsKey(x.Overall))
                     {
                         dic.Add(x.Overall, 1);
                     }

@@ -58,7 +58,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
             set
             {
-                if (value > 10 || value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("Contract amount must be between .50 and 10");
                 }

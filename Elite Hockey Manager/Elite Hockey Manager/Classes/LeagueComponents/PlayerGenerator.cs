@@ -196,7 +196,7 @@ namespace Elite_Hockey_Manager.Classes
                         , 4 //% Superstar
                         , 54//% 1st Line
                         , 35//% Top 6
-                        , 5 //% Top 9
+                        , 6 //% Top 9
                         );
                     break;
                 case 2:
@@ -392,7 +392,6 @@ namespace Elite_Hockey_Manager.Classes
         }
         private static void WeightedPlayerRatingsGenerator(Player player, params int[] weights)
         {
-            Random rand = new Random();
             int decidingNumber = rand.Next(1, 101);
             int total = 0;
             for (int i = 0; i < weights.Count(); i++)

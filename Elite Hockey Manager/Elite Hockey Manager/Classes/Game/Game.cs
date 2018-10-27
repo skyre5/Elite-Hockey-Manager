@@ -35,7 +35,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         /// </summary>
         /// <param name="homeTeam">Home team object of game to be played</param>
         /// <param name="awayTeam">Away team object of game to be played</param>
-        /// <param name="game">Game number within the season or playoffs</param>
+        /// <param name="game">Game number within the season or playoff series game #</param>
         public Game(Team homeTeam, Team awayTeam, int game = 1)
         {
             HomeTeam = homeTeam;
@@ -46,13 +46,13 @@ namespace Elite_Hockey_Manager.Classes.Game
         {
             //Completes the entire game
         }
-        public Game(SerializationInfo info, StreamingContext context)
+        protected Game(SerializationInfo info, StreamingContext context)
         {
             this.HomeTeam = (Team)info.GetValue("HomeTeam", typeof(Team));
             this.AwayTeam = (Team)info.GetValue("AwayTeam", typeof(Team));
             this.GameNumber = (int)info.GetValue("GameNumber", typeof(int));
         }
-        protected void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("HomeTeam", this.HomeTeam);
             info.AddValue("AwayTeam", this.AwayTeam);
