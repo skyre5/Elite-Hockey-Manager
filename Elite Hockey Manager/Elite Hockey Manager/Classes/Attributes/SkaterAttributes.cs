@@ -21,6 +21,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class SkaterAttributes : Attributes
     {
+        private static Random rand;
         //Shooting stats
         private int _wristShot = DefaultRating;
         private int _slapShot = DefaultRating;
@@ -34,7 +35,10 @@ namespace Elite_Hockey_Manager.Classes
         private int _faceoff = DefaultRating;
         public SkaterAttributes()
         {
-
+            if (rand == null)
+            {
+                rand = new Random();
+            }
         }
         public new Tuple<string, int>[] GetStatNames()
         {
@@ -54,7 +58,6 @@ namespace Elite_Hockey_Manager.Classes
         protected override void GenerateStats(int age, int lower, int upper, int guarantee)
         {
             ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
-            Random rand = new Random();
             //Base attribute stats ranging from lower bound to 100
             _clutchness = rand.Next(lower, 101);
             _consistency = rand.Next(lower, 101);

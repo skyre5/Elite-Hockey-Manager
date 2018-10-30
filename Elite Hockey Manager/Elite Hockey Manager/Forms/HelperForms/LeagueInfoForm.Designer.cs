@@ -115,7 +115,7 @@
             this.Controls.Add(this.numTeamsLabel);
             this.Controls.Add(this.leagueSizeBar);
             this.Name = "LeagueInfoForm";
-            this.Text = "League Info";
+            this.Text = "New League Info";
             this.Load += new System.EventHandler(this.LeagueInfoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.leagueSizeBar)).EndInit();
             this.ResumeLayout(false);

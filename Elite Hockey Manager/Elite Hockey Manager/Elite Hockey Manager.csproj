@@ -85,7 +85,10 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueControl.Designer.cs">
       <DependentUpon>LeagueControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\PlayerLabel.cs">
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerAttributesTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.cs">
@@ -99,6 +102,12 @@
     </Compile>
     <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamLinesControl.Designer.cs">
       <DependentUpon>TeamLinesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerStatsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerStatsControl.Designer.cs">
+      <DependentUpon>PlayerStatsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\LeagueComponents\PlayerGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\StandingsControl.cs">
@@ -197,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.resx">
       <DependentUpon>TeamCapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerStatsControl.resx">
+      <DependentUpon>PlayerStatsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\StandingsControl.resx">
       <DependentUpon>StandingsControl.cs</DependentUpon>

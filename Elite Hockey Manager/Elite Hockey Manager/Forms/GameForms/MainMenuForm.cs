@@ -24,6 +24,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         public MainMenuForm(League league)
         {
             _league = league;
+            this.Text = String.Format("{0} - Home", _league.LeagueName);
             InitializeComponent();
         }
 

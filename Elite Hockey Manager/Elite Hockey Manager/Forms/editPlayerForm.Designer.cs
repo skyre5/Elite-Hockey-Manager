@@ -182,7 +182,7 @@
             this.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EditPlayerForm";
-            this.Text = "editPlayerForm";
+            this.Text = "Edit Player Information";
             this.Load += new System.EventHandler(this.EditPlayerForm_Load);
             this.generalGroup.ResumeLayout(false);
             this.generalGroup.PerformLayout();

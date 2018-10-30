@@ -47,7 +47,6 @@
             this.ClientSize = new System.Drawing.Size(1022, 548);
             this.Controls.Add(this.standingsControl);
             this.Name = "MainMenuForm";
-            this.Text = "MainMenuForm";
             this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.ResumeLayout(false);
 

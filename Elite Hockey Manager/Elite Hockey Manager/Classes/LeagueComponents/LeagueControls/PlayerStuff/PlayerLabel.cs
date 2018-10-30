@@ -11,14 +11,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
     public class PlayerLabel : System.Windows.Forms.Label
     {
         private Player _player;
-        public PlayerLabel(Player player)
-        {
-            this.Font = new Font(this.Font, FontStyle.Underline);
-            this.Text = "No Player";
-            this.AutoSize = true;
-            this.DoubleClick += LabelDoubleClicked;
-            Player = player;
-        }
         public Player Player
         {
             get
@@ -33,6 +25,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                     this.Text = _player.ToString().Trim();
                 }
             }
+        }
+        public PlayerLabel(Player player)
+        {
+            this.Font = new Font(this.Font, FontStyle.Underline);
+            this.Text = "No Player";
+            this.AutoSize = true;
+            this.DoubleClick += LabelDoubleClicked;
+            Player = player;
         }
         private void LabelDoubleClicked(object sender, EventArgs e)
         {
