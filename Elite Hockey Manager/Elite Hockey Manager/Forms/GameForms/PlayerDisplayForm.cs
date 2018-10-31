@@ -14,13 +14,33 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class PlayerDisplayForm : Form
     {
+        private Player _player;
+        public Player Player
+        {
+            get
+            {
+                return _player;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                _player = value;
+            }
+        }
         public PlayerDisplayForm(Player player)
         {
             InitializeComponent();
+            Player = player;
         }
 
         private void PlayerDisplayForm_Load(object sender, EventArgs e)
         {
+            this.Text = _player.FullName;
+            playerAttributesPanel.Player = _player;
         }
+
     }
 }

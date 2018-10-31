@@ -27,7 +27,7 @@ namespace Elite_Hockey_Manager.Classes
         {
 
         }
-        public Tuple<string, int>[] GetStatNames()
+        public virtual Tuple<string, int>[] GetAttributeNames()
         {
             Tuple<string, int>[] names = {
                 Tuple.Create("Clutchness", this._clutchness),

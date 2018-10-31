@@ -40,9 +40,9 @@ namespace Elite_Hockey_Manager.Classes
         public GoalieAttributes()
         {
         }
-        public new Tuple<string, int>[] GetStatNames()
+        public override Tuple<string, int>[] GetAttributeNames()
         {
-            Tuple<string, int>[] parentNames = base.GetStatNames();
+            Tuple<string, int>[] parentNames = base.GetAttributeNames();
             Tuple<string, int>[] newNames = {
                 Tuple.Create("High", this._high),
                 Tuple.Create("Low", this._low),

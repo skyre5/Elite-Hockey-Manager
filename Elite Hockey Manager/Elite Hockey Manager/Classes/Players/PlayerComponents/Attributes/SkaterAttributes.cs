@@ -40,9 +40,9 @@ namespace Elite_Hockey_Manager.Classes
                 rand = new Random();
             }
         }
-        public new Tuple<string, int>[] GetStatNames()
+        public override Tuple<string, int>[] GetAttributeNames()
         {
-            Tuple<string, int>[] parentNames = base.GetStatNames();
+            Tuple<string, int>[] parentNames = base.GetAttributeNames();
             Tuple<string, int>[] newNames = {
                 Tuple.Create("WristShot", this._wristShot),
                 Tuple.Create("SlapShot", this._slapShot),

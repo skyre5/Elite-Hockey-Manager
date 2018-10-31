@@ -97,11 +97,11 @@ namespace Elite_Hockey_Manager.Forms
             Tuple<String, int>[] statNames;
             if (player is Skater)
             {
-                statNames = ((SkaterAttributes)player.Attributes).GetStatNames();
+                statNames = ((SkaterAttributes)player.Attributes).GetAttributeNames();
             }
             else if (player is Goalie)
             {
-                statNames = ((GoalieAttributes)player.Attributes).GetStatNames();
+                statNames = ((GoalieAttributes)player.Attributes).GetAttributeNames();
             }
             else
             {
