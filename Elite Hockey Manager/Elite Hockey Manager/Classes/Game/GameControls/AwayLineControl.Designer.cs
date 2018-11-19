@@ -40,6 +40,7 @@
             // 
             // linePanel
             // 
+            this.linePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.linePanel.ColumnCount = 1;
             this.linePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.linePanel.Controls.Add(this.GoaliesLabel, 0, 0);
@@ -58,7 +59,7 @@
             // 
             this.GoaliesLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.GoaliesLabel.AutoSize = true;
-            this.GoaliesLabel.Location = new System.Drawing.Point(92, 15);
+            this.GoaliesLabel.Location = new System.Drawing.Point(92, 16);
             this.GoaliesLabel.Name = "GoaliesLabel";
             this.GoaliesLabel.Size = new System.Drawing.Size(15, 13);
             this.GoaliesLabel.TabIndex = 3;
@@ -80,7 +81,7 @@
             // 
             this.DefendersLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DefendersLabel.AutoSize = true;
-            this.DefendersLabel.Location = new System.Drawing.Point(86, 59);
+            this.DefendersLabel.Location = new System.Drawing.Point(86, 60);
             this.DefendersLabel.Name = "DefendersLabel";
             this.DefendersLabel.Size = new System.Drawing.Size(28, 13);
             this.DefendersLabel.TabIndex = 2;
