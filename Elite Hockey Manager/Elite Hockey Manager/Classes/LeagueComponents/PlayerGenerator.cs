@@ -280,10 +280,10 @@ namespace Elite_Hockey_Manager.Classes
             {
                 case 1:
                     WeightedPlayerRatingsGenerator(newDefender
-                        , 3 //% Generational
+                        , 5 //% Generational
                         , 8 //% Superstar
-                        , 19//% First Pairing
-                        , 60//% Second Pairing
+                        , 50//% First Pairing
+                        , 37//% Second Pairing
                         );
                     break;
                 case 2:
@@ -397,7 +397,7 @@ namespace Elite_Hockey_Manager.Classes
             for (int i = 0; i < weights.Count(); i++)
             {
                 total += weights[i];
-                if (decidingNumber < total)
+                if (decidingNumber <= total)
                 {
                     player.GenerateStats(i + 1);
                     break;

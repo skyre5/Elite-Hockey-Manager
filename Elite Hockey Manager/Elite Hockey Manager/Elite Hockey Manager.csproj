@@ -73,6 +73,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Game\GameControls\GameControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\Game\GameControls\GameControl.Designer.cs">
+      <DependentUpon>GameControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Game\GameControls\AwayLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\Game\GameControls\AwayLineControl.Designer.cs">
+      <DependentUpon>AwayLineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Game\GameControls\HomeLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\Game\GameControls\HomeLineControl.Designer.cs">
+      <DependentUpon>HomeLineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\SkaterAttributes.cs" />
@@ -145,6 +163,12 @@
     <Compile Include="Forms\EditPlayerForm.Designer.cs">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GameForms\MainMenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,6 +225,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Classes\Game\GameControls\GameControl.resx">
+      <DependentUpon>GameControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Game\GameControls\AwayLineControl.resx">
+      <DependentUpon>AwayLineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Game\GameControls\HomeLineControl.resx">
+      <DependentUpon>HomeLineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueControl.resx">
       <DependentUpon>LeagueControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -221,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\editPlayerForm.resx">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\MainMenuForm.resx">
       <DependentUpon>MainMenuForm.cs</DependentUpon>

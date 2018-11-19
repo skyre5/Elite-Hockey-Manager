@@ -42,7 +42,8 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Player : ISerializable
     {
-
+        //Static random object for use in player number generation
+        private static Random rand = new Random();
         protected string _firstName;
         protected string _lastName;
         protected int _age;
@@ -50,13 +51,27 @@ namespace Elite_Hockey_Manager.Classes
         private static int idCount = 0;
         //Set in constructor after incrementing the id count
         private int _playerID;
-
+        //Random number between 1 and 99
+        private int _playerNumber = rand.Next(1, 100);
 
         public abstract int PlayerStatusID
         {
             get;
         }
-
+        public int PlayerNumber
+        {
+            get
+            {
+                return _playerNumber;
+            }
+            private set
+            {
+                if (value < 1 || value > 99)
+                {
+                    throw new ArgumentException("Number must fall between 1 and 99");
+                }
+            }
+        }
         private List<PlayerStats> _careerStats = new List<PlayerStats>();
         protected List<Contract> _careerContracts = new List<Contract>();
         
@@ -91,7 +106,8 @@ namespace Elite_Hockey_Manager.Classes
             {
                 if (_careerContracts.Count == 0)
                 {
-                    return null;
+                    _careerContracts.Add(new Contract());
+                    _careerContracts.Last();
                 }
                 return _careerContracts.Last();
             }
@@ -183,7 +199,7 @@ namespace Elite_Hockey_Manager.Classes
         }
         public override string ToString()
         {
-            return String.Format("{0,-2}: {1,-20}: Ovr:{2,-5}", this.Position, this.FullName, this.Overall);
+            return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
         }
         public abstract void GenerateStats(int playerStatus);
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -193,6 +209,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Age", this._age);
             info.AddValue("PlayerID", this._playerID);
             info.AddValue("Contracts", this._careerContracts);
+            info.AddValue("PlayerNumber", this._playerNumber);
         }
         public Player(SerializationInfo info, StreamingContext context)
         {
@@ -210,6 +227,14 @@ namespace Elite_Hockey_Manager.Classes
                 this._careerContracts = new List<Contract>();
                 //If no contract is found it gives a default contract of 1 year and 1m
                 this._careerContracts.Add(new Players.PlayerComponents.Contract());
+            }
+            try
+            {
+                this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
+            }
+            catch
+            {
+
             }
         }
         public void AddContract(Contract contract)

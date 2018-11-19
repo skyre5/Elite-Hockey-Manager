@@ -21,7 +21,6 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class SkaterAttributes : Attributes
     {
-        private static Random rand;
         //Shooting stats
         private int _wristShot = DefaultRating;
         private int _slapShot = DefaultRating;
@@ -35,10 +34,6 @@ namespace Elite_Hockey_Manager.Classes
         private int _faceoff = DefaultRating;
         public SkaterAttributes()
         {
-            if (rand == null)
-            {
-                rand = new Random();
-            }
         }
         public override Tuple<string, int>[] GetAttributeNames()
         {

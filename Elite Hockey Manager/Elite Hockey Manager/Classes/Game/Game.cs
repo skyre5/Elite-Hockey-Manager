@@ -25,11 +25,42 @@ namespace Elite_Hockey_Manager.Classes.Game
             get;
             protected set;
         }
+        public string Title
+        {
+            get
+            {
+                return String.Format("{0} @ {1}", AwayTeam.TeamName, HomeTeam.TeamName);
+            }
+        }
+        /// <summary>
+        /// Boolean variable on whether the game has been finished yet
+        /// </summary>
         public bool Finished
         {
             get;
             private set;
         } = false;
+
+        /// <summary>
+        /// Period of the game 
+        /// 1-3 Periods played 20 minutes
+        /// 4+ Overtime periods 20 minutes unless regular season in which 5 minute single overtime then shootout
+        /// </summary>
+        private int period = 1;
+        //1200 Seconds in a period (300 in regular season OT)
+        private int secondsElapsed = 0;
+        //Home and away scores
+        private int homeGoals = 0;
+        private int awayGoals = 0;
+        //Home and away shot totals
+        private int homeShots = 0;
+        private int awayShots = 0;
+        //Home and away hit totals
+        private int homeHits = 0;
+        private int awayHits = 0;
+        //Home and away faceoff wins
+        private int homeFaceoffWins = 0;
+        private int awayFaceoffWins = 0;
         /// <summary>
         /// Public constructor for Game class in a dormant, yet to be played state
         /// </summary>
@@ -51,12 +82,38 @@ namespace Elite_Hockey_Manager.Classes.Game
             this.HomeTeam = (Team)info.GetValue("HomeTeam", typeof(Team));
             this.AwayTeam = (Team)info.GetValue("AwayTeam", typeof(Team));
             this.GameNumber = (int)info.GetValue("GameNumber", typeof(int));
+            this.Finished = (bool)info.GetValue("Finished", typeof(bool));
+
+            this.homeGoals = (int)info.GetValue("HomeGoals", typeof(int));
+            this.awayGoals = (int)info.GetValue("AwayGoals", typeof(int));
+
+            this.homeShots = (int)info.GetValue("HomeShots", typeof(int));
+            this.awayShots = (int)info.GetValue("AwayShots", typeof(int));
+
+            this.homeHits = (int)info.GetValue("HomeHits", typeof(int));
+            this.awayHits = (int)info.GetValue("AwayHits", typeof(int));
+
+            this.homeFaceoffWins = (int)info.GetValue("HomeFaceoff", typeof(int));
+            this.awayFaceoffWins = (int)info.GetValue("AwayFaceoff", typeof(int));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("HomeTeam", this.HomeTeam);
             info.AddValue("AwayTeam", this.AwayTeam);
             info.AddValue("GameNumber", this.GameNumber);
+            info.AddValue("Finished", this.Finished);
+
+            info.AddValue("HomeGoals", this.homeGoals);
+            info.AddValue("AwayGoals", this.awayGoals);
+
+            info.AddValue("HomeShots", this.homeShots);
+            info.AddValue("AwayShots", this.awayShots);
+
+            info.AddValue("HomeHits", this.homeHits);
+            info.AddValue("AwayHits", this.awayHits);
+
+            info.AddValue("HomeFaceoff", this.homeFaceoffWins);
+            info.AddValue("AwayFaceoff", this.awayFaceoffWins);
         }
     }
 }

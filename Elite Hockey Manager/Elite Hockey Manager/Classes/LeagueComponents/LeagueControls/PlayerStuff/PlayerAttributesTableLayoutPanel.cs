@@ -56,7 +56,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
         {
             Label attributeLabel = new Label();
             attributeLabel.AutoSize = true;
-            attributeLabel.Text = String.Format("{0,-12}:{1}", attribute.Item1, attribute.Item2);
+            attributeLabel.Text = String.Format("{0,-14}:{1}", attribute.Item1, attribute.Item2);
             attributeLabel.Font = new Font("Courier New", 8f);
             return attributeLabel;
         }

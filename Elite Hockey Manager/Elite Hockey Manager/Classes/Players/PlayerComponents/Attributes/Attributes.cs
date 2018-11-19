@@ -10,6 +10,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Attributes : ISerializable
     {
+        protected static Random rand = new Random();
         public const int DefaultRating = 50;
         //General stats
         protected int _clutchness = DefaultRating;

@@ -56,7 +56,6 @@ namespace Elite_Hockey_Manager.Classes
         protected override void GenerateStats(int age, int lower, int upper, int guarantee)
         {
             ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
-            Random rand = new Random();
             _high = rand.Next(lower, upper + 1);
             _low = rand.Next(lower, upper + 1);
             _speed = rand.Next(lower, upper + 1);

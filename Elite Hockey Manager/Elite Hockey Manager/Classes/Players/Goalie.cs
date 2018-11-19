@@ -63,6 +63,7 @@ namespace Elite_Hockey_Manager.Classes
         public override void GenerateStats(int playerStatus)
         {
             GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
+            PlayerStatus = status;
             _attributes.GenerateGoalieStatRanges(status, _age);
         }
 

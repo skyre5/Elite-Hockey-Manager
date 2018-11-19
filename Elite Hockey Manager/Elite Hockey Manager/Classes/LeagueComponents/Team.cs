@@ -175,7 +175,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             //Returns a list of a certain position, sorted by overall
             return Roster.Where(player => player is T)
-                .OrderBy(item => item.Overall).ToList();
+                .OrderByDescending(item => item.Overall).ToList();
         }
         public double GetCapSpent()
         {

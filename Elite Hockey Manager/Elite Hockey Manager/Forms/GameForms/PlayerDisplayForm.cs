@@ -38,7 +38,28 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 
         private void PlayerDisplayForm_Load(object sender, EventArgs e)
         {
-            this.Text = _player.FullName;
+            this.Text = _player.ToString();
+
+            nameLabel.Text = String.Format("Name: {0}", _player.FullName);
+
+            ageLabel.Text = String.Format("Age: {0}", _player.Age.ToString());
+
+            //Sets player status depending on whether play is Forward, Defender, or Goalie
+            int statusId = _player.PlayerStatusID;
+            if (_player is Forward)
+            {
+                statusLabel.Text = String.Format("Status: {0}", ((ForwardPlayerStatus)statusId).ToString());
+            }
+            else if (_player is Defender)
+            {
+                statusLabel.Text = String.Format("Status: {0}", ((DefensePlayerStatus)statusId).ToString());
+            }
+            else if (_player is Goalie)
+            {
+                statusLabel.Text = String.Format("Status: {0}", ((GoaliePlayerStatus)statusId).ToString());
+            }
+
+            contractLabel.Text = String.Format("Contract: {0}M", _player.CurrentContract.ContractAmount);
             playerAttributesPanel.Player = _player;
         }
 
