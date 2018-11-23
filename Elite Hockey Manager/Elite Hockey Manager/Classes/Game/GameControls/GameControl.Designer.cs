@@ -35,11 +35,17 @@
             this.awayLineControl1 = new Elite_Hockey_Manager.Classes.Game.GameControls.AwayLineControl();
             this.homeTeamLabel = new System.Windows.Forms.Label();
             this.awayTeamLabel = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.statsTabControl = new System.Windows.Forms.TabControl();
+            this.homePlayersPage = new System.Windows.Forms.TabPage();
+            this.awayPlayersPage = new System.Windows.Forms.TabPage();
             this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.Game.GameControls.ShotCounterControl();
-            this.tabControl1.SuspendLayout();
+            this.eventsTabControl = new System.Windows.Forms.TabControl();
+            this.allEventsPage = new System.Windows.Forms.TabPage();
+            this.goalsPage = new System.Windows.Forms.TabPage();
+            this.penaltiesPage = new System.Windows.Forms.TabPage();
+            this.shotPage = new System.Windows.Forms.TabPage();
+            this.statsTabControl.SuspendLayout();
+            this.eventsTabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // periodLabel
@@ -101,35 +107,35 @@
             this.awayTeamLabel.TabIndex = 6;
             this.awayTeamLabel.Text = "Away";
             // 
-            // tabControl1
+            // statsTabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(619, 69);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(202, 387);
-            this.tabControl1.TabIndex = 7;
+            this.statsTabControl.Controls.Add(this.homePlayersPage);
+            this.statsTabControl.Controls.Add(this.awayPlayersPage);
+            this.statsTabControl.Location = new System.Drawing.Point(619, 69);
+            this.statsTabControl.Name = "statsTabControl";
+            this.statsTabControl.SelectedIndex = 0;
+            this.statsTabControl.Size = new System.Drawing.Size(202, 387);
+            this.statsTabControl.TabIndex = 7;
             // 
-            // tabPage1
+            // homePlayersPage
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(194, 361);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Home";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.homePlayersPage.Location = new System.Drawing.Point(4, 22);
+            this.homePlayersPage.Name = "homePlayersPage";
+            this.homePlayersPage.Padding = new System.Windows.Forms.Padding(3);
+            this.homePlayersPage.Size = new System.Drawing.Size(194, 361);
+            this.homePlayersPage.TabIndex = 0;
+            this.homePlayersPage.Text = "Home";
+            this.homePlayersPage.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // awayPlayersPage
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(194, 361);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Away";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.awayPlayersPage.Location = new System.Drawing.Point(4, 22);
+            this.awayPlayersPage.Name = "awayPlayersPage";
+            this.awayPlayersPage.Padding = new System.Windows.Forms.Padding(3);
+            this.awayPlayersPage.Size = new System.Drawing.Size(194, 361);
+            this.awayPlayersPage.TabIndex = 1;
+            this.awayPlayersPage.Text = "Away";
+            this.awayPlayersPage.UseVisualStyleBackColor = true;
             // 
             // shotCounterControl1
             // 
@@ -138,12 +144,67 @@
             this.shotCounterControl1.Size = new System.Drawing.Size(283, 104);
             this.shotCounterControl1.TabIndex = 8;
             // 
+            // eventsTabControl
+            // 
+            this.eventsTabControl.Controls.Add(this.allEventsPage);
+            this.eventsTabControl.Controls.Add(this.goalsPage);
+            this.eventsTabControl.Controls.Add(this.penaltiesPage);
+            this.eventsTabControl.Controls.Add(this.shotPage);
+            this.eventsTabControl.Location = new System.Drawing.Point(377, 69);
+            this.eventsTabControl.Multiline = true;
+            this.eventsTabControl.Name = "eventsTabControl";
+            this.eventsTabControl.SelectedIndex = 0;
+            this.eventsTabControl.Size = new System.Drawing.Size(226, 383);
+            this.eventsTabControl.TabIndex = 9;
+            // 
+            // allEventsPage
+            // 
+            this.allEventsPage.Location = new System.Drawing.Point(4, 22);
+            this.allEventsPage.Name = "allEventsPage";
+            this.allEventsPage.Padding = new System.Windows.Forms.Padding(3);
+            this.allEventsPage.Size = new System.Drawing.Size(218, 357);
+            this.allEventsPage.TabIndex = 0;
+            this.allEventsPage.Text = "All Events";
+            this.allEventsPage.UseVisualStyleBackColor = true;
+            // 
+            // goalsPage
+            // 
+            this.goalsPage.Location = new System.Drawing.Point(4, 22);
+            this.goalsPage.Name = "goalsPage";
+            this.goalsPage.Padding = new System.Windows.Forms.Padding(3);
+            this.goalsPage.Size = new System.Drawing.Size(218, 357);
+            this.goalsPage.TabIndex = 1;
+            this.goalsPage.Text = "Goals";
+            this.goalsPage.UseVisualStyleBackColor = true;
+            this.goalsPage.Click += new System.EventHandler(this.goalsTab_Click);
+            // 
+            // penaltiesPage
+            // 
+            this.penaltiesPage.Location = new System.Drawing.Point(4, 22);
+            this.penaltiesPage.Name = "penaltiesPage";
+            this.penaltiesPage.Padding = new System.Windows.Forms.Padding(3);
+            this.penaltiesPage.Size = new System.Drawing.Size(218, 357);
+            this.penaltiesPage.TabIndex = 2;
+            this.penaltiesPage.Text = "Penalties";
+            this.penaltiesPage.UseVisualStyleBackColor = true;
+            // 
+            // shotPage
+            // 
+            this.shotPage.Location = new System.Drawing.Point(4, 22);
+            this.shotPage.Name = "shotPage";
+            this.shotPage.Padding = new System.Windows.Forms.Padding(3);
+            this.shotPage.Size = new System.Drawing.Size(218, 357);
+            this.shotPage.TabIndex = 3;
+            this.shotPage.Text = "Shots";
+            this.shotPage.UseVisualStyleBackColor = true;
+            // 
             // GameControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.eventsTabControl);
             this.Controls.Add(this.shotCounterControl1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.statsTabControl);
             this.Controls.Add(this.awayTeamLabel);
             this.Controls.Add(this.homeTeamLabel);
             this.Controls.Add(this.awayLineControl1);
@@ -153,7 +214,8 @@
             this.Controls.Add(this.periodLabel);
             this.Name = "GameControl";
             this.Size = new System.Drawing.Size(847, 486);
-            this.tabControl1.ResumeLayout(false);
+            this.statsTabControl.ResumeLayout(false);
+            this.eventsTabControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,9 +230,14 @@
         private AwayLineControl awayLineControl1;
         private System.Windows.Forms.Label homeTeamLabel;
         private System.Windows.Forms.Label awayTeamLabel;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl statsTabControl;
+        private System.Windows.Forms.TabPage homePlayersPage;
+        private System.Windows.Forms.TabPage awayPlayersPage;
         private ShotCounterControl shotCounterControl1;
+        private System.Windows.Forms.TabControl eventsTabControl;
+        private System.Windows.Forms.TabPage allEventsPage;
+        private System.Windows.Forms.TabPage goalsPage;
+        private System.Windows.Forms.TabPage penaltiesPage;
+        private System.Windows.Forms.TabPage shotPage;
     }
 }

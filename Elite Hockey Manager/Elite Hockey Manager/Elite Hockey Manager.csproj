@@ -97,6 +97,7 @@
     <Compile Include="Classes\Game\GameControls\ShotCounterControl.Designer.cs">
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Game\GameEvent\Event.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\SkaterAttributes.cs" />

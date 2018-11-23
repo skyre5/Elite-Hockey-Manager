@@ -16,5 +16,10 @@ namespace Elite_Hockey_Manager.Classes.Game.GameControls
         {
             InitializeComponent();
         }
+
+        private void goalsTab_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
