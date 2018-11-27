@@ -19,11 +19,6 @@ namespace Elite_Hockey_Manager.Classes
         private int _fatigue = 0;
 
         private int _injuryLength = 0;
-        //0 Healthy
-        //1 Slight injury
-        //2 Major injury
-        //3 Can't play
-        private int _injurySeverity = 0;
         public Attributes()
         {
 
@@ -56,7 +51,6 @@ namespace Elite_Hockey_Manager.Classes
             this._consistency = (int)info.GetValue("Consistency", typeof(int));
             this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
             this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
-            this._injurySeverity = (int)info.GetValue("InjurySeverity", typeof(int));
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -64,7 +58,6 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Consistency", this._consistency);
             info.AddValue("Fatigue", this._fatigue);
             info.AddValue("InjuryLength", this._injuryLength);
-            info.AddValue("InjurySeverity", this._injurySeverity);
         }
         protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
         {
@@ -168,22 +161,15 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-        public int InjurySeverity
+        public bool Injured
         {
             get
             {
-                return _injurySeverity;
-            }
-            set
-            {
-                if (value < 0 || value > 3)
+                if (InjuryLength > 0)
                 {
-                    throw new ArgumentException("Error: Injury severity must be between 0 and 3");
+                    return true;
                 }
-                else
-                {
-                    _injurySeverity = value;
-                }
+                return false;
             }
         }
     }

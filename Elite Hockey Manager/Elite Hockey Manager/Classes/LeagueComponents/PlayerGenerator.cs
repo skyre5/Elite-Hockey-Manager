@@ -329,6 +329,8 @@ namespace Elite_Hockey_Manager.Classes
             }
             //Generates base contract for player based on overall
             ContractGenerator.GenerateContract(newDefender);
+            //Sets faceoff to 50 for defenders since they don't use it
+            newDefender.SkaterAttributes.Faceoff = 50;
             return newDefender;
 
         }

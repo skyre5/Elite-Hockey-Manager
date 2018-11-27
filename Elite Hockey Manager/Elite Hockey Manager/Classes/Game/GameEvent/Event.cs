@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.Game;
 
 namespace Elite_Hockey_Manager.Classes.Game.GameEvent
 {
+    public enum GoalType : int
+    {
+        EvenStrength,
+        Shorthanded,
+        Powerplay
+    }
+    public enum Side : int
+    {
+        Home, 
+        Away
+    }
     public abstract class Event
     {
         private Player _player;
         private int _period;
         private int _time;
+        private Side _side;
         public Player Player
         {
             get
@@ -56,7 +69,17 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
                 _time = value;
             }
         }
-        public Event(Player player, int period, int time)
+        public Side Side {
+            get
+            {
+                return _side;
+            }
+            set
+            {
+                _side = value;
+            }
+        }
+        public Event(Player player, int period, int time, Side side)
         {
             Player = player;
             Period = period;
@@ -67,6 +90,8 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
     {
         private Player _assister1;
         private Player _assister2;
+        private GoalType _goalType;
+        private PlayersOnIce _playersOnIce = new PlayersOnIce();
         public Player Assister1
         {
             get
@@ -89,10 +114,40 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
                 _assister2 = value;
             }
         }
-        public GoalEvent(Player player, int period, int time, Player assister1 = null, Player assister2 = null) : base(player, period, time)
+        public GoalType GoalType
+        {
+            get
+            {
+                return _goalType;
+            }
+            protected set
+            {
+                _goalType = value;
+            }
+        }
+        /// <summary>
+        /// Shows players on ice for each goal event
+        /// Used for +/- as well for player stat view
+        /// </summary>
+        public PlayersOnIce PlayersOnIce
+        {
+            get
+            {
+                return _playersOnIce;
+            }
+            protected set
+            {
+                _playersOnIce.awayPlayers = (Player[])value.awayPlayers.Clone();
+                _playersOnIce.homePlayers = (Player[])value.homePlayers.Clone();
+            }
+        }
+
+        public GoalEvent(Player player, int period, int time, Side side, GoalType goalType, PlayersOnIce playersOnIce, Player assister1 = null, Player assister2 = null)
+            : base(player, period, time, side)
         {
             Assister1 = assister1;
             Assister2 = assister2;
+            PlayersOnIce = playersOnIce;
         }
     }
     public class HitEvent : Event
@@ -113,7 +168,7 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
                 _playerHit = null;
             }
         }
-        public HitEvent(Player player, int period, int time, Player playerHit) : base(player, period, time)
+        public HitEvent(Player player, int period, int time, Side side, Player playerHit) : base(player, period, time, side)
         {
             PlayerHit = playerHit;
         }
@@ -148,7 +203,7 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
                 _playerTakenOn = value;
             }
         }
-        public PenaltyEvent(Player player, int period, int time, int minutes, Player playerTakenOn = null) : base(player, period, time)
+        public PenaltyEvent(Player player, int period, int time, Side side, int minutes, Player playerTakenOn = null) : base(player, period, time, side)
         {
             Minutes = minutes;
             PlayerTakenOn = playerTakenOn;
@@ -156,7 +211,7 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
     }
     public class ShotEvent : Event
     {
-        public ShotEvent(Player player, int period, int time) : base(player, period, time)
+        public ShotEvent(Player player, int period, int time, Side side) : base(player, period, time, side)
         {
         }
     }

@@ -22,10 +22,9 @@ namespace Elite_Hockey_Manager.Classes
             private set;
         } = new List<Player>();
 
-        private Forward[,] forwards = new Forward[4, 3];
-        private Defender[,] defenders = new Defender[3, 2];
-        private Goalie[] goalies = new Goalie[2];
-        private Skater[] scratched = new Skater[3];
+        private Forward[,] _forwards = new Forward[4, 3];
+        private Defender[,] _defenders = new Defender[3, 2];
+        private Goalie[] _goalies = new Goalie[2];
         public Team(string location, string name)
         {
             Location = location;
@@ -124,6 +123,27 @@ namespace Elite_Hockey_Manager.Classes
                 return _teamID;
             }
         }
+        public Forward[,] Forwards
+        {
+            get
+            {
+                return _forwards;
+            }
+        }
+        public Defender[,] Defenders
+        {
+            get
+            {
+                return _defenders;
+            }
+        }
+        public Goalie[] Goalies
+        {
+            get
+            {
+                return _goalies;
+            }
+        }
         public override string ToString()
         {
             return FullName;
@@ -168,13 +188,14 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// Returns a list of players of position T
         /// Sorted by overall
+        /// Non-injured players
         /// </summary>
         /// <typeparam name="T">The type of player E.G Center,Goalie</typeparam>
         /// <returns>Returns list of type Player that is shared by all positions through inheritance</returns>
         public List<Player> GetPlayersOfType<T>()
         {
             //Returns a list of a certain position, sorted by overall
-            return Roster.Where(player => player is T)
+            return Roster.Where(player => player is T && !player.Attributes.Injured)
                 .OrderByDescending(item => item.Overall).ToList();
         }
         public double GetCapSpent()
@@ -208,6 +229,56 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
             return true;
+        }
+        public void AutoSetLines()
+        {
+            AutoSetForwardLines();
+            AutoSetDefenseLines();
+            AutoSetGoalies();
+        }
+        public void AutoSetForwardLines()
+        {
+            List<Player> leftWings = GetPlayersOfType<LeftWinger>();
+            CheckForInjury(leftWings, 0, 5, 4, PlayerGenerator.GenerateForward);
+            List<Player> rightWings = GetPlayersOfType<RightWinger>();
+            CheckForInjury(rightWings, 1, 5, 4, PlayerGenerator.GenerateForward);
+            List<Player> centers = GetPlayersOfType<Center>();
+            CheckForInjury(centers, 2, 5, 4, PlayerGenerator.GenerateForward);
+            for (int i = 0; i <= 3; i++)
+            {
+                _forwards[i, 0] = (Forward)leftWings[i];
+                _forwards[i, 1] = (Forward)centers[i];
+                _forwards[i, 2] = (Forward)rightWings[i];
+            }
+        }
+        public void AutoSetDefenseLines()
+        {
+            List<Player> leftDefenders = GetPlayersOfType<LeftDefensemen>();
+            CheckForInjury(leftDefenders, 0, 4, 3, PlayerGenerator.GenerateDefender);
+            List<Player> rightDefenders = GetPlayersOfType<RightDefensemen>();
+            CheckForInjury(rightDefenders, 1, 4, 3, PlayerGenerator.GenerateDefender);
+            for (int i = 0; i <= 2; i++)
+            {
+                _defenders[i, 0] = (Defender)leftDefenders[i];
+                _defenders[i, 1] = (Defender)rightDefenders[i];
+            }
+        }
+        public void AutoSetGoalies()
+        {
+            List<Player> goalies = GetPlayersOfType<Goalie>();
+            while (goalies.Count < 2)
+            {
+                goalies.Add(PlayerGenerator.GenerateGoalie(3));
+            }
+            _goalies[0] = (Goalie)goalies[0];
+            _goalies[1] = (Goalie)goalies[1];
+        }
+        private void CheckForInjury(List<Player> players, int position, int quality, int amountRequired, Func<int, int, Player> createPlayerFunc)
+        {
+            while (players.Count < amountRequired)
+            {
+                players.Add(createPlayerFunc(position, quality));
+            }
         }
     }
 }

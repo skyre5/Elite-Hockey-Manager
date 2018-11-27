@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Elite_Hockey_Manager.Forms.GameForms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls
@@ -28,8 +29,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
         }
         public PlayerLabel(Player player)
         {
-            this.Font = new Font(this.Font, FontStyle.Underline);
+            //this.Font = new Font(this.Font, FontStyle.Underline);
             this.Text = "No Player";
+            //Both found using System.Windows.Forms;
+            //Centers label within each table cell
+            this.Anchor = AnchorStyles.None;
+            this.BorderStyle = BorderStyle.FixedSingle;
+
             this.AutoSize = true;
             this.DoubleClick += LabelDoubleClicked;
             Player = player;
