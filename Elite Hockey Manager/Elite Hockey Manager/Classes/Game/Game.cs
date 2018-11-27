@@ -37,6 +37,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         //Home and away faceoff wins
         private int homeFaceoffWins = 0;
         private int awayFaceoffWins = 0;
+        
         /// <summary>
         /// Public constructor for Game class in a dormant, yet to be played state
         /// </summary>

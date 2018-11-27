@@ -144,6 +144,43 @@ namespace Elite_Hockey_Manager.Classes
                 return _goalies;
             }
         }
+        public Player[] GetForwardLine(int line)
+        {
+            if (line < 1 || line > 4)
+            {
+                throw new ArgumentOutOfRangeException("Invalid line number(1-4)");
+            }
+            return GetRow(_forwards, line - 1);
+        }
+        public Player[] GetDefensiveLine(int line)
+        {
+            if (line < 1 || line > 3)
+            {
+                throw new ArgumentException("Invalid line number(1-3)");
+            }
+            return GetRow(_defenders, line - 1);
+        }
+        public Goalie GetGoalie()
+        {
+            //If the starting goalies fatigue is greater than 10, returns backup
+            if (_goalies[0].Attributes.Fatigue >= 10)
+            {
+                return _goalies[1];
+            }
+            //Returns starter
+            return _goalies[0];
+        }
+        public static Player[] GetRow(Player[,] players, int row)
+        {
+            //Gets the size of the 2nd dimension of the 2d array
+            int rowLength = players.GetLength(1);
+            Player[] line = new Player[rowLength];
+            for (int i = 0;i < rowLength; i++)
+            {
+                line[i] = players[row, i];
+            }
+            return line;
+        }
         public override string ToString()
         {
             return FullName;
@@ -152,34 +189,9 @@ namespace Elite_Hockey_Manager.Classes
         {
             return _teamID.GetHashCode() ^ FullName.GetHashCode();
         }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("TeamName", this._teamName);
-            info.AddValue("Location", this._location);
-            info.AddValue("Logo", this._logoPath);
-            info.AddValue("ID", this._teamID);
-        }
-
         public bool Equals(Team other)
         {
             return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
-        }
-
-        protected Team(SerializationInfo info, StreamingContext context)
-        {
-            this._teamName = (string)info.GetValue("TeamName", typeof(string));
-            this._location = (string)info.GetValue("Location", typeof(string));
-            this._logoPath = (string)info.GetValue("Logo", typeof(string));
-            try
-            {
-                this._teamID = (int)info.GetValue("ID", typeof(int));
-            }
-            catch
-            {
-                //For previous versions that didn't save teamID
-                this._teamID = -1;
-            }
         }
         public int GetPositionCount<T>()
         {
@@ -236,6 +248,10 @@ namespace Elite_Hockey_Manager.Classes
             AutoSetDefenseLines();
             AutoSetGoalies();
         }
+        /// <summary>
+        /// Sets the 4 forward lines sorted by overall and with no injured forwards
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
         public void AutoSetForwardLines()
         {
             List<Player> leftWings = GetPlayersOfType<LeftWinger>();
@@ -251,6 +267,10 @@ namespace Elite_Hockey_Manager.Classes
                 _forwards[i, 2] = (Forward)rightWings[i];
             }
         }
+        /// <summary>
+        /// Sets the 3 defensive lines sorted by overall and with no injured defenders
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
         public void AutoSetDefenseLines()
         {
             List<Player> leftDefenders = GetPlayersOfType<LeftDefensemen>();
@@ -263,6 +283,10 @@ namespace Elite_Hockey_Manager.Classes
                 _defenders[i, 1] = (Defender)rightDefenders[i];
             }
         }
+        /// <summary>
+        /// Sets the 2 goalies sorted by overall with no injured goalies
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
         public void AutoSetGoalies()
         {
             List<Player> goalies = GetPlayersOfType<Goalie>();
@@ -273,12 +297,42 @@ namespace Elite_Hockey_Manager.Classes
             _goalies[0] = (Goalie)goalies[0];
             _goalies[1] = (Goalie)goalies[1];
         }
+        /// <summary>
+        /// Checks to make sure there are a sufficient amount of players to fill out the forward and defensive lines
+        /// </summary>
+        /// <param name="players">A List of players of players of a speciific position</param>
+        /// <param name="position">Int variable to go into GenerateForward or GenerateDefender functions</param>
+        /// <param name="quality">int variable to go into GenerateForward or GenerateDefender function</param>
+        /// <param name="amountRequired">Amount of players needed for that position. 4 for forwards, 3 for defenders</param>
+        /// <param name="createPlayerFunc">Function to create player that takes a position and quality variable</param>
         private void CheckForInjury(List<Player> players, int position, int quality, int amountRequired, Func<int, int, Player> createPlayerFunc)
         {
             while (players.Count < amountRequired)
             {
                 players.Add(createPlayerFunc(position, quality));
             }
+        }
+        protected Team(SerializationInfo info, StreamingContext context)
+        {
+            this._teamName = (string)info.GetValue("TeamName", typeof(string));
+            this._location = (string)info.GetValue("Location", typeof(string));
+            this._logoPath = (string)info.GetValue("Logo", typeof(string));
+            try
+            {
+                this._teamID = (int)info.GetValue("ID", typeof(int));
+            }
+            catch
+            {
+                //For previous versions that didn't save teamID
+                this._teamID = -1;
+            }
+        }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("TeamName", this._teamName);
+            info.AddValue("Location", this._location);
+            info.AddValue("Logo", this._logoPath);
+            info.AddValue("ID", this._teamID);
         }
     }
 }
