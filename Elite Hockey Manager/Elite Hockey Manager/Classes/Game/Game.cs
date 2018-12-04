@@ -10,12 +10,37 @@ namespace Elite_Hockey_Manager.Classes.Game
 {
     public struct PlayersOnIce
     {
-        public Player[] homePlayers;
-        public Player[] awayPlayers;
+        public Skater[] homeForwards;
+        public Skater[] awayForwards;
+        public Skater[] homeDefenders;
+        public Skater[] awayDefenders;
+        //Home true, away false
+        public Skater[] GetAllPlayers(bool side)
+        {
+            Skater[] allPlayers = new Skater[5];
+            if (side)
+            {
+                return CombineArrays(homeForwards, homeDefenders);
+            }
+            else
+            {
+                return CombineArrays(awayForwards, awayDefenders);
+            }
+        }
+        private Skater[] CombineArrays(Skater[] forwards, Skater[] defenders)
+        {
+            Skater[] combinedArrays = new Skater[5];
+            Array.Copy(forwards, combinedArrays, forwards.Length);
+            Array.Copy(defenders, 0, combinedArrays, 3, 2);
+            return combinedArrays;
+        }
     }
     [Serializable]
     public class Game : ISerializable
     {
+        public const bool HOMESCORINGCHANCE = true;
+        public const bool AWAYSCORINGCHANCE = false;
+        private Random rand = new Random();
         private List<Event> _gameEvents = new List<Event>();
         /// <summary>
         /// Period of the game 
@@ -37,7 +62,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         //Home and away faceoff wins
         private int homeFaceoffWins = 0;
         private int awayFaceoffWins = 0;
-        
+        private PlayersOnIce _playersOnIce = new PlayersOnIce();
         /// <summary>
         /// Public constructor for Game class in a dormant, yet to be played state
         /// </summary>
@@ -91,6 +116,168 @@ namespace Elite_Hockey_Manager.Classes.Game
         public void PlayGame()
         {
             //Completes the entire game
+        }
+        private void ScoringChance()
+        {
+            //Gets players for each team for this scoring chance
+            SetPlayers();
+            bool scoringChanceSide = Faceoff();
+            Skater[] skatersOnIce = GetSkatersOnIce(scoringChanceSide);
+            Skater[] skatersForPlay = GetSkatersForPlay(skatersOnIce);
+            //0 or 1
+            int chosenDefenderNum = rand.Next(0, 2);
+            Skater chosenDefender = GetChosenDefender(scoringChanceSide);
+        }
+        private void SetPlayers()
+        {
+            _playersOnIce.homeForwards = GetForwardLine(HomeTeam);
+            _playersOnIce.awayForwards = GetForwardLine(AwayTeam);
+            _playersOnIce.homeDefenders = GetDefensiveLine(HomeTeam);
+            _playersOnIce.awayDefenders = GetDefensiveLine(AwayTeam);
+        }
+        private bool Faceoff()
+        {
+            //Gets both centers off line and has faceoff
+            Skater homeCenter = _playersOnIce.homeForwards[1];
+            Skater awayCenter = _playersOnIce.awayForwards[1];
+            int homeFaceoff = homeCenter.SkaterAttributes.Faceoff;
+            int awayFaceoff = awayCenter.SkaterAttributes.Faceoff;
+            int sumFaceoff = homeFaceoff + awayFaceoff;
+            int choice = rand.Next(1, sumFaceoff + 1);
+            //If the random number is less than home, home wins faceoff and gets scoring chance
+            if (choice <= homeFaceoff)
+            {
+                //Adds faceoff wins and loss to both centers
+                homeCenter.Stats.FaceoffWins++;
+                awayCenter.Stats.FaceoffLosses++;
+                //Sets in game faceoff tracker
+                this.homeFaceoffWins++;
+                //Returns constant for home getting scoring chance
+                return HOMESCORINGCHANCE;
+            }
+            //Else random number is larger, away team wins faceoff
+            else
+            {
+                homeCenter.Stats.FaceoffLosses++;
+                awayCenter.Stats.FaceoffWins++;
+                this.awayFaceoffWins++;
+                //Returns constant for away getting scoring chance
+                return AWAYSCORINGCHANCE;
+            }
+        }
+        private Skater[] GetSkatersOnIce(bool scoringChanceSide)
+        {
+            return _playersOnIce.GetAllPlayers(scoringChanceSide);
+        }
+        private Skater GetChosenDefender(bool scoringChanceSide)
+        {
+            int chosenDenderNum = rand.Next(0, 2);
+            //If home is side defending
+            if (scoringChanceSide == AWAYSCORINGCHANCE)
+            {
+                return _playersOnIce.homeDefenders[chosenDenderNum];
+            }
+            //If away is defending
+            else
+            {
+                return _playersOnIce.awayDefenders[chosenDenderNum];
+            }
+        }
+        private Skater[] GetSkatersForPlay(Skater[] skaters)
+        {
+            Skater[] playersForPlay = new Skater[3];
+            //0-4 for all 5 indexes
+            playersForPlay[0] = skaters[rand.Next(0, 5)];
+            playersForPlay[1] = skaters[rand.Next(0, 5)];
+            playersForPlay[2] = skaters[rand.Next(0, 5)];
+            //If the first assist is the same player as the play taker, set to null
+            if (playersForPlay[1] == playersForPlay[0])
+            {
+                playersForPlay[1] = null;
+            }
+            //If second assist is same as play taker or first assist, set to null
+            if (playersForPlay[2] == playersForPlay[0] || playersForPlay[2] == playersForPlay[1])
+            {
+                playersForPlay[2] = null;
+            }
+            if (playersForPlay[1] == null && playersForPlay[2] != null)
+            {
+                playersForPlay[1] = playersForPlay[2];
+                playersForPlay[2] = null;
+            }
+            return playersForPlay;
+        }
+        private Skater[] GetForwardLine(Team team)
+        {
+            int line = ChooseForwardLineNumber();
+            return team.GetForwardLine(line);
+        }
+        private Skater[] GetDefensiveLine(Team team)
+        {
+            int line = ChooseDefenseLineNumber();
+            return team.GetDefensiveLine(line);
+        }
+        private int ChooseForwardLineNumber()
+        {
+            //Chances that each line will be chosen to play a particular event
+            //% out of 100 each line is played
+            int[] lineChances = new int[] {
+                35, //1st line
+                30, //2nd line
+                25, //3rd line
+                10  //4th line
+            };
+            int choice = rand.Next(1, 101);
+            int counter = 0;
+            for (int i = 0; i <= 3; i++)
+            {
+                counter += lineChances[i];
+                if (choice <= counter)
+                {
+                    return i + 1;
+                }
+            }
+            Console.WriteLine("Error in Game.ChooseForwardLineNumber function: Does not return a line number in for loop.");
+            return 4;
+            
+        }
+        private int ChooseDefenseLineNumber()
+        {
+            //Chances that each line will be chosen to play a particular event
+            //% out of 100 each line is played
+            int[] lineChances = new int[] {
+                42, //1st line
+                35, //2nd line
+                23 };
+            int choice = rand.Next(1, 101);
+            int counter = 0;
+            for (int i = 0; i <= 2; i++)
+            {
+                counter += lineChances[i];
+                if (choice <= counter)
+                {
+                    return i + 1;
+                }
+            }
+            Console.WriteLine("Error in Game.ChooseDefenseLineNumber function: Does not return a line number in for loop.");
+            return 4;
+
+        }
+        private int ChoosePlayerNumber()
+        {
+            int[] weights = new int[] { 25, 25, 25, 13, 12 };
+            int choice = rand.Next(1, 101);
+            int count = 0;
+            for (int i = 0; i <= 4; i++)
+            {
+                count += weights[i];
+                if (choice < count)
+                {
+                    return i;
+                }
+            }
+            Console.WriteLine("Game.ChoosePrimaryPlayerNumber error, passed through for statement");
+            return 0;
         }
         protected Game(SerializationInfo info, StreamingContext context)
         {

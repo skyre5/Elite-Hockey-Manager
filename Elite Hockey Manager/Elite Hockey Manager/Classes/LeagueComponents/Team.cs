@@ -144,7 +144,12 @@ namespace Elite_Hockey_Manager.Classes
                 return _goalies;
             }
         }
-        public Player[] GetForwardLine(int line)
+        /// <summary>
+        /// Gets an array of size 3 for a specific forward line
+        /// </summary>
+        /// <param name="line">Line 1-4 for forward lines</param>
+        /// <returns>Returns array of cooresponding line of forwards</returns>
+        public Skater[] GetForwardLine(int line)
         {
             if (line < 1 || line > 4)
             {
@@ -152,7 +157,12 @@ namespace Elite_Hockey_Manager.Classes
             }
             return GetRow(_forwards, line - 1);
         }
-        public Player[] GetDefensiveLine(int line)
+        /// <summary>
+        /// Gets an array of size 2 for a specific defensive line
+        /// </summary>
+        /// <param name="line">Line 1-3 representing 1st, 2nd, 3rd pairing</param>
+        /// <returns>Returns array of 2 defenders for cooresponding defensive pairing</returns>
+        public Skater[] GetDefensiveLine(int line)
         {
             if (line < 1 || line > 3)
             {
@@ -160,6 +170,10 @@ namespace Elite_Hockey_Manager.Classes
             }
             return GetRow(_defenders, line - 1);
         }
+        /// <summary>
+        /// Gets the starter or backup goalie for a game
+        /// </summary>
+        /// <returns>Returns the goalie that will be playing a game</returns>
         public Goalie GetGoalie()
         {
             //If the starting goalies fatigue is greater than 10, returns backup
@@ -170,11 +184,22 @@ namespace Elite_Hockey_Manager.Classes
             //Returns starter
             return _goalies[0];
         }
-        public static Player[] GetRow(Player[,] players, int row)
+        /// <summary>
+        /// Helper function to get a row of a 2d array based on row
+        /// </summary>
+        /// <param name="players">A 2d array of players</param>
+        /// <param name="row">Row of players array</param>
+        /// <returns>Returns 1d array of players from that row</returns>
+        public static Skater[] GetRow(Skater[,] players, int row)
         {
+            //If the row specificed is greater than the number of rows in the array, throw exception
+            if (row > players.GetLength(0))
+            {
+                throw new ArgumentOutOfRangeException("Row entered does not fit into size of given 2d array");
+            }
             //Gets the size of the 2nd dimension of the 2d array
             int rowLength = players.GetLength(1);
-            Player[] line = new Player[rowLength];
+            Skater[] line = new Skater[rowLength];
             for (int i = 0;i < rowLength; i++)
             {
                 line[i] = players[row, i];
@@ -191,7 +216,8 @@ namespace Elite_Hockey_Manager.Classes
         }
         public bool Equals(Team other)
         {
-            return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
+            return int.Equals(this.GetHashCode(), other.GetHashCode());
+            //return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
         }
         public int GetPositionCount<T>()
         {

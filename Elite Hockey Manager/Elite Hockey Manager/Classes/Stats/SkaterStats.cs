@@ -189,18 +189,14 @@ namespace Elite_Hockey_Manager.Classes
         }
         public int FaceoffWins
         {
-            get
-            {
-                return _faceoffWins;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int FaceoffLosses
         {
-            get
-            {
-                return _faceoffLosses;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int Points
         {
             get { return _goals + _assists; }

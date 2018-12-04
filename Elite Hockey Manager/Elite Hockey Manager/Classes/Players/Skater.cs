@@ -11,7 +11,29 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Skater : Player
     {
+        protected SkaterStats _stats;
         protected SkaterAttributes _attributes;
+        public override Attributes Attributes
+        {
+            get
+            {
+                return _attributes;
+            }
+        }
+        public SkaterAttributes SkaterAttributes
+        {
+            get
+            {
+                return (SkaterAttributes)_attributes;
+            }
+        }
+        public SkaterStats Stats
+        {
+            get
+            {
+                return _stats;
+            }
+        }
         public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
         {
             _attributes = attributes;
@@ -36,20 +58,6 @@ namespace Elite_Hockey_Manager.Classes
         {
             base.GetObjectData(info, context);
             info.AddValue("Attributes", this._attributes);
-        }
-        public override Attributes Attributes
-        {
-            get
-            {
-                return _attributes;
-            }
-        }
-        public SkaterAttributes SkaterAttributes
-        {
-            get
-            {
-                return (SkaterAttributes)_attributes;
-            }
         }
     }
 }
