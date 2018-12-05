@@ -11,12 +11,21 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Goalie : Player
     {
+
+        private GoalieStats _stats;
+        private GoalieAttributes _attributes;
+        public GoalieStats Stats
+        {
+            get
+            {
+                return _stats;
+            }
+        }
         public GoaliePlayerStatus PlayerStatus
         {
             get;
             protected set;
         } = GoaliePlayerStatus.Unset;
-        private GoalieAttributes _attributes;
         public override int Overall
         {
             get

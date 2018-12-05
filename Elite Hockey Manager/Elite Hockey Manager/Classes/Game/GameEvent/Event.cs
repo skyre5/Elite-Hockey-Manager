@@ -91,6 +91,7 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
         private Player _assister1;
         private Player _assister2;
         private GoalType _goalType;
+        private ShotType _shotType;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
         public Player Assister1
         {
@@ -125,6 +126,17 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
                 _goalType = value;
             }
         }
+        public ShotType ShotType
+        {
+            get
+            {
+                return _shotType;
+            }
+            protected set
+            {
+                _shotType = value;
+            }
+        }
         /// <summary>
         /// Shows players on ice for each goal event
         /// Used for +/- as well for player stat view
@@ -137,17 +149,20 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
             }
             protected set
             {
-                _playersOnIce.awayPlayers = (Player[])value.awayPlayers.Clone();
-                _playersOnIce.homePlayers = (Player[])value.homePlayers.Clone();
+                _playersOnIce.homeForwards = (Skater[])value.homeForwards.Clone();
+                _playersOnIce.homeDefenders = (Skater[])value.homeDefenders.Clone();
+                _playersOnIce.awayForwards = (Skater[])value.awayForwards.Clone();
+                _playersOnIce.awayDefenders = (Skater[])value.awayDefenders.Clone();
             }
         }
 
-        public GoalEvent(Player player, int period, int time, Side side, GoalType goalType, PlayersOnIce playersOnIce, Player assister1 = null, Player assister2 = null)
+        public GoalEvent(Player player, int period, int time, Side side, GoalType goalType, PlayersOnIce playersOnIce, ShotType shotType, Player assister1 = null, Player assister2 = null)
             : base(player, period, time, side)
         {
             Assister1 = assister1;
             Assister2 = assister2;
             PlayersOnIce = playersOnIce;
+            ShotType = shotType;
         }
     }
     public class HitEvent : Event
@@ -211,8 +226,21 @@ namespace Elite_Hockey_Manager.Classes.Game.GameEvent
     }
     public class ShotEvent : Event
     {
-        public ShotEvent(Player player, int period, int time, Side side) : base(player, period, time, side)
+        private ShotType _shotType;
+        public ShotType ShotType
         {
+            get
+            {
+                return _shotType;
+            }
+            protected set
+            {
+                _shotType = value;
+            }
+        }
+        public ShotEvent(Player player, int period, int time, Side side, ShotType shotType) : base(player, period, time, side)
+        {
+            ShotType = shotType;
         }
     }
 }

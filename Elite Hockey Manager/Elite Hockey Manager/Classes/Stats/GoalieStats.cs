@@ -120,12 +120,20 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _shotsFaced;
             }
+            set
+            {
+                _shotsFaced = value;
+            }
         }
         public int GoalsAllowed
         {
             get
             {
                 return _goalsAllowed;
+            }
+            set
+            {
+                _goalsAllowed = value;
             }
         }
         public int BreakawayShots

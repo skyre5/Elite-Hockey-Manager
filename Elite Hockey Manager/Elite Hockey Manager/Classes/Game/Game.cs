@@ -8,12 +8,15 @@ using Elite_Hockey_Manager.Classes.Game.GameEvent;
 
 namespace Elite_Hockey_Manager.Classes.Game
 {
+    public enum ShotType { Wristshot, Slapshot, Backhand, Breakaway };
     public struct PlayersOnIce
     {
         public Skater[] homeForwards;
         public Skater[] awayForwards;
         public Skater[] homeDefenders;
         public Skater[] awayDefenders;
+        public Goalie homeGoalie;
+        public Goalie awayGoalie;
         //Home true, away false
         public Skater[] GetAllPlayers(bool side)
         {
@@ -49,7 +52,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         /// </summary>
         private int period = 1;
         //1200 Seconds in a period (300 in regular season OT)
-        private int secondsElapsed = 0;
+        private int timeIntervals = 0;
         //Home and away scores
         private int homeGoals = 0;
         private int awayGoals = 0;
@@ -112,6 +115,8 @@ namespace Elite_Hockey_Manager.Classes.Game
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
             GameNumber = game;
+            _playersOnIce.homeGoalie = homeTeam.GetGoalie();
+            _playersOnIce.awayGoalie = awayTeam.GetGoalie();
         }
         public void PlayGame()
         {
@@ -125,8 +130,21 @@ namespace Elite_Hockey_Manager.Classes.Game
             Skater[] skatersOnIce = GetSkatersOnIce(scoringChanceSide);
             Skater[] skatersForPlay = GetSkatersForPlay(skatersOnIce);
             //0 or 1
-            int chosenDefenderNum = rand.Next(0, 2);
-            Skater chosenDefender = GetChosenDefender(scoringChanceSide);
+            Skater[] defenders = GetChosenDefenders(scoringChanceSide);
+            bool shotOpportunity = GetShotTaken(skatersForPlay, defenders);
+            if (shotOpportunity)
+            {
+                Goalie goalie;
+                if (scoringChanceSide == HOMESCORINGCHANCE)
+                {
+                    goalie = _playersOnIce.awayGoalie;
+                }
+                else
+                {
+                    goalie = _playersOnIce.homeGoalie;
+                }
+                TakeShot(skatersForPlay, defenders, goalie, scoringChanceSide);
+            }
         }
         private void SetPlayers()
         {
@@ -165,22 +183,181 @@ namespace Elite_Hockey_Manager.Classes.Game
                 return AWAYSCORINGCHANCE;
             }
         }
+        private bool GetShotTaken(Skater[] offensiveSkaters, Skater[] defenders)
+        {
+            int offensiveSumTotal = 0;
+            int defensiveSumTotal = 0;
+            //Max of 200 per each player, 600 total max
+            //Shot taken about 1/4 opportunites, 1/3 for better stats
+            foreach (Skater skater in offensiveSkaters)
+            {
+                if (skater == null) {
+                    offensiveSumTotal += 150;
+                }
+                //150 max
+                offensiveSumTotal += (int)(skater.SkaterAttributes.Speed * 1.5);
+                //100 max
+                offensiveSumTotal += skater.SkaterAttributes.Awareness;
+                //50 max
+                offensiveSumTotal += (skater.SkaterAttributes.Checking / 2);
+            }
+            //2 defenders
+            foreach (Skater defender in defenders)
+            {
+                //Max 100 for each
+                defensiveSumTotal += defender.SkaterAttributes.Speed;
+                defensiveSumTotal += defender.SkaterAttributes.Awareness;
+                defensiveSumTotal += defender.SkaterAttributes.Checking;
+            }
+            //Max of forwards should be 900
+            //Max of defenders is 600
+            //600 x 4.5 = 2700
+            //a 900/3600 chance gets a 1/4 shot opportunity in perfect circumstances
+            defensiveSumTotal = (int)(defensiveSumTotal * 4.5);
+            int choice = rand.Next(1, defensiveSumTotal + offensiveSumTotal + 1);
+            //If the chosen random number is less than the offensive total, return true for shot taken
+            return choice <= offensiveSumTotal ? true : false;
+        }
+        private void TakeShot(Skater[] offensiveSkaters, Skater[] defenders, Goalie goalie, bool scoringChanceSide)
+        {
+            int[] weights;
+            //If shot taker is forward
+            if (offensiveSkaters[0] is Forward)
+            {
+                //45% wristshot, 25% slapshot, 20% backhand, 10% breakaway
+                weights = new int[] { 40, 25, 20, 10 };
+            }
+            //Else if defender
+            else
+            {
+                //30% wristshot, 50% slapshot, 15% backhand, 5% breakawy
+                weights = new int[] { 30, 50, 15, 5 };
+            }
+            ShotType shotType = GetShotType(weights);
+            bool goalScored;
+            switch (shotType)
+            {
+                case (ShotType.Wristshot):
+                    goalScored = WristShot(offensiveSkaters[0], goalie);
+                    break;
+                case (ShotType.Slapshot):
+                    goalScored = SlapShot(offensiveSkaters[0], goalie);
+                    break;
+                case (ShotType.Backhand):
+                    goalScored = Backhand(offensiveSkaters[0], goalie);
+                    break;
+                case (ShotType.Breakaway):
+                    goalScored = Breakaway(offensiveSkaters[0], goalie);
+                    break;
+                default:
+                    goalScored = WristShot(offensiveSkaters[0], goalie);
+                    break;
+            }
+            Side side = scoringChanceSide == HOMESCORINGCHANCE ? Side.Home : Side.Away;
+            if (side == Side.Home)
+            {
+                homeShots++;
+            }
+            else
+            {
+                awayShots++;
+            }
+            _gameEvents.Add(new ShotEvent(offensiveSkaters[0], period, timeIntervals, side, shotType));
+            goalie.Stats.ShotsFaced++;
+            if (goalScored)
+            {
+                _gameEvents.Add(new GoalEvent(offensiveSkaters[0], period, timeIntervals, side, GoalType.EvenStrength, _playersOnIce, shotType, offensiveSkaters[1], offensiveSkaters[2]));
+                goalie.Stats.GoalsAllowed++;
+            }
+            if (side == Side.Home)
+            {
+                homeGoals++;
+            }
+            else
+            {
+                awayGoals++;
+            }
+            
+        }
+        private bool WristShot(Skater shotTaker, Goalie goalie)
+        {
+            int sumOffense = (int)Math.Pow(shotTaker.SkaterAttributes.WristShot, 1.5);
+            int sumGoalie = goalie.GoalieAttributes.High + goalie.GoalieAttributes.Low;
+            sumGoalie *= 10;
+            int choice = rand.Next(1, sumOffense + sumGoalie + 1);
+            if (choice <= sumOffense)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool SlapShot(Skater shotTaker, Goalie goalie)
+        {
+            //Less likely to score slapshot than wristshot
+            int sumOffense = (int)Math.Pow(shotTaker.SkaterAttributes.SlapShot, 1.3);
+            int sumGoalie = goalie.GoalieAttributes.Low + goalie.GoalieAttributes.ReboundControl;
+            sumGoalie *= 10;
+            int choice = rand.Next(1, sumOffense + sumGoalie + 1);
+            if (choice <= sumOffense)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool Backhand(Skater shotTaker, Goalie goalie)
+        {
+            int backhand = (shotTaker.SkaterAttributes.WristShot + shotTaker.SkaterAttributes.Deking) / 2;
+            int sumOffense = (int)Math.Pow(backhand, 1.3);
+            int sumGoalie = goalie.GoalieAttributes.High + goalie.GoalieAttributes.Speed;
+            sumGoalie *= 10;
+            int choice = rand.Next(1, sumOffense + sumGoalie + 1);
+            if (choice <= sumOffense)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool Breakaway(Skater shotTaker, Goalie goalie)
+        {
+            int breakaway = shotTaker.SkaterAttributes.Deking + (shotTaker.SkaterAttributes.Speed / 10) + (shotTaker.SkaterAttributes.WristShot / 10);
+            int sumOffense = (int)Math.Pow(breakaway, 1.5);
+            int sumGoalie = goalie.GoalieAttributes.Speed + goalie.GoalieAttributes.Low;
+            sumGoalie *= 10;
+            int choice = rand.Next(1, sumOffense + sumGoalie + 1);
+            if (choice <= sumOffense)
+            {
+                return true;
+            }
+            return false;
+        }
+        private ShotType GetShotType(int[] weights)
+        {
+            int choice = rand.Next(1, 101);
+            int total = 0;
+            for (int i = 0; i <= 3; i++)
+            {
+                total += weights[i];
+                if (choice <= total)
+                {
+                    return (ShotType)i;
+                }
+            }
+            return ShotType.Wristshot;
+        }
         private Skater[] GetSkatersOnIce(bool scoringChanceSide)
         {
             return _playersOnIce.GetAllPlayers(scoringChanceSide);
         }
-        private Skater GetChosenDefender(bool scoringChanceSide)
+        private Skater[] GetChosenDefenders(bool scoringChanceSide)
         {
-            int chosenDenderNum = rand.Next(0, 2);
-            //If home is side defending
             if (scoringChanceSide == AWAYSCORINGCHANCE)
             {
-                return _playersOnIce.homeDefenders[chosenDenderNum];
+                return _playersOnIce.homeDefenders;
             }
             //If away is defending
             else
             {
-                return _playersOnIce.awayDefenders[chosenDenderNum];
+                return _playersOnIce.awayDefenders;
             }
         }
         private Skater[] GetSkatersForPlay(Skater[] skaters)
