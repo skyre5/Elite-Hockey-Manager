@@ -11,9 +11,6 @@ namespace Elite_Hockey_Manager.Classes
         private int _gamesPlayed = 0;
         private int _gamesStarted = 0;
 
-        //Time played in net. 20 second increments
-        private int _timeOnIce = 0;
-
         private int _wins = 0;
         private int _losses = 0;
 
@@ -91,13 +88,6 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return _gamesStarted;
-            }
-        }
-        public int TimeOnIce
-        {
-            get
-            {
-                return _timeOnIce;
             }
         }
         public int Wins

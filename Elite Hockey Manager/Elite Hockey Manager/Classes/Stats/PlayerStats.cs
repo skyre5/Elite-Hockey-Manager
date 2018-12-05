@@ -8,9 +8,20 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class PlayerStats
     {
-        private int _year;
-        private int _team;
-
+        protected int _year;
+        protected int _team;
+        protected int _gamesPlayed = 0;
+        public int GamesPlayed
+        {
+            get
+            {
+                return _gamesPlayed;
+            }
+            set
+            {
+                _gamesPlayed = value;
+            }
+        }
         public PlayerStats(int year, int teamID)
         {
             _year = year;

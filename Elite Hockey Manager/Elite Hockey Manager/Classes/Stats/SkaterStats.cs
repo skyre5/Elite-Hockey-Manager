@@ -9,8 +9,8 @@ namespace Elite_Hockey_Manager.Classes
     public class SkaterStats : PlayerStats
     {
         int _gamesPlayed = 0;
-        //Assuming game takes place in 20 second increments
-        int _timeOnIce = 0;
+        //Assuming game takes place in 15 second increments
+        private int _timeOnIce = 0;
 
         int _goals = 0;
         int _assists = 0;
@@ -124,6 +124,17 @@ namespace Elite_Hockey_Manager.Classes
                 _penaltyMinutes += minutes;
             }
         }
+        public int TimeOnIce
+        {
+            get
+            {
+                return _timeOnIce;
+            }
+            set
+            {
+                _timeOnIce = value;
+            }
+        }
         public int GamesPlayed
         {
             get
@@ -150,6 +161,10 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return _plusMinus;
+            }
+            set
+            {
+                _plusMinus = value;
             }
         }
         public int PenaltyMinutes

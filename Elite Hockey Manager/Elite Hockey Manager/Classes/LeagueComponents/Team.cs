@@ -11,11 +11,19 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Team : ISerializable, IEquatable<Team>
     {
+        private int _year = 1;
         private string _location;
         private string _teamName;
         private string _logoPath = null;
         private int _teamID = -1;
         private static int idCount = 0;
+        public int Year
+        {
+            get
+            {
+                return _year;
+            }
+        }
         public List<Player> Roster
         {
             get;
@@ -205,6 +213,16 @@ namespace Elite_Hockey_Manager.Classes
                 line[i] = players[row, i];
             }
             return line;
+        }
+        public void AddNewSkater(Skater skater)
+        {
+            skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
+            Roster.Add(skater);
+        }
+        public void AddNewGoalie(Goalie goalie)
+        {
+            goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
+            Roster.Add(goalie);
         }
         public override string ToString()
         {

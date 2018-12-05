@@ -11,9 +11,17 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class League : ISerializable
     {
+        private static int _year = 1;
         private int _numberOfTeams;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
+        public int Year
+        {
+            get
+            {
+                return _year;
+            }
+        }
         /// <summary>
         /// Amount of teams the league will contain
         /// </summary>

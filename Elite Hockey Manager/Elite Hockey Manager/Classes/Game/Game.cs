@@ -18,7 +18,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         public Goalie homeGoalie;
         public Goalie awayGoalie;
         //Home true, away false
-        public Skater[] GetAllPlayers(bool side)
+        public Skater[] GetAllSkatersFromSide(bool side)
         {
             Skater[] allPlayers = new Skater[5];
             if (side)
@@ -30,11 +30,15 @@ namespace Elite_Hockey_Manager.Classes.Game
                 return CombineArrays(awayForwards, awayDefenders);
             }
         }
-        private Skater[] CombineArrays(Skater[] forwards, Skater[] defenders)
+        public Skater[] GetAllSkatersFromBothSides()
         {
-            Skater[] combinedArrays = new Skater[5];
-            Array.Copy(forwards, combinedArrays, forwards.Length);
-            Array.Copy(defenders, 0, combinedArrays, 3, 2);
+            return CombineArrays(GetAllSkatersFromSide(true), GetAllSkatersFromSide(false));
+        }
+        private Skater[] CombineArrays(Skater[] array1, Skater[] array2)
+        {
+            Skater[] combinedArrays = new Skater[array1.Length + array2.Length];
+            Array.Copy(array1, combinedArrays, array1.Length);
+            Array.Copy(array2, 0, combinedArrays, array1.Length, array2.Length);
             return combinedArrays;
         }
     }
@@ -126,6 +130,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         {
             //Gets players for each team for this scoring chance
             SetPlayers();
+            SetTimeOnIceStats();
             bool scoringChanceSide = Faceoff();
             Skater[] skatersOnIce = GetSkatersOnIce(scoringChanceSide);
             Skater[] skatersForPlay = GetSkatersForPlay(skatersOnIce);
@@ -144,6 +149,24 @@ namespace Elite_Hockey_Manager.Classes.Game
                     goalie = _playersOnIce.homeGoalie;
                 }
                 TakeShot(skatersForPlay, defenders, goalie, scoringChanceSide);
+            }
+        }
+        private void SetTimeOnIceStats()
+        {
+            foreach (Skater skater in _playersOnIce.GetAllSkatersFromBothSides())
+            {
+                skater.Stats.TimeOnIce++;
+            }
+        }
+        private void SetPlusMinusStats(bool scoringSide)
+        {
+            foreach (Skater skater in _playersOnIce.GetAllSkatersFromSide(scoringSide))
+            {
+                skater.Stats.PlusMinus++;
+            }
+            foreach (Skater skater in _playersOnIce.GetAllSkatersFromSide(!scoringSide))
+            {
+                skater.Stats.PlusMinus--;
             }
         }
         private void SetPlayers()
@@ -267,15 +290,16 @@ namespace Elite_Hockey_Manager.Classes.Game
             if (goalScored)
             {
                 _gameEvents.Add(new GoalEvent(offensiveSkaters[0], period, timeIntervals, side, GoalType.EvenStrength, _playersOnIce, shotType, offensiveSkaters[1], offensiveSkaters[2]));
+                SetPlusMinusStats(scoringChanceSide);
                 goalie.Stats.GoalsAllowed++;
-            }
-            if (side == Side.Home)
-            {
-                homeGoals++;
-            }
-            else
-            {
-                awayGoals++;
+                if (side == Side.Home)
+                {
+                    homeGoals++;
+                }
+                else
+                {
+                    awayGoals++;
+                }
             }
             
         }
@@ -346,7 +370,7 @@ namespace Elite_Hockey_Manager.Classes.Game
         }
         private Skater[] GetSkatersOnIce(bool scoringChanceSide)
         {
-            return _playersOnIce.GetAllPlayers(scoringChanceSide);
+            return _playersOnIce.GetAllSkatersFromSide(scoringChanceSide);
         }
         private Skater[] GetChosenDefenders(bool scoringChanceSide)
         {

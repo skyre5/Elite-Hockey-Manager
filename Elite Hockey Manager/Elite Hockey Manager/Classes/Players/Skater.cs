@@ -11,7 +11,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Skater : Player
     {
-        protected SkaterStats _stats;
+        protected List<SkaterStats> _stats = new List<SkaterStats>();
         protected SkaterAttributes _attributes;
         public override Attributes Attributes
         {
@@ -28,6 +28,13 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
         public SkaterStats Stats
+        {
+            get
+            {
+                return _stats.Last();
+            }
+        }
+        public List<SkaterStats> StatsList
         {
             get
             {

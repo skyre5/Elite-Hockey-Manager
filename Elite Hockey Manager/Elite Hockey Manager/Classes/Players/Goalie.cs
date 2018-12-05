@@ -12,9 +12,16 @@ namespace Elite_Hockey_Manager.Classes
     public class Goalie : Player
     {
 
-        private GoalieStats _stats;
+        private List<GoalieStats> _stats = new List<GoalieStats>();
         private GoalieAttributes _attributes;
         public GoalieStats Stats
+        {
+            get
+            {
+                return _stats.Last();
+            }
+        }
+        public List<GoalieStats> StatsList
         {
             get
             {
