@@ -46,12 +46,6 @@ namespace Elite_Hockey_Manager.Classes
         {
             _losses++;
         }
-        public void AddGameStats(int shotsFaced, int goalsAllowed, int timePlayed)
-        {
-            _shotsFaced += shotsFaced;
-            _goalsAllowed += goalsAllowed;
-            _timeOnIce += timePlayed;
-        }
         public void AddBreakaway(bool scored)
         {
             _breakawayShots++;

@@ -286,6 +286,38 @@ namespace Elite_Hockey_Manager.Classes
             }
             return true;
         }
+        public void ValidateLines()
+        {
+            //If any forward spots are null, auto set forward lines
+            for (int i = 0; i <= 3; i++)
+            {
+                for (int j = 0; j <= 2; j++)
+                {
+                    if (_forwards[i, j] == null)
+                    {
+                        AutoSetForwardLines();
+                        break;
+                    }
+                }
+            }
+            //If the defenders array contains any null values, defensive lines are set
+            for (int i = 0; i <= 2; i++)
+            {
+                for (int j = 0; j <= 1; j++)
+                {
+                    if (_defenders[i, j] == null)
+                    {
+                        AutoSetDefenseLines();
+                        break;
+                    }
+                }
+            }
+            //If the goalies array contains a null value, set goalie lines
+            if (_goalies.Contains(null))
+            {
+                AutoSetGoalies();
+            }
+        }
         public void AutoSetLines()
         {
             AutoSetForwardLines();

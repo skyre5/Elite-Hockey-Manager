@@ -55,8 +55,10 @@ namespace Elite_Hockey_Manager.Classes.Game
         /// 4+ Overtime periods 20 minutes unless regular season in which 5 minute single overtime then shootout
         /// </summary>
         private int period = 1;
-        //1200 Seconds in a period (300 in regular season OT)
-        private int timeIntervals = 0;
+        //15 second increments
+        private int timeIntervals = 1;
+        private const int MAXTIMEREGULATION = 80;
+        private const int MAXTIMEOVERTIME = 20;
         //Home and away scores
         private int homeGoals = 0;
         private int awayGoals = 0;
@@ -69,6 +71,8 @@ namespace Elite_Hockey_Manager.Classes.Game
         //Home and away faceoff wins
         private int homeFaceoffWins = 0;
         private int awayFaceoffWins = 0;
+        private bool _gameFinished = false;
+        private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
         /// <summary>
         /// Public constructor for Game class in a dormant, yet to be played state
@@ -90,6 +94,27 @@ namespace Elite_Hockey_Manager.Classes.Game
         {
             get;
             protected set;
+        }
+        public int HomeScore
+        {
+            get
+            {
+                return homeGoals;
+            }
+        }
+        public int AwayScore
+        {
+            get
+            {
+                return awayGoals;
+            }
+        }
+        public Side Winner
+        {
+            get
+            {
+                return _winner;
+            }
         }
         public string Title
         {
@@ -116,6 +141,10 @@ namespace Elite_Hockey_Manager.Classes.Game
 
         public Game(Team homeTeam, Team awayTeam, int game = 1)
         {
+            //Ensures both teams have valid forward, defense, and goalie lines
+            homeTeam.ValidateLines();
+            awayTeam.ValidateLines();
+            //Sets team to properties
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
             GameNumber = game;
@@ -124,10 +153,126 @@ namespace Elite_Hockey_Manager.Classes.Game
         }
         public void PlayGame()
         {
-            //Completes the entire game
+            if (_gameFinished)
+            {
+                Console.WriteLine("Game is already finished");
+                return;
+            }
+            //1st period - 3rd period -always played
+            PlayPeriod();
+            PlayPeriod();
+            PlayPeriod();
+            if (!_gameFinished)
+            {
+                //Overtime
+                PlayPeriod();
+            }
+        }
+        public void PlayPeriod()
+        {
+            if (_gameFinished)
+            {
+                Console.WriteLine("Game is already finished");
+                return;
+            }
+            if (period <= 3)
+            {
+                while (timeIntervals <= MAXTIMEREGULATION)
+                {
+                    ScoringChance();
+                }
+                if (period < 3)
+                {
+                    period++;
+                    timeIntervals = 1;
+                }
+                if (period == 3)
+                {
+                    if (homeGoals != awayGoals)
+                    {
+                        _gameFinished = true;
+                        _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                    }
+                    else
+                    {
+                        period++;
+                        timeIntervals = 1;
+                    }
+                }
+            }
+            if (period == 4)
+            {
+                while (timeIntervals <= MAXTIMEOVERTIME && homeGoals != awayGoals)
+                {
+                    ScoringChance();
+                }
+                if (timeIntervals == MAXTIMEOVERTIME)
+                {
+                    _gameFinished = true;
+                    _winner = (Side)rand.Next(0, 2);
+                }
+                if (homeGoals != awayGoals)
+                {
+                    _gameFinished = true;
+                    _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                }
+            }
+        }
+        public void IncrementTime(int intervals = 1)
+        {
+            if (_gameFinished)
+            {
+                Console.WriteLine("Game is already finished");
+                return;
+            }
+            if (intervals < 1)
+            {
+                return;
+            }
+            for (int i = 0; i < intervals; i++)
+            {
+                //If end of 1st or 2nd period is reached
+                if (period < 3 && timeIntervals == MAXTIMEREGULATION)
+                {
+                    period++;
+                    break;
+                    timeIntervals = 1;
+                }
+                //If end of 3rd period is reached
+                if (period == 3 && timeIntervals == MAXTIMEREGULATION)
+                {
+                    if (homeGoals != awayGoals)
+                    {
+                        _gameFinished = true;
+                        _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                        return;
+                    }
+                    else
+                    {
+                        period++;
+                        break;
+                    }
+                }
+                //If its overtime and a team has scored
+                if (period == 4 && homeGoals != awayGoals)
+                {
+                    _gameFinished = true;
+                    _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                    return;
+                }
+                //If it has reached the end of overtime
+                if (period == 4 && timeIntervals == MAXTIMEOVERTIME)
+                {
+                    _gameFinished = true;
+                    _winner = (Side)rand.Next(0, 2);
+                    return;
+                }
+                ScoringChance();
+            }
         }
         private void ScoringChance()
         {
+            timeIntervals++;
             //Gets players for each team for this scoring chance
             SetPlayers();
             SetTimeOnIceStats();
@@ -217,12 +362,14 @@ namespace Elite_Hockey_Manager.Classes.Game
                 if (skater == null) {
                     offensiveSumTotal += 150;
                 }
-                //150 max
-                offensiveSumTotal += (int)(skater.SkaterAttributes.Speed * 1.5);
-                //100 max
-                offensiveSumTotal += skater.SkaterAttributes.Awareness;
-                //50 max
-                offensiveSumTotal += (skater.SkaterAttributes.Checking / 2);
+                else { 
+                    //150 max
+                    offensiveSumTotal += (int)(skater.SkaterAttributes.Speed * 1.5);
+                    //100 max
+                    offensiveSumTotal += skater.SkaterAttributes.Awareness;
+                    //50 max
+                    offensiveSumTotal += (skater.SkaterAttributes.Checking / 2);
+                }
             }
             //2 defenders
             foreach (Skater defender in defenders)

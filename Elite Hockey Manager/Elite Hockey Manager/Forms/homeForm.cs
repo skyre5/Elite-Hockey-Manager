@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Classes.Game;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Forms;
 using Elite_Hockey_Manager.Forms.GameForms;
@@ -18,9 +19,15 @@ namespace Elite_Hockey_Manager
 {
     public partial class HomeForm : Form
     {
+        private Game game;
         public HomeForm()
         {
             InitializeComponent();
+            Team team1 = TeamGenerator.GetTeam();
+            Team team2 = TeamGenerator.GetTeam();
+            TeamGenerator.FillTeam(team1);
+            TeamGenerator.FillTeam(team2);
+            game = new Game(team1, team2);
         }
 
         private void homeForm_Load(object sender, EventArgs e)
@@ -63,28 +70,8 @@ namespace Elite_Hockey_Manager
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            //int overall = 0;
-            //SortedDictionary<int, int> dic = new SortedDictionary<int, int>();
-            //for (int i = 0; i < 10000; i++)
-            //{
-            //    Player x = PlayerGenerator.GenerateForward(0, 1);
-            //    if (x.Overall > overall)
-            //    {
-            //        if (!dic.ContainsKey(x.Overall))
-            //        {
-            //            dic.Add(x.Overall, 1);
-            //        }
-            //        else
-            //        {
-            //            dic[x.Overall] = (int)dic[x.Overall] + 1;
-            //        }
-            //    }
-
-            //}
-            //Console.Write("f");
-            Player x = PlayerGenerator.CreateRandomCenter();
-            PlayerDisplayForm form = new PlayerDisplayForm(x);
-            form.ShowDialog();
+            game.PlayGame();
+            Console.WriteLine(game.HomeScore.ToString() + game.AwayScore.ToString());
         }
     }
 }
