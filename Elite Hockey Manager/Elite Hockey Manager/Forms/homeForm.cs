@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
-using Elite_Hockey_Manager.Classes.Game;
+using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Forms;
 using Elite_Hockey_Manager.Forms.GameForms;

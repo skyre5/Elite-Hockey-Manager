@@ -1,4 +1,4 @@
-﻿namespace Elite_Hockey_Manager.Classes.Game.GameControls
+﻿namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
     partial class AwayLineControl
     {

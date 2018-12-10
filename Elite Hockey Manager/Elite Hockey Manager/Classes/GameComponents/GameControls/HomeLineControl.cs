@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Elite_Hockey_Manager.Classes.Game.GameControls
+namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
     public partial class HomeLineControl : UserControl
     {

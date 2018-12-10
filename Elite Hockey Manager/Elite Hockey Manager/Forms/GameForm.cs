@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.Game;
+using Elite_Hockey_Manager.Classes.GameComponents;
 
 namespace Elite_Hockey_Manager.Forms
 {

@@ -73,35 +73,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Game\GameControls\GameControl.cs">
+    <Compile Include="Classes\GameComponents\GameControls\GameControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\GameControl.Designer.cs">
+    <Compile Include="Classes\GameComponents\GameControls\GameControl.Designer.cs">
       <DependentUpon>GameControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\AwayLineControl.cs">
+    <Compile Include="Classes\GameComponents\GameControls\AwayLineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\AwayLineControl.Designer.cs">
+    <Compile Include="Classes\GameComponents\GameControls\AwayLineControl.Designer.cs">
       <DependentUpon>AwayLineControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\HomeLineControl.cs">
+    <Compile Include="Classes\GameComponents\GameControls\HomeLineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\HomeLineControl.Designer.cs">
+    <Compile Include="Classes\GameComponents\GameControls\HomeLineControl.Designer.cs">
       <DependentUpon>HomeLineControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\ShotCounterControl.cs">
+    <Compile Include="Classes\GameComponents\GameControls\ShotCounterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\Game\GameControls\ShotCounterControl.Designer.cs">
+    <Compile Include="Classes\GameComponents\GameControls\ShotCounterControl.Designer.cs">
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Game\GameEvent\Event.cs" />
+    <Compile Include="Classes\GameComponents\GameEvent\Event.cs" />
+    <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\SkaterAttributes.cs" />
-    <Compile Include="Classes\Game\Game.cs" />
+    <Compile Include="Classes\GameComponents\Game.cs" />
     <Compile Include="Classes\LeagueComponents\ContractGenerator.cs" />
     <Compile Include="Classes\LeagueComponents\League.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueControl.cs">
@@ -232,16 +233,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Classes\Game\GameControls\GameControl.resx">
+    <EmbeddedResource Include="Classes\GameComponents\GameControls\GameControl.resx">
       <DependentUpon>GameControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Game\GameControls\AwayLineControl.resx">
+    <EmbeddedResource Include="Classes\GameComponents\GameControls\AwayLineControl.resx">
       <DependentUpon>AwayLineControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Game\GameControls\HomeLineControl.resx">
+    <EmbeddedResource Include="Classes\GameComponents\GameControls\HomeLineControl.resx">
       <DependentUpon>HomeLineControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Game\GameControls\ShotCounterControl.resx">
+    <EmbeddedResource Include="Classes\GameComponents\GameControls\ShotCounterControl.resx">
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueControl.resx">

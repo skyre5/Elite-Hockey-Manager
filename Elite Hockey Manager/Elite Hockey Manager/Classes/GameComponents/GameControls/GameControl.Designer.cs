@@ -1,4 +1,4 @@
-﻿namespace Elite_Hockey_Manager.Classes.Game.GameControls
+﻿namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
     partial class GameControl
     {
@@ -31,14 +31,14 @@
             this.periodLabel = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
-            this.homeLineControl1 = new Elite_Hockey_Manager.Classes.Game.GameControls.HomeLineControl();
-            this.awayLineControl1 = new Elite_Hockey_Manager.Classes.Game.GameControls.AwayLineControl();
+            this.homeLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
+            this.awayLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
             this.homeTeamLabel = new System.Windows.Forms.Label();
             this.awayTeamLabel = new System.Windows.Forms.Label();
             this.statsTabControl = new System.Windows.Forms.TabControl();
             this.homePlayersPage = new System.Windows.Forms.TabPage();
             this.awayPlayersPage = new System.Windows.Forms.TabPage();
-            this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.Game.GameControls.ShotCounterControl();
+            this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
             this.eventsTabControl = new System.Windows.Forms.TabControl();
             this.allEventsPage = new System.Windows.Forms.TabPage();
             this.goalsPage = new System.Windows.Forms.TabPage();

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using Elite_Hockey_Manager.Classes.Game.GameEvent;
+using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
 
-namespace Elite_Hockey_Manager.Classes.Game
+namespace Elite_Hockey_Manager.Classes.GameComponents
 {
     public enum ShotType { Wristshot, Slapshot, Backhand, Breakaway };
     public struct PlayersOnIce

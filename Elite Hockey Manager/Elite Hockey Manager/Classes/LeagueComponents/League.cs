@@ -15,6 +15,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _numberOfTeams;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
+        private List<Schedule> Schedule = new List<Schedule>();
         public int Year
         {
             get

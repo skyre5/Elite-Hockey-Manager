@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Game;
+using Elite_Hockey_Manager.Classes.GameComponents;
 
-namespace Elite_Hockey_Manager.Classes.Game.GameEvent
+namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 {
     public enum GoalType : int
     {
