@@ -128,14 +128,14 @@ namespace Elite_Hockey_Manager.Classes
             this.FirstConferenceName = "West";
             this.SecondConferenceName = "East";
         }
-        public League(string name, string abbreviation, int teamsCount, string firstName, string secondName)
+        public League(string name, string abbreviation, int teamsCount, string firstConferenceName, string secondConferenceName)
         {
             this.LeagueName = name;
             this.Abbreviation = abbreviation;
             this.NumberOfTeams = teamsCount;
 
-            this.FirstConferenceName = firstName;
-            this.SecondConferenceName = secondName;
+            this.FirstConferenceName = firstConferenceName;
+            this.SecondConferenceName = SecondConferenceName;
         }
         public List<Player> AllPlayers
         {

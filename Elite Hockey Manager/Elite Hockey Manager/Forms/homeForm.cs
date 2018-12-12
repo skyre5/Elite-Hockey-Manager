@@ -70,8 +70,10 @@ namespace Elite_Hockey_Manager
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            game.PlayGame();
-            Console.WriteLine(game.HomeScore.ToString() + game.AwayScore.ToString());
+            League league = new Classes.League("National Hockey League", "NHL", 32);
+            league.FillRemainingTeams();
+            Schedule schedule = new Classes.LeagueComponents.Schedule(league.FirstConference, league.SecondConference);
+
         }
     }
 }

@@ -235,8 +235,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 if (period < 3 && timeIntervals == MAXTIMEREGULATION)
                 {
                     period++;
-                    break;
                     timeIntervals = 1;
+                    break;
                 }
                 //If end of 3rd period is reached
                 if (period == 3 && timeIntervals == MAXTIMEREGULATION)
