@@ -31,6 +31,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         private void MainMenuForm_Load(object sender, EventArgs e)
         {
             standingsControl.ActiveLeague = _league;
+            //If this is a new league being loaded, create a schedule and set state to regular season
+            if (_league.State == LeagueState.Unset)
+            {
+                _league.StartSeason();
+            }
             standingsControl.LoadConferences();
         }
     }

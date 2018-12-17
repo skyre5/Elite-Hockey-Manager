@@ -8,10 +8,17 @@ using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    public enum LeagueState
+    {
+        Unset,
+        RegularSeason,
+        Playoffs,
+        Offseason
+    }
     [Serializable]
     public class League : ISerializable
     {
-        private static int _year = 1;
+        private int _year = 1;
         private int _numberOfTeams;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
@@ -23,6 +30,16 @@ namespace Elite_Hockey_Manager.Classes
                 return _year;
             }
         }
+        public int DayIndex
+        {
+            get;
+            private set;
+        } = 0;
+        public LeagueState State
+        {
+            get;
+            private set;
+        } = LeagueState.Unset;
         /// <summary>
         /// Amount of teams the league will contain
         /// </summary>
@@ -119,6 +136,20 @@ namespace Elite_Hockey_Manager.Classes
                 return FirstConference.Concat(SecondConference).ToList();
             }
         }
+        public List<Player> AllPlayers
+        {
+            get
+            {
+                List<Team> teams = this.AllTeams;
+                List<Player> players = new List<Player>();
+                foreach (Team team in teams)
+                {
+                    players.AddRange(team.Roster);
+                }
+                return players;
+
+            }
+        }
         public League(string name, string abbreviation, int teamsCount)
         {
             this.LeagueName = name;
@@ -137,19 +168,16 @@ namespace Elite_Hockey_Manager.Classes
             this.FirstConferenceName = firstConferenceName;
             this.SecondConferenceName = SecondConferenceName;
         }
-        public List<Player> AllPlayers
+        /// <summary>
+        /// Starts the season by adding a new generated schedule. Sets the day index and LeagueState
+        /// </summary>
+        public void StartSeason()
         {
-            get
-            {
-                List<Team> teams = this.AllTeams;
-                List<Player> players = new List<Player>();
-                foreach (Team team in teams)
-                {
-                    players.AddRange(team.Roster);
-                }
-                return players;
-
-            }
+            Schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference));
+            //Sets the day counter to the first day of the schedule
+            DayIndex = 0;
+            //Sets the League State to the regular season state
+            State = LeagueState.RegularSeason;
         }
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams
@@ -217,30 +245,6 @@ namespace Elite_Hockey_Manager.Classes
         public bool IsFull()
         {
             return FirstConference.Count + SecondConference.Count == _numberOfTeams;
-        }
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("LeagueName", this.LeagueName);
-            info.AddValue("LeagueAbbreviation", this.Abbreviation);
-            info.AddValue("TeamAmount", this.NumberOfTeams);
-
-            info.AddValue("FirstConference", this.FirstConference);
-            info.AddValue("FirstConferenceName", this.FirstConferenceName);
-
-            info.AddValue("SecondConference", this.SecondConference);
-            info.AddValue("SecondConferenceName", this.SecondConferenceName);
-        }
-        protected League(SerializationInfo info, StreamingContext context)
-        {
-            this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
-            this.Abbreviation = (string)info.GetValue("LeagueAbbreviation", typeof(string));
-            this.NumberOfTeams = (int)info.GetValue("TeamAmount", typeof(int));
-
-            this.FirstConference = (List<Team>)info.GetValue("FirstConference", typeof(List<Team>));
-            this.FirstConferenceName = (string)info.GetValue("FirstConferenceName", typeof(string));
-
-            this.SecondConference = (List<Team>)info.GetValue("SecondConference", typeof(List<Team>));
-            this.SecondConferenceName = (string)info.GetValue("SecondConferenceName", typeof(string));
         }
         public override string ToString()
         {
@@ -362,6 +366,30 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
             return errorMessage;
+        }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("LeagueName", this.LeagueName);
+            info.AddValue("LeagueAbbreviation", this.Abbreviation);
+            info.AddValue("TeamAmount", this.NumberOfTeams);
+
+            info.AddValue("FirstConference", this.FirstConference);
+            info.AddValue("FirstConferenceName", this.FirstConferenceName);
+
+            info.AddValue("SecondConference", this.SecondConference);
+            info.AddValue("SecondConferenceName", this.SecondConferenceName);
+        }
+        protected League(SerializationInfo info, StreamingContext context)
+        {
+            this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
+            this.Abbreviation = (string)info.GetValue("LeagueAbbreviation", typeof(string));
+            this.NumberOfTeams = (int)info.GetValue("TeamAmount", typeof(int));
+
+            this.FirstConference = (List<Team>)info.GetValue("FirstConference", typeof(List<Team>));
+            this.FirstConferenceName = (string)info.GetValue("FirstConferenceName", typeof(string));
+
+            this.SecondConference = (List<Team>)info.GetValue("SecondConference", typeof(List<Team>));
+            this.SecondConferenceName = (string)info.GetValue("SecondConferenceName", typeof(string));
         }
     }
 }
