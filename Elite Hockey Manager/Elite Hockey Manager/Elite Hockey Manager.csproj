@@ -98,6 +98,18 @@
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\GameComponents\GameEvent\Event.cs" />
+    <Compile Include="Classes\LeagueComponents\LeagueControls\GameDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\GameDisplayControl.Designer.cs">
+      <DependentUpon>GameDisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueGamesDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueGamesDisplayControl.Designer.cs">
+      <DependentUpon>LeagueGamesDisplayControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
@@ -171,10 +183,10 @@
     <Compile Include="Forms\EditPlayerForm.Designer.cs">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GameForm.cs">
+    <Compile Include="Forms\GameForms\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\GameForm.Designer.cs">
+    <Compile Include="Forms\GameForms\GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\GameForms\MainMenuForm.cs">
@@ -245,8 +257,14 @@
     <EmbeddedResource Include="Classes\GameComponents\GameControls\ShotCounterControl.resx">
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\GameDisplayControl.resx">
+      <DependentUpon>GameDisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueControl.resx">
       <DependentUpon>LeagueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LeagueGamesDisplayControl.resx">
+      <DependentUpon>LeagueGamesDisplayControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.resx">
       <DependentUpon>TeamCapControl.cs</DependentUpon>
@@ -266,7 +284,7 @@
     <EmbeddedResource Include="Forms\editPlayerForm.resx">
       <DependentUpon>EditPlayerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\GameForm.resx">
+    <EmbeddedResource Include="Forms\GameForms\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\MainMenuForm.resx">

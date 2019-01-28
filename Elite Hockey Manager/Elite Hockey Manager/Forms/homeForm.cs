@@ -46,26 +46,33 @@ namespace Elite_Hockey_Manager
         private void playersBtn_Click(object sender, EventArgs e)
         {
             CreatePlayerForm form = new CreatePlayerForm();
+            this.Hide();
             form.ShowDialog();
+            this.Show();
         }
 
         private void teamsButton_Click(object sender, EventArgs e)
         {
             CreateTeamForm form = new CreateTeamForm();
+            this.Hide();
             form.ShowDialog();
+            this.Show();
         }
 
         private void leagueButton_Click(object sender, EventArgs e)
         {
             CreateLeagueForm form = new CreateLeagueForm();
+            this.Hide();
             form.ShowDialog();
+            this.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             NewGameForm form = new NewGameForm();
-            form.Show();
-            this.Close();
+            this.Hide();
+            form.ShowDialog();
+            this.Show();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -74,6 +81,10 @@ namespace Elite_Hockey_Manager
             league.FillRemainingTeams();
             Schedule schedule = new Classes.LeagueComponents.Schedule(league.FirstConference, league.SecondConference);
 
+        }
+
+        private void HomeForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
         }
     }
 }

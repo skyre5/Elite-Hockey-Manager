@@ -110,6 +110,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "HomeForm";
             this.Text = "Elite Hockey Manager - Home";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HomeForm_FormClosing);
             this.Load += new System.EventHandler(this.homeForm_Load);
             this.ResumeLayout(false);
 

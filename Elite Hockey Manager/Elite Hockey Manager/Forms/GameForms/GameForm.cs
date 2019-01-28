@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes.GameComponents;
 
-namespace Elite_Hockey_Manager.Forms
+namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class GameForm : Form
     {

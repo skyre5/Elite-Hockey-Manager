@@ -37,6 +37,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 _league.StartSeason();
             }
             standingsControl.LoadConferences();
+            leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
         }
+
     }
 }

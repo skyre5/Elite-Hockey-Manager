@@ -20,9 +20,10 @@ namespace Elite_Hockey_Manager.Classes
     {
         private int _year = 1;
         private int _numberOfTeams;
+        private int _scheduleLength;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
-        private List<Schedule> Schedule = new List<Schedule>();
+        private List<Schedule> _schedule = new List<Schedule>();
         public int Year
         {
             get
@@ -59,6 +60,13 @@ namespace Elite_Hockey_Manager.Classes
                 {
                     _numberOfTeams = value;
                 }
+            }
+        }
+        public Schedule Schedule
+        {
+            get
+            {
+                return _schedule.Last();
             }
         }
         /// <summary>
@@ -173,11 +181,12 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void StartSeason()
         {
-            Schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference));
+            _schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference));
             //Sets the day counter to the first day of the schedule
             DayIndex = 0;
             //Sets the League State to the regular season state
             State = LeagueState.RegularSeason;
+            _scheduleLength = this.Schedule.SeasonSchedule.Count;
         }
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams

@@ -1,4 +1,4 @@
-﻿namespace Elite_Hockey_Manager.Forms
+﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
     partial class GameForm
     {
