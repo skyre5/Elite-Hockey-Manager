@@ -31,7 +31,8 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 league.FillRemainingTeams();
                 league.FillLeagueWithPlayers();
                 MainMenuForm gameForm = new MainMenuForm(league);
-                gameForm.Show();
+                this.Hide();
+                gameForm.ShowDialog();
                 this.Close();
             }
         }
@@ -57,7 +58,8 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 LeagueControl lg = (LeagueControl)leagueControl;
                 League league = lg.League;
                 MainMenuForm form = new MainMenuForm(league);
-                form.Show();
+                this.Hide();
+                form.ShowDialog();
                 this.Close();
             }
             catch (InvalidCastException ex)

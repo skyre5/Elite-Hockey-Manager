@@ -59,12 +59,6 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         private int timeIntervals = 1;
         private const int MAXTIMEREGULATION = 80;
         private const int MAXTIMEOVERTIME = 20;
-        //Home and away scores
-        private int homeGoals = 0;
-        private int awayGoals = 0;
-        //Home and away shot totals
-        private int homeShots = 0;
-        private int awayShots = 0;
         //Home and away hit totals
         private int homeHits = 0;
         private int awayHits = 0;
@@ -72,14 +66,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         private int homeFaceoffWins = 0;
         private int awayFaceoffWins = 0;
         private bool _gameFinished = false;
+        
         private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
-        /// <summary>
-        /// Public constructor for Game class in a dormant, yet to be played state
-        /// </summary>
-        /// <param name="homeTeam">Home team object of game to be played</param>
-        /// <param name="awayTeam">Away team object of game to be played</param>
-        /// <param name="game">Game number within the season or playoff series game #</param>
         public Team HomeTeam
         {
             get;
@@ -97,18 +86,64 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         }
         public int HomeScore
         {
-            get
-            {
-                return homeGoals;
-            }
-        }
+            get;
+            private set;
+        } = 0;
         public int AwayScore
         {
-            get
-            {
-                return awayGoals;
-            }
-        }
+            get;
+            private set;
+        } = 0;
+        public int HomeShots
+        {
+            get;
+            private set;
+        } = 0;
+        public int AwayShots
+        {
+            get;
+            private set;
+        } = 0;
+        public int HomePowerplays
+        {
+            get;
+            private set;
+        } = 0;
+        public int HomePowerplayGoals
+        {
+            get;
+            private set;
+        } = 0;
+        public int HomePenalties
+        {
+            get;
+            private set;
+        } = 0;
+        public int HomePowerplayGoalsAgainst
+        {
+            get;
+            private set;
+        } = 0;
+        public int AwayPowerplays
+        {
+            get;
+            private set;
+        } = 0;
+        public int AwayPowerplayGoals
+        {
+            get;
+            private set;
+        } = 0;
+        public int AwayPenalties
+        {
+            get;
+            private set;
+        } = 0;
+        public int AwayPowerplayGoalsAgainst
+        {
+            get;
+            private set;
+        } = 0;
         public Side Winner
         {
             get
@@ -131,6 +166,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get;
             private set;
         } = false;
+        public bool Overtime
+        {
+            get;
+            private set;
+        } = false;
         public List<Event> GameEvents
         {
             get
@@ -138,7 +178,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _gameEvents;
             }
         }
-
+        /// <summary>
+        /// Public constructor for Game class in a dormant, yet to be played state
+        /// </summary>
+        /// <param name="homeTeam">Home team object of game to be played</param>
+        /// <param name="awayTeam">Away team object of game to be played</param>
+        /// <param name="game">Game number within the season or playoff series game #</param>
         public Game(Team homeTeam, Team awayTeam, int game = 1)
         {
             //Ensures both teams have valid forward, defense, and goalie lines
@@ -188,10 +233,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 }
                 if (period == 3)
                 {
-                    if (homeGoals != awayGoals)
+                    if (HomeScore != AwayScore)
                     {
                         _gameFinished = true;
-                        _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                        _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
                     }
                     else
                     {
@@ -202,7 +247,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             if (period == 4)
             {
-                while (timeIntervals <= MAXTIMEOVERTIME && homeGoals != awayGoals)
+                while (timeIntervals <= MAXTIMEOVERTIME && HomeScore != AwayScore)
                 {
                     ScoringChance();
                 }
@@ -211,10 +256,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     _gameFinished = true;
                     _winner = (Side)rand.Next(0, 2);
                 }
-                if (homeGoals != awayGoals)
+                if (HomeScore != AwayScore)
                 {
                     _gameFinished = true;
-                    _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                    _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
                 }
             }
         }
@@ -241,10 +286,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 //If end of 3rd period is reached
                 if (period == 3 && timeIntervals == MAXTIMEREGULATION)
                 {
-                    if (homeGoals != awayGoals)
+                    if (HomeScore != AwayScore)
                     {
                         _gameFinished = true;
-                        _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                        _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
                         return;
                     }
                     else
@@ -254,10 +299,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     }
                 }
                 //If its overtime and a team has scored
-                if (period == 4 && homeGoals != awayGoals)
+                if (period == 4 && HomeScore != AwayScore)
                 {
                     _gameFinished = true;
-                    _winner = homeGoals > awayGoals ? Side.Home : Side.Away;
+                    _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
                     return;
                 }
                 //If it has reached the end of overtime
@@ -426,11 +471,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             Side side = scoringChanceSide == HOMESCORINGCHANCE ? Side.Home : Side.Away;
             if (side == Side.Home)
             {
-                homeShots++;
+                HomeShots++;
             }
             else
             {
-                awayShots++;
+                AwayShots++;
             }
             _gameEvents.Add(new ShotEvent(offensiveSkaters[0], period, timeIntervals, side, shotType));
             goalie.Stats.ShotsFaced++;
@@ -441,11 +486,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 goalie.Stats.GoalsAllowed++;
                 if (side == Side.Home)
                 {
-                    homeGoals++;
+                    HomeScore++;
                 }
                 else
                 {
-                    awayGoals++;
+                    AwayScore++;
                 }
             }
             
@@ -634,11 +679,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             this.GameNumber = (int)info.GetValue("GameNumber", typeof(int));
             this.Finished = (bool)info.GetValue("Finished", typeof(bool));
 
-            this.homeGoals = (int)info.GetValue("HomeGoals", typeof(int));
-            this.awayGoals = (int)info.GetValue("AwayGoals", typeof(int));
+            this.HomeScore = (int)info.GetValue("HomeGoals", typeof(int));
+            this.AwayScore = (int)info.GetValue("AwayGoals", typeof(int));
 
-            this.homeShots = (int)info.GetValue("HomeShots", typeof(int));
-            this.awayShots = (int)info.GetValue("AwayShots", typeof(int));
+            this.HomeShots = (int)info.GetValue("HomeShots", typeof(int));
+            this.AwayShots = (int)info.GetValue("AwayShots", typeof(int));
 
             this.homeHits = (int)info.GetValue("HomeHits", typeof(int));
             this.awayHits = (int)info.GetValue("AwayHits", typeof(int));
@@ -655,11 +700,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             info.AddValue("GameNumber", this.GameNumber);
             info.AddValue("Finished", this.Finished);
 
-            info.AddValue("HomeGoals", this.homeGoals);
-            info.AddValue("AwayGoals", this.awayGoals);
+            info.AddValue("HomeGoals", this.HomeScore);
+            info.AddValue("AwayGoals", this.AwayScore);
 
-            info.AddValue("HomeShots", this.homeShots);
-            info.AddValue("AwayShots", this.awayShots);
+            info.AddValue("HomeShots", this.HomeShots);
+            info.AddValue("AwayShots", this.AwayShots);
 
             info.AddValue("HomeHits", this.homeHits);
             info.AddValue("AwayHits", this.awayHits);

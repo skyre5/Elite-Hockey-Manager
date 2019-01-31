@@ -24,7 +24,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             private set
             {
                 _game = value;
-                SetText();
+                SetGameText();
             }
         }
         public GameDisplayControl(Game game)
@@ -32,16 +32,32 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             InitializeComponent();
             Game = game;
         }
-        private void SetText()
+        private void SetGameText()
         {
             //TODO
             //Include record along with team name
             gameDisplayLabel.Text = String.Format("{0} @ {1}", _game.AwayTeam.FullName, _game.HomeTeam.FullName);
+            if (_game.Finished)
+            {
+                scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
+            }
+        }
+        public void DisableButtons()
+        {
+            autoSimButton.Enabled = false;
+            viewSimButton.Enabled = false;
         }
         private void viewSimButton_Click(object sender, EventArgs e)
         {
             GameForm form = new GameForm(_game);
             form.ShowDialog();
+        }
+
+        private void autoSimButton_Click(object sender, EventArgs e)
+        {
+            _game.PlayGame();
+            scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
+            DisableButtons();
         }
     }
 }

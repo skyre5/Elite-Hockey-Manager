@@ -52,6 +52,7 @@
             this.autoSimButton.TabIndex = 1;
             this.autoSimButton.Text = "Auto Sim";
             this.autoSimButton.UseVisualStyleBackColor = true;
+            this.autoSimButton.Click += new System.EventHandler(this.autoSimButton_Click);
             // 
             // gameDisplayLabel
             // 

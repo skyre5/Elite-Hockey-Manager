@@ -24,6 +24,24 @@ namespace Elite_Hockey_Manager.Classes
                 return _year;
             }
         }
+        public string TeamName
+        {
+            get
+            {
+                return _teamName;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Team name must contain characters");
+                }
+                else
+                {
+                    _teamName = value.Trim();
+                }
+            }
+        }
         public List<Player> Roster
         {
             get;
@@ -47,24 +65,6 @@ namespace Elite_Hockey_Manager.Classes
             LogoPath = imagePath;
             idCount++;
             _teamID = idCount;
-        }
-        public string TeamName
-        {
-            get
-            {
-                return _teamName;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Team name must contain characters");
-                }
-                else
-                {
-                    _teamName = value.Trim();
-                }
-            }
         }
         public string LogoPath
         {
