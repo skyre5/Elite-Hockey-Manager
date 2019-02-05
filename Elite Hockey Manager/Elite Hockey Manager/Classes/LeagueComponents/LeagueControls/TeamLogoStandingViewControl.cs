@@ -13,26 +13,33 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public partial class TeamLogoStandingViewControl : UserControl
     {
-        private Team _team;
+        public Team Team
+        {
+            get;
+            private set;
+        }
         public TeamLogoStandingViewControl(Team team)
         {
             if (team == null)
             {
                 throw new ArgumentNullException("Team entered was null in TeamLogoStandingViewControl");
             }
-            _team = team;
+            Team = team;
             InitializeComponent();
         }
 
         private void TeamLogoStandingViewControl_Load(object sender, EventArgs e)
         {
-                logoPictureBox.Image = _team.Logo;
-                teamLabel.Text = _team.FullName;
+            logoPictureBox.Image = Team.Logo;
+            teamLabel.Text = Team.TeamNameWithRecord;
         }
-
+        public void RedrawRecord()
+        {
+            teamLabel.Text = Team.TeamNameWithRecord;
+        }
         private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
         {
-            ViewTeamForm form = new ViewTeamForm(_team);
+            ViewTeamForm form = new ViewTeamForm(Team);
             form.Show();
         }
     }

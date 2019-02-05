@@ -10,6 +10,7 @@ namespace Elite_Hockey_Manager.Classes.Stats
 {
     public class TeamStats
     {
+        public event EventHandler TeamStatsUpdated;
         /// <summary>
         /// Wins on the season, 2 points per win
         /// </summary>
@@ -122,6 +123,25 @@ namespace Elite_Hockey_Manager.Classes.Stats
             get;
             private set;
         } = 0;
+        /// <summary>
+        /// Property for how many points the team has. 2 points for each win and 1 point for every overtime loss
+        /// </summary>
+        public int Points
+        {
+            get
+            {
+                return (Wins * 2) + OvertimeLosses;
+            }
+        }
+        /// <summary>
+        /// Gets the string of the teams record
+        /// </summary>
+        /// <returns>string of the teams record Wins-Regulation Losses-Overtime Losses</returns>
+        public string Record()
+        {
+            int regulationLosses = Losses - OvertimeLosses;
+            return String.Format("({0}-{1}-{2})", Wins, regulationLosses, OvertimeLosses);
+        }
         public void InsertGameStats(Game game, Side side)
         {
             if (!game.Finished)
@@ -138,6 +158,9 @@ namespace Elite_Hockey_Manager.Classes.Stats
             {
                 TakeAwayStats(game);
             }
+            //Triggers event when the teams stats have changed
+            //Will trigger the standings on the home page to update
+            TeamStatsUpdated(this, null);
         }
         /// <summary>
         /// Takes stats from game class when the parent team is the home team

@@ -65,7 +65,6 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         //Home and away faceoff wins
         private int homeFaceoffWins = 0;
         private int awayFaceoffWins = 0;
-        private bool _gameFinished = false;
         
         private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
@@ -198,7 +197,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         }
         public void PlayGame()
         {
-            if (_gameFinished)
+            if (Finished)
             {
                 Console.WriteLine("Game is already finished");
                 return;
@@ -207,7 +206,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             PlayPeriod();
             PlayPeriod();
             PlayPeriod();
-            if (!_gameFinished)
+            if (!Finished)
             {
                 //Overtime
                 PlayPeriod();
@@ -215,7 +214,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         }
         public void PlayPeriod()
         {
-            if (_gameFinished)
+            if (Finished)
             {
                 Console.WriteLine("Game is already finished");
                 return;
@@ -235,8 +234,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     if (HomeScore != AwayScore)
                     {
-                        _gameFinished = true;
+                        Finished = true;
                         _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
+                        InputTeamStats();
                     }
                     else
                     {
@@ -253,19 +253,21 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 }
                 if (timeIntervals == MAXTIMEOVERTIME)
                 {
-                    _gameFinished = true;
+                    Finished = true;
                     _winner = (Side)rand.Next(0, 2);
+                    InputTeamStats();
                 }
                 if (HomeScore != AwayScore)
                 {
-                    _gameFinished = true;
+                    Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
+                    InputTeamStats();
                 }
             }
         }
         public void IncrementTime(int intervals = 1)
         {
-            if (_gameFinished)
+            if (Finished)
             {
                 Console.WriteLine("Game is already finished");
                 return;
@@ -288,8 +290,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     if (HomeScore != AwayScore)
                     {
-                        _gameFinished = true;
+                        Finished = true;
                         _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
+                        InputTeamStats();
                         return;
                     }
                     else
@@ -301,14 +304,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 //If its overtime and a team has scored
                 if (period == 4 && HomeScore != AwayScore)
                 {
-                    _gameFinished = true;
+                    Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
+                    InputTeamStats();
                     return;
                 }
                 //If it has reached the end of overtime
                 if (period == 4 && timeIntervals == MAXTIMEOVERTIME)
                 {
-                    _gameFinished = true;
+                    Finished = true;
+                    InputTeamStats();
                     _winner = (Side)rand.Next(0, 2);
                     return;
                 }
@@ -548,6 +553,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         }
         private ShotType GetShotType(int[] weights)
         {
+            if (weights.Length > 4)
+            {
+                Console.WriteLine("Game.GetShotType was passed to with more than 4 weights, should only pass 4");
+            }
             int choice = rand.Next(1, 101);
             int total = 0;
             for (int i = 0; i <= 3; i++)
@@ -671,6 +680,14 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             Console.WriteLine("Game.ChoosePrimaryPlayerNumber error, passed through for statement");
             return 0;
+        }
+        /// <summary>
+        /// Inputs all the stats from the game into the season wide TeamStats within Team class
+        /// </summary>
+        private void InputTeamStats()
+        {
+            HomeTeam.CurrentSeasonStats.InsertGameStats(this, Side.Home);
+            AwayTeam.CurrentSeasonStats.InsertGameStats(this, Side.Away);
         }
         protected Game(SerializationInfo info, StreamingContext context)
         {

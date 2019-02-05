@@ -14,6 +14,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms
     public partial class ViewTeamForm : Form
     {
         private Team _team;
+
+
         public ViewTeamForm(Team team)
         {
             if (team == null)

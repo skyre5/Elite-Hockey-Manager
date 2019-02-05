@@ -5,11 +5,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.Stats;
 
 namespace Elite_Hockey_Manager.Classes
 {
     [Serializable]
-    public class Team : ISerializable, IEquatable<Team>
+    public class Team : ISerializable, IEquatable<Team>, IComparable<Team>
     {
         private int _year = 1;
         private string _location;
@@ -17,6 +18,7 @@ namespace Elite_Hockey_Manager.Classes
         private string _logoPath = null;
         private int _teamID = -1;
         private static int idCount = 0;
+        public event EventHandler TeamStatsUpdated;
         public int Year
         {
             get
@@ -42,6 +44,13 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+        public string TeamNameWithRecord
+        {
+            get
+            {
+                return TeamName + CurrentSeasonStats.Record();
+            }
+        }
         public List<Player> Roster
         {
             get;
@@ -57,6 +66,9 @@ namespace Elite_Hockey_Manager.Classes
             TeamName = name;
             idCount++;
             _teamID = idCount;
+            //Adds the initial season TeamStats to the team class
+            SeasonTeamStats.Add(new TeamStats());
+            SetTeamStatsEvent();
         }
         public Team(string location, string name, string imagePath)
         {
@@ -65,6 +77,9 @@ namespace Elite_Hockey_Manager.Classes
             LogoPath = imagePath;
             idCount++;
             _teamID = idCount;
+            //Adds the initial season TeamStats to the team class
+            SeasonTeamStats.Add(new TeamStats());
+            SetTeamStatsEvent();
         }
         public string LogoPath
         {
@@ -150,6 +165,20 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return _goalies;
+            }
+        }
+        /// <summary>
+        /// List of all season stats through game history
+        /// </summary>
+        private List<TeamStats> SeasonTeamStats = new List<TeamStats>();
+        /// <summary>
+        /// Gets the latest seasonal stats from the SeasonTeamStats list
+        /// </summary>
+        public TeamStats CurrentSeasonStats
+        {
+            get
+            {
+                return SeasonTeamStats.Last();
             }
         }
         /// <summary>
@@ -388,6 +417,36 @@ namespace Elite_Hockey_Manager.Classes
                 players.Add(createPlayerFunc(position, quality));
             }
         }
+        private void SetTeamStatsEvent()
+        {
+            this.CurrentSeasonStats.TeamStatsUpdated += TriggerTeamStatsEvent;
+        }
+        private void TriggerTeamStatsEvent(object sender, EventArgs e)
+        {
+            TeamStatsUpdated(this, null);
+        }
+        /// <summary>
+        /// Comparator for teams. Compares by points, then goals for, then alphabetically
+        /// </summary>
+        /// <param name="other">Team being compared to</param>
+        /// <returns></returns>
+        public int CompareTo(Team other)
+        {
+            TeamStats t1 = this.CurrentSeasonStats;
+            TeamStats t2 = other.CurrentSeasonStats;
+            if (t1.Points == t2.Points)
+            {
+                if (t1.GoalsFor == t2.GoalsFor)
+                {
+                    //If both teams have same amount of points and goalsFor, compare alphabetically 
+                    return this.TeamName.CompareTo(other.TeamName);
+                }
+                //If points are the same, compare by goalsFor
+                return t1.GoalsFor.CompareTo(t2.GoalsFor);
+            }
+            //If points are different, sort by points
+            return t1.Points.CompareTo(t2.Points);
+        }
         protected Team(SerializationInfo info, StreamingContext context)
         {
             this._teamName = (string)info.GetValue("TeamName", typeof(string));
@@ -410,5 +469,6 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Logo", this._logoPath);
             info.AddValue("ID", this._teamID);
         }
+
     }
 }
