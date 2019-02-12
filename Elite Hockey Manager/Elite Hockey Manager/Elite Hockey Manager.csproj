@@ -110,6 +110,12 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\LeagueGamesDisplayControl.Designer.cs">
       <DependentUpon>LeagueGamesDisplayControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.Designer.cs">
+      <DependentUpon>SimLeagueControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
@@ -271,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerStatsControl.resx">
       <DependentUpon>PlayerStatsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.resx">
+      <DependentUpon>SimLeagueControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\StandingsControl.resx">
       <DependentUpon>StandingsControl.cs</DependentUpon>

@@ -23,6 +23,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _scheduleLength;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
+        private Random rand = new Random();
         private List<Schedule> _schedule = new List<Schedule>();
         public int Year
         {
@@ -181,7 +182,7 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void StartSeason()
         {
-            _schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference));
+            _schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             //Sets the day counter to the first day of the schedule
             DayIndex = 0;
             //Sets the League State to the regular season state
@@ -376,6 +377,17 @@ namespace Elite_Hockey_Manager.Classes
             }
             return errorMessage;
         }
+        public void SimLeague(int days)
+        {
+            if (DayIndex + days > Schedule.Length)
+            {
+                days = Schedule.Length - DayIndex;
+            }
+            for (int i = 0; i < days; i++) {
+                Schedule.SimDay(DayIndex);
+                DayIndex++;
+            }
+        }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("LeagueName", this.LeagueName);
@@ -387,6 +399,8 @@ namespace Elite_Hockey_Manager.Classes
 
             info.AddValue("SecondConference", this.SecondConference);
             info.AddValue("SecondConferenceName", this.SecondConferenceName);
+
+            info.AddValue("Random", this.rand);
         }
         protected League(SerializationInfo info, StreamingContext context)
         {
@@ -399,6 +413,15 @@ namespace Elite_Hockey_Manager.Classes
 
             this.SecondConference = (List<Team>)info.GetValue("SecondConference", typeof(List<Team>));
             this.SecondConferenceName = (string)info.GetValue("SecondConferenceName", typeof(string));
+
+            try
+            {
+                this.rand = (Random)info.GetValue("Random", typeof(Random));
+            }
+            catch
+            {
+                this.rand = new Random();
+            }
         }
     }
 }

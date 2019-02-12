@@ -28,9 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
+            this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
+            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControl();
             this.SuspendLayout();
+            // 
+            // leagueGamesDisplay
+            // 
+            this.leagueGamesDisplay.Location = new System.Drawing.Point(12, 413);
+            this.leagueGamesDisplay.Name = "leagueGamesDisplay";
+            this.leagueGamesDisplay.Size = new System.Drawing.Size(1079, 161);
+            this.leagueGamesDisplay.TabIndex = 1;
             // 
             // standingsControl
             // 
@@ -41,18 +49,19 @@
             this.standingsControl.Size = new System.Drawing.Size(458, 341);
             this.standingsControl.TabIndex = 0;
             // 
-            // leagueGamesDisplay
+            // simLeagueControl
             // 
-            this.leagueGamesDisplay.Location = new System.Drawing.Point(12, 413);
-            this.leagueGamesDisplay.Name = "leagueGamesDisplay";
-            this.leagueGamesDisplay.Size = new System.Drawing.Size(1079, 161);
-            this.leagueGamesDisplay.TabIndex = 1;
+            this.simLeagueControl.Location = new System.Drawing.Point(724, 357);
+            this.simLeagueControl.Name = "simLeagueControl";
+            this.simLeagueControl.Size = new System.Drawing.Size(360, 50);
+            this.simLeagueControl.TabIndex = 2;
             // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1096, 586);
+            this.Controls.Add(this.simLeagueControl);
             this.Controls.Add(this.leagueGamesDisplay);
             this.Controls.Add(this.standingsControl);
             this.Name = "MainMenuForm";
@@ -65,5 +74,6 @@
 
         private Classes.LeagueComponents.StandingsControl standingsControl;
         private Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl leagueGamesDisplay;
+        private Classes.LeagueComponents.LeagueControls.SimLeagueControl simLeagueControl;
     }
 }

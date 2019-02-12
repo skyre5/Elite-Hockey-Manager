@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Classes.GameComponents;
 
 namespace Elite_Hockey_Manager.Forms.GameForms
 {
@@ -37,8 +38,30 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 _league.StartSeason();
             }
             standingsControl.LoadConferences();
-            leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
-        }
+            if (League.DayIndex >= League.Schedule.SeasonSchedule.Count)
+            {
+                leagueGamesDisplay.SetSchedule(new List<Game>());
+            }
+            else
+            {
+                leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
+            }
+            leagueGamesDisplay.SetDay(League.DayIndex + 1);
+            simLeagueControl.LeagueSimmedEvent += SimLeague;
 
+        }
+        private void SimLeague(int days)
+        {
+            League.SimLeague(days);
+            if (League.DayIndex >= League.Schedule.SeasonSchedule.Count)
+            {
+                leagueGamesDisplay.SetSchedule(new List<Game>());
+            }
+            else
+            {
+                leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
+            }
+            leagueGamesDisplay.SetDay(League.DayIndex + 1);
+        }
     }
 }

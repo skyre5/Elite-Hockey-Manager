@@ -47,7 +47,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
     {
         public const bool HOMESCORINGCHANCE = true;
         public const bool AWAYSCORINGCHANCE = false;
-        private Random rand = new Random();
+        private Random rand;
         private List<Event> _gameEvents = new List<Event>();
         /// <summary>
         /// Period of the game 
@@ -183,7 +183,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         /// <param name="homeTeam">Home team object of game to be played</param>
         /// <param name="awayTeam">Away team object of game to be played</param>
         /// <param name="game">Game number within the season or playoff series game #</param>
-        public Game(Team homeTeam, Team awayTeam, int game = 1)
+        public Game(Team homeTeam, Team awayTeam, Random random, int game = 1)
         {
             //Ensures both teams have valid forward, defense, and goalie lines
             homeTeam.ValidateLines();
@@ -194,6 +194,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             GameNumber = game;
             _playersOnIce.homeGoalie = homeTeam.GetGoalie();
             _playersOnIce.awayGoalie = awayTeam.GetGoalie();
+
+            rand = random;
         }
         public void PlayGame()
         {
@@ -247,7 +249,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             if (period == 4)
             {
-                while (timeIntervals <= MAXTIMEOVERTIME && HomeScore != AwayScore)
+                while (timeIntervals <= MAXTIMEOVERTIME && HomeScore == AwayScore)
                 {
                     ScoringChance();
                 }
@@ -255,6 +257,14 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     Finished = true;
                     _winner = (Side)rand.Next(0, 2);
+                    if (_winner == Side.Home)
+                    {
+                        HomeScore++;
+                    }
+                    else
+                    {
+                        AwayScore++;
+                    }
                     InputTeamStats();
                 }
                 if (HomeScore != AwayScore)
@@ -315,6 +325,14 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     Finished = true;
                     InputTeamStats();
                     _winner = (Side)rand.Next(0, 2);
+                    if (_winner == Side.Home)
+                    {
+                        HomeScore++;
+                    }
+                    else
+                    {
+                        AwayScore++;
+                    }
                     return;
                 }
                 ScoringChance();
@@ -709,6 +727,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             this.awayFaceoffWins = (int)info.GetValue("AwayFaceoff", typeof(int));
 
             this._gameEvents = (List<Event>)info.GetValue("GameEvents", typeof(List<Event>));
+
+            this.rand = (Random)info.GetValue("Random", typeof(Random));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -730,6 +750,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             info.AddValue("AwayFaceoff", this.awayFaceoffWins);
 
             info.AddValue("GameEvents", this._gameEvents);
+
+            info.AddValue("Random", this.rand);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     }
     public class Schedule
     {
-        private Random rand = new Random();
+        private Random rand;
         private List<Team> _firstConference;
         private List<Team> _secondConference;
         private List<TeamPair> _teamsList = new List<TeamPair>();
@@ -38,8 +38,28 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _seasonSchedule;
             }
         }
-        public Schedule(List<Team> firstConference, List<Team> secondConference)
+        public int Length
         {
+            get
+            {
+                return _seasonSchedule.Count;
+            }
+        }
+        public void SimDay(int day)
+        {
+            if (day < 0 || day >= SeasonSchedule.Count)
+            {
+                throw new IndexOutOfRangeException("Day must be within the range of season length");
+            }
+            foreach (Game game in SeasonSchedule[day])
+            {
+                game.PlayGame();
+            }
+        }
+        public Schedule(List<Team> firstConference, List<Team> secondConference, Random random)
+        {
+            //Sets random to league-wide random
+            rand = random;
             _firstConference = firstConference;
             _secondConference = secondConference;
             //Each team has 41 home games which accounts for every game of the season in an 82 game schedule
@@ -61,7 +81,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 {
                     TeamPair homeTeam = homeTeams[i];
                     TeamPair awayTeam = ChooseAwayTeam(awayTeams);
-                    daySchedule.Add(new Game(homeTeam.team, awayTeam.team, gamesScheduled));
+                    daySchedule.Add(new Game(homeTeam.team, awayTeam.team, rand, gamesScheduled));
                     gamesScheduled++;
                     homeTeam.counter.homeGamesScheduled++;
                     awayTeam.counter.awayGamesScheduled++;

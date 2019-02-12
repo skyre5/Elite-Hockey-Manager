@@ -20,6 +20,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         }
         public void SetSchedule(List<Game> games)
         {
+            gameLayoutPanel.Controls.Clear();
             foreach (Game game in games)
             {
                 gameLayoutPanel.Controls.Add(new GameDisplayControl(game));

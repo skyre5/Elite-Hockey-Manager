@@ -27,7 +27,8 @@ namespace Elite_Hockey_Manager
             Team team2 = TeamGenerator.GetTeam();
             TeamGenerator.FillTeam(team1);
             TeamGenerator.FillTeam(team2);
-            game = new Game(team1, team2);
+            Random rand = new Random();
+            game = new Game(team1, team2, rand);
         }
 
         private void homeForm_Load(object sender, EventArgs e)
@@ -79,7 +80,8 @@ namespace Elite_Hockey_Manager
         {
             League league = new Classes.League("National Hockey League", "NHL", 32);
             league.FillRemainingTeams();
-            Schedule schedule = new Classes.LeagueComponents.Schedule(league.FirstConference, league.SecondConference);
+            Random rand = new Random();
+            Schedule schedule = new Classes.LeagueComponents.Schedule(league.FirstConference, league.SecondConference, rand);
 
         }
 
