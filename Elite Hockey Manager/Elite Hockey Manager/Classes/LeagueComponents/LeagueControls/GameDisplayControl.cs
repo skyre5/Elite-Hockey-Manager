@@ -57,6 +57,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         private void autoSimButton_Click(object sender, EventArgs e)
         {
             _game.PlayGame();
+            if (_game.AwayScore == _game.HomeScore)
+            {
+                Console.WriteLine("fsdfsdf");
+            }
             scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
             DisableButtons();
         }

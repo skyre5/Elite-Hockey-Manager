@@ -63,5 +63,6 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             }
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
         }
+
     }
 }

@@ -208,11 +208,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             PlayPeriod();
             PlayPeriod();
             PlayPeriod();
-            if (!Finished)
+            /*if (!Finished)
             {
                 //Overtime
                 PlayPeriod();
-            }
+            }*/
         }
         public void PlayPeriod()
         {
@@ -249,11 +249,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             if (period == 4)
             {
+                Overtime = true;
                 while (timeIntervals <= MAXTIMEOVERTIME && HomeScore == AwayScore)
                 {
                     ScoringChance();
                 }
-                if (timeIntervals == MAXTIMEOVERTIME)
+                if (timeIntervals >= MAXTIMEOVERTIME)
                 {
                     Finished = true;
                     _winner = (Side)rand.Next(0, 2);
@@ -267,7 +268,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     }
                     InputTeamStats();
                 }
-                if (HomeScore != AwayScore)
+                else if (HomeScore != AwayScore)
                 {
                     Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
@@ -314,6 +315,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 //If its overtime and a team has scored
                 if (period == 4 && HomeScore != AwayScore)
                 {
+                    Overtime = true;
                     Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
                     InputTeamStats();
@@ -322,6 +324,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 //If it has reached the end of overtime
                 if (period == 4 && timeIntervals == MAXTIMEOVERTIME)
                 {
+                    Overtime = true;
                     Finished = true;
                     InputTeamStats();
                     _winner = (Side)rand.Next(0, 2);

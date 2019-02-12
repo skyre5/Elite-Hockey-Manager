@@ -27,7 +27,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private Random rand;
         private List<Team> _firstConference;
         private List<Team> _secondConference;
-        private List<TeamPair> _teamsList = new List<TeamPair>();
+        public List<TeamPair> _teamsList = new List<TeamPair>();
         private int _maxGamesPerDay;
         private int _scheduleSize;
         private List<List<Game>> _seasonSchedule = new List<List<Game>>();
@@ -68,6 +68,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             SetMaxGamesInADay();
             GenerateRegularSeason();
         }
+        /// <summary>
+        /// Function to return total number of games scheduled for season
+        /// </summary>
+        /// <returns>Integer of number of games scheduled</returns>
+        public int TotalGamesScheduled()
+        {
+            int totalGames = 0;
+            foreach (List<Game> day in _seasonSchedule)
+            {
+                foreach(Game game in day)
+                {
+                    totalGames++;
+                }
+            }
+            return totalGames;
+        }
         private void GenerateRegularSeason()
         {
             int gamesScheduled = 0;
@@ -79,6 +95,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 List<TeamPair> awayTeams = GetAwayTeams(homeTeams);
                 for (int i = 0; i < homeTeams.Count; i++)
                 {
+                    if (awayTeams.Count == 0)
+                    {
+                        continue;
+                    }
                     TeamPair homeTeam = homeTeams[i];
                     TeamPair awayTeam = ChooseAwayTeam(awayTeams);
                     daySchedule.Add(new Game(homeTeam.team, awayTeam.team, rand, gamesScheduled));
@@ -110,13 +130,34 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private List<TeamPair> GetAwayTeams(List<TeamPair> homeTeams)
         {
-            List<TeamPair> awayTeams = _teamsList.Except(homeTeams).Where(x => x.counter.awayGamesScheduled < 41).ToList();
-            while (awayTeams.Count < homeTeams.Count)
+            List<TeamPair> onlyAwayTeams = _teamsList.Except(homeTeams).ToList();
+            List <TeamPair> awayTeams = onlyAwayTeams.Where(x => x.counter.awayGamesScheduled < 41).ToList();
+            for (int i = 0;;)
+            {
+                if (i == homeTeams.Count)
+                {
+                    break;
+                }
+                if (awayTeams.Count >= homeTeams.Count)
+                {
+                    break;
+                }
+                if (homeTeams[0].counter.awayGamesScheduled < 41)
+                {
+                    awayTeams.Add(homeTeams[0]);
+                    homeTeams.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            /*while (awayTeams.Count < homeTeams.Count)
             {
                 TeamPair transferTeam = homeTeams.Last();
                 awayTeams.Add(transferTeam);
                 homeTeams.Remove(transferTeam);
-            }
+            }*/
             return awayTeams;
         }
         private void SetTeamsList()
