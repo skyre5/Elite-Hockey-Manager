@@ -16,6 +16,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             team = newTeam;
             counter = new ScheduleCounter();
         }
+        public override string ToString()
+        {
+            return String.Format("{0} Home:{1} Away:{2}", team.TeamName, counter.homeGamesScheduled, counter.awayGamesScheduled);
+        }
     }
     public class ScheduleCounter
     {
@@ -92,6 +96,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 daySchedule = new List<Game>();
                 List<TeamPair> homeTeams = GetHomeTeams();
+                //If an odd number sized league ends up with one team having 40 home games and 40 away games
+                //Bricks system in infinite loop otherwise
+                if (_teamsList.Where(x => x.counter.homeGamesScheduled < 41 || x.counter.awayGamesScheduled < 41).ToList().Count == 1)
+                {
+                    TeamPair brokenTeam = _teamsList.Where(x => x.counter.homeGamesScheduled < 41 || x.counter.awayGamesScheduled < 41).ToList().Last();
+                    while (brokenTeam.counter.awayGamesScheduled < 41)
+                    {
+                        FixOddTeamLeague(brokenTeam, ref gamesScheduled);
+                    }
+                }
                 List<TeamPair> awayTeams = GetAwayTeams(homeTeams);
                 for (int i = 0; i < homeTeams.Count; i++)
                 {
@@ -107,6 +121,34 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     awayTeam.counter.awayGamesScheduled++;
                 }
                 _seasonSchedule.Add(daySchedule);
+            }
+        }
+        private void FixOddTeamLeague(TeamPair lastTeam, ref int newGameNumber)
+        {
+            //home game missing
+            while (lastTeam.counter.awayGamesScheduled != 41 && lastTeam.counter.homeGamesScheduled != 41)
+            {
+                for (int i = 0; i <= _seasonSchedule.Count; i++)
+                {
+                    for (int j = 0; j < _seasonSchedule[i].Count; j++)
+                    {
+                        if (_seasonSchedule[i][j].HomeTeam != lastTeam.team && _seasonSchedule[i][j].AwayTeam != lastTeam.team)
+                        {
+                            Game game = _seasonSchedule[i][j];
+                            Team homeTeam = game.HomeTeam;
+                            Team awayTeam = game.AwayTeam;
+                            int gameNumber = game.GameNumber;
+                            _seasonSchedule[i].RemoveAt(j);
+                            _seasonSchedule[i].Add(new Game(lastTeam.team, awayTeam, rand, gameNumber));
+                            lastTeam.counter.homeGamesScheduled++;
+                            _seasonSchedule[i].Add(new Game(homeTeam, lastTeam.team, rand, newGameNumber));
+                            newGameNumber++;
+                            lastTeam.counter.awayGamesScheduled++;
+                            i = _seasonSchedule.Count;
+                            break;
+                        }
+                    }
+                }
             }
         }
         private TeamPair ChooseAwayTeam(List<TeamPair> awayTeams)
@@ -142,9 +184,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 {
                     break;
                 }
-                if (homeTeams[0].counter.awayGamesScheduled < 41)
+                if (homeTeams[i].counter.awayGamesScheduled < 41)
                 {
-                    awayTeams.Add(homeTeams[0]);
+                    awayTeams.Add(homeTeams[i]);
                     homeTeams.RemoveAt(i);
                 }
                 else
