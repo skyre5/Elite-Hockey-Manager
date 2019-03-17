@@ -32,7 +32,7 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// Adds a game played to the players stats, will get added upon the start of the game
         /// </summary>
-        public void PlayGame()
+        public void AddGamePlayed()
         {
             _gamesPlayed++;
         }
@@ -144,18 +144,19 @@ namespace Elite_Hockey_Manager.Classes
         }
         public int Goals
         {
-            get
-            {
-                return _goals;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int Assists
         {
-            get
-            {
-                return _assists;
-            }
-        }
+            get;
+            set;
+        } = 0;
+        public int Shots
+        {
+            get;
+            set;
+        } = 0;
         public int PlusMinus
         {
             get

@@ -64,5 +64,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(League);
+        }
     }
 }

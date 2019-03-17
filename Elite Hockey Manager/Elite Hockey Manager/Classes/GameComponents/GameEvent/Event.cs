@@ -13,6 +13,23 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         Shorthanded,
         Powerplay
     }
+    public static class GoalTypeExtensions
+    {
+        public static string ToShortenedString(GoalType gt)
+        {
+            switch (gt)
+            {
+                case GoalType.EvenStrength:
+                    return "ES";
+                case GoalType.Powerplay:
+                    return "PP";
+                case GoalType.Shorthanded:
+                    return "SH";
+                default:
+                    return gt.ToString();
+            }
+        }
+    }
     public enum Side : int
     {
         Home, 
@@ -137,32 +154,27 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _shotType = value;
             }
         }
-        /// <summary>
-        /// Shows players on ice for each goal event
-        /// Used for +/- as well for player stat view
-        /// </summary>
-        public PlayersOnIce PlayersOnIce
-        {
-            get
-            {
-                return _playersOnIce;
-            }
-            protected set
-            {
-                _playersOnIce.homeForwards = (Skater[])value.homeForwards.Clone();
-                _playersOnIce.homeDefenders = (Skater[])value.homeDefenders.Clone();
-                _playersOnIce.awayForwards = (Skater[])value.awayForwards.Clone();
-                _playersOnIce.awayDefenders = (Skater[])value.awayDefenders.Clone();
-            }
-        }
 
-        public GoalEvent(Player player, int period, int time, Side side, GoalType goalType, PlayersOnIce playersOnIce, ShotType shotType, Player assister1 = null, Player assister2 = null)
+        public GoalEvent(Player player, int period, int time, Side side, GoalType goalType, ShotType shotType, Player assister1 = null, Player assister2 = null)
             : base(player, period, time, side)
         {
             Assister1 = assister1;
             Assister2 = assister2;
-            PlayersOnIce = playersOnIce;
             ShotType = shotType;
+        }
+
+        public override string ToString()
+        {
+            string returnString = String.Format("{0} Goal: {1}:{2}", GoalTypeExtensions.ToShortenedString(GoalType), Player.Position, Player.LastName);
+            if (Assister1 != null)
+            {
+                returnString += String.Format("-{0}:{1}", Assister1.Position, Assister1.LastName);
+            }
+            if (Assister2 != null)
+            {
+                returnString += String.Format("-{0}:{1}", Assister2.Position, Assister2.LastName);
+            }
+            return returnString;
         }
     }
     public class HitEvent : Event
@@ -186,6 +198,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         public HitEvent(Player player, int period, int time, Side side, Player playerHit) : base(player, period, time, side)
         {
             PlayerHit = playerHit;
+        }
+        public override string ToString()
+        {
+            return String.Format("{0}:{1} Hit On {2}:{3}", Player.Position, Player.LastName, PlayerHit.Position, PlayerHit.LastName);
         }
     }
     public class PenaltyEvent : Event
@@ -223,6 +239,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
             Minutes = minutes;
             PlayerTakenOn = playerTakenOn;
         }
+        public override string ToString()
+        {
+            return String.Format("{0} Minute Penalty-{1}:{2}", Minutes, Player.Position, Player.LastName);
+        }
     }
     public class ShotEvent : Event
     {
@@ -241,6 +261,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         public ShotEvent(Player player, int period, int time, Side side, ShotType shotType) : base(player, period, time, side)
         {
             ShotType = shotType;
+        }
+        public override string ToString()
+        {
+            return String.Format("{0} {1}:{2}", ShotType, Player.Position, Player.LastName);
         }
     }
 }

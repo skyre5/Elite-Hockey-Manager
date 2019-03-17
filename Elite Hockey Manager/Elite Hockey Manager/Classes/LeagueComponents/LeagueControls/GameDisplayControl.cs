@@ -45,8 +45,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         public void DisableButtons()
         {
             //Enabled to let players view game results
-            //autoSimButton.Enabled = false;
-            viewSimButton.Enabled = false;
+            autoSimButton.Enabled = false;
+            //viewSimButton.Enabled = false;
         }
         private void viewSimButton_Click(object sender, EventArgs e)
         {

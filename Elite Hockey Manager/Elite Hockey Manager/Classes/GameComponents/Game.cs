@@ -95,14 +95,28 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         } = 0;
         public int HomeShots
         {
-            get;
-            private set;
-        } = 0;
-        public int AwayShots
+            get
+            {
+                return HomeShotsArray.Sum();
+            }
+        }
+        public int[] HomeShotsArray
         {
             get;
             private set;
-        } = 0;
+        } = new int[] { 0, 0, 0, 0 };
+        public int AwayShots
+        {
+            get
+            {
+                return AwayShotsArray.Sum();
+            }
+        }
+        public int[] AwayShotsArray
+        {
+            get;
+            private set;
+        } = new int[] {0, 0, 0, 0};
         public int HomePowerplays
         {
             get;
@@ -199,6 +213,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         }
         public void PlayGame()
         {
+            
             if (Finished)
             {
                 Console.WriteLine("Game is already finished");
@@ -371,6 +386,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         {
             foreach (Skater skater in _playersOnIce.GetAllSkatersFromBothSides())
             {
+                //Player stat entry
                 skater.Stats.TimeOnIce++;
             }
         }
@@ -378,10 +394,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         {
             foreach (Skater skater in _playersOnIce.GetAllSkatersFromSide(scoringSide))
             {
+                //Player stat entry
                 skater.Stats.PlusMinus++;
             }
             foreach (Skater skater in _playersOnIce.GetAllSkatersFromSide(!scoringSide))
             {
+                //Player stat entry
                 skater.Stats.PlusMinus--;
             }
         }
@@ -404,6 +422,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             //If the random number is less than home, home wins faceoff and gets scoring chance
             if (choice <= homeFaceoff)
             {
+                //Player stat entry
                 //Adds faceoff wins and loss to both centers
                 homeCenter.Stats.FaceoffWins++;
                 awayCenter.Stats.FaceoffLosses++;
@@ -415,6 +434,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             //Else random number is larger, away team wins faceoff
             else
             {
+                //Player stat entry
                 homeCenter.Stats.FaceoffLosses++;
                 awayCenter.Stats.FaceoffWins++;
                 this.awayFaceoffWins++;
@@ -497,19 +517,34 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             Side side = scoringChanceSide == HOMESCORINGCHANCE ? Side.Home : Side.Away;
             if (side == Side.Home)
             {
-                HomeShots++;
+                HomeShotsArray[period - 1]++;
             }
             else
             {
-                AwayShots++;
+                AwayShotsArray[period - 1]++;
             }
             _gameEvents.Add(new ShotEvent(offensiveSkaters[0], period, timeIntervals, side, shotType));
+            //Player stat entry
+            offensiveSkaters[0].Stats.Shots++;
             goalie.Stats.ShotsFaced++;
+
             if (goalScored)
             {
-                _gameEvents.Add(new GoalEvent(offensiveSkaters[0], period, timeIntervals, side, GoalType.EvenStrength, _playersOnIce, shotType, offensiveSkaters[1], offensiveSkaters[2]));
+                _gameEvents.Add(new GoalEvent(offensiveSkaters[0], period, timeIntervals, side, GoalType.EvenStrength, shotType, offensiveSkaters[1], offensiveSkaters[2]));
                 SetPlusMinusStats(scoringChanceSide);
+                //Player stat Entry
                 goalie.Stats.GoalsAllowed++;
+                offensiveSkaters[0].Stats.Goals++;
+                //If there were assisting players on the play
+                if (offensiveSkaters[1] != null)
+                {
+                    offensiveSkaters[1].Stats.Assists++;
+                }
+                if (offensiveSkaters[2] != null)
+                {
+                    offensiveSkaters[2].Stats.Assists++;
+                }
+
                 if (side == Side.Home)
                 {
                     HomeScore++;
@@ -710,6 +745,32 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             HomeTeam.CurrentSeasonStats.InsertGameStats(this, Side.Home);
             AwayTeam.CurrentSeasonStats.InsertGameStats(this, Side.Away);
         }
+        /// <summary>
+        /// Function called at beginning of game to add a game played to forwards, defenders, and starting goalie
+        /// </summary>
+        private void InputGamesPlayedStats()
+        {
+            //Helper function that takes a 2d player array and adds games played for each player
+            Action<Skater[,]> AddGamesPlayToPlayersArray = (Skater[,] players) =>
+            {
+                for (int x = 0; x < players.GetLength(0); x++)
+                {
+                    for (int y = 0; y < players.GetLength(1); y++)
+                    {
+                        players[x, y].Stats.AddGamePlayed();
+                    }
+                }
+            };
+            //Player stat entry
+            AddGamesPlayToPlayersArray(HomeTeam.Forwards);
+            AddGamesPlayToPlayersArray(AwayTeam.Forwards);
+
+            AddGamesPlayToPlayersArray(HomeTeam.Defenders);
+            AddGamesPlayToPlayersArray(AwayTeam.Defenders);
+            //Adds games started to both starting goalies
+            _playersOnIce.homeGoalie.Stats.AddGameStarted();
+            _playersOnIce.awayGoalie.Stats.AddGameStarted();
+        }
         protected Game(SerializationInfo info, StreamingContext context)
         {
             this.HomeTeam = (Team)info.GetValue("HomeTeam", typeof(Team));
@@ -720,8 +781,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             this.HomeScore = (int)info.GetValue("HomeGoals", typeof(int));
             this.AwayScore = (int)info.GetValue("AwayGoals", typeof(int));
 
-            this.HomeShots = (int)info.GetValue("HomeShots", typeof(int));
-            this.AwayShots = (int)info.GetValue("AwayShots", typeof(int));
+            this.HomeShotsArray = (int[])info.GetValue("HomeShots", typeof(int));
+            this.AwayShotsArray = (int[])info.GetValue("AwayShots", typeof(int));
 
             this.homeHits = (int)info.GetValue("HomeHits", typeof(int));
             this.awayHits = (int)info.GetValue("AwayHits", typeof(int));
@@ -743,8 +804,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             info.AddValue("HomeGoals", this.HomeScore);
             info.AddValue("AwayGoals", this.AwayScore);
 
-            info.AddValue("HomeShots", this.HomeShots);
-            info.AddValue("AwayShots", this.AwayShots);
+            info.AddValue("HomeShots", this.HomeShotsArray);
+            info.AddValue("AwayShots", this.AwayShotsArray);
 
             info.AddValue("HomeHits", this.homeHits);
             info.AddValue("AwayHits", this.awayHits);

@@ -17,7 +17,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         {
             get;
             private set;
-        }
+        } = null;
         public GameForm(Game game)
         {
             Game = game;
@@ -29,6 +29,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             if (Game != null)
             {
                 SetPage();
+                gameControl.Game = Game;
             }
         }
         /// <summary>
@@ -38,11 +39,6 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         private void SetPage()
         {
             this.Text = Game.Title;
-            if (Game.Finished)
-            {
-                this.periodLabel.Text = "Game Finished";
-                this.timeLabel.Text = "";
-            }
         }
     }
 }
