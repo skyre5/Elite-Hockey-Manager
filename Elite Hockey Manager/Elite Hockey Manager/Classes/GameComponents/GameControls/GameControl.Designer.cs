@@ -31,14 +31,11 @@
             this.periodLabel = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
-            this.homeLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
-            this.awayLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
             this.homeTeamLabel = new System.Windows.Forms.Label();
             this.awayTeamLabel = new System.Windows.Forms.Label();
             this.playersTabControl = new System.Windows.Forms.TabControl();
             this.homePlayersPage = new System.Windows.Forms.TabPage();
             this.awayPlayersPage = new System.Windows.Forms.TabPage();
-            this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
             this.eventsTabControl = new System.Windows.Forms.TabControl();
             this.allEventsPage = new System.Windows.Forms.TabPage();
             this.goalsPage = new System.Windows.Forms.TabPage();
@@ -53,6 +50,9 @@
             this.fourRadioButton = new System.Windows.Forms.RadioButton();
             this.twoRadioButton = new System.Windows.Forms.RadioButton();
             this.oneRadioButton = new System.Windows.Forms.RadioButton();
+            this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
+            this.awayLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
+            this.homeLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
             this.playersTabControl.SuspendLayout();
             this.eventsTabControl.SuspendLayout();
             this.simGroupbox.SuspendLayout();
@@ -85,20 +85,6 @@
             this.scoreLabel.TabIndex = 2;
             this.scoreLabel.Text = "ABR 1 - 0 AAA";
             // 
-            // homeLineControl1
-            // 
-            this.homeLineControl1.Location = new System.Drawing.Point(106, 214);
-            this.homeLineControl1.Name = "homeLineControl1";
-            this.homeLineControl1.Size = new System.Drawing.Size(242, 139);
-            this.homeLineControl1.TabIndex = 3;
-            // 
-            // awayLineControl1
-            // 
-            this.awayLineControl1.Location = new System.Drawing.Point(106, 69);
-            this.awayLineControl1.Name = "awayLineControl1";
-            this.awayLineControl1.Size = new System.Drawing.Size(242, 139);
-            this.awayLineControl1.TabIndex = 4;
-            // 
             // homeTeamLabel
             // 
             this.homeTeamLabel.AutoSize = true;
@@ -121,7 +107,7 @@
             // 
             this.playersTabControl.Controls.Add(this.homePlayersPage);
             this.playersTabControl.Controls.Add(this.awayPlayersPage);
-            this.playersTabControl.Location = new System.Drawing.Point(617, 107);
+            this.playersTabControl.Location = new System.Drawing.Point(744, 107);
             this.playersTabControl.Name = "playersTabControl";
             this.playersTabControl.SelectedIndex = 0;
             this.playersTabControl.Size = new System.Drawing.Size(202, 379);
@@ -147,13 +133,6 @@
             this.awayPlayersPage.Text = "Away";
             this.awayPlayersPage.UseVisualStyleBackColor = true;
             // 
-            // shotCounterControl1
-            // 
-            this.shotCounterControl1.Location = new System.Drawing.Point(23, 370);
-            this.shotCounterControl1.Name = "shotCounterControl1";
-            this.shotCounterControl1.Size = new System.Drawing.Size(283, 104);
-            this.shotCounterControl1.TabIndex = 8;
-            // 
             // eventsTabControl
             // 
             this.eventsTabControl.Controls.Add(this.allEventsPage);
@@ -164,16 +143,17 @@
             this.eventsTabControl.Multiline = true;
             this.eventsTabControl.Name = "eventsTabControl";
             this.eventsTabControl.SelectedIndex = 0;
-            this.eventsTabControl.Size = new System.Drawing.Size(226, 379);
+            this.eventsTabControl.Size = new System.Drawing.Size(353, 379);
             this.eventsTabControl.TabIndex = 9;
             this.eventsTabControl.SelectedIndexChanged += new System.EventHandler(this.eventsTabControl_SelectedIndexChanged);
             // 
             // allEventsPage
             // 
+            this.allEventsPage.AutoScroll = true;
             this.allEventsPage.Location = new System.Drawing.Point(4, 22);
             this.allEventsPage.Name = "allEventsPage";
             this.allEventsPage.Padding = new System.Windows.Forms.Padding(3);
-            this.allEventsPage.Size = new System.Drawing.Size(218, 353);
+            this.allEventsPage.Size = new System.Drawing.Size(345, 353);
             this.allEventsPage.TabIndex = 0;
             this.allEventsPage.Text = "All Events";
             this.allEventsPage.UseVisualStyleBackColor = true;
@@ -183,7 +163,7 @@
             this.goalsPage.Location = new System.Drawing.Point(4, 22);
             this.goalsPage.Name = "goalsPage";
             this.goalsPage.Padding = new System.Windows.Forms.Padding(3);
-            this.goalsPage.Size = new System.Drawing.Size(218, 353);
+            this.goalsPage.Size = new System.Drawing.Size(345, 353);
             this.goalsPage.TabIndex = 1;
             this.goalsPage.Text = "Goals";
             this.goalsPage.UseVisualStyleBackColor = true;
@@ -194,7 +174,7 @@
             this.penaltiesPage.Location = new System.Drawing.Point(4, 22);
             this.penaltiesPage.Name = "penaltiesPage";
             this.penaltiesPage.Padding = new System.Windows.Forms.Padding(3);
-            this.penaltiesPage.Size = new System.Drawing.Size(218, 353);
+            this.penaltiesPage.Size = new System.Drawing.Size(345, 353);
             this.penaltiesPage.TabIndex = 2;
             this.penaltiesPage.Text = "Penalties";
             this.penaltiesPage.UseVisualStyleBackColor = true;
@@ -204,7 +184,7 @@
             this.shotPage.Location = new System.Drawing.Point(4, 22);
             this.shotPage.Name = "shotPage";
             this.shotPage.Padding = new System.Windows.Forms.Padding(3);
-            this.shotPage.Size = new System.Drawing.Size(218, 353);
+            this.shotPage.Size = new System.Drawing.Size(345, 353);
             this.shotPage.TabIndex = 3;
             this.shotPage.Text = "Shots";
             this.shotPage.UseVisualStyleBackColor = true;
@@ -271,7 +251,6 @@
             this.eightRadioButton.Name = "eightRadioButton";
             this.eightRadioButton.Size = new System.Drawing.Size(38, 17);
             this.eightRadioButton.TabIndex = 21;
-            this.eightRadioButton.TabStop = true;
             this.eightRadioButton.Text = "8X";
             this.eightRadioButton.UseVisualStyleBackColor = true;
             this.eightRadioButton.CheckedChanged += new System.EventHandler(this.eightRadioButton_CheckedChanged);
@@ -283,7 +262,6 @@
             this.fourRadioButton.Name = "fourRadioButton";
             this.fourRadioButton.Size = new System.Drawing.Size(38, 17);
             this.fourRadioButton.TabIndex = 20;
-            this.fourRadioButton.TabStop = true;
             this.fourRadioButton.Text = "4X";
             this.fourRadioButton.UseVisualStyleBackColor = true;
             this.fourRadioButton.CheckedChanged += new System.EventHandler(this.fourRadioButton_CheckedChanged);
@@ -295,7 +273,6 @@
             this.twoRadioButton.Name = "twoRadioButton";
             this.twoRadioButton.Size = new System.Drawing.Size(38, 17);
             this.twoRadioButton.TabIndex = 19;
-            this.twoRadioButton.TabStop = true;
             this.twoRadioButton.Text = "2X";
             this.twoRadioButton.UseVisualStyleBackColor = true;
             this.twoRadioButton.CheckedChanged += new System.EventHandler(this.twoRadioButton_CheckedChanged);
@@ -303,6 +280,7 @@
             // oneRadioButton
             // 
             this.oneRadioButton.AutoSize = true;
+            this.oneRadioButton.Checked = true;
             this.oneRadioButton.Location = new System.Drawing.Point(103, 25);
             this.oneRadioButton.Name = "oneRadioButton";
             this.oneRadioButton.Size = new System.Drawing.Size(38, 17);
@@ -311,6 +289,27 @@
             this.oneRadioButton.Text = "1X";
             this.oneRadioButton.UseVisualStyleBackColor = true;
             this.oneRadioButton.CheckedChanged += new System.EventHandler(this.oneRadioButton_CheckedChanged);
+            // 
+            // shotCounterControl1
+            // 
+            this.shotCounterControl1.Location = new System.Drawing.Point(23, 370);
+            this.shotCounterControl1.Name = "shotCounterControl1";
+            this.shotCounterControl1.Size = new System.Drawing.Size(283, 104);
+            this.shotCounterControl1.TabIndex = 8;
+            // 
+            // awayLineControl1
+            // 
+            this.awayLineControl1.Location = new System.Drawing.Point(106, 69);
+            this.awayLineControl1.Name = "awayLineControl1";
+            this.awayLineControl1.Size = new System.Drawing.Size(242, 139);
+            this.awayLineControl1.TabIndex = 4;
+            // 
+            // homeLineControl1
+            // 
+            this.homeLineControl1.Location = new System.Drawing.Point(106, 214);
+            this.homeLineControl1.Name = "homeLineControl1";
+            this.homeLineControl1.Size = new System.Drawing.Size(242, 139);
+            this.homeLineControl1.TabIndex = 3;
             // 
             // GameControl
             // 
@@ -328,7 +327,7 @@
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.periodLabel);
             this.Name = "GameControl";
-            this.Size = new System.Drawing.Size(847, 524);
+            this.Size = new System.Drawing.Size(949, 524);
             this.playersTabControl.ResumeLayout(false);
             this.eventsTabControl.ResumeLayout(false);
             this.simGroupbox.ResumeLayout(false);

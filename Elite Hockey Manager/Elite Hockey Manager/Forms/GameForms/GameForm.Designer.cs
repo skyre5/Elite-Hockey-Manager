@@ -30,21 +30,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gameControl = new Classes.GameComponents.GameControls.GameControl();
+            this.gameControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.GameControl();
             this.SuspendLayout();
             // 
             // gameControl
             // 
             this.gameControl.Location = new System.Drawing.Point(4, 12);
             this.gameControl.Name = "gameControl";
-            this.gameControl.Size = new System.Drawing.Size(847, 486);
+            this.gameControl.SimSpeed = 1;
+            this.gameControl.Size = new System.Drawing.Size(940, 486);
             this.gameControl.TabIndex = 0;
             // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(863, 564);
+            this.ClientSize = new System.Drawing.Size(956, 564);
             this.Controls.Add(this.gameControl);
             this.Name = "GameForm";
             this.Text = "game title";

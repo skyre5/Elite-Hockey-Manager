@@ -17,6 +17,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private int _simSpeed = 1;
         private int eventIndex = 0;
         private Timer timer;
+        private FlowLayoutPanel activeEventPanel = new FlowLayoutPanel();
         private List<Event> gameEvents = new List<Event>();
         private Type eventType = typeof(Event);
         public int SimSpeed
@@ -52,6 +53,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         {
             InitializeComponent();
             InitializeTimer();
+            activeEventPanel.AutoSize = true;
+            activeEventPanel.FlowDirection = FlowDirection.TopDown;
+
         }
         private void InitializeTimer()
         {
@@ -70,7 +74,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             if (Game.Finished)
             {
                 simGroupbox.Visible = false;
-                InsertEventsInTabPage(eventsTabControl.SelectedTab, Game.GameEvents);
+                gameEvents = Game.GameEvents;
+                InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
             }
         }
         /// <summary>
@@ -138,55 +143,103 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         {
             timer.Start();
         }
+        private void SetTime(int timeInterval)
+        {
+            TimeSpan clockTime = new TimeSpan(0, 20, 0);
+            TimeSpan second = TimeSpan.FromSeconds(15);
+            TimeSpan difference = TimeSpan.FromTicks(second.Ticks * (timeInterval - 1));
+            timeLabel.Text = (clockTime - difference).ToString();
+            //timeInterval -= 1;
+            ////15 second interval
+            //int minute = timeInterval / 4;
+            //int seconds = (timeInterval % 4) * 15;
+            //timeLabel.Text = String.Format("{0}:{1}", minute, seconds);
+        }
         private void TimerFinished(object sender, EventArgs e)
         {
             timer.Stop();
             //Increments 1-8 periods of time
             Game.IncrementTime(SimSpeed);
+            //Update time of game
+            SetTime(Game.TimeInterval);
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
+            //Sets the new event index for incoming new events
+            eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count - 1;
+            SortEvents(newGameEvents, eventType);
             gameEvents.AddRange(newGameEvents);
+            foreach (Event x in newGameEvents)
+            {
+                Label label = new Label();
+                label.AutoSize = true;
+                label.Text = x.ToString();
+                activeEventPanel.Controls.Add(label);
+            }
+            if (Game.Finished == false)
+            {
+                timer.Start();
+            }
         }
-
+        private void SortEvents(List<Event> events, Type type)
+        {
+            if (type == typeof(Event))
+            {
+                events = events.Where(x => x is Event).ToList();
+            }
+            else if (type == typeof(GoalEvent))
+            {
+                events = events.Where(x => x is GoalEvent).ToList();
+            }
+            else if (type == typeof(PenaltyEvent))
+            {
+                events = events.Where(x => x is PenaltyEvent).ToList();
+            }
+            else if (type == typeof(ShotEvent))
+            {
+                events = events.Where(x => x is ShotEvent).ToList();
+            }
+        }
         private void eventsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             playersTabControl.Controls.Clear();
+            gameEvents = Game.GameEvents;
+            List<Event> sortedEvents = new List<Event>();
             switch ((sender as TabControl).SelectedIndex)
             {
                 //All events
                 case 0:
                     eventType = typeof(Event);
+                    sortedEvents = gameEvents.Where(x => x is Event).ToList();
                     break;
                 //Goals
                 case 1:
                     eventType = typeof(GoalEvent);
+                    sortedEvents = gameEvents.Where(x => x is GoalEvent).ToList();
                     break;
                 //Penalties
                 case 2:
                     eventType = typeof(PenaltyEvent);
+                    sortedEvents = gameEvents.Where(x => x is PenaltyEvent).ToList();
                     break;
                 //Shots
                 case 3:
                     eventType = typeof(ShotEvent);
+                    sortedEvents = gameEvents.Where(x => x is ShotEvent).ToList();
                     break;
             }
-
-            List<Event> sortedEvents = gameEvents.Where(x => x.GetType() == eventType).ToList();
             InsertEventsInTabPage(eventsTabControl.SelectedTab, sortedEvents);
         }
         private void InsertEventsInTabPage(TabPage tabPage, List<Event> events)
         {
+            activeEventPanel.Controls.Clear();
             tabPage.Controls.Clear();
-            FlowLayoutPanel panel = new FlowLayoutPanel();
-            panel.AutoSize = true;
-            panel.FlowDirection = FlowDirection.TopDown;
             foreach (Event x in events)
             {
                 Label label = new Label();
                 label.AutoSize = true;
                 label.Text = x.ToString();
-                panel.Controls.Add(label);
+                activeEventPanel.Controls.Add(label);
             }
-            tabPage.Controls.Add(panel);
+            tabPage.Controls.Add(activeEventPanel);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         Shorthanded,
         Powerplay
     }
-    public static class GoalTypeExtensions
+    public static class EnumExtensions
     {
-        public static string ToShortenedString(GoalType gt)
+        public static string GoalTypeToShortenedString(GoalType gt)
         {
             switch (gt)
             {
@@ -91,7 +91,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
             {
                 return _side;
             }
-            set
+            protected set
             {
                 _side = value;
             }
@@ -101,6 +101,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
             Player = player;
             Period = period;
             Time = time;
+            Side = side;
         }
     }
     public class GoalEvent : Event
@@ -165,7 +166,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 
         public override string ToString()
         {
-            string returnString = String.Format("{0} Goal: {1}:{2}", GoalTypeExtensions.ToShortenedString(GoalType), Player.Position, Player.LastName);
+            string returnString = String.Format("({0}) {1} Goal: {2}:{3}", Side, EnumExtensions.GoalTypeToShortenedString(GoalType), Player.Position, Player.LastName);
             if (Assister1 != null)
             {
                 returnString += String.Format("-{0}:{1}", Assister1.Position, Assister1.LastName);
@@ -201,7 +202,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         }
         public override string ToString()
         {
-            return String.Format("{0}:{1} Hit On {2}:{3}", Player.Position, Player.LastName, PlayerHit.Position, PlayerHit.LastName);
+            return String.Format("({0}) {1}:{2} Hit On {3}:{4}", Side, Player.Position, Player.LastName, PlayerHit.Position, PlayerHit.LastName);
         }
     }
     public class PenaltyEvent : Event
@@ -241,7 +242,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         }
         public override string ToString()
         {
-            return String.Format("{0} Minute Penalty-{1}:{2}", Minutes, Player.Position, Player.LastName);
+            return String.Format("({0}) {1} Minute Penalty-{2}:{3}", Side, Minutes, Player.Position, Player.LastName);
         }
     }
     public class ShotEvent : Event
@@ -264,7 +265,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         }
         public override string ToString()
         {
-            return String.Format("{0} {1}:{2}", ShotType, Player.Position, Player.LastName);
+            return String.Format("({0}) {1} {2}:{3}", Side, ShotType, Player.Position, Player.LastName);
         }
     }
 }
