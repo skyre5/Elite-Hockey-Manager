@@ -206,7 +206,8 @@ namespace Elite_Hockey_Manager.Classes.Stats
             if (game.Winner == side)
             {
                 this.Wins++;
-                if (game.Overtime) this.OvertimeWins++;
+                if (game.Overtime)
+                    this.OvertimeWins++;
             }
             else
             {

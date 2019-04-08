@@ -40,6 +40,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             if (_game.Finished)
             {
                 scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
+                if (_game.Overtime)
+                {
+                    scoreLabel.Text += " (OT)";
+                }
             }
         }
         public void DisableButtons()
@@ -62,6 +66,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 Console.WriteLine("fsdfsdf");
             }
             scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
+            if (Game.Overtime)
+            {
+                scoreLabel.Text += " (OT)";
+            }
             DisableButtons();
         }
     }

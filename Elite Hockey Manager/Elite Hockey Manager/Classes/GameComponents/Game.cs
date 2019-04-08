@@ -56,7 +56,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         /// </summary>
         private int _period = 1;
         //15 second increments
-        private int _timeIntervals = 1;
+        private int _timeIntervals = 0;
         private const int MAXTIMEREGULATION = 80;
         private const int MAXTIMEOVERTIME = 20;
         //Home and away hit totals
@@ -234,14 +234,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return;
             }
             //1st period - 3rd period -always played
-            PlayPeriod();
-            PlayPeriod();
-            PlayPeriod();
-            /*if (!Finished)
+            while (Period <= 4 && !Finished)
             {
-                //Overtime
                 PlayPeriod();
-            }*/
+            }
         }
         public void PlayPeriod()
         {
@@ -252,16 +248,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             if (_period <= 3)
             {
-                while (_timeIntervals <= MAXTIMEREGULATION)
+                while (_timeIntervals < MAXTIMEREGULATION)
                 {
                     ScoringChance();
                 }
                 if (_period < 3)
                 {
                     _period++;
-                    _timeIntervals = 1;
+                    _timeIntervals = 0;
                 }
-                if (_period == 3)
+                else if (_period == 3)
                 {
                     if (HomeScore != AwayScore)
                     {
@@ -272,7 +268,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     else
                     {
                         _period++;
-                        _timeIntervals = 1;
+                        _timeIntervals = 0;
+                        return;
                     }
                 }
             }
@@ -322,7 +319,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 if (_period < 3 && _timeIntervals == MAXTIMEREGULATION)
                 {
                     _period++;
-                    _timeIntervals = 1;
+                    _timeIntervals = 0;
                     break;
                 }
                 //If end of 3rd period is reached

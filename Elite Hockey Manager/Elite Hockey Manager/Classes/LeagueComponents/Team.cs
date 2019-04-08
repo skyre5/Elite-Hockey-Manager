@@ -15,6 +15,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _year = 1;
         private string _location;
         private string _teamName;
+        private string _abbreviation;
         private string _logoPath = null;
         private int _teamID = -1;
         private static int idCount = 0;
@@ -44,6 +45,24 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+        public string Abbreviation
+        {
+            get
+            {
+                return _abbreviation;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length > 3)
+                {
+                    throw new ArgumentException("Abbreviation must be 1 to 3 characters");
+                }
+                else
+                {
+                    _abbreviation = value.Trim();
+                }
+            }
+        }
         public string TeamNameWithRecord
         {
             get
@@ -64,6 +83,8 @@ namespace Elite_Hockey_Manager.Classes
         {
             Location = location;
             TeamName = name;
+            //Abbreviation is first letter of team location and teamname
+            Abbreviation = String.Concat(location[0], _teamName[0]);
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
@@ -452,15 +473,8 @@ namespace Elite_Hockey_Manager.Classes
             this._teamName = (string)info.GetValue("TeamName", typeof(string));
             this._location = (string)info.GetValue("Location", typeof(string));
             this._logoPath = (string)info.GetValue("Logo", typeof(string));
-            try
-            {
-                this._teamID = (int)info.GetValue("ID", typeof(int));
-            }
-            catch
-            {
-                //For previous versions that didn't save teamID
-                this._teamID = -1;
-            }
+            this._teamID = (int)info.GetValue("ID", typeof(int));
+            this._abbreviation = (string)info.GetValue("Abbreviation", typeof(string));
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -468,6 +482,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Location", this._location);
             info.AddValue("Logo", this._logoPath);
             info.AddValue("ID", this._teamID);
+            info.AddValue("Abbreviation", this._abbreviation);
         }
 
     }

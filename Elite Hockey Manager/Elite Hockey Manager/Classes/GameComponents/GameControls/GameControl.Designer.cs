@@ -50,7 +50,7 @@
             this.fourRadioButton = new System.Windows.Forms.RadioButton();
             this.twoRadioButton = new System.Windows.Forms.RadioButton();
             this.oneRadioButton = new System.Windows.Forms.RadioButton();
-            this.shotCounterControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
+            this.shotCounterControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
             this.awayLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
             this.homeLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
             this.playersTabControl.SuspendLayout();
@@ -167,7 +167,6 @@
             this.goalsPage.TabIndex = 1;
             this.goalsPage.Text = "Goals";
             this.goalsPage.UseVisualStyleBackColor = true;
-            this.goalsPage.Click += new System.EventHandler(this.goalsTab_Click);
             // 
             // penaltiesPage
             // 
@@ -197,6 +196,7 @@
             this.periodButton.TabIndex = 14;
             this.periodButton.Text = "Sim Period";
             this.periodButton.UseVisualStyleBackColor = true;
+            this.periodButton.Click += new System.EventHandler(this.periodButton_Click);
             // 
             // gameButton
             // 
@@ -206,6 +206,7 @@
             this.gameButton.TabIndex = 15;
             this.gameButton.Text = "Sim Game";
             this.gameButton.UseVisualStyleBackColor = true;
+            this.gameButton.Click += new System.EventHandler(this.gameButton_Click);
             // 
             // playButton
             // 
@@ -290,12 +291,12 @@
             this.oneRadioButton.UseVisualStyleBackColor = true;
             this.oneRadioButton.CheckedChanged += new System.EventHandler(this.oneRadioButton_CheckedChanged);
             // 
-            // shotCounterControl1
+            // shotCounterControl
             // 
-            this.shotCounterControl1.Location = new System.Drawing.Point(23, 370);
-            this.shotCounterControl1.Name = "shotCounterControl1";
-            this.shotCounterControl1.Size = new System.Drawing.Size(283, 104);
-            this.shotCounterControl1.TabIndex = 8;
+            this.shotCounterControl.Location = new System.Drawing.Point(23, 370);
+            this.shotCounterControl.Name = "shotCounterControl";
+            this.shotCounterControl.Size = new System.Drawing.Size(283, 104);
+            this.shotCounterControl.TabIndex = 8;
             // 
             // awayLineControl1
             // 
@@ -317,7 +318,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.simGroupbox);
             this.Controls.Add(this.eventsTabControl);
-            this.Controls.Add(this.shotCounterControl1);
+            this.Controls.Add(this.shotCounterControl);
             this.Controls.Add(this.playersTabControl);
             this.Controls.Add(this.awayTeamLabel);
             this.Controls.Add(this.homeTeamLabel);
@@ -349,7 +350,7 @@
         private System.Windows.Forms.TabControl playersTabControl;
         private System.Windows.Forms.TabPage homePlayersPage;
         private System.Windows.Forms.TabPage awayPlayersPage;
-        private ShotCounterControl shotCounterControl1;
+        private ShotCounterControl shotCounterControl;
         private System.Windows.Forms.TabControl eventsTabControl;
         private System.Windows.Forms.TabPage allEventsPage;
         private System.Windows.Forms.TabPage goalsPage;
