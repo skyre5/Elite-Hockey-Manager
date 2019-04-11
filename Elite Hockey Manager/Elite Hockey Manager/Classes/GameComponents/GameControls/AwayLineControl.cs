@@ -17,15 +17,15 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             InitializeComponent();
         }
 
-        private void SetForwards(string players)
+        public void SetForwards(string players)
         {
             forwardsLabel.Text = players;
         }
-        private void SetDefenders(string players)
+        public void SetDefenders(string players)
         {
             DefendersLabel.Text = players;
         }
-        private void SetGoalie(string player)
+        public void SetGoalie(string player)
         {
             GoaliesLabel.Text = player;
         }

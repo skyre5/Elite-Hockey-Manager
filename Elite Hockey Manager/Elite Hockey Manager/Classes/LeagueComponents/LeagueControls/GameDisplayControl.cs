@@ -56,20 +56,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         {
             GameForm form = new GameForm(_game);
             form.ShowDialog();
+            //If the player started simming the game but closed the window, finish the game
+            if (_game.Period != 1 || _game.TimeInterval != 0)
+            {
+                _game.PlayGame();
+                DisableButtons();
+            }
+            //If game is finished update the text
+            if (_game.Finished)
+            {
+                SetGameText();
+            }
         }
 
         private void autoSimButton_Click(object sender, EventArgs e)
         {
             _game.PlayGame();
-            if (_game.AwayScore == _game.HomeScore)
-            {
-                Console.WriteLine("fsdfsdf");
-            }
-            scoreLabel.Text = String.Format("{0}-{1}", _game.AwayScore, _game.HomeScore);
-            if (Game.Overtime)
-            {
-                scoreLabel.Text += " (OT)";
-            }
+            SetGameText();
             DisableButtons();
         }
     }

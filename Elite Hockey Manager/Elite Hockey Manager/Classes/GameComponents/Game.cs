@@ -141,16 +141,6 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get;
             private set;
         } = 0;
-        public int HomePenalties
-        {
-            get;
-            private set;
-        } = 0;
-        public int HomePowerplayGoalsAgainst
-        {
-            get;
-            private set;
-        } = 0;
         public int AwayPowerplays
         {
             get;
@@ -161,21 +151,18 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get;
             private set;
         } = 0;
-        public int AwayPenalties
-        {
-            get;
-            private set;
-        } = 0;
-        public int AwayPowerplayGoalsAgainst
-        {
-            get;
-            private set;
-        } = 0;
         public Side Winner
         {
             get
             {
                 return _winner;
+            }
+        }
+        public PlayersOnIce PlayersOnIce
+        {
+            get
+            {
+                return _playersOnIce;
             }
         }
         public string Title

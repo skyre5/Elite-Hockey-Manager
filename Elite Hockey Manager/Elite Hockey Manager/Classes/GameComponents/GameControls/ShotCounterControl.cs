@@ -16,11 +16,28 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private int[] homeShots = new int[] { 0, 0, 0, 0 };
         private Label[] awayLabels;
         private int[] awayShots = new int[] { 0, 0, 0, 0 };
+        /// <summary>
+        /// Constructor putting control labels into an array
+        /// </summary>
         public ShotCounterControl()
         {
             InitializeComponent();
             homeLabels = new Label[] {homeFirstLabel, homeSecondLabel, homeThirdLabel, homeOvertimeLabel, homeTotalLabel };
             awayLabels = new Label[] {awayFirstLabel, awaySecondLabel, awayThirdLabel, awayOvertimeLabel, awayTotalLabel };
+        }
+        /// <summary>
+        /// Takes game object and sets shots in control to games stats
+        /// </summary>
+        /// <param name="game">Game the stats are taken from</param>
+        public void UpdateShotControl(Game game)
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                SetShotCounter(0, i + 1, game.HomeShotsArray[i]);
+                SetShotCounter(1, i + 1, game.AwayShotsArray[i]);
+            }
+            UpdateTotal(0);
+            UpdateTotal(1);
         }
         /// <summary>
         /// 
@@ -36,9 +53,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="periodShots">
         /// Updated shots for that period
         /// </param>
-        public void SetShotCounter(int team, int period, int periodShots)
+        private void SetShotCounter(int team, int period, int periodShots)
         {
-            if (period < 1 || period > 3 || periodShots < 0 || team < 0 || team > 1)
+            if (period < 1 || period > 4 || periodShots < 0 || team < 0 || team > 1)
             {
                 throw new ArgumentException();
             }
@@ -56,6 +73,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
                     break;
             }
         }
+        /// <summary> Updates the shot totals</summary>
+        /// <param name="team">
+        /// 0 - Home
+        /// 1 - Away
+        /// </param>
         private void UpdateTotal(int team)
         {
             if (team == 0)

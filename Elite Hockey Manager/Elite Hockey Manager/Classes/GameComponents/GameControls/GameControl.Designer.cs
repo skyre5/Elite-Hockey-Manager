@@ -51,8 +51,8 @@
             this.twoRadioButton = new System.Windows.Forms.RadioButton();
             this.oneRadioButton = new System.Windows.Forms.RadioButton();
             this.shotCounterControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
-            this.awayLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
-            this.homeLineControl1 = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
+            this.awayLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
+            this.homeLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
             this.playersTabControl.SuspendLayout();
             this.eventsTabControl.SuspendLayout();
             this.simGroupbox.SuspendLayout();
@@ -298,19 +298,19 @@
             this.shotCounterControl.Size = new System.Drawing.Size(283, 104);
             this.shotCounterControl.TabIndex = 8;
             // 
-            // awayLineControl1
+            // awayLineControl
             // 
-            this.awayLineControl1.Location = new System.Drawing.Point(106, 69);
-            this.awayLineControl1.Name = "awayLineControl1";
-            this.awayLineControl1.Size = new System.Drawing.Size(242, 139);
-            this.awayLineControl1.TabIndex = 4;
+            this.awayLineControl.Location = new System.Drawing.Point(106, 69);
+            this.awayLineControl.Name = "awayLineControl";
+            this.awayLineControl.Size = new System.Drawing.Size(242, 139);
+            this.awayLineControl.TabIndex = 4;
             // 
-            // homeLineControl1
+            // homeLineControl
             // 
-            this.homeLineControl1.Location = new System.Drawing.Point(106, 214);
-            this.homeLineControl1.Name = "homeLineControl1";
-            this.homeLineControl1.Size = new System.Drawing.Size(242, 139);
-            this.homeLineControl1.TabIndex = 3;
+            this.homeLineControl.Location = new System.Drawing.Point(106, 214);
+            this.homeLineControl.Name = "homeLineControl";
+            this.homeLineControl.Size = new System.Drawing.Size(242, 139);
+            this.homeLineControl.TabIndex = 3;
             // 
             // GameControl
             // 
@@ -322,8 +322,8 @@
             this.Controls.Add(this.playersTabControl);
             this.Controls.Add(this.awayTeamLabel);
             this.Controls.Add(this.homeTeamLabel);
-            this.Controls.Add(this.awayLineControl1);
-            this.Controls.Add(this.homeLineControl1);
+            this.Controls.Add(this.awayLineControl);
+            this.Controls.Add(this.homeLineControl);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.periodLabel);
@@ -343,8 +343,8 @@
         private System.Windows.Forms.Label periodLabel;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label scoreLabel;
-        private HomeLineControl homeLineControl1;
-        private AwayLineControl awayLineControl1;
+        private HomeLineControl homeLineControl;
+        private AwayLineControl awayLineControl;
         private System.Windows.Forms.Label homeTeamLabel;
         private System.Windows.Forms.Label awayTeamLabel;
         private System.Windows.Forms.TabControl playersTabControl;

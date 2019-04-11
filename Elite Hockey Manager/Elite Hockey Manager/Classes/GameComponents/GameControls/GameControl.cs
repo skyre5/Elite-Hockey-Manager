@@ -50,6 +50,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
                 GameControlLoad();
             }
         }
+        /// <summary>
+        /// GameControl constuctor
+        /// </summary>
         public GameControl()
         {
             InitializeComponent();
@@ -65,17 +68,27 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             timer.Interval = 1500;
             timer.Tick += TimerFinished;
         }
+        /// <summary>
+        /// Loads controls after the Game property is set
+        /// </summary>
         private void GameControlLoad()
         {
             //Updates the score label with the games current info
             UpdateScoreLabel();
             UpdatePeriodLabel();
+            //Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
+            homeLineControl.SetGoalie(String.Format("{0}({1})", Game.PlayersOnIce.homeGoalie.LastName
+                , Game.PlayersOnIce.homeGoalie.Position));
+            awayLineControl.SetGoalie(String.Format("{0}({1})", Game.PlayersOnIce.awayGoalie.LastName
+                , Game.PlayersOnIce.awayGoalie.Position));
+            eventsTabControl.SelectedTab.Controls.Add(activeEventPanel);
             if (Game.Finished)
             {
                 timeLabel.Text = "";
                 simGroupbox.Visible = false;
                 gameEvents = Game.GameEvents;
                 InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
+                shotCounterControl.UpdateShotControl(Game);
             }
         }
         /// <summary>
@@ -178,6 +191,28 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             periodLabel.Text = String.Format("Period: {0}", Game.Period);
             period = Game.Period;
         }
+        private void SetPlayerLineControls()
+        {
+            homeLineControl.SetForwards(PlayerLineToString(Game.PlayersOnIce.homeForwards));
+            homeLineControl.SetDefenders(PlayerLineToString(Game.PlayersOnIce.homeDefenders));
+
+            awayLineControl.SetForwards(PlayerLineToString(Game.PlayersOnIce.awayForwards));
+            awayLineControl.SetDefenders(PlayerLineToString(Game.PlayersOnIce.awayDefenders));
+        }
+        /// <summary>
+        /// Helper function for SetPlayerLineControls, puts all players from a line into a string with name and position
+        /// </summary>
+        /// <param name="players">Array of skater objects</param>
+        /// <returns>String of all players last names and positions in a string</returns>
+        private string PlayerLineToString(Skater[] players)
+        {
+            string lineString = "";
+            foreach (Skater skater in players)
+            {
+                lineString += String.Format("{0}({1}) ", skater.LastName, skater.Position);
+            }
+            return lineString.Trim();
+        }
         /// <summary>
         /// Event when timer finishes simming
         /// </summary>
@@ -190,6 +225,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             Game.IncrementTime(SimSpeed);
             //Update time of game
             SetTime(Game.TimeInterval);
+            //Updates shot totals
+            shotCounterControl.UpdateShotControl(Game);
+
             //Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             //If the newly simulated events contained a goal, change the score
@@ -202,6 +240,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             {
                 UpdatePeriodLabel();
             }
+            //Sets player controls to the active lines 
+            SetPlayerLineControls();
             //Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
             SortEvents(newGameEvents, eventType);
@@ -316,6 +356,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             SetTime(Game.TimeInterval);
             UpdatePeriodLabel();
             UpdateScoreLabel();
+            //Sets player controls to the active lines 
+            SetPlayerLineControls();
+            shotCounterControl.UpdateShotControl(Game);
             //Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             //Sets the new event index for incoming new events
@@ -324,14 +367,25 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             //Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
-
+        /// <summary>
+        /// Event when sim game button is pressed
+        /// Entire game will be simmed and form will be updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gameButton_Click(object sender, EventArgs e)
         {
             timer.Stop();
+            //Sims the entire/rest of the game
             Game.PlayGame();
             SetTime(Game.TimeInterval);
+            //Updates to the final period and score of the finished game
             UpdatePeriodLabel();
             UpdateScoreLabel();
+            //Sets player controls to the active lines 
+            SetPlayerLineControls();
+            //Updates shot controls
+            shotCounterControl.UpdateShotControl(Game);
             //Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             //Sets the new event index for incoming new events

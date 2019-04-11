@@ -177,7 +177,7 @@ namespace Elite_Hockey_Manager.Classes.Stats
             this.PowerplaysFor += game.HomePowerplays;
             this.PowerplayGoals += game.HomePowerplayGoals;
             this.PowerplaysAgainst += game.AwayPowerplays;
-            this.PowerplayGoalsAgainst += game.AwayPowerplayGoalsAgainst;
+            this.PowerplayGoalsAgainst += game.AwayPowerplayGoals;
         }
         /// <summary>
         /// Takes stats from game class when the parent team is the away team
@@ -194,7 +194,7 @@ namespace Elite_Hockey_Manager.Classes.Stats
             this.PowerplaysFor += game.AwayPowerplays;
             this.PowerplayGoals += game.AwayPowerplayGoals;
             this.PowerplaysAgainst += game.HomePowerplays;
-            this.PowerplayGoalsAgainst += game.HomePowerplayGoalsAgainst;
+            this.PowerplayGoalsAgainst += game.HomePowerplayGoals;
         }
         /// <summary>
         /// Takes game data and sets wins and losses properties based on game results
