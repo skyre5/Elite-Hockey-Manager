@@ -91,7 +91,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
                 simGroupbox.Visible = false;
                 gameEvents = Game.GameEvents;
                 InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
+                //Updates shot control to finished game stats
                 shotCounterControl.UpdateShotControl(Game);
+                //Sets the players on the ice if the game was loaded in finished
+                SetPlayerLineControls();
             }
         }
         /// <summary>

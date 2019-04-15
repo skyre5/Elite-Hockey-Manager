@@ -313,7 +313,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Faceoffs";
             this.faceoffChart.Series.Add(series1);
-            this.faceoffChart.Size = new System.Drawing.Size(148, 104);
+            this.faceoffChart.Size = new System.Drawing.Size(142, 104);
             this.faceoffChart.TabIndex = 20;
             this.faceoffChart.Text = "Faceoffs";
             title1.Name = "Faceoffs";

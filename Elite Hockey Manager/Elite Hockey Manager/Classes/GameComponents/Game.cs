@@ -802,6 +802,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             this._homeFaceoffWins = (int)info.GetValue("HomeFaceoff", typeof(int));
             this._awayFaceoffWins = (int)info.GetValue("AwayFaceoff", typeof(int));
 
+            this._playersOnIce = (PlayersOnIce)info.GetValue("PlayersOnIce", typeof(PlayersOnIce));
+
             this._gameEvents = (List<Event>)info.GetValue("GameEvents", typeof(List<Event>));
 
             this.rand = (Random)info.GetValue("Random", typeof(Random));
@@ -824,6 +826,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
 
             info.AddValue("HomeFaceoff", this._homeFaceoffWins);
             info.AddValue("AwayFaceoff", this._awayFaceoffWins);
+
+            info.AddValue("PlayersOnIce", this._playersOnIce);
 
             info.AddValue("GameEvents", this._gameEvents);
 
