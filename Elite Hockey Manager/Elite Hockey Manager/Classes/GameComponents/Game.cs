@@ -63,8 +63,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         private int homeHits = 0;
         private int awayHits = 0;
         //Home and away faceoff wins
-        private int homeFaceoffWins = 0;
-        private int awayFaceoffWins = 0;
+        private int _homeFaceoffWins = 0;
+        private int _awayFaceoffWins = 0;
         
         private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
@@ -129,6 +129,20 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get
             {
                 return _timeIntervals;
+            }
+        }
+        public int HomeFaceoffWins
+        {
+            get
+            {
+                return _homeFaceoffWins;
+            }
+        }
+        public int AwayFaceoffWins
+        {
+            get
+            {
+                return _awayFaceoffWins;
             }
         }
         public int HomePowerplays
@@ -425,7 +439,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 homeCenter.Stats.FaceoffWins++;
                 awayCenter.Stats.FaceoffLosses++;
                 //Sets in game faceoff tracker
-                this.homeFaceoffWins++;
+                this._homeFaceoffWins++;
                 //Returns constant for home getting scoring chance
                 return HOMESCORINGCHANCE;
             }
@@ -435,7 +449,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 //Player stat entry
                 homeCenter.Stats.FaceoffLosses++;
                 awayCenter.Stats.FaceoffWins++;
-                this.awayFaceoffWins++;
+                this._awayFaceoffWins++;
                 //Returns constant for away getting scoring chance
                 return AWAYSCORINGCHANCE;
             }
@@ -785,8 +799,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             this.homeHits = (int)info.GetValue("HomeHits", typeof(int));
             this.awayHits = (int)info.GetValue("AwayHits", typeof(int));
 
-            this.homeFaceoffWins = (int)info.GetValue("HomeFaceoff", typeof(int));
-            this.awayFaceoffWins = (int)info.GetValue("AwayFaceoff", typeof(int));
+            this._homeFaceoffWins = (int)info.GetValue("HomeFaceoff", typeof(int));
+            this._awayFaceoffWins = (int)info.GetValue("AwayFaceoff", typeof(int));
 
             this._gameEvents = (List<Event>)info.GetValue("GameEvents", typeof(List<Event>));
 
@@ -808,8 +822,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             info.AddValue("HomeHits", this.homeHits);
             info.AddValue("AwayHits", this.awayHits);
 
-            info.AddValue("HomeFaceoff", this.homeFaceoffWins);
-            info.AddValue("AwayFaceoff", this.awayFaceoffWins);
+            info.AddValue("HomeFaceoff", this._homeFaceoffWins);
+            info.AddValue("AwayFaceoff", this._awayFaceoffWins);
 
             info.AddValue("GameEvents", this._gameEvents);
 

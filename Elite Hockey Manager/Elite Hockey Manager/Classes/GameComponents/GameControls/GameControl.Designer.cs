@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.periodLabel = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
@@ -50,12 +54,14 @@
             this.fourRadioButton = new System.Windows.Forms.RadioButton();
             this.twoRadioButton = new System.Windows.Forms.RadioButton();
             this.oneRadioButton = new System.Windows.Forms.RadioButton();
+            this.faceoffChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.shotCounterControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
             this.awayLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
             this.homeLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
             this.playersTabControl.SuspendLayout();
             this.eventsTabControl.SuspendLayout();
             this.simGroupbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.faceoffChart)).BeginInit();
             this.SuspendLayout();
             // 
             // periodLabel
@@ -79,16 +85,17 @@
             // scoreLabel
             // 
             this.scoreLabel.AutoSize = true;
-            this.scoreLabel.Location = new System.Drawing.Point(135, 15);
+            this.scoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scoreLabel.Location = new System.Drawing.Point(91, 15);
             this.scoreLabel.Name = "scoreLabel";
-            this.scoreLabel.Size = new System.Drawing.Size(77, 13);
+            this.scoreLabel.Size = new System.Drawing.Size(205, 33);
             this.scoreLabel.TabIndex = 2;
             this.scoreLabel.Text = "ABR 1 - 0 AAA";
             // 
             // homeTeamLabel
             // 
             this.homeTeamLabel.AutoSize = true;
-            this.homeTeamLabel.Location = new System.Drawing.Point(17, 214);
+            this.homeTeamLabel.Location = new System.Drawing.Point(20, 273);
             this.homeTeamLabel.Name = "homeTeamLabel";
             this.homeTeamLabel.Size = new System.Drawing.Size(35, 13);
             this.homeTeamLabel.TabIndex = 5;
@@ -97,7 +104,7 @@
             // awayTeamLabel
             // 
             this.awayTeamLabel.AutoSize = true;
-            this.awayTeamLabel.Location = new System.Drawing.Point(20, 69);
+            this.awayTeamLabel.Location = new System.Drawing.Point(20, 107);
             this.awayTeamLabel.Name = "awayTeamLabel";
             this.awayTeamLabel.Size = new System.Drawing.Size(33, 13);
             this.awayTeamLabel.TabIndex = 6;
@@ -107,10 +114,10 @@
             // 
             this.playersTabControl.Controls.Add(this.homePlayersPage);
             this.playersTabControl.Controls.Add(this.awayPlayersPage);
-            this.playersTabControl.Location = new System.Drawing.Point(744, 107);
+            this.playersTabControl.Location = new System.Drawing.Point(795, 107);
             this.playersTabControl.Name = "playersTabControl";
             this.playersTabControl.SelectedIndex = 0;
-            this.playersTabControl.Size = new System.Drawing.Size(202, 379);
+            this.playersTabControl.Size = new System.Drawing.Size(151, 379);
             this.playersTabControl.TabIndex = 7;
             // 
             // homePlayersPage
@@ -118,7 +125,7 @@
             this.homePlayersPage.Location = new System.Drawing.Point(4, 22);
             this.homePlayersPage.Name = "homePlayersPage";
             this.homePlayersPage.Padding = new System.Windows.Forms.Padding(3);
-            this.homePlayersPage.Size = new System.Drawing.Size(194, 353);
+            this.homePlayersPage.Size = new System.Drawing.Size(143, 353);
             this.homePlayersPage.TabIndex = 0;
             this.homePlayersPage.Text = "Home";
             this.homePlayersPage.UseVisualStyleBackColor = true;
@@ -128,7 +135,7 @@
             this.awayPlayersPage.Location = new System.Drawing.Point(4, 22);
             this.awayPlayersPage.Name = "awayPlayersPage";
             this.awayPlayersPage.Padding = new System.Windows.Forms.Padding(3);
-            this.awayPlayersPage.Size = new System.Drawing.Size(194, 353);
+            this.awayPlayersPage.Size = new System.Drawing.Size(143, 353);
             this.awayPlayersPage.TabIndex = 1;
             this.awayPlayersPage.Text = "Away";
             this.awayPlayersPage.UseVisualStyleBackColor = true;
@@ -139,7 +146,7 @@
             this.eventsTabControl.Controls.Add(this.goalsPage);
             this.eventsTabControl.Controls.Add(this.penaltiesPage);
             this.eventsTabControl.Controls.Add(this.shotPage);
-            this.eventsTabControl.Location = new System.Drawing.Point(385, 107);
+            this.eventsTabControl.Location = new System.Drawing.Point(436, 107);
             this.eventsTabControl.Multiline = true;
             this.eventsTabControl.Name = "eventsTabControl";
             this.eventsTabControl.SelectedIndex = 0;
@@ -291,9 +298,32 @@
             this.oneRadioButton.UseVisualStyleBackColor = true;
             this.oneRadioButton.CheckedChanged += new System.EventHandler(this.oneRadioButton_CheckedChanged);
             // 
+            // faceoffChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.faceoffChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.faceoffChart.Legends.Add(legend1);
+            this.faceoffChart.Location = new System.Drawing.Point(292, 359);
+            this.faceoffChart.Name = "faceoffChart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series1.IsValueShownAsLabel = true;
+            series1.IsXValueIndexed = true;
+            series1.Legend = "Legend1";
+            series1.Name = "Faceoffs";
+            this.faceoffChart.Series.Add(series1);
+            this.faceoffChart.Size = new System.Drawing.Size(148, 104);
+            this.faceoffChart.TabIndex = 20;
+            this.faceoffChart.Text = "Faceoffs";
+            title1.Name = "Faceoffs";
+            title1.Text = "Faceoffs";
+            this.faceoffChart.Titles.Add(title1);
+            this.faceoffChart.Click += new System.EventHandler(this.chart1_Click);
+            // 
             // shotCounterControl
             // 
-            this.shotCounterControl.Location = new System.Drawing.Point(23, 370);
+            this.shotCounterControl.Location = new System.Drawing.Point(3, 359);
             this.shotCounterControl.Name = "shotCounterControl";
             this.shotCounterControl.Size = new System.Drawing.Size(283, 104);
             this.shotCounterControl.TabIndex = 8;
@@ -316,6 +346,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.faceoffChart);
             this.Controls.Add(this.simGroupbox);
             this.Controls.Add(this.eventsTabControl);
             this.Controls.Add(this.shotCounterControl);
@@ -333,6 +364,7 @@
             this.eventsTabControl.ResumeLayout(false);
             this.simGroupbox.ResumeLayout(false);
             this.simGroupbox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.faceoffChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,5 +397,6 @@
         private System.Windows.Forms.RadioButton fourRadioButton;
         private System.Windows.Forms.RadioButton twoRadioButton;
         private System.Windows.Forms.RadioButton oneRadioButton;
+        private System.Windows.Forms.DataVisualization.Charting.Chart faceoffChart;
     }
 }

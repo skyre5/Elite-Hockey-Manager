@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
 
 namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
@@ -76,6 +77,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             //Updates the score label with the games current info
             UpdateScoreLabel();
             UpdatePeriodLabel();
+            //Updates current faceoff stats
+            UpdateFaceoffChart();
             //Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
             homeLineControl.SetGoalie(String.Format("{0}({1})", Game.PlayersOnIce.homeGoalie.LastName
                 , Game.PlayersOnIce.homeGoalie.Position));
@@ -191,6 +194,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             periodLabel.Text = String.Format("Period: {0}", Game.Period);
             period = Game.Period;
         }
+        /// <summary>
+        /// Updates the chart with the current faceoff stats in the game
+        /// </summary>
+        private void UpdateFaceoffChart()
+        {
+            //Clears the faceoffs series point data and readds them when updated
+            faceoffChart.Series[0].Points.Clear();
+            faceoffChart.Series[0].Points.AddXY("Away", Game.AwayFaceoffWins);
+            faceoffChart.Series[0].Points.AddXY("Home", Game.HomeFaceoffWins);
+        }
         private void SetPlayerLineControls()
         {
             homeLineControl.SetForwards(PlayerLineToString(Game.PlayersOnIce.homeForwards));
@@ -240,6 +253,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             {
                 UpdatePeriodLabel();
             }
+            //Updates current faceoff stats
+            UpdateFaceoffChart();
             //Sets player controls to the active lines 
             SetPlayerLineControls();
             //Sets the new event index for incoming new events
@@ -354,8 +369,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             timer.Stop();
             Game.PlayPeriod();
             SetTime(Game.TimeInterval);
+            //Updates period and score label to updated status
             UpdatePeriodLabel();
             UpdateScoreLabel();
+            //Updates current faceoff stats
+            UpdateFaceoffChart();
             //Sets player controls to the active lines 
             SetPlayerLineControls();
             shotCounterControl.UpdateShotControl(Game);
@@ -382,6 +400,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             //Updates to the final period and score of the finished game
             UpdatePeriodLabel();
             UpdateScoreLabel();
+            //Updates current faceoff stats
+            UpdateFaceoffChart();
             //Sets player controls to the active lines 
             SetPlayerLineControls();
             //Updates shot controls
@@ -393,6 +413,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             SortEvents(newGameEvents, eventType);
             //Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
