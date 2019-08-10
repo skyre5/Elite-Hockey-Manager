@@ -1,6 +1,8 @@
-﻿namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
+﻿using System.Drawing;
+
+namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls
 {
-    partial class PlayerStatsControl
+    partial class PlayerStatsListControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +32,13 @@
         {
             this.SuspendLayout();
             // 
-            // PlayerStatsControl
+            // PlayerStatsListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "PlayerStatsControl";
-            this.Size = new System.Drawing.Size(450, 347);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Name = "PlayerStatsListControl";
+            this.Size = new System.Drawing.Size(148, 178);
             this.ResumeLayout(false);
 
         }

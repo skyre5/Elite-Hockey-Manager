@@ -28,26 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.teamLinesControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.TeamLinesControl();
             this.teamCapControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls.TeamCapControl();
+            this.teamLinesControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.TeamLinesControl();
             this.SuspendLayout();
-            // 
-            // teamLinesControl
-            // 
-            this.teamLinesControl.Location = new System.Drawing.Point(12, 12);
-            this.teamLinesControl.Name = "teamLinesControl";
-            this.teamLinesControl.Size = new System.Drawing.Size(663, 500);
-            this.teamLinesControl.TabIndex = 0;
-            this.teamLinesControl.Team = null;
             // 
             // teamCapControl
             // 
-            this.teamCapControl.Location = new System.Drawing.Point(681, 12);
+            this.teamCapControl.Location = new System.Drawing.Point(743, 28);
             this.teamCapControl.Name = "teamCapControl";
             this.teamCapControl.SalaryCap = 50D;
             this.teamCapControl.Size = new System.Drawing.Size(184, 82);
             this.teamCapControl.TabIndex = 1;
             this.teamCapControl.Team = null;
+            // 
+            // teamLinesControl
+            // 
+            this.teamLinesControl.Location = new System.Drawing.Point(12, 12);
+            this.teamLinesControl.Name = "teamLinesControl";
+            this.teamLinesControl.Size = new System.Drawing.Size(662, 469);
+            this.teamLinesControl.TabIndex = 0;
+            this.teamLinesControl.Team = null;
             // 
             // ViewTeamForm
             // 
@@ -64,6 +64,7 @@
         }
 
         #endregion
+
 
         private Classes.LeagueComponents.LeagueControls.TeamLinesControl teamLinesControl;
         private Classes.LeagueComponents.LeagueControls.LineupControls.TeamCapControl teamCapControl;

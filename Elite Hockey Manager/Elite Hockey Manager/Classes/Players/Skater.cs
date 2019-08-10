@@ -31,6 +31,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
+                //If there are no stats on list add a new invalid skaterstats object
+                if (_stats.Count == 0)
+                {
+                    Console.WriteLine("Unset skater stats added\n" + new System.Diagnostics.StackTrace().ToString());
+                    _stats.Add(new SkaterStats(-1, -1));
+                }
                 return _stats.Last();
             }
         }

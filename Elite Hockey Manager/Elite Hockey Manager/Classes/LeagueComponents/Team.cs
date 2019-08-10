@@ -444,7 +444,10 @@ namespace Elite_Hockey_Manager.Classes
         }
         private void TriggerTeamStatsEvent(object sender, EventArgs e)
         {
-            TeamStatsUpdated(this, null);
+            if (TeamStatsUpdated != null)
+            {
+                TeamStatsUpdated(this, null);
+            }
         }
         /// <summary>
         /// Comparator for teams. Compares by points, then goals for, then alphabetically
