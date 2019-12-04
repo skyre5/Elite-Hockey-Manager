@@ -13,12 +13,18 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
     public enum StatsDisplayType
     {
-        Unset,
         Skater,
         Goalie
     }
+    public enum StatsDisplayLength
+    {
+        Short,
+        Medium,
+        Long
+    }
     public partial class PlayerStatsControl : UserControl
     {
+        //Enum property that determines whether the stats are displayed for goalies or skaters
         public StatsDisplayType DisplayType
         {
             get
@@ -27,12 +33,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             }
             set
             {
-                if (value == StatsDisplayType.Unset)
-                {
-                    StatsDisplayedCount = 1;
-                    _displayType = StatsDisplayType.Unset;
-                }
-                else if (value == StatsDisplayType.Skater)
+                if (value == StatsDisplayType.Skater)
                 {
                     SetSkaterDisplay();
                     _displayType = StatsDisplayType.Skater;
@@ -41,6 +42,32 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 {
                     SetGoalieDisplay();
                     _displayType = StatsDisplayType.Goalie;
+                }
+            }
+        }
+        //Enum property that deterimes how many lables will be listed for each stat category 
+        public StatsDisplayLength DisplayLength
+        {
+            get
+            {
+                return _displayLength;
+            }
+            set
+            {
+                if (value == StatsDisplayLength.Long)
+                {
+                    ChangeLabelCount(10);
+                    _displayLength = StatsDisplayLength.Long;
+                }
+                else if (value == StatsDisplayLength.Medium)
+                {
+                    ChangeLabelCount(5);
+                    _displayLength = StatsDisplayLength.Medium;
+                }
+                else if (value == StatsDisplayLength.Short)
+                {
+                    ChangeLabelCount(3);
+                    _displayLength = StatsDisplayLength.Short;
                 }
             }
         }
@@ -60,26 +87,43 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 _statsDisplayedCount = value;
             }
         }
-        private StatsDisplayType _displayType = StatsDisplayType.Unset;
+        private StatsDisplayType _displayType;
+        private StatsDisplayLength _displayLength = StatsDisplayLength.Long;
         private int _statsDisplayedCount = 1;
         private PlayerStatsListControl[] _statsListControlsArray = null;
         public PlayerStatsControl()
         {
             InitializeComponent();
+            _displayType = StatsDisplayType.Skater;
         }
         private void SetSkaterDisplay()
         {
+            //Titles of the 5 stat displays
+            string[] titles = new string[] { "Points", "Goals", "Assists", "+/-", "Shots" };
+            //Calls property setter which creates new stat display controls
             StatsDisplayedCount = 5;
+            for (int i = 0; i < titles.Count(); i++)
+            {
+                _statsListControlsArray[i].Title = titles[i];
+            }
         }
         private void SetGoalieDisplay()
         {
+            //Titles of the 4 stat displays
+            string[] titles = new string[] { "Wins", "Save %", "GAA", "Shutouts"};
+            //Calls property setter which creates new stat display controls
             StatsDisplayedCount = 4;
+            for (int i = 0; i < titles.Count(); i++)
+            {
+                _statsListControlsArray[i].Title = titles[i];
+            }
         }
         private void CreateStatDisplays(int count)
         {
-            //Removes all the controls within this control
+            //Removes all the controls within this container
             RemoveControls();
             int countWidth = 0;
+            //Classes private array of PlayerStatsListControls is created
             _statsListControlsArray = new PlayerStatsListControl[count];
             for (int i = 0; i < count; i++)
             {
@@ -88,6 +132,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 this.Controls.Add(newListX);
                 newListX.Location = new Point(countWidth, newListX.Location.Y);
                 countWidth += newListX.Width;
+            }
+        }
+        private void ChangeLabelCount(int length)
+        {
+            if (_statsListControlsArray != null)
+            {
+                foreach (PlayerStatsListControl x in _statsListControlsArray)
+                {
+                    x.LabelCount = length;
+                }
             }
         }
         private void RemoveControls()

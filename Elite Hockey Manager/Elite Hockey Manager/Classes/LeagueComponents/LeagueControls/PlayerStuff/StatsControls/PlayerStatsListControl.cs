@@ -12,6 +12,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 {
     public partial class PlayerStatsListControl : UserControl
     {
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                titleLabel.Text = value;
+            }
+        }
         public int LabelCount
         {
             get
@@ -25,34 +36,66 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                     throw new ArgumentOutOfRangeException("Label count must be positive");
                 }
                 _LabelCount = value;
-                this.Height = LABELHEIGHT * (value + 1);
+                this.Height = ((LABELHEIGHT * (value + 1)) + 20);
                 ClearPlayerLabels();
             }
         }
+        //public variables
+        //Set by classes container 
+        public Label[] PlayerLabels = null;
+
+        //private variables
         private const int LABELHEIGHT = 30;
+        private string _title = "statName";
         private int _LabelCount = 5;
-        private Label[] _playerLabels = null;
+        private Label[] _playerLabelsForDisplay = null;
         public PlayerStatsListControl()
         {
             InitializeComponent();
         }
-        public void ClearPlayerLabels()
+        public void UpdateDisplay()
         {
-            if (_playerLabels != null)
+            ClearPlayerLabels();
+            //If the PlayerLabel's have not been initialized by another class, throws null argument exception
+            if (PlayerLabels != null)
             {
-                foreach (Label label in _playerLabels)
+                //Sets counter to given labelCount and if # of players given is lower, set counter to that # of players. Doesn't change size of control
+                int labelsToDisplay = _LabelCount;
+                if (PlayerLabels.Count() > labelsToDisplay)
                 {
-                    this.Controls.Remove(label);
-                    label.Dispose();
+                    labelsToDisplay = PlayerLabels.Count();
                 }
-                _playerLabels = null;
+                //Initializes array for the displayed labels
+                _playerLabelsForDisplay = new Label[labelsToDisplay];
+                //Shallow copies over copies of labels from PlayerLabels until it has gotten the desired # for display
+                for (int i = 0; i < labelsToDisplay; i++)
+                {
+                    _playerLabelsForDisplay[i] = PlayerLabels[i];
+                }
+                //Displays 
+                AddPlayerLabelsToDisplay(_playerLabelsForDisplay);
+            }
+            else
+            {
+                throw new ArgumentNullException("PlayerStatsListControl _playerLabels was not initialized.");
             }
         }
-        public void AddPlayerLabels(Label[] playerLabels)
+        private void ClearPlayerLabels()
         {
-            for (int i = 0; i < playerLabels.Count(); i++)
+            if (_playerLabelsForDisplay != null)
             {
-                Label x = playerLabels[i];
+                foreach (Label label in _playerLabelsForDisplay)
+                {
+                    this.Controls.Remove(label);
+                }
+                _playerLabelsForDisplay = null;
+            }
+        }
+        private void AddPlayerLabelsToDisplay(Label[] displayedPlayerLabels)
+        {
+            for (int i = 0; i < displayedPlayerLabels.Count(); i++)
+            {
+                Label x = displayedPlayerLabels[i];
                 this.Controls.Add(x);
                 x.Location = new Point(
                     x.Location.X,

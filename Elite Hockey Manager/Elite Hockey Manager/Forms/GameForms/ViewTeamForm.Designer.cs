@@ -30,6 +30,7 @@
         {
             this.teamCapControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls.TeamCapControl();
             this.teamLinesControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.TeamLinesControl();
+            this.playerStatsControl1 = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStatsControl();
             this.SuspendLayout();
             // 
             // teamCapControl
@@ -49,17 +50,30 @@
             this.teamLinesControl.TabIndex = 0;
             this.teamLinesControl.Team = null;
             // 
+            // playerStatsControl1
+            // 
+            this.playerStatsControl1.AutoSize = true;
+            this.playerStatsControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.playerStatsControl1.DisplayLength = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayLength.Long;
+            this.playerStatsControl1.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
+            this.playerStatsControl1.Location = new System.Drawing.Point(292, 297);
+            this.playerStatsControl1.Name = "playerStatsControl1";
+            this.playerStatsControl1.Size = new System.Drawing.Size(743, 181);
+            this.playerStatsControl1.TabIndex = 2;
+            // 
             // ViewTeamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1059, 512);
+            this.Controls.Add(this.playerStatsControl1);
             this.Controls.Add(this.teamCapControl);
             this.Controls.Add(this.teamLinesControl);
             this.Name = "ViewTeamForm";
             this.Text = "ViewTeamForm";
             this.Load += new System.EventHandler(this.ViewTeamForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -68,5 +82,6 @@
 
         private Classes.LeagueComponents.LeagueControls.TeamLinesControl teamLinesControl;
         private Classes.LeagueComponents.LeagueControls.LineupControls.TeamCapControl teamCapControl;
+        private Classes.LeagueComponents.LeagueControls.PlayerStatsControl playerStatsControl1;
     }
 }
