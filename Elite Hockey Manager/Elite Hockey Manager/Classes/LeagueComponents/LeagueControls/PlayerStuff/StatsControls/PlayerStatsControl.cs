@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls;
+using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
@@ -22,6 +23,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         Medium,
         Long
     }
+
     public partial class PlayerStatsControl : UserControl
     {
         //Enum property that determines whether the stats are displayed for goalies or skaters
@@ -56,21 +58,54 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             {
                 if (value == StatsDisplayLength.Long)
                 {
-                    ChangeLabelCount(10);
+                    ChangeLabelCount(value.GetLength());
                     _displayLength = StatsDisplayLength.Long;
                 }
                 else if (value == StatsDisplayLength.Medium)
                 {
-                    ChangeLabelCount(5);
+                    ChangeLabelCount(value.GetLength());
                     _displayLength = StatsDisplayLength.Medium;
                 }
                 else if (value == StatsDisplayLength.Short)
                 {
-                    ChangeLabelCount(3);
+                    ChangeLabelCount(value.GetLength());
                     _displayLength = StatsDisplayLength.Short;
                 }
             }
         }
+        public Goalie[] StoredGoalies
+        {
+            get
+            {
+                return _storedGoalies;
+            }
+            set
+            {
+                _storedGoalies = value;
+                if (_displayType == StatsDisplayType.Goalie && value != null)
+                {
+                    SortDisplayGoalieStats();
+                }
+            }
+        }
+        public Skater[] StoredSkaters
+        {
+            get
+            {
+                return _storedSkaters;
+            }
+            set
+            {
+                _storedSkaters = value;
+                if (_displayType == StatsDisplayType.Skater && value != null)
+                {
+                    SortDisplaySkaterStats();
+                }
+            }
+        }
+        /// <summary>
+        /// Sets the number of child PlayerStatslistControl to be displayed. 4 for goalie and 5 for skater
+        /// </summary>
         private int StatsDisplayedCount
         {
             get
@@ -87,14 +122,24 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 _statsDisplayedCount = value;
             }
         }
+        //public variables
+        //Data to be used for sorting into stat displays. Placed into class by container class
+
+
+        //private variables
+
         private StatsDisplayType _displayType;
         private StatsDisplayLength _displayLength = StatsDisplayLength.Long;
-        private int _statsDisplayedCount = 1;
+        private int _statsDisplayedCount = 0;
+        private Goalie[] _storedGoalies = null;
+        private Skater[] _storedSkaters = null;
         private PlayerStatsListControl[] _statsListControlsArray = null;
+
         public PlayerStatsControl()
         {
             InitializeComponent();
-            _displayType = StatsDisplayType.Skater;
+            //Sets the control display for skaters
+            DisplayType = StatsDisplayType.Skater;
         }
         private void SetSkaterDisplay()
         {
@@ -110,7 +155,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         private void SetGoalieDisplay()
         {
             //Titles of the 4 stat displays
-            string[] titles = new string[] { "Wins", "Save %", "GAA", "Shutouts"};
+            string[] titles = new string[] { "Wins", "Save %", "GAA", "Shutouts" };
             //Calls property setter which creates new stat display controls
             StatsDisplayedCount = 4;
             for (int i = 0; i < titles.Count(); i++)
@@ -154,6 +199,92 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                     this.Controls.Remove(x);
                     x.Dispose();
                 }
+            }
+        }
+
+        private void PlayerStatsControl_Load(object sender, EventArgs e)
+        {
+            //_statsListControlsArray[0].UpdateDisplay(labelArray);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SortDisplayGoalieStats()
+        {
+            // { "Wins", "Save %", "GAA", "Shutouts" }
+            int listSize = this.DisplayLength.GetLength();
+            //If there are less goalies than number of players to display, will limit # of stats shown
+            if (_storedGoalies.Length < listSize)
+            {
+                listSize = _storedGoalies.Length;
+            }
+            int[] numbers;
+            Goalie[] winsSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Wins).Take(listSize).ToArray();
+            _statsListControlsArray[0].UpdateDisplay( ConvertArrayOfPlayersToPlayerLabels(winsSortedGoalies) );
+
+            Goalie[] savePctgSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.SavePercentage).Take(listSize).ToArray();
+            _statsListControlsArray[1].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(savePctgSortedGoalies));
+
+            //Inversed, lower GAA is better
+            Goalie[] GAASortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Wins).Take(listSize).ToArray();
+            _statsListControlsArray[2].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(GAASortedGoalies));
+
+            Goalie[] shutoutSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Shutouts).Take(listSize).ToArray();
+            _statsListControlsArray[3].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(shutoutSortedGoalies));
+        }
+        private void SortDisplaySkaterStats()
+        {
+            //{ "Points", "Goals", "Assists", "+/-", "Shots" };
+            int listSize = this.DisplayLength.GetLength();
+            //If there are less goalies than number of players to display, will limit # of stats shown
+            if (_storedSkaters.Length < listSize)
+            {
+                listSize = _storedGoalies.Length;
+            }
+
+            Skater[] pointSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Points).Take(listSize).ToArray();
+            _statsListControlsArray[0].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(pointSortedSkaters));
+
+            Skater[] goalSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Goals).Take(listSize).ToArray();
+            _statsListControlsArray[1].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(goalSortedSkaters));
+
+            Skater[] assistSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Assists).Take(listSize).ToArray();
+            _statsListControlsArray[2].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(assistSortedSkaters));
+
+            Skater[] plusMinusSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.PlusMinus).Take(listSize).ToArray();
+            _statsListControlsArray[3].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(plusMinusSortedSkaters));
+
+            Skater[] shotsSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Shots).Take(listSize).ToArray();
+            _statsListControlsArray[4].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(shotsSortedSkaters));
+        }
+        public static PlayerLabel[] ConvertArrayOfPlayersToPlayerLabels(Player[] players)
+        {
+            PlayerLabel[] labels = new PlayerLabel[players.Length];
+            for (int i = 0; i < players.Length; i++)
+            {
+                labels[i] = new PlayerLabel(players[i]);
+            }
+            return labels;
+        }
+
+    }
+    //Extension methods for StatsDisplayLength
+    static class StatsDisplayLengthMethods
+    {
+        public static int GetLength(this StatsDisplayLength displayLength)
+        {
+            switch (displayLength)
+            {
+                case StatsDisplayLength.Long:
+                    return 10;
+                case StatsDisplayLength.Medium:
+                    return 5;
+                case StatsDisplayLength.Short:
+                    return 3;
+                default:
+                    //If new enum added and not defined, return 10
+                    Console.WriteLine("New enum type StatsDisplayLength used in PlayerStatsControl");
+                    return 10;
             }
         }
     }

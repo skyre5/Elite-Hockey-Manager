@@ -38,6 +38,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Name = "PlayerStatsControl";
             this.Size = new System.Drawing.Size(0, 0);
+            this.Load += new System.EventHandler(this.PlayerStatsControl_Load);
             this.ResumeLayout(false);
 
         }

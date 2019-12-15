@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls
 {
@@ -37,48 +38,50 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 }
                 _LabelCount = value;
                 this.Height = ((LABELHEIGHT * (value + 1)) + 20);
-                ClearPlayerLabels();
+                //ClearPlayerLabels();
             }
         }
         //public variables
         //Set by classes container 
-        public Label[] PlayerLabels = null;
+        public Label[] PlayerLabels;
 
         //private variables
         private const int LABELHEIGHT = 30;
         private string _title = "statName";
-        private int _LabelCount = 5;
-        private Label[] _playerLabelsForDisplay = null;
+        private int _LabelCount;
+        private PlayerLabel[] _playerLabelsForDisplay = null;
         public PlayerStatsListControl()
         {
             InitializeComponent();
+            LabelCount = 5;
         }
-        public void UpdateDisplay()
+        public void UpdateDisplay(PlayerLabel[] InputPlayersLabels)
         {
+            PlayerLabels = new Label[InputPlayersLabels.Count()];
+            InputPlayersLabels.CopyTo(PlayerLabels, 0);
             ClearPlayerLabels();
             //If the PlayerLabel's have not been initialized by another class, throws null argument exception
-            if (PlayerLabels != null)
+            if (InputPlayersLabels != null && InputPlayersLabels.Length != 0)
             {
                 //Sets counter to given labelCount and if # of players given is lower, set counter to that # of players. Doesn't change size of control
                 int labelsToDisplay = _LabelCount;
-                if (PlayerLabels.Count() > labelsToDisplay)
+                if (InputPlayersLabels.Count() < labelsToDisplay)
                 {
-                    labelsToDisplay = PlayerLabels.Count();
+                    labelsToDisplay = InputPlayersLabels.Count();
                 }
                 //Initializes array for the displayed labels
-                _playerLabelsForDisplay = new Label[labelsToDisplay];
+                _playerLabelsForDisplay = new PlayerLabel[labelsToDisplay];
                 //Shallow copies over copies of labels from PlayerLabels until it has gotten the desired # for display
                 for (int i = 0; i < labelsToDisplay; i++)
                 {
-                    _playerLabelsForDisplay[i] = PlayerLabels[i];
+                    _playerLabelsForDisplay[i] = InputPlayersLabels[i];
                 }
-                //Displays 
                 AddPlayerLabelsToDisplay(_playerLabelsForDisplay);
             }
             else
             {
                 throw new ArgumentNullException("PlayerStatsListControl _playerLabels was not initialized.");
-            }
+            } 
         }
         private void ClearPlayerLabels()
         {
@@ -91,16 +94,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 _playerLabelsForDisplay = null;
             }
         }
-        private void AddPlayerLabelsToDisplay(Label[] displayedPlayerLabels)
+        public void AddPlayerLabelsToDisplay(Label[] displayedPlayerLabels)
         {
             for (int i = 0; i < displayedPlayerLabels.Count(); i++)
             {
-                Label x = displayedPlayerLabels[i];
-                this.Controls.Add(x);
+                Label x = new Label();
+                x.Text = displayedPlayerLabels[i].Text;
                 x.Location = new Point(
                     x.Location.X,
-                    (LABELHEIGHT * 30) + 1
+                    (LABELHEIGHT * (i + 1)) + 1
                     );
+                this.Controls.Add(x);
             }
         }
     }

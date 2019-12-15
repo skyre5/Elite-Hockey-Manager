@@ -8,11 +8,11 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class GoalieStats : PlayerStats
     {
-        private int _gamesPlayed = 0;
         private int _gamesStarted = 0;
 
         private int _wins = 0;
         private int _losses = 0;
+        private int _shutouts = 0;
 
         private int _shotsFaced = 0;
         private int _goalsAllowed = 0;
@@ -70,13 +70,6 @@ namespace Elite_Hockey_Manager.Classes
                 _powerplayGoalsAllowed++;
             }
         }
-        public int GamesPlayed
-        {
-            get
-            {
-                return _gamesPlayed;
-            }
-        }
         public int GamesStarted
         {
             get
@@ -96,6 +89,17 @@ namespace Elite_Hockey_Manager.Classes
             get
             {
                 return _losses;
+            }
+        }
+        public int Shutouts
+        {
+            get
+            {
+                return _shutouts;
+            }
+            set
+            {
+                _shutouts = value;
             }
         }
         public int ShotsFaced
