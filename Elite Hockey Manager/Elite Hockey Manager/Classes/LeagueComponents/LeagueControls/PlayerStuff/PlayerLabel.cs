@@ -23,22 +23,29 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 if (value != null)
                 {
                     _player = value;
-                    this.Text = _player.ToString().Trim();
                 }
             }
         }
-        public PlayerLabel(Player player)
+        public PlayerLabel()
         {
             //this.Font = new Font(this.Font, FontStyle.Underline);
-            this.Text = "No Player";
+            //this.Text = "No Player";
             //Both found using System.Windows.Forms;
             //Centers label within each table cell
             this.Anchor = AnchorStyles.None;
             this.BorderStyle = BorderStyle.FixedSingle;
-
             this.AutoSize = true;
             this.DoubleClick += LabelDoubleClicked;
+        }
+        public PlayerLabel(Player player): this()
+        {
             Player = player;
+            this.Text = _player.ToString().Trim();
+        }
+        public PlayerLabel(Player player, double statToDisplay) : this()
+        {
+            Player = player;
+            this.Text = String.Format("{0}:{1} {2}", _player.Position, _player.FullName, statToDisplay);
         }
         private void LabelDoubleClicked(object sender, EventArgs e)
         {

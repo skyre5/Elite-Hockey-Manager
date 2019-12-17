@@ -10,18 +10,11 @@ namespace Elite_Hockey_Manager.Classes
     {
         protected int _year;
         protected int _team;
-        protected int _gamesPlayed = 0;
         public int GamesPlayed
         {
-            get
-            {
-                return _gamesPlayed;
-            }
-            set
-            {
-                _gamesPlayed = value;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public PlayerStats(int year, int teamID)
         {
             _year = year;

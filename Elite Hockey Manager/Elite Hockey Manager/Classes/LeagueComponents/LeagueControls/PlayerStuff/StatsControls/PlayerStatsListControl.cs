@@ -94,17 +94,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 _playerLabelsForDisplay = null;
             }
         }
-        public void AddPlayerLabelsToDisplay(Label[] displayedPlayerLabels)
+        public void AddPlayerLabelsToDisplay(PlayerLabel[] displayedPlayerLabels)
         {
             for (int i = 0; i < displayedPlayerLabels.Count(); i++)
             {
-                Label x = new Label();
-                x.Text = displayedPlayerLabels[i].Text;
-                x.Location = new Point(
-                    x.Location.X,
+                displayedPlayerLabels[i].Location = new Point(
+                    0,
                     (LABELHEIGHT * (i + 1)) + 1
                     );
-                this.Controls.Add(x);
+                this.Controls.Add(displayedPlayerLabels[i]);
             }
         }
     }

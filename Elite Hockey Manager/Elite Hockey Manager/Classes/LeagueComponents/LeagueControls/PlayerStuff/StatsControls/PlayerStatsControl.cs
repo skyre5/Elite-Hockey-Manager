@@ -144,7 +144,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         private void SetSkaterDisplay()
         {
             //Titles of the 5 stat displays
-            string[] titles = new string[] { "Points", "Goals", "Assists", "+/-", "Shots" };
+            string[] titles = new string[] { "Points", "Goals", "Assists", "+/-", "PIMs" };
             //Calls property setter which creates new stat display controls
             StatsDisplayedCount = 5;
             for (int i = 0; i < titles.Count(); i++)
@@ -218,51 +218,61 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             {
                 listSize = _storedGoalies.Length;
             }
-            int[] numbers;
-            Goalie[] winsSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Wins).Take(listSize).ToArray();
-            _statsListControlsArray[0].UpdateDisplay( ConvertArrayOfPlayersToPlayerLabels(winsSortedGoalies) );
+            double[] numbers;
+            //Sort goalies by their property wins, takes the # of goalies to be displayed on the leaderboard, converts to array
+            Goalie[] winsSortedGoalies = _storedGoalies.OrderByDescending(goalie => goalie.Stats.Wins).Take(listSize).ToArray();
+            numbers = winsSortedGoalies.Select(goalie => (double)goalie.Stats.Wins).ToArray();
+            _statsListControlsArray[0].UpdateDisplay( CreatePlayerStatDisplays(winsSortedGoalies, numbers) );
 
-            Goalie[] savePctgSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.SavePercentage).Take(listSize).ToArray();
-            _statsListControlsArray[1].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(savePctgSortedGoalies));
+            Goalie[] savePctgSortedGoalies = _storedGoalies.OrderByDescending(goalie => goalie.Stats.SavePercentage).Take(listSize).ToArray();
+            numbers = savePctgSortedGoalies.Select(goalie => goalie.Stats.SavePercentage).ToArray();
+            _statsListControlsArray[1].UpdateDisplay(CreatePlayerStatDisplays(savePctgSortedGoalies, numbers));
 
-            //Inversed, lower GAA is better
-            Goalie[] GAASortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Wins).Take(listSize).ToArray();
-            _statsListControlsArray[2].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(GAASortedGoalies));
+            //Inversed, lower GAA is better so uses ascending OrderBy function
+            Goalie[] GAASortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.GAA).Take(listSize).ToArray();
+            numbers = GAASortedGoalies.Select(goalie => goalie.Stats.GAA).ToArray();
+            _statsListControlsArray[2].UpdateDisplay(CreatePlayerStatDisplays(GAASortedGoalies, numbers));
 
-            Goalie[] shutoutSortedGoalies = _storedGoalies.OrderBy(goalie => goalie.Stats.Shutouts).Take(listSize).ToArray();
-            _statsListControlsArray[3].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(shutoutSortedGoalies));
+            Goalie[] shutoutSortedGoalies = _storedGoalies.OrderByDescending(goalie => goalie.Stats.Shutouts).Take(listSize).ToArray();
+            numbers = shutoutSortedGoalies.Select(goalie => (double)goalie.Stats.Wins).ToArray();
+            _statsListControlsArray[3].UpdateDisplay(CreatePlayerStatDisplays(shutoutSortedGoalies, numbers));
         }
         private void SortDisplaySkaterStats()
         {
-            //{ "Points", "Goals", "Assists", "+/-", "Shots" };
+            //{ "Points", "Goals", "Assists", "+/-", "PIMs" };
             int listSize = this.DisplayLength.GetLength();
             //If there are less goalies than number of players to display, will limit # of stats shown
             if (_storedSkaters.Length < listSize)
             {
                 listSize = _storedGoalies.Length;
             }
+            double[] numbers;
+            Skater[] pointSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.Points).Take(listSize).ToArray();
+            numbers = pointSortedSkaters.Select(skater => (double)skater.Stats.Points).ToArray();
+            _statsListControlsArray[0].UpdateDisplay(CreatePlayerStatDisplays(pointSortedSkaters, numbers));
 
-            Skater[] pointSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Points).Take(listSize).ToArray();
-            _statsListControlsArray[0].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(pointSortedSkaters));
+            Skater[] goalSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.Goals).Take(listSize).ToArray();
+            numbers = goalSortedSkaters.Select(skater => (double)skater.Stats.Goals).ToArray();
+            _statsListControlsArray[1].UpdateDisplay(CreatePlayerStatDisplays(goalSortedSkaters, numbers));
 
-            Skater[] goalSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Goals).Take(listSize).ToArray();
-            _statsListControlsArray[1].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(goalSortedSkaters));
+            Skater[] assistSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.Assists).Take(listSize).ToArray();
+            numbers = assistSortedSkaters.Select(skater => (double)skater.Stats.Assists).ToArray();
+            _statsListControlsArray[2].UpdateDisplay(CreatePlayerStatDisplays(assistSortedSkaters, numbers));
 
-            Skater[] assistSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Assists).Take(listSize).ToArray();
-            _statsListControlsArray[2].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(assistSortedSkaters));
+            Skater[] plusMinusSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.PlusMinus).Take(listSize).ToArray();
+            numbers = plusMinusSortedSkaters.Select(skater => (double)skater.Stats.PlusMinus).ToArray();
+            _statsListControlsArray[3].UpdateDisplay(CreatePlayerStatDisplays(plusMinusSortedSkaters, numbers));
 
-            Skater[] plusMinusSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.PlusMinus).Take(listSize).ToArray();
-            _statsListControlsArray[3].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(plusMinusSortedSkaters));
-
-            Skater[] shotsSortedSkaters = _storedSkaters.OrderBy(skater => skater.Stats.Shots).Take(listSize).ToArray();
-            _statsListControlsArray[4].UpdateDisplay(ConvertArrayOfPlayersToPlayerLabels(shotsSortedSkaters));
+            Skater[] PIMSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.PenaltyMinutes).Take(listSize).ToArray();
+            numbers = PIMSortedSkaters.Select(skater => (double)skater.Stats.PenaltyMinutes).ToArray();
+            _statsListControlsArray[4].UpdateDisplay(CreatePlayerStatDisplays(PIMSortedSkaters, numbers));
         }
-        public static PlayerLabel[] ConvertArrayOfPlayersToPlayerLabels(Player[] players)
+        public static PlayerLabel[] CreatePlayerStatDisplays(Player[] players, double[] stats)
         {
             PlayerLabel[] labels = new PlayerLabel[players.Length];
             for (int i = 0; i < players.Length; i++)
             {
-                labels[i] = new PlayerLabel(players[i]);
+                labels[i] = new PlayerLabel(players[i], stats[i]);
             }
             return labels;
         }

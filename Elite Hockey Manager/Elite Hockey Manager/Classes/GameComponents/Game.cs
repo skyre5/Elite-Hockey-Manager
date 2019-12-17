@@ -769,7 +769,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     for (int y = 0; y < players.GetLength(1); y++)
                     {
-                        players[x, y].Stats.AddGamePlayed();
+                        players[x, y].Stats.GamesPlayed++;
                     }
                 }
             };
