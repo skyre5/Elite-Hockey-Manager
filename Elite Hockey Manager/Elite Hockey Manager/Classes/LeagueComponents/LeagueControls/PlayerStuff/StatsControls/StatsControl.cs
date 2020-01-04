@@ -26,6 +26,19 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 this.playerStatsControl.DisplayType = value;
                 //Adjusts controls within this control to the resized playerStatsControl
                 AdjustDisplayForDisplayTypeChange(pastWidth);
+                AdjustButtonsToNewDisplayType(value);
+
+            }
+        }
+        public String Title
+        {
+            get
+            {
+                return titleLabel.Text;
+            }
+            set
+            {
+                titleLabel.Text = value;
             }
         }
         public StatsControl()
@@ -38,12 +51,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             DisplayType = StatsDisplayType.Skater;
             skaterStatsButton.Enabled = false;
             goalieStatsButton.Enabled = true;
+            playerStatsControl.UpdateStats();
         }
         private void goalieStatsButton_Click(object sender, EventArgs e)
         {
             DisplayType = StatsDisplayType.Goalie;
             skaterStatsButton.Enabled = true;
             goalieStatsButton.Enabled = false;
+            playerStatsControl.UpdateStats();
         }
         private void statsFormButton_Click(object sender, EventArgs e)
         {
@@ -71,11 +86,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
         }
         private void AdjustDisplayForDisplayTypeChange(int pastWidth)
         {
-
+            //Adjusts the width of the titleLabel so that it will be center alligned again, and adjust size for auto size
             titleLabel.Width = playerStatsControl.Width;
+            //Sets the location of the statsFormButton to align with the right side of the control
             statsFormButton.Location = new Point(playerStatsControl.Width + playerStatsControl.Location.X - statsFormButton.Size.Width,
                 statsFormButton.Location.Y);
+            //Moves the entire control so that the autosize difference will stay aligned with the right side of where it was initially placed
             this.Location = new Point(this.Location.X + (pastWidth - this.Width), this.Location.Y);
+        }
+        private void AdjustButtonsToNewDisplayType(StatsDisplayType newDisplayType)
+        {
+            if (newDisplayType == StatsDisplayType.Goalie)
+            {
+                skaterStatsButton.Enabled = true;
+                goalieStatsButton.Enabled = false;
+            }
+            else
+            {
+                skaterStatsButton.Enabled = false;
+                goalieStatsButton.Enabled = true;
+            }
         }
     }
 }

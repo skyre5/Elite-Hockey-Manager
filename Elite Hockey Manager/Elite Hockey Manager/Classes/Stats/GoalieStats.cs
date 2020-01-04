@@ -55,7 +55,15 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return GoalsAllowed / GamesPlayed;
+                //To make sure number isn't being divided by 0 if goalie hasnt played a game
+                if (GamesPlayed == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return GoalsAllowed / GamesPlayed;
+                }
             }
         }
         public int BreakawayShots

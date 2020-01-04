@@ -149,6 +149,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             //Sets the control display for skaters
             //DisplayType = StatsDisplayType.Skater;
         }
+        public void UpdateStats()
+        {
+            if (DisplayType == StatsDisplayType.Goalie)
+            {
+                SortDisplayGoalieStats();
+            }
+            else
+            {
+                SortDisplaySkaterStats();
+            }
+        }
         private void SetSkaterDisplay()
         {
             //Titles of the 5 stat displays

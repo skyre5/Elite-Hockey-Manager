@@ -31,12 +31,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 
         private void ViewTeamForm_Load(object sender, EventArgs e)
         {
-            
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            statsControl1.InsertSkaterList(_team.Roster.Where(player => player is Skater).Cast<Skater>().ToArray());
+            statsControl.InsertSkaterList(_team.Roster.Where(player => player is Skater).Cast<Skater>().ToArray());
+            statsControl.InsertGoalieList(_team.Goalies);
         }
     }
 }
