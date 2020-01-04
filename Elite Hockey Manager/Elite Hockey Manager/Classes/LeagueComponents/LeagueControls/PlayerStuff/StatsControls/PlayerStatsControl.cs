@@ -73,6 +73,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 }
             }
         }
+        /// <summary>
+        /// Array of Goalies that will be sorted by their statistics from the current season.
+        /// Setting of property will cause the display to be updated if it is set to goalie mode.
+        /// </summary>
         public Goalie[] StoredGoalies
         {
             get
@@ -88,6 +92,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 }
             }
         }
+        /// <summary>
+        /// Array of Skaters that will be sorted by their statistics from the current season.
+        /// Setting of property will cause the display to be updated if it is set to skater mode.
+        /// </summary>
         public Skater[] StoredSkaters
         {
             get
@@ -139,7 +147,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         {
             InitializeComponent();
             //Sets the control display for skaters
-            DisplayType = StatsDisplayType.Skater;
+            //DisplayType = StatsDisplayType.Skater;
         }
         private void SetSkaterDisplay()
         {
