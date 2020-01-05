@@ -253,7 +253,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             _statsListControlsArray[2].UpdateDisplay(CreatePlayerStatDisplays(GAASortedGoalies, numbers));
 
             Goalie[] shutoutSortedGoalies = _storedGoalies.OrderByDescending(goalie => goalie.Stats.Shutouts).Take(listSize).ToArray();
-            numbers = shutoutSortedGoalies.Select(goalie => (double)goalie.Stats.Wins).ToArray();
+            numbers = shutoutSortedGoalies.Select(goalie => (double)goalie.Stats.Shutouts).ToArray();
             _statsListControlsArray[3].UpdateDisplay(CreatePlayerStatDisplays(shutoutSortedGoalies, numbers));
         }
         private void SortDisplaySkaterStats()

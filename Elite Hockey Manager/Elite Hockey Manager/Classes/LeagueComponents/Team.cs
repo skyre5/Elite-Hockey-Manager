@@ -232,11 +232,13 @@ namespace Elite_Hockey_Manager.Classes
         /// Gets the starter or backup goalie for a game
         /// </summary>
         /// <returns>Returns the goalie that will be playing a game</returns>
-        public Goalie GetGoalie()
+        public Goalie GetGamesStartingGoalie()
         {
             //If the starting goalies fatigue is greater than 10, returns backup
             if (_goalies[0].Attributes.Fatigue >= 10)
             {
+                //If backup goaltender plays, reduce starters fatigue by 10
+                _goalies[0].Attributes.Fatigue -= 10;
                 return _goalies[1];
             }
             //Returns starter

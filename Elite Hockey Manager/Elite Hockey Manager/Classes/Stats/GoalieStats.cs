@@ -62,7 +62,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    return GoalsAllowed / GamesPlayed;
+                    return (double)GoalsAllowed / GamesPlayed;
                 }
             }
         }
@@ -96,13 +96,17 @@ namespace Elite_Hockey_Manager.Classes
             get;
             set;
         } = 0;
+        /// <summary>
+        /// SavePercentage gotten by dividing shots faced by shots faced + goals allowed
+        /// Returns 0 if no shots have been faced, avoids divide by zero error
+        /// </summary>
         public double SavePercentage
         {
             get
             {
                 if (this.ShotsFaced > 0)
                 {
-                    return ((double)this.ShotsFaced / (double)(this.ShotsFaced + this.GoalsAllowed));
+                    return ((double)this.ShotsFaced / (double)(this.ShotsFaced + this.GoalsAllowed)) * 100;
                 }
                 else
                 {

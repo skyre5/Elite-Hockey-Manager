@@ -45,7 +45,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
         public PlayerLabel(Player player, double statToDisplay) : this()
         {
             Player = player;
-            this.Text = String.Format("{0}:{1} {2}", _player.Position, _player.FullName, statToDisplay);
+            this.Text = String.Format("{0}:{1} {2:0.##}", _player.Position, _player.FullName, statToDisplay);
         }
         private void LabelDoubleClicked(object sender, EventArgs e)
         {
