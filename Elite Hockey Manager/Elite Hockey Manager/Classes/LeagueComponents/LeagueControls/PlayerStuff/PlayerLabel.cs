@@ -11,7 +11,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
 {
     public class PlayerLabel : System.Windows.Forms.Label
     {
-        private Player _player;
         public Player Player
         {
             get
@@ -26,6 +25,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 }
             }
         }
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return _displayTeamAbbreviation;
+            }
+            set
+            {
+                _displayTeamAbbreviation = value;
+                UpdateTeamAbbreviation();
+            }
+        }
+        private Player _player;
+        private bool _displayTeamAbbreviation = false;
+        private string displayPlayerString;
         public PlayerLabel()
         {
             //this.Font = new Font(this.Font, FontStyle.Underline);
@@ -40,12 +54,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
         public PlayerLabel(Player player): this()
         {
             Player = player;
-            this.Text = _player.ToString().Trim();
+            displayPlayerString = _player.ToString().Trim();
+            this.Text = displayPlayerString;
         }
         public PlayerLabel(Player player, double statToDisplay) : this()
         {
             Player = player;
-            this.Text = String.Format("{0}:{1} {2:0.##}", _player.Position, _player.FullName, statToDisplay);
+            displayPlayerString = String.Format("{0}:{1} {2:0.##}", _player.Position, _player.FullName, statToDisplay);
+            this.Text = displayPlayerString;
         }
         private void LabelDoubleClicked(object sender, EventArgs e)
         {
@@ -53,6 +69,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
             {
                 PlayerDisplayForm form = new PlayerDisplayForm(_player);
                 form.ShowDialog();
+            }
+        }
+        /// <summary>
+        /// Updates the text of this label on a change in the DisplayTeamAbbreviation public property
+        /// </summary>
+        private void UpdateTeamAbbreviation()
+        {
+            //If the displaying the team abbreviation is set to true
+            //If player has a team then add the abbreviation of their team in parenthesis before the displayPlayerString
+            if (_displayTeamAbbreviation)
+            {
+                if (_player.CurrentTeam != null)
+                {
+                    this.Text = String.Format("({0}){1}", _player.CurrentTeam.Abbreviation, displayPlayerString);
+                }
+            }
+            //If the display appreviation boolean is false, Set the text of this label to the base displayPlayerString
+            else
+            {
+                this.Text = displayPlayerString;
             }
         }
     }

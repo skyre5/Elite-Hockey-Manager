@@ -130,6 +130,20 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 _statsDisplayedCount = value;
             }
         }
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return _displayTeamAbbreviation;
+            }
+            set
+            {
+                _displayTeamAbbreviation = value;
+                //Changes the property of all the playerStatsListControls within this control
+                UpdatePlayerStatsListControlToDisplayAbbreviations();
+
+            }
+        }
         //public variables
         //Data to be used for sorting into stat displays. Placed into class by container class
 
@@ -139,6 +153,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         private StatsDisplayType _displayType;
         private StatsDisplayLength _displayLength = StatsDisplayLength.Long;
         private int _statsDisplayedCount = 0;
+        private bool _displayTeamAbbreviation = false;
         private Goalie[] _storedGoalies = null;
         private Skater[] _storedSkaters = null;
         private PlayerStatsListControl[] _statsListControlsArray = null;
@@ -193,6 +208,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             {
                 PlayerStatsListControl newListX = new PlayerStatsListControl();
                 _statsListControlsArray[i] = newListX;
+                //Boolean value set that if true will display team abbreviation next to the players name in playerLabel
+                newListX.DisplayTeamAbbreviation = _displayTeamAbbreviation;
                 this.Controls.Add(newListX);
                 newListX.Location = new Point(countWidth, newListX.Location.Y);
                 countWidth += newListX.Width;
@@ -285,6 +302,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             Skater[] PIMSortedSkaters = _storedSkaters.OrderByDescending(skater => skater.Stats.PenaltyMinutes).Take(listSize).ToArray();
             numbers = PIMSortedSkaters.Select(skater => (double)skater.Stats.PenaltyMinutes).ToArray();
             _statsListControlsArray[4].UpdateDisplay(CreatePlayerStatDisplays(PIMSortedSkaters, numbers));
+        }
+        private void UpdatePlayerStatsListControlToDisplayAbbreviations()
+        {
+            foreach (PlayerStatsListControl control in _statsListControlsArray)
+            {
+                control.DisplayTeamAbbreviation = _displayTeamAbbreviation;
+            }
         }
         public static PlayerLabel[] CreatePlayerStatDisplays(Player[] players, double[] stats)
         {

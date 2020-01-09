@@ -13,6 +13,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 {
     public partial class PlayerStatsListControl : UserControl
     {
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return _displayTeamAbbreviation;
+            }
+            set
+            {
+                _displayTeamAbbreviation = value;
+                //Only updates the playerLabels within if there are player labels in the control
+                if (_playerLabelsForDisplay != null)
+                {
+                    UpdatePlayerLabelsTeamAbbreviations();
+                }
+            }
+        }
         public string Title
         {
             get
@@ -47,6 +63,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 
         //private variables
         private const int LABELHEIGHT = 30;
+        private bool _displayTeamAbbreviation = false;
         private string _title = "statName";
         private int _LabelCount;
         private PlayerLabel[] _playerLabelsForDisplay = null;
@@ -102,7 +119,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                     0,
                     (LABELHEIGHT * (i + 1)) + 1
                     );
+                displayedPlayerLabels[i].DisplayTeamAbbreviation = _displayTeamAbbreviation;
                 this.Controls.Add(displayedPlayerLabels[i]);
+            }
+        }
+        /// <summary>
+        /// Updates all the player labels within this control to the updated playerLabelsForDisplay value
+        /// Displays the team abbreviation next to the name of the player on the label(Logic done within PlayerLabel class)
+        /// </summary>
+        private void UpdatePlayerLabelsTeamAbbreviations()
+        {
+            //Gets every playerlabel in this control
+            foreach (PlayerLabel label in _playerLabelsForDisplay)
+            {
+                //Logic for changing display done within PlayerLabel object
+                label.DisplayTeamAbbreviation = _displayTeamAbbreviation;
             }
         }
     }

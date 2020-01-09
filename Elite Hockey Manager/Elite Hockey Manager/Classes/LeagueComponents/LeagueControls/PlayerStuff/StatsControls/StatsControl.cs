@@ -41,6 +41,18 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 titleLabel.Text = value;
             }
         }
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return playerStatsControl.DisplayTeamAbbreviation;
+            }
+            set
+            {
+                playerStatsControl.DisplayTeamAbbreviation = value;
+
+            }
+        }
         public StatsControl()
         {
             InitializeComponent();
@@ -63,6 +75,18 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
         private void statsFormButton_Click(object sender, EventArgs e)
         {
 
+        }
+        /// <summary>
+        /// Helper function that takes an array of players and sorts them into skaters and goalies.
+        /// Takes those 2 sorted new arrays and places them into InsertSkaterList and InsertGoalieList functions
+        /// </summary>
+        /// <param name="players">Arraay of Player objects to be sorted into Skaters and Goalies and sorted by their respective statistics</param>
+        public void InsertPlayerList(Player[] players)
+        {
+            //Sorts the list of players that are skaters, casts them to skater, converts to array
+            InsertSkaterList(players.Where(player => player is Skater).Cast<Skater>().ToArray());
+            //Sorts the list of players that are goalies, casts them to goalie, converts to array
+            InsertGoalieList(players.Where(player => player is Goalie).Cast<Goalie>().ToArray());
         }
         /// <summary>
         /// Sets desired array of skaters to be stored and sorted within child playerStatsControl class
