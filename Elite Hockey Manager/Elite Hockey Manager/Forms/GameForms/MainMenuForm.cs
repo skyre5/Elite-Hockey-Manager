@@ -46,7 +46,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             {
                 leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
             }
+            //Ofsets the variable which is base 0 to the respective day it cooresponds to. Day 0 to 1...
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
+            //Sets the statsControls list of player that will be sorted by their statistics, displays league leaders for each category
+            leagueLeadersStatsControl.InsertPlayerList(_league.AllPlayers.ToArray());
             simLeagueControl.LeagueSimmedEvent += SimLeague;
 
         }
@@ -62,6 +65,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 leagueGamesDisplay.SetSchedule(_league.Schedule.SeasonSchedule[_league.DayIndex]);
             }
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
+            //Updates the league leaders stats box when the league has been simmed, new stats to be re-sorted
+            leagueLeadersStatsControl.InsertPlayerList(_league.AllPlayers.ToArray());
         }
 
         private void button1_Click(object sender, EventArgs e)

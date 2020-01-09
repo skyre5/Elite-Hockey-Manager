@@ -8,167 +8,105 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class GoalieStats : PlayerStats
     {
-        private int _gamesPlayed = 0;
-        private int _gamesStarted = 0;
-
-        private int _wins = 0;
-        private int _losses = 0;
-
-        private int _shotsFaced = 0;
-        private int _goalsAllowed = 0;
-
-        private int _breakawayShots = 0;
-        private int _breakawayGoalsAllowed = 0;
-
-        private int _powerplayShots = 0;
-        private int _powerplayGoalsAllowed = 0;
-
-        private int _shorthandedShots = 0;
-        private int _shorthandedGoalsAllowed = 0;
 
         public GoalieStats(int year, int teamID) : base(year, teamID)
         {
         }
         public void AddGameStarted()
         {
-            _gamesPlayed++;
-            _gamesStarted++;
+            GamesPlayed++;
+            GamesStarted++;
         }
         public void AddReliefStart()
         {
-            _gamesPlayed++;
-        }
-        public void AddWin()
-        {
-            _wins++;
-        }
-        public void AddLoss()
-        {
-            _losses++;
-        }
-        public void AddBreakaway(bool scored)
-        {
-            _breakawayShots++;
-            if (scored)
-            {
-                _breakawayGoalsAllowed++;
-            }
-        }
-        public void AddShorthanded(bool scored)
-        {
-            _shorthandedShots++;
-            if (scored)
-            {
-                _shorthandedGoalsAllowed++;
-            }
-        }
-        public void AddPowerplay(bool scored)
-        {
-            _powerplayShots++;
-            if (scored)
-            {
-                _powerplayGoalsAllowed++;
-            }
-        }
-        public int GamesPlayed
-        {
-            get
-            {
-                return _gamesPlayed;
-            }
+            GamesPlayed++;
         }
         public int GamesStarted
         {
-            get
-            {
-                return _gamesStarted;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int Wins
         {
-            get
-            {
-                return _wins;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int Losses
         {
-            get
-            {
-                return _losses;
-            }
-        }
+            get;
+            set;
+        } = 0;
+        public int Shutouts
+        {
+            get;
+            set;
+        } = 0;
         public int ShotsFaced
         {
-            get
-            {
-                return _shotsFaced;
-            }
-            set
-            {
-                _shotsFaced = value;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int GoalsAllowed
+        {
+            get;
+            set;
+        } = 0;
+        public double GAA
         {
             get
             {
-                return _goalsAllowed;
-            }
-            set
-            {
-                _goalsAllowed = value;
+                //To make sure number isn't being divided by 0 if goalie hasnt played a game
+                if (GamesPlayed == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return (double)GoalsAllowed / GamesPlayed;
+                }
             }
         }
         public int BreakawayShots
         {
-            get
-            {
-                return _breakawayShots;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int BreakawayGoalsAllowed
         {
-            get
-            {
-                return _breakawayGoalsAllowed;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int PowerplayShots
         {
-            get
-            {
-                return _powerplayShots;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int PowerplayGoalsAllowed
         {
-            get
-            {
-                return _powerplayGoalsAllowed;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int ShorthandedShots
         {
-            get
-            {
-                return _shorthandedShots;
-            }
-        }
+            get;
+            set;
+        } = 0;
         public int ShorthandedGoalsAllowed
         {
-            get
-            {
-                return _shorthandedGoalsAllowed;
-            }
-        }
+            get;
+            set;
+        } = 0;
+        /// <summary>
+        /// SavePercentage gotten by dividing shots faced by shots faced + goals allowed
+        /// Returns 0 if no shots have been faced, avoids divide by zero error
+        /// </summary>
         public double SavePercentage
         {
             get
             {
-                if (this._shotsFaced > 0)
+                if (this.ShotsFaced > 0)
                 {
-                    return ((double)this._shotsFaced / (double)(this._shotsFaced + this._goalsAllowed));
+                    return ((double)this.ShotsFaced / (double)(this.ShotsFaced + this.GoalsAllowed)) * 100;
                 }
                 else
                 {
@@ -180,9 +118,9 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                if (this._powerplayShots > 0)
+                if (this.PowerplayShots > 0)
                 {
-                    return ((double)this._powerplayShots / (double)(this._powerplayShots + this._powerplayGoalsAllowed));
+                    return ((double)this.PowerplayShots / (double)(this.PowerplayShots + this.PowerplayGoalsAllowed));
                 }
                 else
                 {
@@ -194,9 +132,9 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                if (this._shorthandedShots > 0)
+                if (this.ShorthandedShots > 0)
                 {
-                    return ((double)this._shorthandedShots / (double)(this._shorthandedShots + this._shorthandedGoalsAllowed));
+                    return ((double)this.ShorthandedShots / (double)(this.ShorthandedShots + this.ShorthandedGoalsAllowed));
                 }
                 else
                 {
@@ -208,9 +146,9 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                if (this._breakawayShots > 0)
+                if (this.BreakawayShots > 0)
                 {
-                    return ((double)this._breakawayShots / (double)(this._breakawayShots + this._breakawayGoalsAllowed));
+                    return ((double)this.BreakawayShots / (double)(this.BreakawayShots + this.BreakawayGoalsAllowed));
                 }
                 else
                 {

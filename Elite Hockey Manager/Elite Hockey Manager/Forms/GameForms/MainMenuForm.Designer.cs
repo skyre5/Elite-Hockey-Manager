@@ -31,11 +31,12 @@
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControl();
-            this.button1 = new System.Windows.Forms.Button();
+            this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
             this.SuspendLayout();
             // 
             // leagueGamesDisplay
             // 
+            this.leagueGamesDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.leagueGamesDisplay.Location = new System.Drawing.Point(12, 413);
             this.leagueGamesDisplay.Name = "leagueGamesDisplay";
             this.leagueGamesDisplay.Size = new System.Drawing.Size(1079, 161);
@@ -52,33 +53,37 @@
             // 
             // simLeagueControl
             // 
-            this.simLeagueControl.Location = new System.Drawing.Point(724, 357);
+            this.simLeagueControl.Location = new System.Drawing.Point(476, 303);
             this.simLeagueControl.Name = "simLeagueControl";
             this.simLeagueControl.Size = new System.Drawing.Size(360, 50);
             this.simLeagueControl.TabIndex = 2;
             // 
-            // button1
+            // leagueLeadersStatsControl
             // 
-            this.button1.Location = new System.Drawing.Point(630, 172);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.leagueLeadersStatsControl.AutoSize = true;
+            this.leagueLeadersStatsControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.leagueLeadersStatsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leagueLeadersStatsControl.DisplayTeamAbbreviation = true;
+            this.leagueLeadersStatsControl.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
+            this.leagueLeadersStatsControl.Location = new System.Drawing.Point(476, 12);
+            this.leagueLeadersStatsControl.Name = "leagueLeadersStatsControl";
+            this.leagueLeadersStatsControl.Size = new System.Drawing.Size(747, 284);
+            this.leagueLeadersStatsControl.TabIndex = 3;
+            this.leagueLeadersStatsControl.Title = "Team Name / League Name";
             // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1096, 586);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1228, 586);
+            this.Controls.Add(this.leagueLeadersStatsControl);
             this.Controls.Add(this.simLeagueControl);
             this.Controls.Add(this.leagueGamesDisplay);
             this.Controls.Add(this.standingsControl);
             this.Name = "MainMenuForm";
             this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -87,6 +92,6 @@
         private Classes.LeagueComponents.StandingsControl standingsControl;
         private Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl leagueGamesDisplay;
         private Classes.LeagueComponents.LeagueControls.SimLeagueControl simLeagueControl;
-        private System.Windows.Forms.Button button1;
+        private Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl leagueLeadersStatsControl;
     }
 }

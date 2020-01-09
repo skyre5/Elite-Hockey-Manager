@@ -70,6 +70,11 @@ namespace Elite_Hockey_Manager.Classes
                 return TeamName + CurrentSeasonStats.Record();
             }
         }
+        /// <summary>
+        /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
+        /// TODO Fix this
+        /// Team.AddNewSkater and Team.AddNewGoalie should be used
+        /// </summary>
         public List<Player> Roster
         {
             get;
@@ -232,11 +237,13 @@ namespace Elite_Hockey_Manager.Classes
         /// Gets the starter or backup goalie for a game
         /// </summary>
         /// <returns>Returns the goalie that will be playing a game</returns>
-        public Goalie GetGoalie()
+        public Goalie GetGamesStartingGoalie()
         {
             //If the starting goalies fatigue is greater than 10, returns backup
             if (_goalies[0].Attributes.Fatigue >= 10)
             {
+                //If backup goaltender plays, reduce starters fatigue by 10
+                _goalies[0].Attributes.Fatigue -= 10;
                 return _goalies[1];
             }
             //Returns starter
@@ -267,11 +274,15 @@ namespace Elite_Hockey_Manager.Classes
         public void AddNewSkater(Skater skater)
         {
             skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
+            //Adds a link to this Team object to the player that will link to the current team they play for 
+            skater.CurrentTeam = this;
             Roster.Add(skater);
         }
         public void AddNewGoalie(Goalie goalie)
         {
             goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
+            //Adds a link to this Team object to the player that will link to the current team they play for 
+            goalie.CurrentTeam = this;
             Roster.Add(goalie);
         }
         public override string ToString()
@@ -444,7 +455,10 @@ namespace Elite_Hockey_Manager.Classes
         }
         private void TriggerTeamStatsEvent(object sender, EventArgs e)
         {
-            TeamStatsUpdated(this, null);
+            if (TeamStatsUpdated != null)
+            {
+                TeamStatsUpdated(this, null);
+            }
         }
         /// <summary>
         /// Comparator for teams. Compares by points, then goals for, then alphabetically

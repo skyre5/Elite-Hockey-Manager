@@ -18,6 +18,11 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
+                if (_stats.Count == 0)
+                {
+                    Console.WriteLine("Unset goalie stats added\n" + new System.Diagnostics.StackTrace().ToString());
+                    _stats.Add(new GoalieStats(-1, -1));
+                }
                 return _stats.Last();
             }
         }

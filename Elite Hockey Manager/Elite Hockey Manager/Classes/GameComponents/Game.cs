@@ -47,6 +47,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
     {
         public const bool HOMESCORINGCHANCE = true;
         public const bool AWAYSCORINGCHANCE = false;
+        //Boolean to keep track of whether the starting goalies have been chosen
+        //Starting goalies are chosen at the time of running the game, not when the constructor is ran and the object is created
+        private bool startingGoaliesChosen = false;
         private Random rand;
         private List<Event> _gameEvents = new List<Event>();
         /// <summary>
@@ -221,14 +224,19 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
             GameNumber = game;
-            _playersOnIce.homeGoalie = homeTeam.GetGoalie();
-            _playersOnIce.awayGoalie = awayTeam.GetGoalie();
 
             rand = random;
         }
+        /// <summary>
+        /// Plays the entire game from the point the game state was until it is completed
+        /// </summary>
         public void PlayGame()
         {
-            
+            if (!startingGoaliesChosen)
+            {
+                _playersOnIce.homeGoalie = HomeTeam.GetGamesStartingGoalie();
+                _playersOnIce.awayGoalie = AwayTeam.GetGamesStartingGoalie();
+            }
             if (Finished)
             {
                 Console.WriteLine("Game is already finished");
@@ -264,7 +272,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     {
                         Finished = true;
                         _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
-                        InputTeamStats();
+                        InputStats();
                     }
                     else
                     {
@@ -293,13 +301,13 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     {
                         AwayScore++;
                     }
-                    InputTeamStats();
+                    InputStats();
                 }
                 else if (HomeScore != AwayScore)
                 {
                     Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
-                    InputTeamStats();
+                    InputStats();
                 }
             }
         }
@@ -330,7 +338,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     {
                         Finished = true;
                         _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
-                        InputTeamStats();
+                        InputStats();
                         return;
                     }
                     else
@@ -345,7 +353,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     Overtime = true;
                     Finished = true;
                     _winner = HomeScore > AwayScore ? Side.Home : Side.Away;
-                    InputTeamStats();
+                    InputStats();
                     return;
                 }
                 //If it has reached the end of overtime
@@ -353,7 +361,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     Overtime = true;
                     Finished = true;
-                    InputTeamStats();
+                    InputStats();
                     _winner = (Side)rand.Next(0, 2);
                     if (_winner == Side.Home)
                     {
@@ -750,15 +758,53 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             return 0;
         }
         /// <summary>
-        /// Inputs all the stats from the game into the season wide TeamStats within Team class
+        /// Inputs all the stats for the game when it is finished
         /// </summary>
-        private void InputTeamStats()
+        private void InputStats()
         {
+            InputGamesPlayedStats();
+            //Inputs all the stats from the game into the season wide TeamStats within Team class
             HomeTeam.CurrentSeasonStats.InsertGameStats(this, Side.Home);
             AwayTeam.CurrentSeasonStats.InsertGameStats(this, Side.Away);
+            if (Winner == Side.Home)
+            {
+                //If the losing team scored no goals, winning goal is given a shutout
+                if (AwayScore == 0)
+                {
+                    _playersOnIce.homeGoalie.Stats.Shutouts++;
+                    //Starting goalie gains a fatigue of 2 if they get a shutout
+                    _playersOnIce.homeGoalie.Attributes.Fatigue += 2;
+                }
+                //Winning goaltender
+                //When home wins, home goalie given win and away goalie given loss
+                _playersOnIce.homeGoalie.Stats.Wins++;
+                //Winning goalie gains a fatigue of 3 for winning a game
+                _playersOnIce.homeGoalie.Attributes.Fatigue += 3;
+
+                //Losing goaltender
+                _playersOnIce.awayGoalie.Stats.Losses++;
+                //Losing goalie gains 5 fatigue for losing 
+                _playersOnIce.awayGoalie.Attributes.Fatigue += 5;
+            }
+            else
+            {
+                //If away team gets a shoutout
+                if (HomeScore == 0)
+                {
+                    _playersOnIce.awayGoalie.Stats.Shutouts++;
+                    _playersOnIce.awayGoalie.Attributes.Fatigue += 2;
+                }
+                //Winning goaltender
+                _playersOnIce.awayGoalie.Stats.Wins++;
+                _playersOnIce.awayGoalie.Attributes.Fatigue += 3;
+
+                //Losing Goaltender
+                _playersOnIce.homeGoalie.Stats.Losses++;
+                _playersOnIce.homeGoalie.Attributes.Fatigue += 5;
+            }
         }
         /// <summary>
-        /// Function called at beginning of game to add a game played to forwards, defenders, and starting goalie
+        /// Function called at end of game to add a game played to forwards, defenders, and starting goalie
         /// </summary>
         private void InputGamesPlayedStats()
         {
@@ -769,7 +815,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 {
                     for (int y = 0; y < players.GetLength(1); y++)
                     {
-                        players[x, y].Stats.AddGamePlayed();
+                        players[x, y].Stats.GamesPlayed++;
                     }
                 }
             };

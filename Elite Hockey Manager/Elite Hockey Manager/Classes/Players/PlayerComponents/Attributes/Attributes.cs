@@ -102,6 +102,10 @@ namespace Elite_Hockey_Manager.Classes
                 guarantee -= (age - 36);
             }
         }
+        /// <summary>
+        /// Stat to keep track of goalies fatigue, will gain more fatigue from losing than winning
+        /// Will cause the backup goaltender to get games played when the starter has gotten fatigued enough
+        /// </summary>
         public int Fatigue
         {
             get
@@ -110,7 +114,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             set
             {
-                CheckRating(ref _fatigue, value);
+                _fatigue = value;
             }
         }
         public int Clutchness
@@ -121,15 +125,15 @@ namespace Elite_Hockey_Manager.Classes
             }
             set
             {
-                if (value < 1 || value > 100)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _clutchness = value;
-                }
-                //CheckRating(ref _clutchness, value);
+                //if (value < 1 || value > 100)
+                //{
+                //    throw new ArgumentOutOfRangeException();
+                //}
+                //else
+                //{
+                //    _clutchness = value;
+                //}
+                CheckRating(ref _clutchness, value);
             }
         }
         public int Consistency
