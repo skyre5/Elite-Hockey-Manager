@@ -70,6 +70,11 @@ namespace Elite_Hockey_Manager.Classes
                 return TeamName + CurrentSeasonStats.Record();
             }
         }
+        /// <summary>
+        /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
+        /// TODO Fix this
+        /// Team.AddNewSkater and Team.AddNewGoalie should be used
+        /// </summary>
         public List<Player> Roster
         {
             get;
@@ -269,11 +274,15 @@ namespace Elite_Hockey_Manager.Classes
         public void AddNewSkater(Skater skater)
         {
             skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
+            //Adds a link to this Team object to the player that will link to the current team they play for 
+            skater.CurrentTeam = this;
             Roster.Add(skater);
         }
         public void AddNewGoalie(Goalie goalie)
         {
             goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
+            //Adds a link to this Team object to the player that will link to the current team they play for 
+            goalie.CurrentTeam = this;
             Roster.Add(goalie);
         }
         public override string ToString()

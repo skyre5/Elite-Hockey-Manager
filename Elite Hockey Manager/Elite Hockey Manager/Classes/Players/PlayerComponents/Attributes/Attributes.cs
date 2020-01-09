@@ -125,15 +125,15 @@ namespace Elite_Hockey_Manager.Classes
             }
             set
             {
-                if (value < 1 || value > 100)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _clutchness = value;
-                }
-                //CheckRating(ref _clutchness, value);
+                //if (value < 1 || value > 100)
+                //{
+                //    throw new ArgumentOutOfRangeException();
+                //}
+                //else
+                //{
+                //    _clutchness = value;
+                //}
+                CheckRating(ref _clutchness, value);
             }
         }
         public int Consistency

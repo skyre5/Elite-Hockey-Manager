@@ -42,18 +42,6 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Player : ISerializable
     {
-        //Static random object for use in player number generation
-        private static Random rand = new Random();
-        protected string _firstName;
-        protected string _lastName;
-        protected int _age;
-        //Incrementing int that will hold all players that play in the league
-        private static int idCount = 0;
-        //Set in constructor after incrementing the id count
-        private int _playerID;
-        //Random number between 1 and 99
-        private int _playerNumber = rand.Next(1, 100);
-
         public abstract int PlayerStatusID
         {
             get;
@@ -72,7 +60,20 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-        private List<PlayerStats> _careerStats = new List<PlayerStats>();
+        //Keeps track of the players current team, if it is null they are a free agent
+        public Team CurrentTeam = null;
+        //Static random object for use in player number generation
+        private static Random rand = new Random();
+        //Incrementing int that will hold all players that play in the league
+        private static int idCount = 0;
+        //Set in constructor after incrementing the id count
+        private int _playerID;
+        //Random number between 1 and 99
+        private int _playerNumber = rand.Next(1, 100);
+        protected string _firstName;
+        protected string _lastName;
+        protected int _age;
+        protected List<PlayerStats> _careerStats = new List<PlayerStats>();
         protected List<Contract> _careerContracts = new List<Contract>();
         
         public Player(string first, string last, int age, Contract contract)
@@ -210,6 +211,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("PlayerID", this._playerID);
             info.AddValue("Contracts", this._careerContracts);
             info.AddValue("PlayerNumber", this._playerNumber);
+            info.AddValue("CurrentTeam", this.CurrentTeam);
         }
         public Player(SerializationInfo info, StreamingContext context)
         {
@@ -217,25 +219,9 @@ namespace Elite_Hockey_Manager.Classes
             this._lastName = (string)info.GetValue("Last", typeof(string));
             this._age = (int)info.GetValue("Age", typeof(int));
             this._playerID = (int)info.GetValue("PlayerID", typeof(int));
-            //For versioning for past players made before contracts added to player
-            try
-            {
-                this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
-            }
-            catch
-            {
-                this._careerContracts = new List<Contract>();
-                //If no contract is found it gives a default contract of 1 year and 1m
-                this._careerContracts.Add(new Players.PlayerComponents.Contract());
-            }
-            try
-            {
-                this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
-            }
-            catch
-            {
-
-            }
+            this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
+            this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
+            this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
         }
         public void AddContract(Contract contract)
         {
