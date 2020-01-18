@@ -24,19 +24,30 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         /// <summary>
         /// If ActiveLeague is set, will load conferences from set ActiveLeague
         /// </summary>
-        public void LoadConferences()
+        public void LoadSortConferences()
         {
             //If no league is set, will not load conferences
             if (ActiveLeague == null)
             {
                 return;
             }
+            //If load conferences is used to sort an already loaded in league, delete all controls and remake
+            if (firstConferenceLayout.Controls.Count > 0 || secondConferenceLayout.Controls.Count > 0)
+            {
+                firstConferenceLayout.Controls.Clear();
+                secondConferenceLayout.Controls.Clear();
+            }
             //Puts the names of the conference into the top of the control
             firstConfereneLabel.Text = ActiveLeague.FirstConferenceName;
             secondConferenceLabel.Text = ActiveLeague.SecondConferenceName;
+
             //Sorts both leagues by there record before behing placed on standings
             ActiveLeague.FirstConference.Sort();
+            ActiveLeague.FirstConference.Reverse();
+
             ActiveLeague.SecondConference.Sort();
+            ActiveLeague.SecondConference.Reverse();
+
             foreach (Team team in ActiveLeague.FirstConference)
             {
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);

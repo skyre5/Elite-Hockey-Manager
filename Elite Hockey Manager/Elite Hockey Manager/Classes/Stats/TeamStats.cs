@@ -160,7 +160,7 @@ namespace Elite_Hockey_Manager.Classes.Stats
             }
             //Triggers event when the teams stats have changed
             //Will trigger the standings on the home page to update
-            TeamStatsUpdated(this, null);
+            //TeamStatsUpdated(this, null);
         }
         /// <summary>
         /// Takes stats from game class when the parent team is the home team

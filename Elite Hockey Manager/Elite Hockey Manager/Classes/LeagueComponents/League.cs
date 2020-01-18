@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Classes
@@ -23,8 +24,10 @@ namespace Elite_Hockey_Manager.Classes
         private int _scheduleLength;
         private static double _salaryCap = 50;
         public const double MINSALARYCAP = 40;
+
         private Random rand = new Random();
-        private List<Schedule> _schedule = new List<Schedule>();
+        //Stores all the years of league games played, the last element in the list is the current year of the league
+        private List<Schedule> leagueHistorySchedule = new List<Schedule>();
         public int Year
         {
             get
@@ -63,11 +66,11 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-        public Schedule Schedule
+        public Schedule LeagueSchedule
         {
             get
             {
-                return _schedule.Last();
+                return leagueHistorySchedule.Last();
             }
         }
         /// <summary>
@@ -182,12 +185,12 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void StartSeason()
         {
-            _schedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
+            leagueHistorySchedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             //Sets the day counter to the first day of the schedule
             DayIndex = 0;
             //Sets the League State to the regular season state
             State = LeagueState.RegularSeason;
-            _scheduleLength = this.Schedule.SeasonSchedule.Count;
+            _scheduleLength = this.LeagueSchedule.SeasonSchedule.Count;
         }
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams
@@ -379,13 +382,33 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void SimLeague(int days)
         {
-            if (DayIndex + days > Schedule.Length)
+            if (DayIndex + days > LeagueSchedule.Length)
             {
-                days = Schedule.Length - DayIndex;
+                days = LeagueSchedule.Length - DayIndex;
             }
             for (int i = 0; i < days; i++) {
-                Schedule.SimDay(DayIndex);
+                LeagueSchedule.SimDay(DayIndex);
                 DayIndex++;
+            }
+        }
+        public void SimLeagueDoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = (BackgroundWorker)sender;
+           int gameSimmedCount = 0;
+           int simLength = (int)e.Argument;
+           //If the requested amount to sim is greater than the rest of the seasons schedule, lowers the sim amount to only remaining days
+           if (simLength > (LeagueSchedule.SeasonSchedule.Count - (DayIndex)))
+            {
+                simLength = LeagueSchedule.SeasonSchedule.Count - (DayIndex);
+            }
+           //Goes through each day requested to sim and sims that day, returns progress to calling form
+           for (int i = 0; i < simLength; i++)
+            {
+                //Adds the amount of games simmed that day to the gameSimmedCount variable to show progress
+                gameSimmedCount += LeagueSchedule.SeasonSchedule[DayIndex].Count;
+                //Sims 1 day in the league
+                SimLeague(1);
+                worker.ReportProgress(gameSimmedCount);      
             }
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)

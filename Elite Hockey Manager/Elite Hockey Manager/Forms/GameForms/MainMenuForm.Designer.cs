@@ -32,6 +32,9 @@
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControl();
             this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
+            this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.simProgressBar = new System.Windows.Forms.ProgressBar();
+            this.simProgressLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // leagueGamesDisplay
@@ -67,15 +70,40 @@
             this.leagueLeadersStatsControl.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
             this.leagueLeadersStatsControl.Location = new System.Drawing.Point(476, 12);
             this.leagueLeadersStatsControl.Name = "leagueLeadersStatsControl";
-            this.leagueLeadersStatsControl.Size = new System.Drawing.Size(747, 284);
+            this.leagueLeadersStatsControl.Size = new System.Drawing.Size(748, 284);
             this.leagueLeadersStatsControl.TabIndex = 3;
             this.leagueLeadersStatsControl.Title = "Team Name / League Name";
+            // 
+            // simLeagueBackgroundWorker
+            // 
+            this.simLeagueBackgroundWorker.WorkerReportsProgress = true;
+            this.simLeagueBackgroundWorker.WorkerSupportsCancellation = true;
+            this.simLeagueBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.simLeagueBackgroundWorker_ProgressChanged);
+            this.simLeagueBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.simLeagueBackgroundWorker_RunWorkerCompleted);
+            // 
+            // simProgressBar
+            // 
+            this.simProgressBar.Location = new System.Drawing.Point(865, 303);
+            this.simProgressBar.Name = "simProgressBar";
+            this.simProgressBar.Size = new System.Drawing.Size(100, 23);
+            this.simProgressBar.TabIndex = 4;
+            // 
+            // simProgressLabel
+            // 
+            this.simProgressLabel.AutoSize = true;
+            this.simProgressLabel.Location = new System.Drawing.Point(862, 329);
+            this.simProgressLabel.Name = "simProgressLabel";
+            this.simProgressLabel.Size = new System.Drawing.Size(24, 13);
+            this.simProgressLabel.TabIndex = 5;
+            this.simProgressLabel.Text = "0/0";
             // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 586);
+            this.Controls.Add(this.simProgressLabel);
+            this.Controls.Add(this.simProgressBar);
             this.Controls.Add(this.leagueLeadersStatsControl);
             this.Controls.Add(this.simLeagueControl);
             this.Controls.Add(this.leagueGamesDisplay);
@@ -93,5 +121,8 @@
         private Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl leagueGamesDisplay;
         private Classes.LeagueComponents.LeagueControls.SimLeagueControl simLeagueControl;
         private Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl leagueLeadersStatsControl;
+        private System.ComponentModel.BackgroundWorker simLeagueBackgroundWorker;
+        private System.Windows.Forms.ProgressBar simProgressBar;
+        private System.Windows.Forms.Label simProgressLabel;
     }
 }
