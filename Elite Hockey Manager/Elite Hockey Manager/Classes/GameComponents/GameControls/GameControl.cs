@@ -79,6 +79,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             UpdatePeriodLabel();
             //Updates current faceoff stats
             UpdateFaceoffChart();
+            //Sets the starting goalies for the team at the time of opening the form
+            Game.SetStartingGoalies();
             //Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
             homeLineControl.SetGoalie(String.Format("{0}({1})", Game.PlayersOnIce.homeGoalie.LastName
                 , Game.PlayersOnIce.homeGoalie.Position));

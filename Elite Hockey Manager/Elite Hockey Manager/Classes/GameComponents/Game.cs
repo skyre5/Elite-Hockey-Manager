@@ -232,11 +232,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         /// </summary>
         public void PlayGame()
         {
-            if (!startingGoaliesChosen)
-            {
-                _playersOnIce.homeGoalie = HomeTeam.GetGamesStartingGoalie();
-                _playersOnIce.awayGoalie = AwayTeam.GetGamesStartingGoalie();
-            }
+            SetStartingGoalies();
             if (Finished)
             {
                 Console.WriteLine("Game is already finished");
@@ -246,6 +242,15 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             while (Period <= 4 && !Finished)
             {
                 PlayPeriod();
+            }
+        }
+        public void SetStartingGoalies()
+        {
+            if (!startingGoaliesChosen)
+            {
+                _playersOnIce.homeGoalie = HomeTeam.GetGamesStartingGoalie();
+                _playersOnIce.awayGoalie = AwayTeam.GetGamesStartingGoalie();
+                startingGoaliesChosen = true;
             }
         }
         public void PlayPeriod()
