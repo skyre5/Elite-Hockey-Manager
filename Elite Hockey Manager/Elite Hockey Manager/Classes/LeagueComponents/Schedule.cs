@@ -92,12 +92,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         /// Gets the total of games that are not finished that are yet to be simmed or partially simmed
         /// </summary>
         /// <returns>Total number of games that need to be simmed</returns>
-        public int RemainingGamesToSim()
+        public int RemainingGamesToSim(int dayIndex, int duration)
         {
             int totalGames = 0;
-            foreach (List<Game> day in _seasonSchedule)
+            //foreach (List<Game> day in _seasonSchedule)
+            //{
+            //    foreach(Game game in day)
+            //    {
+            //        if (!game.Finished)
+            //        {
+            //            totalGames++;
+            //        }
+            //    }
+            //}
+            for (int i = 0; i < duration; i++)
             {
-                foreach(Game game in day)
+                if (dayIndex + i >= _seasonSchedule.Count)
+                {
+                    break;
+                }
+                foreach(Game game in _seasonSchedule[dayIndex + i])
                 {
                     if (!game.Finished)
                     {

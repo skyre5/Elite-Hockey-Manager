@@ -60,8 +60,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         {
             if (!simLeagueBackgroundWorker.IsBusy){
                 //League.SimLeague(days);
-                this.gamesToSim = League.LeagueSchedule.RemainingGamesToSim();
+                this.gamesToSim = League.LeagueSchedule.RemainingGamesToSim(League.DayIndex, days);
                 simProgressBar.Maximum = gamesToSim;
+                simProgressLabel.Text = String.Format("{0}/{1} Games Simmed", 0, gamesToSim);
                 simLeagueBackgroundWorker.RunWorkerAsync(days);
             }
             else
