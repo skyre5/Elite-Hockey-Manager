@@ -394,12 +394,17 @@ namespace Elite_Hockey_Manager.Classes
         public void SimLeagueDoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
-           int gameSimmedCount = 0;
-           int simLength = (int)e.Argument;
+            int gameSimmedCount = 0;
+            int simLength = (int)e.Argument;
+            //If days passed is -1, sim remaining games in the season, calculates number of days left on the schedule
+            if (simLength == -1)
+            {
+                simLength = LeagueSchedule.SeasonSchedule.Count - DayIndex;
+            }
            //If the requested amount to sim is greater than the rest of the seasons schedule, lowers the sim amount to only remaining days
            if (simLength > (LeagueSchedule.SeasonSchedule.Count - (DayIndex)))
             {
-                simLength = LeagueSchedule.SeasonSchedule.Count - (DayIndex);
+                simLength = LeagueSchedule.SeasonSchedule.Count - DayIndex;
             }
            //Goes through each day requested to sim and sims that day, returns progress to calling form
            for (int i = 0; i < simLength; i++)

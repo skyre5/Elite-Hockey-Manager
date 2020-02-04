@@ -95,16 +95,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public int RemainingGamesToSim(int dayIndex, int duration)
         {
             int totalGames = 0;
-            //foreach (List<Game> day in _seasonSchedule)
-            //{
-            //    foreach(Game game in day)
-            //    {
-            //        if (!game.Finished)
-            //        {
-            //            totalGames++;
-            //        }
-            //    }
-            //}
+            //If simming rest of season with -1 key. Calculation duration of rest of league 
+            if (duration == -1)
+            {
+                duration = _seasonSchedule.Count - dayIndex;
+            }
             for (int i = 0; i < duration; i++)
             {
                 if (dayIndex + i >= _seasonSchedule.Count)
