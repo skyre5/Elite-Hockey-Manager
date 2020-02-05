@@ -30,7 +30,7 @@
         {
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
-            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControl();
+            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
             this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
             this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.simProgressBar = new System.Windows.Forms.ProgressBar();
@@ -119,7 +119,7 @@
 
         private Classes.LeagueComponents.StandingsControl standingsControl;
         private Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl leagueGamesDisplay;
-        private Classes.LeagueComponents.LeagueControls.SimLeagueControl simLeagueControl;
+        private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl simLeagueControl;
         private Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl leagueLeadersStatsControl;
         private System.ComponentModel.BackgroundWorker simLeagueBackgroundWorker;
         private System.Windows.Forms.ProgressBar simProgressBar;

@@ -123,11 +123,29 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.Designer.cs">
       <DependentUpon>StatsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.cs">
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.Designer.cs">
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.Designer.cs">
       <DependentUpon>SimLeagueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueOffseasonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueOffseasonControl.Designer.cs">
+      <DependentUpon>SimLeagueOffseasonControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeaguePlayoffControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeaguePlayoffControl.Designer.cs">
+      <DependentUpon>SimLeaguePlayoffControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.Designer.cs">
+      <DependentUpon>SimLeagueRegularSeasonControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
@@ -297,8 +315,11 @@
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.resx">
       <DependentUpon>StatsControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControl.resx">
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.resx">
       <DependentUpon>SimLeagueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.resx">
+      <DependentUpon>SimLeagueRegularSeasonControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\StandingsControl.resx">
       <DependentUpon>StandingsControl.cs</DependentUpon>
