@@ -15,6 +15,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public SimLeaguePlayoffControl()
         {
             InitializeComponent();
+            SetControlsText();
         }
         protected override void SetControlsText()
         {
@@ -71,6 +72,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         /// <param name="e"></param>
         public override void Sim5Button_Click(object sender, EventArgs e)
         {
+        }
+        public override void advanceStateButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

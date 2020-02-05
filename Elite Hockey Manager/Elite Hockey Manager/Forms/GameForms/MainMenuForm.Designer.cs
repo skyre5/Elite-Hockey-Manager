@@ -28,51 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
-            this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
-            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
-            this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
             this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.simProgressBar = new System.Windows.Forms.ProgressBar();
             this.simProgressLabel = new System.Windows.Forms.Label();
+            this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
+            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
+            this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
+            this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.SuspendLayout();
-            // 
-            // leagueGamesDisplay
-            // 
-            this.leagueGamesDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.leagueGamesDisplay.Location = new System.Drawing.Point(12, 413);
-            this.leagueGamesDisplay.Name = "leagueGamesDisplay";
-            this.leagueGamesDisplay.Size = new System.Drawing.Size(1079, 161);
-            this.leagueGamesDisplay.TabIndex = 1;
-            // 
-            // standingsControl
-            // 
-            this.standingsControl.ActiveLeague = null;
-            this.standingsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.standingsControl.Location = new System.Drawing.Point(12, 12);
-            this.standingsControl.Name = "standingsControl";
-            this.standingsControl.Size = new System.Drawing.Size(458, 341);
-            this.standingsControl.TabIndex = 0;
-            // 
-            // simLeagueControl
-            // 
-            this.simLeagueControl.Location = new System.Drawing.Point(476, 303);
-            this.simLeagueControl.Name = "simLeagueControl";
-            this.simLeagueControl.Size = new System.Drawing.Size(360, 50);
-            this.simLeagueControl.TabIndex = 2;
-            // 
-            // leagueLeadersStatsControl
-            // 
-            this.leagueLeadersStatsControl.AutoSize = true;
-            this.leagueLeadersStatsControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.leagueLeadersStatsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.leagueLeadersStatsControl.DisplayTeamAbbreviation = true;
-            this.leagueLeadersStatsControl.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
-            this.leagueLeadersStatsControl.Location = new System.Drawing.Point(476, 12);
-            this.leagueLeadersStatsControl.Name = "leagueLeadersStatsControl";
-            this.leagueLeadersStatsControl.Size = new System.Drawing.Size(748, 284);
-            this.leagueLeadersStatsControl.TabIndex = 3;
-            this.leagueLeadersStatsControl.Title = "Team Name / League Name";
             // 
             // simLeagueBackgroundWorker
             // 
@@ -96,6 +59,43 @@
             this.simProgressLabel.Size = new System.Drawing.Size(24, 13);
             this.simProgressLabel.TabIndex = 5;
             this.simProgressLabel.Text = "0/0";
+            // 
+            // leagueLeadersStatsControl
+            // 
+            this.leagueLeadersStatsControl.AutoSize = true;
+            this.leagueLeadersStatsControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.leagueLeadersStatsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leagueLeadersStatsControl.DisplayTeamAbbreviation = true;
+            this.leagueLeadersStatsControl.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
+            this.leagueLeadersStatsControl.Location = new System.Drawing.Point(476, 12);
+            this.leagueLeadersStatsControl.Name = "leagueLeadersStatsControl";
+            this.leagueLeadersStatsControl.Size = new System.Drawing.Size(748, 284);
+            this.leagueLeadersStatsControl.TabIndex = 3;
+            this.leagueLeadersStatsControl.Title = "Team Name / League Name";
+            // 
+            // simLeagueControl
+            // 
+            this.simLeagueControl.Location = new System.Drawing.Point(476, 303);
+            this.simLeagueControl.Name = "simLeagueControl";
+            this.simLeagueControl.Size = new System.Drawing.Size(360, 50);
+            this.simLeagueControl.TabIndex = 2;
+            // 
+            // leagueGamesDisplay
+            // 
+            this.leagueGamesDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leagueGamesDisplay.Location = new System.Drawing.Point(12, 413);
+            this.leagueGamesDisplay.Name = "leagueGamesDisplay";
+            this.leagueGamesDisplay.Size = new System.Drawing.Size(1079, 161);
+            this.leagueGamesDisplay.TabIndex = 1;
+            // 
+            // standingsControl
+            // 
+            this.standingsControl.ActiveLeague = null;
+            this.standingsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.standingsControl.Location = new System.Drawing.Point(12, 12);
+            this.standingsControl.Name = "standingsControl";
+            this.standingsControl.Size = new System.Drawing.Size(458, 341);
+            this.standingsControl.TabIndex = 0;
             // 
             // MainMenuForm
             // 

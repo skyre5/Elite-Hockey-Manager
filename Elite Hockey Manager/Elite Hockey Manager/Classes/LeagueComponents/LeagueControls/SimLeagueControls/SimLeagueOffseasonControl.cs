@@ -15,6 +15,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public SimLeagueOffseasonControl()
         {
             InitializeComponent();
+            SetControlsText();
         }
         protected override void SetControlsText()
         {
@@ -72,6 +73,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             //Sims entire rest of regular season
             RaiseLeagueSimmedEvent(-2);
+        }
+        public override void advanceStateButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

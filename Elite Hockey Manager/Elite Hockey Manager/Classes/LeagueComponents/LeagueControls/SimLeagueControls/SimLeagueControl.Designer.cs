@@ -34,6 +34,7 @@
             this.simThirdButton = new System.Windows.Forms.Button();
             this.simFourthButton = new System.Windows.Forms.Button();
             this.simFifthButton = new System.Windows.Forms.Button();
+            this.advanceStateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // simDisplayLabel
@@ -47,7 +48,7 @@
             // 
             // simFirstButton
             // 
-            this.simFirstButton.Location = new System.Drawing.Point(4, 21);
+            this.simFirstButton.Location = new System.Drawing.Point(4, 29);
             this.simFirstButton.Name = "simFirstButton";
             this.simFirstButton.Size = new System.Drawing.Size(66, 23);
             this.simFirstButton.TabIndex = 1;
@@ -57,7 +58,7 @@
             // 
             // simSecondButton
             // 
-            this.simSecondButton.Location = new System.Drawing.Point(76, 21);
+            this.simSecondButton.Location = new System.Drawing.Point(76, 29);
             this.simSecondButton.Name = "simSecondButton";
             this.simSecondButton.Size = new System.Drawing.Size(66, 23);
             this.simSecondButton.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             // simThirdButton
             // 
-            this.simThirdButton.Location = new System.Drawing.Point(148, 21);
+            this.simThirdButton.Location = new System.Drawing.Point(148, 29);
             this.simThirdButton.Name = "simThirdButton";
             this.simThirdButton.Size = new System.Drawing.Size(66, 23);
             this.simThirdButton.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             // simFourthButton
             // 
-            this.simFourthButton.Location = new System.Drawing.Point(220, 21);
+            this.simFourthButton.Location = new System.Drawing.Point(220, 29);
             this.simFourthButton.Name = "simFourthButton";
             this.simFourthButton.Size = new System.Drawing.Size(66, 23);
             this.simFourthButton.TabIndex = 4;
@@ -87,7 +88,7 @@
             // 
             // simFifthButton
             // 
-            this.simFifthButton.Location = new System.Drawing.Point(292, 21);
+            this.simFifthButton.Location = new System.Drawing.Point(291, 29);
             this.simFifthButton.Name = "simFifthButton";
             this.simFifthButton.Size = new System.Drawing.Size(66, 23);
             this.simFifthButton.TabIndex = 5;
@@ -95,10 +96,23 @@
             this.simFifthButton.UseVisualStyleBackColor = true;
             this.simFifthButton.Click += new System.EventHandler(this.Sim5Button_Click);
             // 
+            // advanceStateButton
+            // 
+            this.advanceStateButton.Enabled = false;
+            this.advanceStateButton.Location = new System.Drawing.Point(220, 0);
+            this.advanceStateButton.Name = "advanceStateButton";
+            this.advanceStateButton.Size = new System.Drawing.Size(137, 23);
+            this.advanceStateButton.TabIndex = 6;
+            this.advanceStateButton.Text = "Advance State";
+            this.advanceStateButton.UseVisualStyleBackColor = true;
+            this.advanceStateButton.Visible = false;
+            this.advanceStateButton.Click += new System.EventHandler(this.advanceStateButton_Click);
+            // 
             // SimLeagueControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.advanceStateButton);
             this.Controls.Add(this.simFifthButton);
             this.Controls.Add(this.simFourthButton);
             this.Controls.Add(this.simThirdButton);
@@ -106,7 +120,7 @@
             this.Controls.Add(this.simFirstButton);
             this.Controls.Add(this.simDisplayLabel);
             this.Name = "SimLeagueControl";
-            this.Size = new System.Drawing.Size(360, 50);
+            this.Size = new System.Drawing.Size(360, 58);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -119,5 +133,6 @@
         protected System.Windows.Forms.Button simFifthButton;
         protected System.Windows.Forms.Label simDisplayLabel;
         protected System.Windows.Forms.Button simFirstButton;
+        protected System.Windows.Forms.Button advanceStateButton;
     }
 }

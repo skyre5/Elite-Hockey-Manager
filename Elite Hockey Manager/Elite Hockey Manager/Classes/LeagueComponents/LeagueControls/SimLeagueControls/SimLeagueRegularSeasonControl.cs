@@ -12,6 +12,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 {
     public partial class SimLeagueRegularSeasonControl : SimLeagueControl
     {
+        public event Action AdvanceLeagueStateEvent;
         public SimLeagueRegularSeasonControl()
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             simThirdButton.Text = "7 Days";
             simFourthButton.Text = "30 Days";
             simFifthButton.Text = "Season";
+            advanceStateButton.Text = "Advance To Playoffs";
         }
         /// <summary>
         /// Sims the remaining games from the current day and moves to the next
@@ -71,6 +73,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             //Sims entire rest of regular season
             RaiseLeagueSimmedEvent(-1);
+        }
+        public override void advanceStateButton_Click(object sender, EventArgs e)
+        {
+            AdvanceLeagueStateEvent();
         }
     }
 }

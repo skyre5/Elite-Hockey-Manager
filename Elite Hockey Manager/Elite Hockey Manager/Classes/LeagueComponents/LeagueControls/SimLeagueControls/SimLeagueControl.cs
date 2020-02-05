@@ -21,26 +21,20 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             LeagueSimmedEvent(arg);
         }
+        /// <summary>
+        /// Enables and displays button to advance to the next league state
+        /// </summary>
+        public void EnableAdvanceStateButton()
+        {
+            advanceStateButton.Enabled = false;
+            advanceStateButton.Visible = true;
+        }
         protected abstract void SetControlsText();
         public abstract void Sim1Button_Click(object sender, EventArgs e);
-        //{
-        //    LeagueSimmedEvent(1);
-        //}
         public abstract void Sim2Button_Click(object sender, EventArgs e);
-        //{
-        //    LeagueSimmedEvent(3);
-        //}
         public abstract void Sim3Button_Click(object sender, EventArgs e);
-        //{
-        //    LeagueSimmedEvent(7);
-        //}
         public abstract void Sim4Button_Click(object sender, EventArgs e);
-        //{
-        //    LeagueSimmedEvent(30);
-        //}
         public abstract void Sim5Button_Click(object sender, EventArgs e);
-        //{
-        //    LeagueSimmedEvent(-1);
-        //}
+        public abstract void advanceStateButton_Click(object sender, EventArgs e);
     }
 }
