@@ -63,6 +63,37 @@ namespace Elite_Hockey_Manager.Classes
                 else
                 {
                     _numberOfTeams = value;
+                    //Sets the number of playoff teams based on the set NumberOfTeams
+                    SetPlayoffTeamsCount(_numberOfTeams);
+                }
+            }
+        }
+        /// <summary>
+        /// Holds how many playoff teams there will be across the league, set in numberOfTeams setter
+        /// 4 as base because every league size can accomodate at least 4
+        /// </summary>
+        public int NumberOfPlayoffTeams
+        {
+            get;
+            private set;
+        } = 4;
+        /// <summary>
+        /// Gets the number of playoff rounds by the number of playoff teams, determined by n in 2^n of playoff teams
+        /// </summary>
+        public int NumberOfPlayoffRounds
+        {
+            get
+            {
+                switch(NumberOfPlayoffTeams)
+                {
+                    case 16:
+                        return 4;
+                    case 8:
+                        return 3;
+                    case 4:
+                        return 2;
+                    default:
+                        throw new ArgumentException("Invalid number of playoff rounds for the program");
                 }
             }
         }
@@ -414,6 +445,28 @@ namespace Elite_Hockey_Manager.Classes
                 //Sims 1 day in the league
                 SimLeague(1);
                 worker.ReportProgress(gameSimmedCount);      
+            }
+        }
+        /// <summary>
+        /// Sets the number of playoff teams and rounds by how many teams are in the league
+        /// Number of teams between 6-10 will have 2 rounds with 4 playoff teams
+        /// Number of teams between 11-23 will have 3 rounds with 8 playoff teams
+        /// Number of teams greater than 23 will have 4 rounds with 16 playoff teams
+        /// </summary>
+        /// <param name="numberOfTeams">Number of teams in the league, will be called each time the number of times league property is set</param>
+        private void SetPlayoffTeamsCount(int numberOfTeams)
+        {
+            if (numberOfTeams > 23)
+            {
+                NumberOfPlayoffTeams = 16;
+            }
+            else if (numberOfTeams > 11)
+            {
+                NumberOfPlayoffTeams = 8;
+            }
+            else
+            {
+                NumberOfPlayoffTeams = 4;
             }
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)

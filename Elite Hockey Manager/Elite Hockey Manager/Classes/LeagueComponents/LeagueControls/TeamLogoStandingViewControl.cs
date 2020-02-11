@@ -27,14 +27,31 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Team = team;
             InitializeComponent();
         }
-
+        public void RedrawRecord()
+        {
+            teamLabel.Text = Team.TeamNameWithRecord;
+        }
+        /// <summary>
+        /// If the team is in the playoff their text in the label will be bold
+        /// </summary>
+        /// <param name="playoffs">
+        /// True - In playoffs
+        /// False - Out of playoffs
+        /// </param>
+        public void UpdatePlayoffPosition(bool playoffs)
+        {
+            if (playoffs)
+            {
+                teamLabel.Font = new Font(teamLabel.Font, FontStyle.Bold);
+            }
+            else
+            {
+                teamLabel.Font = new Font(teamLabel.Font, FontStyle.Regular);
+            }
+        }
         private void TeamLogoStandingViewControl_Load(object sender, EventArgs e)
         {
             logoPictureBox.Image = Team.Logo;
-            teamLabel.Text = Team.TeamNameWithRecord;
-        }
-        public void RedrawRecord()
-        {
             teamLabel.Text = Team.TeamNameWithRecord;
         }
         private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)

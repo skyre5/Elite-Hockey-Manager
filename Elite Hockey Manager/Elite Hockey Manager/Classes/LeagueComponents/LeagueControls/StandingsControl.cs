@@ -48,16 +48,35 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             ActiveLeague.SecondConference.Sort();
             ActiveLeague.SecondConference.Reverse();
 
-            foreach (Team team in ActiveLeague.FirstConference)
+            //Number of playoff teams in each of the 2 conferences
+            int playoffPositionCount = ActiveLeague.NumberOfPlayoffTeams / 2;
+
+            for (int i = 0; i < ActiveLeague.FirstConference.Count; i++)
             {
+                Team team = ActiveLeague.FirstConference[i];
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);
                 control.Team.TeamStatsUpdated += UpdateLeagueStandings;
+
+                //If the new teams control is in a playoff position, update it 
+                if (i + 1 <= playoffPositionCount)
+                {
+                    control.UpdatePlayoffPosition(true);
+                }
+                //Adds control to parent group
                 firstConferenceLayout.Controls.Add(control);
             }
-            foreach (Team team in ActiveLeague.SecondConference)
+            for (int i = 0; i < ActiveLeague.SecondConference.Count; i++)
             {
+                Team team = ActiveLeague.SecondConference[i];
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);
                 control.Team.TeamStatsUpdated += UpdateLeagueStandings;
+
+                //If the new teams control is in a playoff position, update it 
+                if (i + 1 <= playoffPositionCount)
+                {
+                    control.UpdatePlayoffPosition(true);
+                }
+                //Adds control to parent group
                 secondConferenceLayout.Controls.Add(control);
             }
         }
@@ -106,8 +125,18 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     if (((TeamLogoStandingViewControl)panel.Controls[i]).Team.CompareTo(
                         ((TeamLogoStandingViewControl)panel.Controls[i - 1]).Team) > 0)
                     {
-                        //Swats the 2 controls if the team is greater than the one higher in the standings
+                        //Swats the 2 controls if the index team is greater than the one higher in the standings
                         panel.Controls.SetChildIndex(panel.Controls[i], i - 1);
+
+                        //If the team being swapped down is in the last playoff spot for the conference
+                        //Swap the index team to a playoff team and remove playoffs from the swapped team
+                        if (i - 1 == (ActiveLeague.NumberOfPlayoffTeams / 2) - 1)
+                        {
+                            //The new position that the index control is in
+                            ((TeamLogoStandingViewControl)panel.Controls[i - 1]).UpdatePlayoffPosition(true);
+                            //The new position of the team being swapped with the index team
+                            ((TeamLogoStandingViewControl)panel.Controls[i]).UpdatePlayoffPosition(false);
+                        }
                     }
                 }
             }
