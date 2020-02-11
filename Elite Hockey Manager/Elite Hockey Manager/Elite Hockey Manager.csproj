@@ -123,6 +123,12 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.Designer.cs">
       <DependentUpon>StatsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffMatchupViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffMatchupViewControl.Designer.cs">
+      <DependentUpon>PlayoffMatchupViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -314,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.resx">
       <DependentUpon>StatsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffMatchupViewControl.resx">
+      <DependentUpon>PlayoffMatchupViewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.resx">
       <DependentUpon>SimLeagueControl.cs</DependentUpon>

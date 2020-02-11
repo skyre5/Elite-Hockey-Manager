@@ -34,9 +34,10 @@ namespace Elite_Hockey_Manager.Classes
             //Loads the file of the given name if it is found
             if (File.Exists(fileName))
             {
+                Stream playersStream;
                 try
                 {
-                    Stream playersStream = File.Open(fileName, FileMode.Open);
+                    playersStream = File.Open(fileName, FileMode.Open);
                     BinaryFormatter bf = new BinaryFormatter();
                     //Takes the list of players and deserializes it into playerList class object
                     bindingList = (BindingList<T>)bf.Deserialize(playersStream);
@@ -47,6 +48,7 @@ namespace Elite_Hockey_Manager.Classes
                 {
                     Console.Write(ex);
                     bindingList = new BindingList<T>();
+                    playersStream = null;
                     return false;
                 }
             }

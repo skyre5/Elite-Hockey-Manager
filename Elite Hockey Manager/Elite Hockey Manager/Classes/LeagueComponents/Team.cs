@@ -93,7 +93,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            SeasonTeamStats.Add(new TeamStats());
+            seasonTeamStats.Add(new TeamStats());
             SetTeamStatsEvent();
         }
         public Team(string location, string name, string imagePath)
@@ -104,7 +104,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            SeasonTeamStats.Add(new TeamStats());
+            seasonTeamStats.Add(new TeamStats());
             SetTeamStatsEvent();
         }
         public string LogoPath
@@ -196,7 +196,7 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// List of all season stats through game history
         /// </summary>
-        private List<TeamStats> SeasonTeamStats = new List<TeamStats>();
+        private List<TeamStats> seasonTeamStats = new List<TeamStats>();
         /// <summary>
         /// Gets the latest seasonal stats from the SeasonTeamStats list
         /// </summary>
@@ -204,7 +204,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return SeasonTeamStats.Last();
+                return seasonTeamStats.Last();
             }
         }
         /// <summary>
@@ -489,6 +489,7 @@ namespace Elite_Hockey_Manager.Classes
             this._logoPath = (string)info.GetValue("Logo", typeof(string));
             this._teamID = (int)info.GetValue("ID", typeof(int));
             this._abbreviation = (string)info.GetValue("Abbreviation", typeof(string));
+            this.seasonTeamStats = (List<TeamStats>)info.GetValue("SeasonTeamStats", typeof(List<TeamStats>));
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -497,6 +498,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Logo", this._logoPath);
             info.AddValue("ID", this._teamID);
             info.AddValue("Abbreviation", this._abbreviation);
+            info.AddValue("SeasonTeamStats", this.seasonTeamStats);
         }
 
     }

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
+using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.Stats
 {
-    public class TeamStats
+    [Serializable]
+    public class TeamStats : ISerializable
     {
         public event EventHandler TeamStatsUpdated;
         /// <summary>
@@ -133,6 +135,10 @@ namespace Elite_Hockey_Manager.Classes.Stats
                 return (Wins * 2) + OvertimeLosses;
             }
         }
+        public TeamStats()
+        {
+            
+        }
         /// <summary>
         /// Gets the string of the teams record
         /// </summary>
@@ -215,5 +221,53 @@ namespace Elite_Hockey_Manager.Classes.Stats
                 if (game.Overtime) this.OvertimeLosses++;
             }
         }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            //info.AddValue("LeagueName", this.LeagueName);
+            info.AddValue("Wins", this.Wins);
+            info.AddValue("OvertimeWins", this.OvertimeWins);
+            info.AddValue("ShootoutWins", this.ShootoutWins);
+
+            info.AddValue("Losses", this.Losses);
+            info.AddValue("OvertimeLosses", this.OvertimeLosses);
+            info.AddValue("ShootoutLosses", this.ShootoutLosses);
+
+            info.AddValue("GoalsFor", this.GoalsFor);
+            info.AddValue("GoalsAgainst", this.GoalsAgainst);
+
+            info.AddValue("ShotsFor", this.ShotsFor);
+            info.AddValue("ShotsAgainst", this.ShotsAgainst);
+
+            info.AddValue("PowerplaysFor", this.PowerplaysFor);
+            info.AddValue("PowerplayGoals", this.PowerplayGoals);
+
+            info.AddValue("PowerplaysAgainst", this.PowerplaysAgainst);
+            info.AddValue("PowerplayGoalsAgainst", this.PowerplayGoalsAgainst);
+
+        }
+        protected TeamStats(SerializationInfo info, StreamingContext context)
+        {
+            this.Wins = (int)info.GetValue("Wins", typeof(int));
+            this.OvertimeWins = (int)info.GetValue("OvertimeWins", typeof(int));
+            this.ShootoutWins = (int)info.GetValue("ShootoutWins", typeof(int));
+
+            this.Losses = (int)info.GetValue("Losses", typeof(int));
+            this.OvertimeLosses = (int)info.GetValue("OvertimeLosses", typeof(int));
+            this.ShootoutLosses = (int)info.GetValue("ShootoutLosses", typeof(int));
+
+            this.GoalsFor = (int)info.GetValue("GoalsFor", typeof(int));
+            this.GoalsAgainst = (int)info.GetValue("GoalsAgainst", typeof(int));
+
+            this.ShotsFor = (int)info.GetValue("ShotsFor", typeof(int));
+            this.ShotsAgainst = (int)info.GetValue("ShotsAgainst", typeof(int));
+
+            this.PowerplaysFor = (int)info.GetValue("PowerplaysFor", typeof(int));
+            this.PowerplayGoals = (int)info.GetValue("PowerplayGoals", typeof(int));
+
+            this.PowerplaysAgainst = (int)info.GetValue("PowerplaysAgainst", typeof(int));
+            this.PowerplayGoalsAgainst = (int)info.GetValue("PowerplayGoalsAgainst", typeof(int));
+
+        }
+
     }
 }
