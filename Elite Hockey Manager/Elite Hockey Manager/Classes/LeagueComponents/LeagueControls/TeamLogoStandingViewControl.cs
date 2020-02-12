@@ -15,9 +15,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     {
         public Team Team
         {
-            get;
-            private set;
+            get
+            {
+                return _team;
+            }
+            set
+            {
+                _team = value;
+                UpdateDisplay();
+            }
         }
+        private Team _team;
         public TeamLogoStandingViewControl(Team team)
         {
             if (team == null)
@@ -27,9 +35,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Team = team;
             InitializeComponent();
         }
+        /// <summary>
+        /// Base constructor for child class TeamLogoPlayoffViewControl to have a designer view
+        /// </summary>
+        public TeamLogoStandingViewControl()
+        {
+            InitializeComponent();
+        }
         public void RedrawRecord()
         {
-            teamLabel.Text = Team.TeamNameWithRecord;
+                teamLabel.Text = Team?.TeamNameWithRecord;
+
         }
         /// <summary>
         /// If the team is in the playoff their text in the label will be bold
@@ -51,13 +67,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private void TeamLogoStandingViewControl_Load(object sender, EventArgs e)
         {
-            logoPictureBox.Image = Team.Logo;
-            teamLabel.Text = Team.TeamNameWithRecord;
+            UpdateDisplay();
+        }
+        private void UpdateDisplay()
+        {
+            //Null checks the 2 displays
+            logoPictureBox.Image = Team?.Logo;
+            teamLabel.Text = Team?.TeamNameWithRecord;
         }
         private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
         {
-            ViewTeamForm form = new ViewTeamForm(Team);
-            form.Show();
+            if (Team != null)
+            {
+                ViewTeamForm form = new ViewTeamForm(Team);
+                form.Show();
+            }
         }
     }
 }

@@ -73,6 +73,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox logoPictureBox;
-        private System.Windows.Forms.Label teamLabel;
+        protected System.Windows.Forms.Label teamLabel;
     }
 }
