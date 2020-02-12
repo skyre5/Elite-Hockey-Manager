@@ -47,6 +47,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         /// </summary>
         private void UpdateDisplay()
         {
+            //Removes all old panels upon SelectedRounds property being changed
+            this.Controls.Clear();
+
             int totalPanels = panels.Count();
             //To get a base width of PlayoffMatchupViewControl... TODO Figure out a better way to do this
             PlayoffMatchupViewControl baseViewControl = new PlayoffMatchupViewControl();
@@ -62,7 +65,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 //Adds PlayoffMatchupViewControls to this panel based on the amount of rounds it is away from the middle of the array
                 AddPlayoffMatchupViewControls(selectedPanel, i + 1);
 
-                int baseX = (this.Size.Width / totalPanels) * i;
+                int baseX = (int)((double)this.Size.Width * ((double)(i + 1) / (double)(totalPanels + 1)));
                 int offsetX = baseX - (selectedPanel.Width / 2);
                 if (offsetX < 0)
                 {
@@ -93,7 +96,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             for (int i = 0; i < controlsToAdd; i++)
             {
                 PlayoffMatchupViewControl playoffViewControl = new PlayoffMatchupViewControl();
-                int baseY = (totalHeight / controlsToAdd) * i;
+                //
+                int baseY = (int)((double)totalHeight * ((double)(i + 1) / (double)(controlsToAdd + 1)));
                 int offsetY = baseY - (playoffViewControl.Size.Height / 2);
                 if (offsetY < 0)
                 {

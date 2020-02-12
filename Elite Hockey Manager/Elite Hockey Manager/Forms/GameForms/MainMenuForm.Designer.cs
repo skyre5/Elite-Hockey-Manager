@@ -31,6 +31,7 @@
             this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.simProgressBar = new System.Windows.Forms.ProgressBar();
             this.simProgressLabel = new System.Windows.Forms.Label();
+            this.playoffDisplayControl1 = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl();
             this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
             this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
@@ -59,6 +60,14 @@
             this.simProgressLabel.Size = new System.Drawing.Size(24, 13);
             this.simProgressLabel.TabIndex = 5;
             this.simProgressLabel.Text = "0/0";
+            // 
+            // playoffDisplayControl1
+            // 
+            this.playoffDisplayControl1.Location = new System.Drawing.Point(242, 176);
+            this.playoffDisplayControl1.Name = "playoffDisplayControl1";
+            this.playoffDisplayControl1.SelectedRounds = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffRounds.Three;
+            this.playoffDisplayControl1.Size = new System.Drawing.Size(800, 300);
+            this.playoffDisplayControl1.TabIndex = 6;
             // 
             // leagueLeadersStatsControl
             // 
@@ -102,6 +111,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 586);
+            this.Controls.Add(this.playoffDisplayControl1);
             this.Controls.Add(this.simProgressLabel);
             this.Controls.Add(this.simProgressBar);
             this.Controls.Add(this.leagueLeadersStatsControl);
@@ -124,5 +134,6 @@
         private System.ComponentModel.BackgroundWorker simLeagueBackgroundWorker;
         private System.Windows.Forms.ProgressBar simProgressBar;
         private System.Windows.Forms.Label simProgressLabel;
+        private Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl playoffDisplayControl1;
     }
 }
