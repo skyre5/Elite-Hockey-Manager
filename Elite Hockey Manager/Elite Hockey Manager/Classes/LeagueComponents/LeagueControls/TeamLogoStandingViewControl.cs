@@ -25,15 +25,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 UpdateDisplay();
             }
         }
-        private Team _team;
+        private Team _team = null;
         public TeamLogoStandingViewControl(Team team)
         {
+            InitializeComponent();
             if (team == null)
             {
                 throw new ArgumentNullException("Team entered was null in TeamLogoStandingViewControl");
             }
-            Team = team;
-            InitializeComponent();
+            Team = team; 
         }
         /// <summary>
         /// Base constructor for child class TeamLogoPlayoffViewControl to have a designer view
@@ -72,7 +72,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private void UpdateDisplay()
         {
             //Null checks the 2 displays
-            logoPictureBox.Image = Team?.Logo;
+            if (Team?.Logo != null)
+            {
+                logoPictureBox.Image = Team.Logo;
+            }
             teamLabel.Text = Team?.TeamNameWithRecord;
         }
         private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
