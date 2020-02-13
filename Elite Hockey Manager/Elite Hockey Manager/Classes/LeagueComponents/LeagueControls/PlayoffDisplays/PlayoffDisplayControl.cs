@@ -89,7 +89,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 //The absolute value of the middle round minus the given offset will give the distance of rounds between the final and selected round
                 //Subtracting that minus 1 and raising 2 to this power will give the amount of games in this round and side of the bracked 
                 //I.E 4 rounds - middle index is 4 - round 1 will give 3 - subtract 1 and raise 2 to 2 will give 4 playoff games on that side of the bracket
-                controlsToAdd = 2 ^ (Math.Abs(middlePlayoffIndex - offset) - 1);
+                controlsToAdd = (int)Math.Pow(2, (Math.Abs(middlePlayoffIndex - offset) - 1));
             }
             //Will be used to arrange the controls within the panel based on the height of this panel
             int totalHeight = panel.Size.Height;
