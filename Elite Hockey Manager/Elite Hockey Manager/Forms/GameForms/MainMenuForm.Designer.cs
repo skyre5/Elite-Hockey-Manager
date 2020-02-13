@@ -63,7 +63,8 @@
             // 
             // playoffDisplayControl1
             // 
-            this.playoffDisplayControl1.Location = new System.Drawing.Point(242, 176);
+            this.playoffDisplayControl1.League = null;
+            this.playoffDisplayControl1.Location = new System.Drawing.Point(218, 107);
             this.playoffDisplayControl1.Name = "playoffDisplayControl1";
             this.playoffDisplayControl1.SelectedRounds = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffRounds.Four;
             this.playoffDisplayControl1.Size = new System.Drawing.Size(800, 300);

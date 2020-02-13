@@ -32,7 +32,19 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 //Puts the Panels in the control
                 UpdateDisplay();
             }
-        } 
+        }
+        public League League
+        {
+            get
+            {
+                return _league;
+            }
+            set
+            {
+                _league = value;
+            }
+        }
+        private League _league;
         private PlayoffRounds _selectedRounds = PlayoffRounds.Two;
         private Panel[] panels;
         public PlayoffDisplayControl()
@@ -74,6 +86,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 this.Controls.Add(selectedPanel);
                 selectedPanel.Location = new Point(offsetX, 0);
             }
+
+            SetRoundTitles();
         }
         private void AddPlayoffMatchupViewControls(Panel panel, int offset)
         {
@@ -117,16 +131,63 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             {
                 case PlayoffRounds.Two:
                     panels = new Panel[3];
-                    return;
+                    break;
                 case PlayoffRounds.Three:
                     panels = new Panel[5];
-                    return;
+                    break;
                 case PlayoffRounds.Four:
                     panels = new Panel[7];
-                    return;
+                    break;
                 default:
                     throw new ArgumentException("Invalid playoffRounds in PlayoffDisplayControl.CreatePanels function");
             }
+        }
+        /// <summary>
+        /// Adds a label to each of the panels in panels array to specify title of the round
+        /// </summary>
+        private void SetRoundTitles()
+        {
+            int finalIndex = (int)SelectedRounds;
+            for (int i = 1; i <= finalIndex; i++)
+            {
+                switch (finalIndex - i)
+                {
+                    //League Finals
+                    case (0):
+                        CreateLabelAddToPanel("Finals", finalIndex - 1);
+                        break;
+                    //Conference Finals
+                    case (1):
+                        CreateLabelAddToPanel(String.Format("{0} Conference Finals", _league?.FirstConferenceName), finalIndex + 1 - 1);
+                        CreateLabelAddToPanel(String.Format("{0} Conference Finals", _league?.SecondConferenceName), finalIndex - 1 - 1);
+                        break;
+                    //Conference Semi Finals
+                    case (2):
+                        CreateLabelAddToPanel(String.Format("{0} Semi-Finals", _league?.FirstConferenceName), finalIndex + 2 - 1);
+                        CreateLabelAddToPanel(String.Format("{0} Semi-Finals", _league?.SecondConferenceName), finalIndex - 2 - 1);
+                        break;
+                    //Conference quarter finals
+                    case (3):
+                        CreateLabelAddToPanel(String.Format("{0} Quarter-Finals", _league?.FirstConferenceName), finalIndex + 3 - 1);
+                        CreateLabelAddToPanel(String.Format("{0} Quarter-Finals", _league?.SecondConferenceName), finalIndex - 3 - 1);
+                        break;
+                }
+            }
+        }
+        /// <summary>
+        /// Creates a label with specificied properties and adds it to panel at given index
+        /// </summary>
+        /// <param name="title">String of the type of playoff series the label will be added to, I.E finals, semifinals, quarterfinals as well as conference titles</param>
+        /// <param name="panelIndex">Index of the panel in panels array to add this label to</param>
+        private void CreateLabelAddToPanel(string title, int panelIndex)
+        {
+            Label label = new Label();
+            label.Text = title;
+            label.AutoSize = false;
+            label.Size = new Size(panels[0].Size.Width, label.Size.Height);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            panels[panelIndex].Controls.Add(label);
+            label.Location = new Point(0, 0);
         }
     }
 }

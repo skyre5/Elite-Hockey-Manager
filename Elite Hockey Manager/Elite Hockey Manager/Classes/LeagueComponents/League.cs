@@ -209,7 +209,7 @@ namespace Elite_Hockey_Manager.Classes
             this.NumberOfTeams = teamsCount;
 
             this.FirstConferenceName = firstConferenceName;
-            this.SecondConferenceName = SecondConferenceName;
+            this.SecondConferenceName = secondConferenceName;
         }
         /// <summary>
         /// Starts the season by adding a new generated schedule. Sets the day index and LeagueState
