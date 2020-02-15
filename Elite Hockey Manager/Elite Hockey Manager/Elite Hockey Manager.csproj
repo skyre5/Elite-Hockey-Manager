@@ -123,9 +123,7 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.Designer.cs">
       <DependentUpon>StatsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.Designer.cs">
       <DependentUpon>PlayoffDisplayControl.cs</DependentUpon>
     </Compile>
@@ -165,6 +163,7 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.Designer.cs">
       <DependentUpon>SimLeagueRegularSeasonControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LeagueComponents\Playoff.cs" />
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />

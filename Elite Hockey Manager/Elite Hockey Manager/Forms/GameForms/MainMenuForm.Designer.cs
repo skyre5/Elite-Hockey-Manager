@@ -31,9 +31,8 @@
             this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.simProgressBar = new System.Windows.Forms.ProgressBar();
             this.simProgressLabel = new System.Windows.Forms.Label();
-            this.playoffDisplayControl1 = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl();
             this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
-            this.simLeagueControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
+            this.simLeagueRegularSeasonControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.SuspendLayout();
@@ -61,15 +60,6 @@
             this.simProgressLabel.TabIndex = 5;
             this.simProgressLabel.Text = "0/0";
             // 
-            // playoffDisplayControl1
-            // 
-            this.playoffDisplayControl1.League = null;
-            this.playoffDisplayControl1.Location = new System.Drawing.Point(218, 107);
-            this.playoffDisplayControl1.Name = "playoffDisplayControl1";
-            this.playoffDisplayControl1.SelectedRounds = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffRounds.Four;
-            this.playoffDisplayControl1.Size = new System.Drawing.Size(800, 300);
-            this.playoffDisplayControl1.TabIndex = 6;
-            // 
             // leagueLeadersStatsControl
             // 
             this.leagueLeadersStatsControl.AutoSize = true;
@@ -83,12 +73,12 @@
             this.leagueLeadersStatsControl.TabIndex = 3;
             this.leagueLeadersStatsControl.Title = "Team Name / League Name";
             // 
-            // simLeagueControl
+            // simLeagueRegularSeasonControl
             // 
-            this.simLeagueControl.Location = new System.Drawing.Point(476, 303);
-            this.simLeagueControl.Name = "simLeagueControl";
-            this.simLeagueControl.Size = new System.Drawing.Size(360, 50);
-            this.simLeagueControl.TabIndex = 2;
+            this.simLeagueRegularSeasonControl.Location = new System.Drawing.Point(476, 303);
+            this.simLeagueRegularSeasonControl.Name = "simLeagueRegularSeasonControl";
+            this.simLeagueRegularSeasonControl.Size = new System.Drawing.Size(360, 50);
+            this.simLeagueRegularSeasonControl.TabIndex = 2;
             // 
             // leagueGamesDisplay
             // 
@@ -112,11 +102,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 586);
-            this.Controls.Add(this.playoffDisplayControl1);
             this.Controls.Add(this.simProgressLabel);
             this.Controls.Add(this.simProgressBar);
             this.Controls.Add(this.leagueLeadersStatsControl);
-            this.Controls.Add(this.simLeagueControl);
+            this.Controls.Add(this.simLeagueRegularSeasonControl);
             this.Controls.Add(this.leagueGamesDisplay);
             this.Controls.Add(this.standingsControl);
             this.Name = "MainMenuForm";
@@ -130,11 +119,10 @@
 
         private Classes.LeagueComponents.StandingsControl standingsControl;
         private Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl leagueGamesDisplay;
-        private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl simLeagueControl;
+        private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl simLeagueRegularSeasonControl;
         private Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl leagueLeadersStatsControl;
         private System.ComponentModel.BackgroundWorker simLeagueBackgroundWorker;
         private System.Windows.Forms.ProgressBar simProgressBar;
         private System.Windows.Forms.Label simProgressLabel;
-        private Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl playoffDisplayControl1;
     }
 }

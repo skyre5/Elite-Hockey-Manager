@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
+using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -27,7 +28,9 @@ namespace Elite_Hockey_Manager.Classes
 
         private Random rand = new Random();
         //Stores all the years of league games played, the last element in the list is the current year of the league
-        private List<Schedule> leagueHistorySchedule = new List<Schedule>();
+        private List<Schedule> _leagueHistorySchedules = new List<Schedule>();
+        //Stores all the years of playoffs, last element in list is the current year of playoffs
+        private List<Playoff> _leagueHistoryPlayoffs = new List<Playoff>();
         public int Year
         {
             get
@@ -64,44 +67,30 @@ namespace Elite_Hockey_Manager.Classes
                 {
                     _numberOfTeams = value;
                     //Sets the number of playoff teams based on the set NumberOfTeams
-                    SetPlayoffTeamsCount(_numberOfTeams);
+                    SetPlayoffRounds(_numberOfTeams);
                 }
             }
         }
-        /// <summary>
-        /// Holds how many playoff teams there will be across the league, set in numberOfTeams setter
-        /// 4 as base because every league size can accomodate at least 4
-        /// </summary>
-        public int NumberOfPlayoffTeams
-        {
-            get;
-            private set;
-        } = 4;
         /// <summary>
         /// Gets the number of playoff rounds by the number of playoff teams, determined by n in 2^n of playoff teams
         /// </summary>
-        public int NumberOfPlayoffRounds
+        public PlayoffRounds PlayoffRounds
         {
-            get
-            {
-                switch(NumberOfPlayoffTeams)
-                {
-                    case 16:
-                        return 4;
-                    case 8:
-                        return 3;
-                    case 4:
-                        return 2;
-                    default:
-                        throw new ArgumentException("Invalid number of playoff rounds for the program");
-                }
-            }
-        }
+            get;
+            private set;
+        } = PlayoffRounds.Two;
         public Schedule LeagueSchedule
         {
             get
             {
-                return leagueHistorySchedule.Last();
+                return _leagueHistorySchedules.Last();
+            }
+        }
+        public Playoff currentPlayoff
+        {
+            get
+            {
+                return _leagueHistoryPlayoffs.Last();
             }
         }
         /// <summary>
@@ -216,7 +205,7 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void StartSeason()
         {
-            leagueHistorySchedule.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
+            _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             //Sets the day counter to the first day of the schedule
             DayIndex = 0;
             //Sets the League State to the regular season state
@@ -441,11 +430,27 @@ namespace Elite_Hockey_Manager.Classes
            for (int i = 0; i < simLength; i++)
             {
                 //Adds the amount of games simmed that day to the gameSimmedCount variable to show progress
-                gameSimmedCount += LeagueSchedule.SeasonSchedule[DayIndex].Count;
+                gameSimmedCount += LeagueSchedule.SeasonSchedule[DayIndex].Where(game => !game.Finished).Count();
                 //Sims 1 day in the league
                 SimLeague(1);
                 worker.ReportProgress(gameSimmedCount);      
             }
+        }
+        public void AdvanceToPlayoffs(object sender, EventArgs e)
+        {
+            if (!LeagueSchedule.IsFinishedSimming())
+            {
+                Console.Error.WriteLine("League schedule did not finish simming at the time of the League.StartPlayoffs function call");
+                //Forces the remaining games in the schedule to be simmed
+                LeagueSchedule.ForceFinishSimming();
+            }
+            //Turns the state of the league to playoffs
+            this.State = LeagueState.Playoffs;
+            //Confirms the two conferences are sorted so the playoff teams are correct
+            SortTeamList(FirstConference);
+            SortTeamList(SecondConference);
+            this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this._year, FirstConference, SecondConference));
+            
         }
         /// <summary>
         /// Sets the number of playoff teams and rounds by how many teams are in the league
@@ -454,20 +459,29 @@ namespace Elite_Hockey_Manager.Classes
         /// Number of teams greater than 23 will have 4 rounds with 16 playoff teams
         /// </summary>
         /// <param name="numberOfTeams">Number of teams in the league, will be called each time the number of times league property is set</param>
-        private void SetPlayoffTeamsCount(int numberOfTeams)
+        private void SetPlayoffRounds(int numberOfTeams)
         {
             if (numberOfTeams > 23)
             {
-                NumberOfPlayoffTeams = 16;
+                PlayoffRounds = PlayoffRounds.Four;
             }
             else if (numberOfTeams > 11)
             {
-                NumberOfPlayoffTeams = 8;
+                PlayoffRounds = PlayoffRounds.Three;
             }
             else
             {
-                NumberOfPlayoffTeams = 4;
+                PlayoffRounds = PlayoffRounds.Two;
             }
+        }
+        /// <summary>
+        /// Sorts a list of teams by their record
+        /// </summary>
+        /// <param name="teamList">List of team objects</param>
+        public static void SortTeamList(List<Team> teamList)
+        {
+            teamList.Sort();
+            teamList.Reverse();
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -482,6 +496,8 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("SecondConferenceName", this.SecondConferenceName);
 
             info.AddValue("Random", this.rand);
+
+            info.AddValue("State", this.State);
         }
         protected League(SerializationInfo info, StreamingContext context)
         {
@@ -495,14 +511,9 @@ namespace Elite_Hockey_Manager.Classes
             this.SecondConference = (List<Team>)info.GetValue("SecondConference", typeof(List<Team>));
             this.SecondConferenceName = (string)info.GetValue("SecondConferenceName", typeof(string));
 
-            try
-            {
-                this.rand = (Random)info.GetValue("Random", typeof(Random));
-            }
-            catch
-            {
-                this.rand = new Random();
-            }
+            this.rand = (Random)info.GetValue("Random", typeof(Random));
+
+            this.State = (LeagueState)info.GetValue("State", typeof(LeagueState));
         }
     }
 }

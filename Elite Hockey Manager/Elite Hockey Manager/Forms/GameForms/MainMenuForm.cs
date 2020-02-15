@@ -25,11 +25,12 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         private int gamesToSim;
         public MainMenuForm(League league)
         {
+            InitializeComponent();
             _league = league;
             this.Text = String.Format("{0} - Home", _league.LeagueName);
-            InitializeComponent();
             //Adds the doWork function in league the background worker in the MainMenuForm for multithreading 
             simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
+            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += _league.AdvanceToPlayoffs;
         }
 
         private void MainMenuForm_Load(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
             //Sets the statsControls list of player that will be sorted by their statistics, displays league leaders for each category
             leagueLeadersStatsControl.InsertPlayerList(_league.AllPlayers.ToArray());
-            simLeagueControl.LeagueSimmedEvent += SimLeague;
+            simLeagueRegularSeasonControl.LeagueSimmedEvent += SimLeague;
 
         }
         private void SimLeague(int days)
@@ -105,6 +106,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             leagueGamesDisplay.SetDay(League.DayIndex + 1);
             //Updates the league leaders stats box when the league has been simmed, new stats to be re-sorted
             leagueLeadersStatsControl.InsertPlayerList(_league.AllPlayers.ToArray());
+
+            if (_league.LeagueSchedule.IsFinishedSimming())
+            {
+                simLeagueRegularSeasonControl.EnableAdvanceStateButton();
+            }
         }
     }
 }

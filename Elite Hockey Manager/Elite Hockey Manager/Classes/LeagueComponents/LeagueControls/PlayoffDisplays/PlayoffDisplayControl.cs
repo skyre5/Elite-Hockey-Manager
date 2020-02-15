@@ -16,6 +16,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         Three = 3,
         Four = 4
     }
+    static class PlayoffRoundsMethods
+    {
+        public static int GetTotalPlayoffTeams(this PlayoffRounds rounds)
+        {
+            switch (rounds)
+            {
+                case PlayoffRounds.Four:
+                    return 16;
+                case PlayoffRounds.Three:
+                    return 8;
+                case PlayoffRounds.Two:
+                    return 4;
+                default:
+                    throw new ArgumentException("PlayoffRounds is set to an unknown value");
+            }
+        }
+    }
     public partial class PlayoffDisplayControl : UserControl
     {
         public PlayoffRounds SelectedRounds

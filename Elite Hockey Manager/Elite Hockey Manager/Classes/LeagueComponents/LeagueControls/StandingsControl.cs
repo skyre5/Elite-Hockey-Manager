@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -42,14 +43,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             secondConferenceLabel.Text = ActiveLeague.SecondConferenceName;
 
             //Sorts both leagues by there record before behing placed on standings
-            ActiveLeague.FirstConference.Sort();
-            ActiveLeague.FirstConference.Reverse();
+            League.SortTeamList(ActiveLeague.FirstConference);
+            League.SortTeamList(ActiveLeague.SecondConference);
 
-            ActiveLeague.SecondConference.Sort();
-            ActiveLeague.SecondConference.Reverse();
 
             //Number of playoff teams in each of the 2 conferences
-            int playoffPositionCount = ActiveLeague.NumberOfPlayoffTeams / 2;
+            int playoffPositionCount = ActiveLeague.PlayoffRounds.GetTotalPlayoffTeams() / 2;
 
             for (int i = 0; i < ActiveLeague.FirstConference.Count; i++)
             {
@@ -130,7 +129,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 
                         //If the team being swapped down is in the last playoff spot for the conference
                         //Swap the index team to a playoff team and remove playoffs from the swapped team
-                        if (i - 1 == (ActiveLeague.NumberOfPlayoffTeams / 2) - 1)
+                        if (i - 1 == (ActiveLeague.PlayoffRounds.GetTotalPlayoffTeams() / 2) - 1)
                         {
                             //The new position that the index control is in
                             ((TeamLogoStandingViewControl)panel.Controls[i - 1]).UpdatePlayoffPosition(true);

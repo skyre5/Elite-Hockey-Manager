@@ -116,6 +116,43 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             return totalGames;
         }
+        /// <summary>
+        /// Function to determine if there are any games left to sim 
+        /// </summary>
+        /// <returns>Return boolean of if the schedule is done being simmed
+        /// True - League is done simming all games in this class
+        /// False - League still needs to sim games
+        /// </returns>
+        public bool IsFinishedSimming()
+        {
+            for (int i = 0; i < _seasonSchedule.Count; i++)
+            {
+                foreach (Game game in _seasonSchedule[i])
+                {
+                    if (!game.Finished)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// Function to force the etnire schedule to be simmed, used in case of error simming schedule
+        /// </summary>
+        public void ForceFinishSimming()
+        {
+            for (int i = 0; i < _seasonSchedule.Count; i++)
+            {
+                foreach (Game game in _seasonSchedule[i])
+                {
+                    if (!game.Finished)
+                    {
+                        game.PlayGame();
+                    }
+                }
+            }
+        }
         private void GenerateRegularSeason()
         {
             int gamesScheduled = 0;

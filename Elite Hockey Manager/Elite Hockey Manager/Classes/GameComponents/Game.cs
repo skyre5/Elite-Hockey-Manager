@@ -47,6 +47,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
     {
         public const bool HOMESCORINGCHANCE = true;
         public const bool AWAYSCORINGCHANCE = false;
+        //Event for when game is finished
+        public event EventHandler GameFinished;
         //Boolean to keep track of whether the starting goalies have been chosen
         //Starting goalies are chosen at the time of running the game, not when the constructor is ran and the object is created
         private bool startingGoaliesChosen = false;
@@ -71,6 +73,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         
         private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
+
         public Team HomeTeam
         {
             get;
@@ -767,6 +770,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         /// </summary>
         private void InputStats()
         {
+            //If any events are tied to game finishing, passes the current game object to that event 
+            if (GameFinished != null)
+            {
+                GameFinished(this, null);
+            }
             InputGamesPlayedStats();
             //Inputs all the stats from the game into the season wide TeamStats within Team class
             HomeTeam.CurrentSeasonStats.InsertGameStats(this, Side.Home);

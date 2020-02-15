@@ -26,7 +26,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         /// </summary>
         public void EnableAdvanceStateButton()
         {
-            advanceStateButton.Enabled = false;
+            advanceStateButton.Enabled = true;
             advanceStateButton.Visible = true;
         }
         protected abstract void SetControlsText();

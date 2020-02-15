@@ -12,7 +12,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 {
     public partial class SimLeagueRegularSeasonControl : SimLeagueControl
     {
-        public event Action AdvanceLeagueStateEvent;
+        public EventHandler AdvanceLeagueStateToPlayoffs;
         public SimLeagueRegularSeasonControl()
         {
             InitializeComponent();
@@ -76,7 +76,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         }
         public override void advanceStateButton_Click(object sender, EventArgs e)
         {
-            AdvanceLeagueStateEvent();
+            AdvanceLeagueStateToPlayoffs(this, null);
         }
     }
 }
