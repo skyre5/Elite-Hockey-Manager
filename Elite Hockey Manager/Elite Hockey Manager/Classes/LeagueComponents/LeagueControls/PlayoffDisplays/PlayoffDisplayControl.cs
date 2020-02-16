@@ -96,11 +96,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             //Else if the playoffs are still in the conference stage
             else
             {
-                int indexOffset = 4 - (int)playoff.PlayoffRounds;
                 //Round is base zero in this context coming from the for loop in addPlayoffs function
                 PlayoffSeries[] currentRoundSeries = playoff.playoffSeriesArray[currentRound];
-                DefineSeriesInPanel(panels[indexOffset + currentRound], currentRoundSeries.Take(currentRoundSeries.Length / 2).ToArray());
-                DefineSeriesInPanel(panels[6 - indexOffset - currentRound], currentRoundSeries.Skip(currentRoundSeries.Length / 2).ToArray());
+                DefineSeriesInPanel(panels[currentRound], currentRoundSeries.Take(currentRoundSeries.Length / 2).ToArray());
+                DefineSeriesInPanel(panels[panels.Length - 1 - currentRound], currentRoundSeries.Skip(currentRoundSeries.Length / 2).ToArray());
             }
         }
         private void DefineSeriesInPanel(Panel panel, PlayoffSeries[] seriesArray)
