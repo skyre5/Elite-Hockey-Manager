@@ -31,6 +31,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             //Adds the doWork function in league the background worker in the MainMenuForm for multithreading 
             simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += _league.AdvanceToPlayoffs;
+            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += ChangeLayoutToPlayoffs;
         }
 
         private void MainMenuForm_Load(object sender, EventArgs e)
@@ -111,6 +112,19 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             {
                 simLeagueRegularSeasonControl.EnableAdvanceStateButton();
             }
+        }
+        private void ChangeLayoutToPlayoffs(object obj, EventArgs e)
+        {
+            standingsControl.Visible = false;
+            standingsControl.Enabled = false;
+
+            leagueLeadersStatsControl.Visible = false;
+            leagueLeadersStatsControl.Enabled = false;
+
+            playoffDisplayControl.Visible = true;
+            playoffDisplayControl.Enabled = true;
+            playoffDisplayControl.League = this.League;
+            playoffDisplayControl.AddPlayoffs();
         }
     }
 }

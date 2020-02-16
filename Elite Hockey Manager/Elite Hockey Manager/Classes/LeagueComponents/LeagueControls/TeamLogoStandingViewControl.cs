@@ -26,9 +26,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
         private Team _team = null;
+        private Point teamLabelStartingPoint;
         public TeamLogoStandingViewControl(Team team)
         {
             InitializeComponent();
+            
             if (team == null)
             {
                 throw new ArgumentNullException("Team entered was null in TeamLogoStandingViewControl");
@@ -41,6 +43,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public TeamLogoStandingViewControl()
         {
             InitializeComponent();
+            teamLabelStartingPoint = teamLabel.Location;
         }
         public void RedrawRecord()
         {
@@ -75,6 +78,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             if (Team?.Logo != null)
             {
                 logoPictureBox.Image = Team.Logo;
+                //If the text box was previously moved left and a image is added, move the label back
+                if (teamLabel.Location == logoPictureBox.Location)
+                {
+                    teamLabel.Location = teamLabelStartingPoint;
+                }
+            }
+            else
+            {
+                //If logo is not available, move text box to the left in place of the image
+                logoPictureBox.Visible = false;
+                teamLabel.Location = logoPictureBox.Location;
             }
             teamLabel.Text = Team?.TeamNameWithRecord;
         }

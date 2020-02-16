@@ -16,8 +16,20 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         public int Seed
         {
             get;
-            private set;
+            set;
         }
+        public int Wins
+        {
+            get
+            {
+                return _wins;
+            }
+            set
+            {
+                _wins = value;
+            }
+        }
+        private int _wins = 0;
         public TeamLogoPlayoffViewControl() : base()
         {
             InitializeComponent();
@@ -31,11 +43,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
 
         public void UpdateText()
         {
-            teamLabel.Text = String.Format("({0}) - {1}", Seed, this.Team.TeamName);
+            teamLabel.Text = String.Format("({0}) {1}: {2}", Seed, _wins,  this.Team.TeamName);
         }
         public void DenoteHigherSeedInTie()
         {
-            teamLabel.Text = String.Format("({0}*) - {1}", Seed, this.Team.TeamName);
+            teamLabel.Text = String.Format("({0}*) - {1}", Seed, _wins, this.Team.TeamName);
         }
     }
 }

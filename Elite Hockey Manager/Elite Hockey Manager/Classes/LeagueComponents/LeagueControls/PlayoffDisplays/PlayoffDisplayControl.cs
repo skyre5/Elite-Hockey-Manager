@@ -59,6 +59,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             set
             {
                 _league = value;
+                if (_league != null)
+                {
+                    SelectedRounds = _league.PlayoffRounds;
+                }
             }
         }
         private League _league;
@@ -67,6 +71,49 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         public PlayoffDisplayControl()
         {
             InitializeComponent();
+        }
+        public void AddPlayoffs()
+        {
+            Playoff playoff = _league.currentPlayoff;
+            if (playoff == null || playoff.PlayoffYear != _league.Year)
+            {
+                throw new ArgumentException("Playoff being set on is invalid or null");
+            }
+            for (int i = 0; i < playoff.CurrentRound; i++)
+            {
+                AddPlayoffRoundToDisplay(playoff, i);
+            }
+        }
+        private void AddPlayoffRoundToDisplay(Playoff playoff, int currentRound)
+        {
+            //If the current round is the finals
+            if (currentRound == (int)playoff.PlayoffRounds)
+            {
+                PlayoffMatchupViewControl[] matchupViewControls = panels[3].Controls.OfType<PlayoffMatchupViewControl>().ToArray();
+                PlayoffSeries finalSeries = playoff.playoffSeriesArray[playoff.playoffSeriesArray.Count() - 1][0];
+                matchupViewControls[0].SetSeries(finalSeries);
+            }
+            //Else if the playoffs are still in the conference stage
+            else
+            {
+                int indexOffset = 4 - (int)playoff.PlayoffRounds;
+                //Round is base zero in this context coming from the for loop in addPlayoffs function
+                PlayoffSeries[] currentRoundSeries = playoff.playoffSeriesArray[currentRound];
+                DefineSeriesInPanel(panels[indexOffset + currentRound], currentRoundSeries.Take(currentRoundSeries.Length / 2).ToArray());
+                DefineSeriesInPanel(panels[6 - indexOffset - currentRound], currentRoundSeries.Skip(currentRoundSeries.Length / 2).ToArray());
+            }
+        }
+        private void DefineSeriesInPanel(Panel panel, PlayoffSeries[] seriesArray)
+        {
+            PlayoffMatchupViewControl[] matchupViewControls = panel.Controls.OfType<PlayoffMatchupViewControl>().ToArray();
+            if (matchupViewControls.Length != seriesArray.Length)
+            {
+                throw new ArgumentOutOfRangeException("PlayoffMatchupViewControls and series in seriesArray have to be identical in size");
+            }
+            for (int i = 0; i < matchupViewControls.Length; i++)
+            {
+                matchupViewControls[i].SetSeries(seriesArray[i]);
+            }
         }
         /// <summary>
         /// Adds Panels to control to corespond with the amount of playoff rounds in the league

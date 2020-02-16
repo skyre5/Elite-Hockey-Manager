@@ -14,13 +14,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     [Serializable]
     public class Playoff : ISerializable
     {
+        public int CurrentRound
+        {
+            get
+            {
+                return _currentRound;
+            }
+        }
         public readonly PlayoffRounds PlayoffRounds;
         public readonly int PlayoffYear;
+        public PlayoffSeries[][] playoffSeriesArray;
         //Holds the initial playoff participants 
         private List<Team> firstConference, secondConference;
         //Tracks the remaining teams left in the playoffs
         private List<Team> firstConferenceRemainingTeams, secondConferenceRemainingTeams;
-        private PlayoffSeries[][] playoffSeriesArray;
+
         private int _currentRound = 1;
         Random rand = new Random();
         public Playoff(PlayoffRounds rounds, int year, List<Team> first, List<Team> second)
@@ -32,6 +40,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             firstConferenceRemainingTeams = new List<Team>(firstConference);
             secondConferenceRemainingTeams = new List<Team>(secondConference);
             DefinePlayoffSeriesArray();
+            CreatePlayoffMatchups();
 
         }
         private void DefinePlayoffSeriesArray()
@@ -203,6 +212,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             seriesGames[4] = new Game(HighSeedTeam, LowSeedTeam, rand, 5);
             seriesGames[5] = new Game(LowSeedTeam, HighSeedTeam, rand, 6);
             seriesGames[6] = new Game(HighSeedTeam, LowSeedTeam, rand, 7);
+            SetGameFinishedEvents();
+        }
+        private void SetGameFinishedEvents()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                seriesGames[0].GameFinished += InputGameResults;
+            }
         }
         /// <summary>
         /// Clears the remaining game in the series so the containing class knows there are no games to be played
@@ -216,8 +233,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 seriesGames[i] = null;
             }
         }
-        private void InputGameStats(Game game, EventArgs e)
+        private void InputGameResults(object obj, EventArgs e)
         {
+            Game game = (Game)obj;
             Team winningTeam;
             switch (game.Winner)
             {
