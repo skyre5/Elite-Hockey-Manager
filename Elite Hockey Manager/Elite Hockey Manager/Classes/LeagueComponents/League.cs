@@ -444,12 +444,19 @@ namespace Elite_Hockey_Manager.Classes
                 //Forces the remaining games in the schedule to be simmed
                 LeagueSchedule.ForceFinishSimming();
             }
-            //Turns the state of the league to playoffs
-            this.State = LeagueState.Playoffs;
-            //Confirms the two conferences are sorted so the playoff teams are correct
-            SortTeamList(FirstConference);
-            SortTeamList(SecondConference);
-            this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this._year, FirstConference, SecondConference));
+            if (this.State == LeagueState.Playoffs)
+            {
+                Console.Error.WriteLine("League already in playoff state when League.AdvanceToPlayoffs called");
+            }
+            else
+            {
+                //Turns the state of the league to playoffs
+                this.State = LeagueState.Playoffs;
+                //Confirms the two conferences are sorted so the playoff teams are correct
+                SortTeamList(FirstConference);
+                SortTeamList(SecondConference);
+                this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this._year, FirstConference, SecondConference));
+            }
             
         }
         /// <summary>

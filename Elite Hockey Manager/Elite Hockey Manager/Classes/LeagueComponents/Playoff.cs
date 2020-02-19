@@ -21,6 +21,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _currentRound;
             }
         }
+        public int CurrentDay
+        {
+            get
+            {
+                return _currentDay;
+            }
+        }
         public readonly PlayoffRounds PlayoffRounds;
         public readonly int PlayoffYear;
         public PlayoffSeries[][] playoffSeriesArray;
@@ -30,6 +37,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private List<Team> firstConferenceRemainingTeams, secondConferenceRemainingTeams;
 
         private int _currentRound = 1;
+        private int _currentDay = 1;
         Random rand = new Random();
         public Playoff(PlayoffRounds rounds, int year, List<Team> first, List<Team> second)
         {
@@ -42,6 +50,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             DefinePlayoffSeriesArray();
             CreatePlayoffMatchups();
 
+        }
+        /// <summary>
+        /// Gets the games from the current playoff round and day in the series
+        /// </summary>
+        /// <returns>Returns a list of all the games that are taking place at the current round and day</returns>
+        public List<Game> GetCurrentPlayoffGames()
+        {
+            List<Game> daySchedule = new List<Game>();
+            foreach (PlayoffSeries series in playoffSeriesArray[CurrentRound - 1])
+            {
+                if (series.GetGameByIndex(_currentDay - 1) != null)
+                {
+                    daySchedule.Add(series.GetGameByIndex(_currentDay));
+                }
+            }
+            return daySchedule;
         }
         private void DefinePlayoffSeriesArray()
         {
@@ -196,6 +220,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             rand = leagueRand;
             //Creates the series matches
             CreateGamesSchedule();
+        }
+        /// <summary>
+        /// Gets the game of the series based on the zero based day index
+        /// </summary>
+        /// <param name="dayIndex">Zero based game index</param>
+        /// <returns></returns>
+        public Game GetGameByIndex(int dayIndex)
+        {
+            return seriesGames[dayIndex];
         }
         /// <summary>
         /// Creates the 7 game series with the correct home ice being given to each side

@@ -19,7 +19,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         }
         protected void RaiseLeagueSimmedEvent(int arg)
         {
-            LeagueSimmedEvent(arg);
+            //If LeagueSimmedEvent is not null, invoke event 
+            LeagueSimmedEvent?.Invoke(arg);
         }
         /// <summary>
         /// Enables and displays button to advance to the next league state

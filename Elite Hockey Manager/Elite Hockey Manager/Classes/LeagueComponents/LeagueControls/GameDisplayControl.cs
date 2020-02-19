@@ -14,7 +14,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
     public partial class GameDisplayControl : UserControl
     {
-        private Game _game;
+
         public Game Game
         {
             get
@@ -27,6 +27,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
                 SetGameText();
             }
         }
+
+        private Game _game;
+        //If the player simmed a game, update the standingscontrol/playoffs control. Wont go of if simmed in batch
+        public EventHandler PlayerSimmedGameEvent;
         public GameDisplayControl(Game game)
         {
             InitializeComponent();
@@ -66,6 +70,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             if (_game.Finished)
             {
                 SetGameText();
+                //Sends event to update view of team in season or playoffs
+                PlayerSimmedGameEvent?.Invoke(Game, null);
             }
         }
 
@@ -74,6 +80,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             _game.PlayGame();
             SetGameText();
             DisableButtons();
+            //Sends event to update view of team in season or playoffs
+            PlayerSimmedGameEvent?.Invoke(Game, null);
         }
     }
 }

@@ -36,6 +36,7 @@
             this.simLeagueRegularSeasonControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
+            this.simLeaguePlayoffControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl();
             this.SuspendLayout();
             // 
             // simLeagueBackgroundWorker
@@ -109,11 +110,21 @@
             this.standingsControl.Size = new System.Drawing.Size(458, 341);
             this.standingsControl.TabIndex = 0;
             // 
+            // simLeaguePlayoffControl
+            // 
+            this.simLeaguePlayoffControl.Enabled = false;
+            this.simLeaguePlayoffControl.Location = new System.Drawing.Point(476, 319);
+            this.simLeaguePlayoffControl.Name = "simLeaguePlayoffControl";
+            this.simLeaguePlayoffControl.Size = new System.Drawing.Size(360, 58);
+            this.simLeaguePlayoffControl.TabIndex = 7;
+            this.simLeaguePlayoffControl.Visible = false;
+            // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 586);
+            this.Controls.Add(this.simLeaguePlayoffControl);
             this.Controls.Add(this.playoffDisplayControl);
             this.Controls.Add(this.simProgressLabel);
             this.Controls.Add(this.simProgressBar);
@@ -138,5 +149,6 @@
         private System.Windows.Forms.ProgressBar simProgressBar;
         private System.Windows.Forms.Label simProgressLabel;
         private Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl playoffDisplayControl;
+        private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl simLeaguePlayoffControl;
     }
 }

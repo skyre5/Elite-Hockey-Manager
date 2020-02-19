@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Classes.GameComponents;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 
 namespace Elite_Hockey_Manager.Forms.GameForms
 {
@@ -125,6 +126,18 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             playoffDisplayControl.Enabled = true;
             playoffDisplayControl.League = this.League;
             playoffDisplayControl.AddPlayoffs();
+
+            simLeagueRegularSeasonControl.Visible = false;
+            simLeagueRegularSeasonControl.Enabled = false;
+
+            simLeaguePlayoffControl.Visible = true;
+            simLeaguePlayoffControl.Enabled = true;
+
+            Playoff playoff = _league.currentPlayoff;
+            leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
+            leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
+            leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
+
         }
     }
 }

@@ -43,11 +43,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
 
         public void UpdateText()
         {
-            teamLabel.Text = String.Format("({0}) {1}: {2}", Seed, _wins,  this.Team.TeamName);
+            if (_wins == 4)
+            {
+                DisplayWinnerInSeries();
+            }
+            teamLabel.Text = String.Format("({0}) {1}: {2}", Seed, _wins, this.Team.TeamName);
         }
-        public void DenoteHigherSeedInTie()
+        //public void DenoteHigherSeedInTie()
+        //{
+        //    if (_wins == 4)
+        //    {
+        //        DisplayWinnerInSeries();
+        //    }
+        //    teamLabel.Text = String.Format("({0}*) - {1}", Seed, _wins, this.Team.TeamName);
+        //}
+        /// <summary>
+        /// Turns the font bold if the team won the series by getting 4 wins
+        /// </summary>
+        public void DisplayWinnerInSeries()
         {
-            teamLabel.Text = String.Format("({0}*) - {1}", Seed, _wins, this.Team.TeamName);
+            teamLabel.Font = new Font(teamLabel.Font, FontStyle.Bold);
         }
     }
 }
