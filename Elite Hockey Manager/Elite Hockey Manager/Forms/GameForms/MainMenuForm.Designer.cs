@@ -31,12 +31,13 @@
             this.simLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.simProgressBar = new System.Windows.Forms.ProgressBar();
             this.simProgressLabel = new System.Windows.Forms.Label();
+            this.simLeaguePlayoffControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl();
             this.playoffDisplayControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl();
             this.leagueLeadersStatsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls.StatsControl();
             this.simLeagueRegularSeasonControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueRegularSeasonControl();
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
-            this.simLeaguePlayoffControl = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl();
+            this.simPlayoffBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // simLeagueBackgroundWorker
@@ -61,6 +62,15 @@
             this.simProgressLabel.Size = new System.Drawing.Size(24, 13);
             this.simProgressLabel.TabIndex = 5;
             this.simProgressLabel.Text = "0/0";
+            // 
+            // simLeaguePlayoffControl
+            // 
+            this.simLeaguePlayoffControl.Enabled = false;
+            this.simLeaguePlayoffControl.Location = new System.Drawing.Point(476, 319);
+            this.simLeaguePlayoffControl.Name = "simLeaguePlayoffControl";
+            this.simLeaguePlayoffControl.Size = new System.Drawing.Size(360, 58);
+            this.simLeaguePlayoffControl.TabIndex = 7;
+            this.simLeaguePlayoffControl.Visible = false;
             // 
             // playoffDisplayControl
             // 
@@ -110,14 +120,12 @@
             this.standingsControl.Size = new System.Drawing.Size(458, 341);
             this.standingsControl.TabIndex = 0;
             // 
-            // simLeaguePlayoffControl
+            // simPlayoffBackgroundWorker
             // 
-            this.simLeaguePlayoffControl.Enabled = false;
-            this.simLeaguePlayoffControl.Location = new System.Drawing.Point(476, 319);
-            this.simLeaguePlayoffControl.Name = "simLeaguePlayoffControl";
-            this.simLeaguePlayoffControl.Size = new System.Drawing.Size(360, 58);
-            this.simLeaguePlayoffControl.TabIndex = 7;
-            this.simLeaguePlayoffControl.Visible = false;
+            this.simPlayoffBackgroundWorker.WorkerReportsProgress = true;
+            this.simPlayoffBackgroundWorker.WorkerSupportsCancellation = true;
+            this.simPlayoffBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.simPlayoffBackgroundWorker_ProgressChanged);
+            this.simPlayoffBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.simPlayoffBackgroundWorker_RunWorkerCompleted);
             // 
             // MainMenuForm
             // 
@@ -150,5 +158,6 @@
         private System.Windows.Forms.Label simProgressLabel;
         private Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffDisplayControl playoffDisplayControl;
         private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl simLeaguePlayoffControl;
+        private System.ComponentModel.BackgroundWorker simPlayoffBackgroundWorker;
     }
 }

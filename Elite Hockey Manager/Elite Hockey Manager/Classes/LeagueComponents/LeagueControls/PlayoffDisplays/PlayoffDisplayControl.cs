@@ -81,8 +81,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             matchupControls.AddRange(panels[panels.Count() - 1 - (currentRound - 1)].Controls.OfType<PlayoffMatchupViewControl>().Where(x => !x.Series.SeriesFinished));
             return matchupControls;
         }
-        public void AddPlayoffs()
+        public void UpdatePlayoffs()
         {
+            UpdateDisplay();
             Playoff playoff = _league.currentPlayoff;
             if (playoff == null || playoff.PlayoffYear != _league.Year)
             {
@@ -93,10 +94,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 AddPlayoffRoundToDisplay(playoff, i);
             }
         }
+
         private void AddPlayoffRoundToDisplay(Playoff playoff, int currentRound)
         {
             //If the current round is the finals
-            if (currentRound == (int)playoff.PlayoffRounds)
+            if (currentRound + 1 == (int)playoff.PlayoffRounds)
             {
                 PlayoffMatchupViewControl[] matchupViewControls = panels[(int)_selectedRounds - 1].Controls.OfType<PlayoffMatchupViewControl>().ToArray();
                 PlayoffSeries finalSeries = playoff.playoffSeriesArray[playoff.playoffSeriesArray.Count() - 1][0];

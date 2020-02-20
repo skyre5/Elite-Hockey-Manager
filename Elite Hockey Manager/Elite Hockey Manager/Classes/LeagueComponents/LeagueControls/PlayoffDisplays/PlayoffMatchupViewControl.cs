@@ -29,7 +29,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         public void UpdateDisplayByManualUserSim(object obj, EventArgs e)
         {
             Game game = (Game)obj;
-            if (game.Winner == Side.Home)
+            Team winningTeam = game.Winner == Side.Home ? game.HomeTeam : game.AwayTeam;
+            if (winningTeam == highSeedTeamPlayoffControl.Team)
             {
                 highSeedTeamPlayoffControl.Wins++;
                 highSeedTeamPlayoffControl.UpdateText();

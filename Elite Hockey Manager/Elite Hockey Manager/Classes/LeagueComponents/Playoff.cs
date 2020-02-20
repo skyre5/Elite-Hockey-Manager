@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
-
+using System.ComponentModel;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -27,6 +27,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 return _currentDay;
             }
+        }
+        public bool FinishedSimming
+        {
+            get;
+            private set;
+        } = false;
+        public Team Champion
+        {
+            get;
+            private set;
         }
         public readonly PlayoffRounds PlayoffRounds;
         public readonly int PlayoffYear;
@@ -62,10 +72,111 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 if (series.GetGameByIndex(_currentDay - 1) != null)
                 {
-                    daySchedule.Add(series.GetGameByIndex(_currentDay));
+                    daySchedule.Add(series.GetGameByIndex(_currentDay - 1));
                 }
             }
             return daySchedule;
+        }
+        public void SimPlayoffsDoWork(object sender, DoWorkEventArgs e)
+        {
+            //If the playoffs is already done being simmed then 
+            if (FinishedSimming)
+            {
+                return;
+            }
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            int gamesSimmedCount = 0;
+            int argumentValue = (int)e.Argument;
+            if (argumentValue == -1)
+            {
+                while (!FinishedSimming)
+                {
+                    gamesSimmedCount += SimDayOfPlayoffs();
+                    worker.ReportProgress(gamesSimmedCount);
+                }
+            }
+            //Else the argument value is the amount of games to be simmed, or to the end of the current round
+            else
+            {
+                int startingRound = _currentRound;
+                for (int i = 0; i < argumentValue; i++)
+                {
+                    //If advanced to the next round or the playoffs is finished simming, break out of for loop
+                    if (_currentRound != startingRound || FinishedSimming)
+                    {
+                        break;
+                    }
+                    gamesSimmedCount += SimDayOfPlayoffs();
+                    worker.ReportProgress(gamesSimmedCount);
+                }
+            }
+        }
+        private int SimDayOfPlayoffs()
+        {
+            bool isGamesOnCurrentDay = false;
+            int currentDayIndex = _currentDay - 1;
+            int gamesSimmedCount = 0;
+            foreach (PlayoffSeries series in playoffSeriesArray[_currentRound - 1])
+            {
+                Game game = series.GetGameByIndex(currentDayIndex);
+                if (game != null)
+                {
+                    isGamesOnCurrentDay = true;
+                    if (!game.Finished)
+                    {
+                        game.PlayGame();
+                        gamesSimmedCount++;
+                    }
+                }
+            }
+            //If all the series are done in less than 7 or the existing game 7s have been simmed
+            if (!isGamesOnCurrentDay || currentDayIndex == 6)
+            {
+                AdvanceToNextRound();
+            }
+            else
+            {
+                _currentDay++;
+            }
+            return gamesSimmedCount;
+        }
+        private void AdvanceToNextRound()
+        {
+            if (_currentRound == (int)PlayoffRounds)
+            {
+                //The final series of the playoffs will always be of size 1 in the array
+                PlayoffSeries finalSeries = playoffSeriesArray.Last()[0];
+                FinishedSimming = true;
+                Champion = finalSeries.Winner;
+            }
+            //If there are still more rounds to be played
+            else
+            {
+                RemoveLosingTeamsFromRemainingTeamsLists();
+                _currentRound++;
+                _currentDay = 1;
+                //Creates the next set of series given the updated CurrentRound and CurrentDay
+                CreatePlayoffMatchups();
+            }
+        }
+        private void RemoveLosingTeamsFromRemainingTeamsLists()
+        {
+            firstConferenceRemainingTeams.Clear();
+            secondConferenceRemainingTeams.Clear();
+            PlayoffSeries selectedSeries;
+            int seriesLength = playoffSeriesArray[_currentRound - 1].Length;
+            for (int i = 0; i < seriesLength; i++)
+            {
+                selectedSeries = playoffSeriesArray[_currentRound - 1][i];
+                if (i < (seriesLength / 2))
+                {
+                    firstConferenceRemainingTeams.Add(selectedSeries.Winner);
+                }
+                else
+                {
+                    secondConferenceRemainingTeams.Add(selectedSeries.Winner);
+                }
+            }
         }
         private void DefinePlayoffSeriesArray()
         {
@@ -251,7 +362,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         {
             for (int i = 0; i < 7; i++)
             {
-                seriesGames[0].GameFinished += InputGameResults;
+                seriesGames[i].GameFinished += InputGameResults;
             }
         }
         /// <summary>

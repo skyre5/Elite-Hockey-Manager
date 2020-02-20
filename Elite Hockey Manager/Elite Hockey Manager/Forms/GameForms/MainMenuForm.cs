@@ -73,10 +73,55 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 MessageBox.Show("League is currently simming, please wait");
             }
         }
-
+        private void SimPlayoffs(int days)
+        {
+            if (!simPlayoffBackgroundWorker.IsBusy)
+            {
+                simProgressLabel.Text = String.Format("{0} Games Simmed", 0);
+                simPlayoffBackgroundWorker.RunWorkerAsync(days);
+            }
+            else
+            {
+                MessageBox.Show("League is currently simming playoffs, please wait for sim to complete");
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine(League);
+        }
+
+        private void ChangeLayoutToPlayoffs(object obj, EventArgs e)
+        {
+            standingsControl.Visible = false;
+            standingsControl.Enabled = false;
+
+            leagueLeadersStatsControl.Visible = false;
+            leagueLeadersStatsControl.Enabled = false;
+
+            playoffDisplayControl.Visible = true;
+            playoffDisplayControl.Enabled = true;
+            playoffDisplayControl.League = this.League;
+            playoffDisplayControl.UpdatePlayoffs();
+
+            simLeagueRegularSeasonControl.Visible = false;
+            simLeagueRegularSeasonControl.Enabled = false;
+
+            simLeaguePlayoffControl.Visible = true;
+            simLeaguePlayoffControl.Enabled = true;
+
+            simProgressBar.Visible = false;
+            simProgressBar.Enabled = false;
+
+            Playoff playoff = _league.currentPlayoff;
+            leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
+            leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
+            leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
+            //Background worker for playoff will use Playoff.SimPlayoffsDoWork function
+            simPlayoffBackgroundWorker.DoWork += playoff.SimPlayoffsDoWork;
+
+            //Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
+            simLeaguePlayoffControl.LeagueSimmedEvent += SimPlayoffs;
+
         }
         /// <summary>
         /// Function for display progress changed of simBackgroundWorker
@@ -114,30 +159,25 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 simLeagueRegularSeasonControl.EnableAdvanceStateButton();
             }
         }
-        private void ChangeLayoutToPlayoffs(object obj, EventArgs e)
+        /// <summary>
+        /// Report progress function for simPlayoffBackgroundWorker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void simPlayoffBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            standingsControl.Visible = false;
-            standingsControl.Enabled = false;
+            simProgressLabel.Text = String.Format("{0} Games Simmed", e.ProgressPercentage);
+        }
 
-            leagueLeadersStatsControl.Visible = false;
-            leagueLeadersStatsControl.Enabled = false;
-
-            playoffDisplayControl.Visible = true;
-            playoffDisplayControl.Enabled = true;
-            playoffDisplayControl.League = this.League;
-            playoffDisplayControl.AddPlayoffs();
-
-            simLeagueRegularSeasonControl.Visible = false;
-            simLeagueRegularSeasonControl.Enabled = false;
-
-            simLeaguePlayoffControl.Visible = true;
-            simLeaguePlayoffControl.Enabled = true;
-
-            Playoff playoff = _league.currentPlayoff;
-            leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
-            leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
-            leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
-
+        private void simPlayoffBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            playoffDisplayControl.UpdatePlayoffs();
+            leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
+            leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
+            if (!League.currentPlayoff.FinishedSimming)
+            {
+                leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));
+            }
         }
     }
 }

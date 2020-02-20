@@ -64,7 +64,7 @@
             this.simSecondButton.TabIndex = 2;
             this.simSecondButton.Text = "2";
             this.simSecondButton.UseVisualStyleBackColor = true;
-            this.simSecondButton.Click += new System.EventHandler(this.Sim1Button_Click);
+            this.simSecondButton.Click += new System.EventHandler(this.Sim2Button_Click);
             // 
             // simThirdButton
             // 
@@ -74,7 +74,7 @@
             this.simThirdButton.TabIndex = 3;
             this.simThirdButton.Text = "3";
             this.simThirdButton.UseVisualStyleBackColor = true;
-            this.simThirdButton.Click += new System.EventHandler(this.Sim2Button_Click);
+            this.simThirdButton.Click += new System.EventHandler(this.Sim3Button_Click);
             // 
             // simFourthButton
             // 
@@ -84,7 +84,7 @@
             this.simFourthButton.TabIndex = 4;
             this.simFourthButton.Text = "4";
             this.simFourthButton.UseVisualStyleBackColor = true;
-            this.simFourthButton.Click += new System.EventHandler(this.Sim3Button_Click);
+            this.simFourthButton.Click += new System.EventHandler(this.Sim4Button_Click);
             // 
             // simFifthButton
             // 
