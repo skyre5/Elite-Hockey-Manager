@@ -95,8 +95,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             standingsControl.Visible = false;
             standingsControl.Enabled = false;
 
-            leagueLeadersStatsControl.Visible = false;
-            leagueLeadersStatsControl.Enabled = false;
+            //leagueLeadersStatsControl.Visible = false;
+            //leagueLeadersStatsControl.Enabled = false;
+            leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
 
             playoffDisplayControl.Visible = true;
             playoffDisplayControl.Enabled = true;
@@ -174,6 +175,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             playoffDisplayControl.UpdatePlayoffs();
             leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
             leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
+            leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
             if (!League.currentPlayoff.FinishedSimming)
             {
                 leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));

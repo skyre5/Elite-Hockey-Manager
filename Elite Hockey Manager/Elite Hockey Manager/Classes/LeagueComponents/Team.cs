@@ -207,6 +207,21 @@ namespace Elite_Hockey_Manager.Classes
                 return seasonTeamStats.Last();
             }
         }
+        public TeamStats CurrentRegularSeasonStats
+        {
+            get
+            {
+                if (seasonTeamStats.Last().Playoff)
+                {
+                    //Gets the second to last teamStats of the list
+                    return seasonTeamStats[seasonTeamStats.Count - 2]; 
+                }
+                else
+                {
+                    return seasonTeamStats.Last();
+                }
+            }
+        }
         /// <summary>
         /// Gets an array of size 3 for a specific forward line
         /// </summary>
@@ -489,8 +504,9 @@ namespace Elite_Hockey_Manager.Classes
         /// <returns></returns>
         public int CompareTo(Team other)
         {
-            TeamStats t1 = this.CurrentSeasonStats;
-            TeamStats t2 = other.CurrentSeasonStats;
+            //Any context of sorting teams will be done by regular season stats, if the context that this is used is in the playoffs will ensure regular seasons stats are used
+            TeamStats t1 = this.CurrentRegularSeasonStats;
+            TeamStats t2 = other.CurrentRegularSeasonStats;
             if (t1.Points == t2.Points)
             {
                 if (t1.GoalsFor == t2.GoalsFor)

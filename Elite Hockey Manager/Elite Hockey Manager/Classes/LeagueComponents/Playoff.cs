@@ -115,6 +115,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+        public List<Player> GetAllPlayoffPlayers()
+        {
+            List<Player> playoffPlayers = new List<Player>();
+            for (int i = 0; i < firstConference.Count; i++)
+            {
+                playoffPlayers.AddRange(firstConference[i].Roster);
+                playoffPlayers.AddRange(secondConference[i].Roster);
+            }
+            return playoffPlayers;
+        }
         private int SimDayOfPlayoffs()
         {
             bool isGamesOnCurrentDay = false;
