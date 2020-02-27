@@ -8,20 +8,20 @@ namespace Elite_Hockey_Manager.Classes
 {
     public class SkaterStats : PlayerStats
     {
-        int _gamesPlayed = 0;
+        //int _gamesPlayed = 0;
 
-        int _plusMinus = 0;
-        int _penaltyMinutes = 0;
+        //int _plusMinus = 0;
+        //int _penaltyMinutes = 0;
 
-        int _powerplayGoals = 0;
-        int _powerplayAssists = 0;
+        //int _powerplayGoals = 0;
+        //int _powerplayAssists = 0;
 
-        int _shorthandedGoals = 0;
-        int _shortHandedAssists = 0;
+        //int _shorthandedGoals = 0;
+        //int _shortHandedAssists = 0;
 
-        int _faceoffWins = 0;
-        int _faceoffLosses = 0;
-        public SkaterStats(int year, int teamID) : base(year, teamID)
+        //int _faceoffWins = 0;
+        //int _faceoffLosses = 0;
+        public SkaterStats(int year, int teamID, bool playoff = false) : base(year, teamID, playoff)
         {
         }
         //15 seconds per time on ice

@@ -57,7 +57,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             secondConference = second.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
             firstConferenceRemainingTeams = new List<Team>(firstConference);
             secondConferenceRemainingTeams = new List<Team>(secondConference);
+            //Adds new TeamStats to each playoff team
+            AddPlayoffStats();
+            //Builds the playoffSeriesArray jagged array sizes
             DefinePlayoffSeriesArray();
+            //Creates playoff matchups so highest ranked seeds go against lowest seeds and so on for both sides
             CreatePlayoffMatchups();
 
         }
@@ -178,6 +182,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+        /// <summary>
+        /// Defines the size of a jagged array for both x andividual y sizes
+        /// </summary>
         private void DefinePlayoffSeriesArray()
         {
             playoffSeriesArray = new PlayoffSeries[(int)PlayoffRounds][];
@@ -252,6 +259,19 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private int GetSeed(List<Team> initialPlayoffTeamList, Team selectedTeam)
         {
             return initialPlayoffTeamList.FindIndex(team => team == selectedTeam) + 1;
+        }
+        /// <summary>
+        /// Adds new playoff version of TeamStats object to seasonStats list in Team object
+        /// </summary>
+        private void AddPlayoffStats()
+        {
+            //Sizes of both lists will always be the same
+            for (int i = 0; i < firstConference.Count; i++)
+            {
+                //Adds a new TeamStats object to internal team list denoting this years playoffs
+                firstConference[i].AddPlayoffsStatsToTeamAndPlayers();
+                secondConference[i].AddPlayoffsStatsToTeamAndPlayers();
+            }
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

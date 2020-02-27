@@ -8,18 +8,6 @@ namespace Elite_Hockey_Manager.Classes
 {
     public abstract class PlayerStats
     {
-        protected int _year;
-        protected int _team;
-        public int GamesPlayed
-        {
-            get;
-            set;
-        } = 0;
-        public PlayerStats(int year, int teamID)
-        {
-            _year = year;
-            _team = teamID;
-        }
         public int Year
         {
             get
@@ -37,5 +25,26 @@ namespace Elite_Hockey_Manager.Classes
                 return _team;
             }
         }
+        public int GamesPlayed
+        {
+            get;
+            set;
+        } = 0;
+        public bool Playoff
+        {
+            get;
+            private set;
+        }
+        protected int _year;
+        protected int _team;
+
+        public PlayerStats(int year, int teamID, bool playoff = false)
+        {
+            _year = year;
+            _team = teamID;
+            Playoff = playoff;
+        }
+
+
     }
 }

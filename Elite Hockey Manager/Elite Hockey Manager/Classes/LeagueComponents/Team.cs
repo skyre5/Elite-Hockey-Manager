@@ -93,7 +93,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            seasonTeamStats.Add(new TeamStats());
+            seasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
         public Team(string location, string name, string imagePath)
@@ -104,7 +104,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            seasonTeamStats.Add(new TeamStats());
+            seasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
         public string LogoPath
@@ -433,6 +433,28 @@ namespace Elite_Hockey_Manager.Classes
             }
             _goalies[0] = (Goalie)goalies[0];
             _goalies[1] = (Goalie)goalies[1];
+        }
+        /// <summary>
+        /// Adds new teamstats object to this Team class for the playoffs for the current year
+        /// Adds new playerstats object to each playoff player for the current year
+        /// </summary>
+        public void AddPlayoffsStatsToTeamAndPlayers()
+        {
+            //
+            seasonTeamStats.Add(new TeamStats(Year, true));
+            foreach (Player player in Roster)
+            {
+                if (player is Skater)
+                {
+                    Skater skater = (Skater)player;
+                    skater.StatsList.Add(new SkaterStats(_year, _teamID, true));
+                }
+                if (player is Goalie)
+                {
+                    Goalie goalie = (Goalie)player;
+                    goalie.StatsList.Add(new GoalieStats(_year, _teamID, true));
+                }
+            }
         }
         /// <summary>
         /// Checks to make sure there are a sufficient amount of players to fill out the forward and defensive lines

@@ -14,6 +14,24 @@ namespace Elite_Hockey_Manager.Classes.Stats
     {
         public event EventHandler TeamStatsUpdated;
         /// <summary>
+        /// Year of the sim the stats are being taken for 
+        /// </summary>
+        public int Year
+        {
+            get;
+            private set;
+        } = 1;
+        /// <summary>
+        /// Property to hold whether they are playoff team stats or regular season stats
+        /// If true playoffs
+        /// If false regular season
+        /// </summary>
+        public bool Playoff
+        {
+            get;
+            private set;
+        } = false;
+        /// <summary>
         /// Wins on the season, 2 points per win
         /// </summary>
         public int Wins
@@ -135,9 +153,10 @@ namespace Elite_Hockey_Manager.Classes.Stats
                 return (Wins * 2) + OvertimeLosses;
             }
         }
-        public TeamStats()
+        public TeamStats(int year, bool playoff = false)
         {
-            
+            Year = year;
+            Playoff = playoff;
         }
         /// <summary>
         /// Gets the string of the teams record
@@ -223,7 +242,9 @@ namespace Elite_Hockey_Manager.Classes.Stats
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            //info.AddValue("LeagueName", this.LeagueName);
+            info.AddValue("Year", this.Year);
+            info.AddValue("Playoff", this.Playoff);
+
             info.AddValue("Wins", this.Wins);
             info.AddValue("OvertimeWins", this.OvertimeWins);
             info.AddValue("ShootoutWins", this.ShootoutWins);
@@ -247,6 +268,9 @@ namespace Elite_Hockey_Manager.Classes.Stats
         }
         protected TeamStats(SerializationInfo info, StreamingContext context)
         {
+            this.Year = (int)info.GetValue("Year", typeof(int));
+            this.Playoff = (bool)info.GetValue("Playoff", typeof(bool));
+
             this.Wins = (int)info.GetValue("Wins", typeof(int));
             this.OvertimeWins = (int)info.GetValue("OvertimeWins", typeof(int));
             this.ShootoutWins = (int)info.GetValue("ShootoutWins", typeof(int));

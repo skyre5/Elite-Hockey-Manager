@@ -9,7 +9,7 @@ namespace Elite_Hockey_Manager.Classes
     public class GoalieStats : PlayerStats
     {
 
-        public GoalieStats(int year, int teamID) : base(year, teamID)
+        public GoalieStats(int year, int teamID, bool playoff = false) : base(year, teamID, playoff)
         {
         }
         public void AddGameStarted()
