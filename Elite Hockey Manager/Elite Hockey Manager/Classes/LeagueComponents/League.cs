@@ -438,6 +438,7 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AdvanceToPlayoffs(object sender, EventArgs e)
         {
+            //In case this function is called without the regular season being complete, display error to console and force a finish to all simming of regular season
             if (!LeagueSchedule.IsFinishedSimming())
             {
                 Console.Error.WriteLine("League schedule did not finish simming at the time of the League.StartPlayoffs function call");
@@ -457,7 +458,10 @@ namespace Elite_Hockey_Manager.Classes
                 SortTeamList(SecondConference);
                 this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this._year, FirstConference, SecondConference));
             }
-            
+        }
+        public void AdvanceToOffseason(object sender, EventArgs e)
+        {
+
         }
         /// <summary>
         /// Sets the number of playoff teams and rounds by how many teams are in the league

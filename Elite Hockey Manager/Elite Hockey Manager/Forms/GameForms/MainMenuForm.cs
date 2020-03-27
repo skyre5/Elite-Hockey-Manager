@@ -31,8 +31,12 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             this.Text = String.Format("{0} - Home", _league.LeagueName);
             //Adds the doWork function in league the background worker in the MainMenuForm for multithreading 
             simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
+            //Events for switch from regular season to playoffs
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += _league.AdvanceToPlayoffs;
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += ChangeLayoutToPlayoffs;
+            //Events for switch from playoffs to offseason 
+            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += _league.AdvanceToOffseason;
+            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += ChangeLayoutToOffseason;
         }
 
         private void MainMenuForm_Load(object sender, EventArgs e)
@@ -122,6 +126,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 
             //Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
             simLeaguePlayoffControl.LeagueSimmedEvent += SimPlayoffs;
+        }
+        private void ChangeLayoutToOffseason(object obj, EventArgs e)
+        {
 
         }
         /// <summary>
@@ -176,9 +183,14 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
             leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
             leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
+            //If the playoffs are not done being simmed, there are still games to be played
             if (!League.currentPlayoff.FinishedSimming)
             {
                 leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));
+            }
+            else
+            {
+                simLeaguePlayoffControl.EnableAdvanceStateButton();
             }
         }
     }
