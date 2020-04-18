@@ -10,7 +10,11 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
 {
-    public partial class SimLeagueRegularSeasonControl : SimLeagueControl
+#if DEBUG
+    public partial class SimLeagueRegularSeasonControl : SimLeagueControlMiddle
+#else
+        public partial class SimLeagueOffseasonControl : SimLeagueControl
+#endif
     {
         public EventHandler AdvanceLeagueStateToPlayoffs;
         public SimLeagueRegularSeasonControl()

@@ -129,7 +129,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         }
         private void ChangeLayoutToOffseason(object obj, EventArgs e)
         {
-
+            playoffDisplayControl.Visible = false;
+            simLeaguePlayoffControl.Visible = false;
+            simLeagueOffseasonControl1.Visible = true;
         }
         /// <summary>
         /// Function for display progress changed of simBackgroundWorker
@@ -148,6 +150,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         /// <param name="e"></param>
         private void simLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            //Updates the standingsControl to show updated results from games played
             standingsControl.LoadSortConferences();
             //Once simming is complete or cancelled, will display the new games on the schedule. if there are none, produces an empty game section and goes to playoffs
             if (League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count)

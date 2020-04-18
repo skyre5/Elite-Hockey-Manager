@@ -344,6 +344,9 @@
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueControl.resx">
       <DependentUpon>SimLeagueControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueOffseasonControl.resx">
+      <DependentUpon>SimLeagueOffseasonControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.resx">
       <DependentUpon>SimLeagueRegularSeasonControl.cs</DependentUpon>
     </EmbeddedResource>

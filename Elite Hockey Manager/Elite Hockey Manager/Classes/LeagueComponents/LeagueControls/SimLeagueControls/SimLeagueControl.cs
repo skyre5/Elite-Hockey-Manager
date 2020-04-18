@@ -38,4 +38,44 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public abstract void Sim5Button_Click(object sender, EventArgs e);
         public abstract void advanceStateButton_Click(object sender, EventArgs e);
     }
+    /// <summary>
+    /// Debug class with the purpose of displaying children of SimLeagueControl designer without error from abstract class
+    /// </summary>
+    public partial class SimLeagueControlMiddle : SimLeagueControl
+    {
+        public override void advanceStateButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Sim1Button_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Sim2Button_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Sim3Button_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Sim4Button_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Sim5Button_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SetControlsText()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
