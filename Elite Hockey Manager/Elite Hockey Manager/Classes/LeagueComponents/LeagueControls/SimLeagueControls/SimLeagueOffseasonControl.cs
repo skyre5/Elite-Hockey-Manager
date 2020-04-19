@@ -22,7 +22,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             private set;
         } = 0;
         public readonly string[] Stages = new string[] { "Draft", "Resign Window", "Free Agency" };
-        public event Action OpenStageFormEvent;
+        public event Action<int> OpenStageFormEvent;
         public event Action StageAdvancedEvent;
         public event Action SimAllStagesEvent;
         public event Action AdvanceToRegularSeasonEvent;
@@ -41,7 +41,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         /// <param name="e"></param>
         public override void Sim1Button_Click(object sender, EventArgs e)
         {
-            OpenStageFormEvent?.Invoke();
+            OpenStageFormEvent?.Invoke(StageIndex);
         }
         /// <summary>
         /// Sims to the next stage of the offseason, retirement, draft, signings, etc...

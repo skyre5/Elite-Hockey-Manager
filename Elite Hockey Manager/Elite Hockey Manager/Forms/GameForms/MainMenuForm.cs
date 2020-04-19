@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
 using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 
@@ -132,7 +133,33 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             playoffDisplayControl.Visible = false;
             simLeaguePlayoffControl.Visible = false;
             simLeagueOffseasonControl1.Visible = true;
+
+            simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
         }
+
+        private void SimLeagueOffseasonControl1_OpenStageFormEvent(int index)
+        {
+            if (index == 0)
+            {
+                DraftForm form = new DraftForm();
+                form.ShowDialog();
+            }
+            else if (index == 1)
+            {
+                ResignForm form = new ResignForm();
+                form.ShowDialog();
+            }
+            else if (index == 2)
+            {
+                FreeAgencyForm form = new FreeAgencyForm();
+                form.ShowDialog();
+            }
+            else
+            {
+                Console.Error.WriteLine("Invalid stage index in open stage event");
+            }
+        }
+
         /// <summary>
         /// Function for display progress changed of simBackgroundWorker
         /// </summary>

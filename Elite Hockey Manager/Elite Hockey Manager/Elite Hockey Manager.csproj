@@ -249,6 +249,24 @@
     <Compile Include="Forms\GameForms\MainMenuForm.Designer.cs">
       <DependentUpon>MainMenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\DraftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\DraftForm.Designer.cs">
+      <DependentUpon>DraftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\FreeAgencyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\FreeAgencyForm.Designer.cs">
+      <DependentUpon>FreeAgencyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\ResignForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\OffseasonForms\ResignForm.Designer.cs">
+      <DependentUpon>ResignForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GameForms\PlayerDisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
