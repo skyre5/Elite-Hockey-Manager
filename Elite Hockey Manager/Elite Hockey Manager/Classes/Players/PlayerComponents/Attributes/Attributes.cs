@@ -76,14 +76,14 @@ namespace Elite_Hockey_Manager.Classes
         {
             if (age == 18)
             {
-                lower -= 10;
-                upper -= 10;
+                lower -= 25;
+                upper -= 5;
                 guarantee -= 5;
             }
             else if (age == 19)
             {
-                lower -= 7;
-                upper -= 7;
+                lower -= 14;
+                upper -= 5;
                 guarantee -= 3;
             }
             else if (age == 20)

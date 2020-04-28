@@ -63,6 +63,87 @@ namespace Elite_Hockey_Manager.Classes
             return player;
 
         }
+
+        public static Player[] GenerateDraftPool(int teams, int rounds)
+        {
+            int playersToCreate = (int)(teams * rounds * 1.5);
+            Player[] DraftPool = new Player[playersToCreate];
+            //Generates at least 5 high quality prospects with up to an aditional amount cooresponding to half the leagues teams
+            int highQualityProspectsCount = rand.Next( ((int)(teams / 2)) + 1) + 5;
+            //Generates at least 10 medium quality prospects with an additional amount for half the leagues size
+            int mediumQualityProspectsCount = rand.Next(((int)(teams / 2))) + 10;
+            //Generates at least 10 low quality prospects with up to an additional amount for the amount of teams
+            int lowQualityProspectsCount = rand.Next(((int)(teams))) + 10;
+            int depthQualityProspectsCount = rand.Next(((int)(teams)) + 10);
+            //Holds the offset for where the creation of new draftable players is in the draft
+            int offset = 0;
+            for (int i = 0; i < highQualityProspectsCount; i++)
+            {
+                DraftPool[offset + i] = GenerateDraftPlayerWithQuality(1);
+            }
+            offset += highQualityProspectsCount;
+            for (int i = 0; i < mediumQualityProspectsCount; i++)
+            {
+                DraftPool[offset + i] = GenerateDraftPlayerWithQuality(2);
+            }
+            offset += mediumQualityProspectsCount;
+            for (int i = 0; i < lowQualityProspectsCount; i++)
+            {
+                DraftPool[offset + i] = GenerateDraftPlayerWithQuality(3);
+            }
+            offset += lowQualityProspectsCount;
+            for (int i = 0; i < depthQualityProspectsCount; i++)
+            {
+                DraftPool[offset + i] = GenerateDraftPlayerWithQuality(4);
+            }
+            offset += depthQualityProspectsCount;
+            for (int i = offset; i < playersToCreate; i++)
+            {
+                DraftPool[i] = GenerateDraftPlayerWithQuality(5);
+            }
+            return DraftPool;
+
+        }
+        public static Player GenerateDraftPlayerWithQuality(int quality)
+        {
+            Player generatedPlayer;
+            int playerType = rand.Next(10);
+            //60% of created players are forwards
+            if (playerType <= 5)
+            {
+                //Generates random number between 0 and 2, each cooresponds to the forward positions left wing-center-right wing
+                int forwardPosition = rand.Next(3);
+                //5 qualities exist for forward, all draft players are 18
+                generatedPlayer = GenerateForward(forwardPosition, quality, 18);
+            }
+            //30% of created players are defenders
+            else if (playerType <= 8)
+            {
+                //Defense only has 4 qualities, if a higher quality is entered, set it to max 
+                if (quality > 4)
+                {
+                    quality = 4;
+                }
+                int defensePosition = rand.Next(2);
+                generatedPlayer = GenerateDefender(defensePosition, quality, 18);
+            }
+            //10% are goalies
+            else if (playerType == 9)
+            {
+                //Only 3 quality types for goalies, if a quality is given higher than 3, set to max
+                if (quality > 3)
+                {
+                    quality = 3;
+                }
+                generatedPlayer = GenerateGoalie(quality, 18);
+            }
+            else
+            {
+                generatedPlayer = GenerateForward(0, 5, 18);
+                Console.Error.WriteLine("PlayerGenerator.GenerateDraftPlayerWithQuality falls through else ifs");
+            }
+            return generatedPlayer;
+        }
         public static RightWinger CreateRandomRightWing()
         {
             if (_status == -1)
@@ -185,9 +266,15 @@ namespace Elite_Hockey_Manager.Classes
         /// </param>
         /// <returns>Returns type of player specificed</returns>
         /// 
-        public static Forward GenerateForward(int position, int quality)
+        public static Forward GenerateForward(int position, int quality, int age = -1)
         {
             Forward newForward = GenerateBaseForward(position);
+            //If the user does pass an age variable, sets the random age to the one given
+            //Used for Draft to ensure all players are 18 and give them appropriate stats
+            if (age != -1)
+            {
+                newForward.Age = age;
+            }
             switch (quality)
             {
                 case 1:
@@ -273,9 +360,13 @@ namespace Elite_Hockey_Manager.Classes
         /// 4 - Role Defender
         /// </param>
         /// <returns></returns>
-        public static Defender GenerateDefender(int position, int quality)
+        public static Defender GenerateDefender(int position, int quality, int age = -1)
         {
             Defender newDefender = GenerateBaseDefender(position);
+            if (age == -1)
+            {
+                age = GetAge();
+            }
             switch (quality)
             {
                 case 1:
@@ -343,9 +434,13 @@ namespace Elite_Hockey_Manager.Classes
         /// 3 - Role
         /// </param>
         /// <returns></returns>
-        public static Goalie GenerateGoalie(int quality)
+        public static Goalie GenerateGoalie(int quality, int age = -1)
         {
             Goalie newGoalie = CreateRandomGoalie();
+            if (age == -1)
+            {
+                age = GetAge();
+            }
             switch (quality)
             {
                 case 1:

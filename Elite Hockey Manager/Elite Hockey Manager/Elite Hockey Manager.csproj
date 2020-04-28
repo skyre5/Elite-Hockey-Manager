@@ -163,6 +163,11 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\SimLeagueControls\SimLeagueRegularSeasonControl.Designer.cs">
       <DependentUpon>SimLeagueRegularSeasonControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LeagueComponents\OffseasonClasses\Draft.cs" />
+    <Compile Include="Classes\LeagueComponents\OffseasonClasses\FreeAgency.cs" />
+    <Compile Include="Classes\LeagueComponents\OffseasonClasses\PlayerProgression.cs" />
+    <Compile Include="Classes\LeagueComponents\OffseasonClasses\Resign.cs" />
+    <Compile Include="Classes\LeagueComponents\OffseasonClasses\Retirement.cs" />
     <Compile Include="Classes\LeagueComponents\Playoff.cs" />
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
