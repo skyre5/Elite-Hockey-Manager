@@ -479,11 +479,11 @@ namespace Elite_Hockey_Manager.Classes
         /// <param name="quality">int variable to go into GenerateForward or GenerateDefender function</param>
         /// <param name="amountRequired">Amount of players needed for that position. 4 for forwards, 3 for defenders</param>
         /// <param name="createPlayerFunc">Function to create player that takes a position and quality variable</param>
-        private void CheckForInjury(List<Player> players, int position, int quality, int amountRequired, Func<int, int, Player> createPlayerFunc)
+        private void CheckForInjury(List<Player> players, int position, int quality, int amountRequired, Func<int, int, int, Player> createPlayerFunc)
         {
             while (players.Count < amountRequired)
             {
-                players.Add(createPlayerFunc(position, quality));
+                players.Add(createPlayerFunc(position, quality, -1));
             }
         }
         private void SetTeamStatsEvent()
