@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
+using Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -31,6 +32,8 @@ namespace Elite_Hockey_Manager.Classes
         private List<Schedule> _leagueHistorySchedules = new List<Schedule>();
         //Stores all the years of playoffs, last element in list is the current year of playoffs
         private List<Playoff> _leagueHistoryPlayoffs = new List<Playoff>();
+        //Stores all the drafts that occur in the leagues history
+        private List<Draft> _leagueHistoryDrafts = new List<Draft>();
         public int Year
         {
             get
@@ -90,7 +93,32 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return _leagueHistoryPlayoffs.Last();
+                if (_leagueHistoryPlayoffs.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _leagueHistoryPlayoffs.Last();
+                }
+
+            }
+        }
+        /// <summary>
+        /// The current draft is set as the latest draft occuring, if you wish to look back on further drafts use the function to pull up the list of drafts
+        /// </summary>
+        public Draft CurrentDraft
+        {
+            get
+            {
+                if (_leagueHistoryDrafts.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _leagueHistoryDrafts.Last();
+                }
             }
         }
         /// <summary>
@@ -461,7 +489,30 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AdvanceToOffseason(object sender, EventArgs e)
         {
+            Team[] draftOrder = GenerateDraftOrder();
+            _leagueHistoryDrafts.Add(new Draft(_year, _numberOfTeams, draftOrder));
 
+        }
+        /// <summary>
+        /// Generates the order of the draft based on standings from the previous season
+        /// Non playoff teams are ordered worst to best
+        /// Playoff teams are ordered by round placement from worst to best with regular season tiebreakers for teams ending in same rounds
+        /// </summary>
+        /// <returns>An ordered array from worst to best of all the teams in the league for drafting</returns>
+        private Team[] GenerateDraftOrder()
+        {
+            Team[] DraftOrder = new Team[AllTeams.Count()];
+            //Playoff teams in order for draft selection
+            Team[] orderedPlayoffTeams = currentPlayoff.DraftOrderedPlayoffTeams();
+            //All non playoff teams 
+            Team[] nonPlayoffTeams = AllTeams.Except(orderedPlayoffTeams.ToList()).ToArray();
+            //Sort by regular season standing in ascending order
+            Array.Sort(nonPlayoffTeams);
+            //Combine 2 arrays together into draft order
+            Array.Copy(nonPlayoffTeams, 0, DraftOrder, 0, nonPlayoffTeams.Count());
+            Array.Copy(orderedPlayoffTeams, 0, DraftOrder, nonPlayoffTeams.Count(), orderedPlayoffTeams.Count());
+            return DraftOrder;
+            
         }
         /// <summary>
         /// Sets the number of playoff teams and rounds by how many teams are in the league

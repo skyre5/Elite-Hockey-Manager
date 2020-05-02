@@ -271,9 +271,13 @@ namespace Elite_Hockey_Manager.Classes
             Forward newForward = GenerateBaseForward(position);
             //If the user does pass an age variable, sets the random age to the one given
             //Used for Draft to ensure all players are 18 and give them appropriate stats
-            if (age != -1)
+            if (age == -1)
             {
-                newForward.Age = age;
+                newForward.Age = GetAge();
+            }
+            else
+            {
+                newForward.Age = 18;
             }
             switch (quality)
             {
@@ -367,6 +371,10 @@ namespace Elite_Hockey_Manager.Classes
             {
                 age = GetAge();
             }
+            else
+            {
+                newDefender.Age = 18;
+            }
             switch (quality)
             {
                 case 1:
@@ -440,6 +448,10 @@ namespace Elite_Hockey_Manager.Classes
             if (age == -1)
             {
                 age = GetAge();
+            }
+            else
+            {
+                newGoalie.Age = 18;
             }
             switch (quality)
             {

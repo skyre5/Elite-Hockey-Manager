@@ -28,6 +28,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _currentDay;
             }
         }
+        //Returns a shallow copy of the teams in the playoffs for the first conference
+        public List<Team> FirstConferencePlayoffTeams
+        {
+            get
+            {
+                return new List<Team>(_firstConference);
+            }
+        }
+        //Returns a shallow copy of the teams in the playoffs for the first conference
+        public List<Team> SecondConferencePlayoffTeams
+        {
+            get
+            {
+                return new List<Team>(_secondConference);
+            }
+        }
         public bool FinishedSimming
         {
             get;
@@ -42,7 +58,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public readonly int PlayoffYear;
         public PlayoffSeries[][] playoffSeriesArray;
         //Holds the initial playoff participants 
-        private List<Team> firstConference, secondConference;
+        private List<Team> _firstConference, _secondConference;
         //Tracks the remaining teams left in the playoffs
         private List<Team> firstConferenceRemainingTeams, secondConferenceRemainingTeams;
 
@@ -53,10 +69,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         {
             PlayoffRounds = rounds;
             PlayoffYear = year;
-            firstConference = first.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
-            secondConference = second.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
-            firstConferenceRemainingTeams = new List<Team>(firstConference);
-            secondConferenceRemainingTeams = new List<Team>(secondConference);
+            _firstConference = first.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
+            _secondConference = second.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
+            firstConferenceRemainingTeams = new List<Team>(_firstConference);
+            secondConferenceRemainingTeams = new List<Team>(_secondConference);
             //Adds new TeamStats to each playoff team
             AddPlayoffStats();
             //Builds the playoffSeriesArray jagged array sizes
@@ -118,12 +134,49 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public List<Player> GetAllPlayoffPlayers()
         {
             List<Player> playoffPlayers = new List<Player>();
-            for (int i = 0; i < firstConference.Count; i++)
+            for (int i = 0; i < _firstConference.Count; i++)
             {
-                playoffPlayers.AddRange(firstConference[i].Roster);
-                playoffPlayers.AddRange(secondConference[i].Roster);
+                playoffPlayers.AddRange(_firstConference[i].Roster);
+                playoffPlayers.AddRange(_secondConference[i].Roster);
             }
             return playoffPlayers;
+        }
+        /// <summary>
+        /// Can only be called after the playoffs are done being simmed
+        /// Returns the playoff teams in order of where they finished in the playoffs
+        /// Used to determine draft order
+        /// </summary>
+        /// <returns>An ascending ordered list of the playoff teams</returns>
+        public Team[] DraftOrderedPlayoffTeams()
+        {
+            if (!FinishedSimming)
+            {
+                throw new ArgumentException("Playoffs are not done being simmed, draft order can not be generated");
+            }
+            Team[] orderedTeams = new Team[_firstConference.Count + _secondConference.Count];
+            int counter = 0;
+            foreach (PlayoffSeries[] round in playoffSeriesArray)
+            {
+                //If the round is the finals
+                if (round.Count() == 1)
+                {
+                    //Loser gets 2nd to last place, winner gets last place in the array
+                    orderedTeams[counter++] = round[0].Loser;
+                    orderedTeams[counter] = round[0].Winner;
+                    continue;
+                }
+                Team[] losingRoundTeams = new Team[round.Count()];
+                for (int i = 0; i < round.Count(); i++)
+                {
+                    losingRoundTeams[i] = round[i].Loser;
+                }
+                //Sorts the losing teams by there regular season record
+                Array.Sort(losingRoundTeams);
+                Array.Copy(losingRoundTeams, 0, orderedTeams, counter, losingRoundTeams.Count());
+                counter += losingRoundTeams.Count();
+            }
+            return orderedTeams;
+
         }
         private int SimDayOfPlayoffs()
         {
@@ -215,9 +268,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 else
                 {
                     Team finalFirstTeam = firstConferenceRemainingTeams[0];
-                    int finalFirstTeamSeed = GetSeed(firstConference, finalFirstTeam);
+                    int finalFirstTeamSeed = GetSeed(_firstConference, finalFirstTeam);
                     Team finalSecondTeam = secondConferenceRemainingTeams[0];
-                    int finalSecondTeamSeed = GetSeed(secondConference, finalSecondTeam);
+                    int finalSecondTeamSeed = GetSeed(_secondConference, finalSecondTeam);
                     //If the first conference team is high seeded than the second conference team, give first conference home ice advantage
                     if (finalFirstTeam.CompareTo(finalSecondTeam) > 0)
                     {
@@ -235,9 +288,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             else
             {
-                BuildPlayoffSeriesForConference(firstConference, firstConferenceRemainingTeams, 0);
+                BuildPlayoffSeriesForConference(_firstConference, firstConferenceRemainingTeams, 0);
                 //Starting index for the second conference will be the starting point of the second half of the array which is the count of one sides remaining teams
-                BuildPlayoffSeriesForConference(secondConference, secondConferenceRemainingTeams, secondConferenceRemainingTeams.Count / 2);
+                BuildPlayoffSeriesForConference(_secondConference, secondConferenceRemainingTeams, secondConferenceRemainingTeams.Count / 2);
             }
         }
         /// <summary>
@@ -276,11 +329,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private void AddPlayoffStats()
         {
             //Sizes of both lists will always be the same
-            for (int i = 0; i < firstConference.Count; i++)
+            for (int i = 0; i < _firstConference.Count; i++)
             {
                 //Adds a new TeamStats object to internal team list denoting this years playoffs
-                firstConference[i].AddPlayoffsStatsToTeamAndPlayers();
-                secondConference[i].AddPlayoffsStatsToTeamAndPlayers();
+                _firstConference[i].AddPlayoffsStatsToTeamAndPlayers();
+                _secondConference[i].AddPlayoffsStatsToTeamAndPlayers();
             }
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -331,6 +384,25 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+        //The losing team in the series, if series is unfinished returns null
+        public Team Loser
+        {
+            get
+            {
+                if (!SeriesFinished)
+                {
+                    return null;
+                }
+                if (_highWins == 4)
+                {
+                    return LowSeedTeam;
+                }
+                else
+                {
+                    return HighSeedTeam;
+                }
+            }
+        }
         /// <summary>
         /// Boolean that shows if the series is finished and a winner is determined
         /// </summary>
@@ -350,7 +422,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private int _highWins = 0, _lowWins = 0;
         private Game[] seriesGames = new Game[7];
         private Random rand;
-         
+
+
+        ///////////
+        ///////////
+        ///////////
+        ///////////
+        ///////////
+
         public PlayoffSeries(Team highSeedTeam, int highSeed, Team lowSeedTeam, int lowSeed, int playoffRound, Random leagueRand)
         {
             HighSeedTeam = highSeedTeam;
