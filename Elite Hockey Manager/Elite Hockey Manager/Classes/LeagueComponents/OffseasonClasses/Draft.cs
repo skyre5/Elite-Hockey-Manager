@@ -24,8 +24,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
     [Serializable]
     public class Draft : ISerializable
     {
+        public int CurrentPick
+        {
+            get
+            {
+                return _currentPick;
+            }
+        }
+        public int CurrentRound
+        {
+            get
+            {
+                return _currentRound;
+            }
+        }
         //Static variable, changeable by options in the future
         public static int Rounds = 7;
+        public readonly int Year;
         //Number of teams that are in the league, determines the length of each round and the total amount of draft picks to be made 
         public readonly int Teams;
         //Order the teams draft in, from worst in the league to best, each round
@@ -41,6 +56,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         private bool _doneDrafting = false;
         public Draft(int year, int teamsCount, Team[] draftOrder)
         {
+            Year = year;
             Teams = teamsCount;
             //The amount of draft picks to be made in the draft is the # of teams in the league * the amount of rounds that is specified for the draft
             DraftPicks = new DraftPick[Rounds * Teams];

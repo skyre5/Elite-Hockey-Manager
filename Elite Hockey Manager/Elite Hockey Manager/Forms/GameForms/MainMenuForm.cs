@@ -141,7 +141,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         {
             if (index == 0)
             {
-                DraftForm form = new DraftForm();
+                DraftForm form = new DraftForm(_league.CurrentDraft);
                 form.ShowDialog();
             }
             else if (index == 1)

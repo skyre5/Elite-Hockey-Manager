@@ -391,6 +391,9 @@
     <EmbeddedResource Include="Forms\GameForms\MainMenuForm.resx">
       <DependentUpon>MainMenuForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\OffseasonForms\DraftForm.resx">
+      <DependentUpon>DraftForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\PlayerDisplayForm.resx">
       <DependentUpon>PlayerDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
