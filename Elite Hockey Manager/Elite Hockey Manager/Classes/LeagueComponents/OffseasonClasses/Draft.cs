@@ -84,7 +84,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             {
                 return;
             }
-            int nextRoundFirstPick = (_currentRound + 1) * Teams;
+            int nextRoundFirstPick = _currentRound * Teams + 1;
             while (_currentPick < nextRoundFirstPick)
             {
                 MakePick();

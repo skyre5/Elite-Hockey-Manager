@@ -39,12 +39,14 @@
             // 
             // draftDisplayLayoutPanel
             // 
+            this.draftDisplayLayoutPanel.AutoScroll = true;
             this.draftDisplayLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.draftDisplayLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.draftDisplayLayoutPanel.Location = new System.Drawing.Point(12, 12);
             this.draftDisplayLayoutPanel.Name = "draftDisplayLayoutPanel";
             this.draftDisplayLayoutPanel.Size = new System.Drawing.Size(434, 349);
             this.draftDisplayLayoutPanel.TabIndex = 0;
+            this.draftDisplayLayoutPanel.WrapContents = false;
             // 
             // pickLabel
             // 
