@@ -38,6 +38,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 return _currentRound;
             }
         }
+        public bool DoneDrafting
+        {
+            get
+            {
+                return _doneDrafting; 
+            }
+        }
         //Static variable, changeable by options in the future
         public static int Rounds = 7;
         public readonly int Year;

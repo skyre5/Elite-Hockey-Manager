@@ -30,11 +30,31 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         {
             this.Text = String.Format("Year {0} Draft", _draft.Year);
             UpdateRoundAndPick();
+            if (_draft.CurrentPick != 1)
+            {
+                foreach (DraftPick pick in _draft.DraftPicks)
+                {
+                    Label pickLabel = CreateDraftPickLabel(pick);
+                    draftDisplayLayoutPanel.Controls.Add(pickLabel);
+                }
+            }
+            if (_draft.DoneDrafting)
+            {
+                DisableSimButtons();
+            }
         }
         private void UpdateRoundAndPick()
         {
-            roundLabel.Text = String.Format("Current Round:{0}", _draft.CurrentRound);
-            pickLabel.Text = String.Format("Current Pick:{0}", _draft.CurrentPick);
+            if (_draft.DoneDrafting)
+            {
+                roundLabel.Text = $"Year {_draft.Year} Draft Finished";
+                pickLabel.Text = "";
+            }
+            else
+            {
+                roundLabel.Text = String.Format("Current Round:{0}", _draft.CurrentRound);
+                pickLabel.Text = String.Format("Current Pick:{0}", _draft.CurrentPick);
+            }
         }
 
         private void simPickButton_Click(object sender, EventArgs e)
@@ -43,6 +63,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             _draft.SimPick();
             Label pickLabel = CreateDraftPickLabel(_draft.DraftPicks[pickNumber - 1]);
             draftDisplayLayoutPanel.Controls.Add(pickLabel);
+            UpdateRoundAndPick();
+            if (_draft.DoneDrafting)
+            {
+                DisableSimButtons();
+            }
         }
 
         private void simRoundButton_Click(object sender, EventArgs e)
@@ -56,6 +81,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             {
                 Label pickLabel = CreateDraftPickLabel(pick);
                 draftDisplayLayoutPanel.Controls.Add(pickLabel);
+            }
+            UpdateRoundAndPick();
+            if (_draft.DoneDrafting)
+            {
+                DisableSimButtons();
             }
         }
 
@@ -71,6 +101,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 Label pickLabel = CreateDraftPickLabel(pick);
                 draftDisplayLayoutPanel.Controls.Add(pickLabel);
             }
+            UpdateRoundAndPick();
+            if (_draft.DoneDrafting)
+            {
+                DisableSimButtons();
+            }
         }
         private Label CreateDraftPickLabel(DraftPick draftPick)
         {
@@ -79,6 +114,15 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             pickLabel.AutoSize = true;
             pickLabel.MouseDoubleClick += (sender, e) => { OpenPlayerFormOnDoubleClickHandler(sender, e, draftPick.Player); };
             return pickLabel;
+        }
+        /// <summary>
+        /// Enabled when the draft is complete and drafting is no longer possible 
+        /// </summary>
+        private void DisableSimButtons()
+        {
+            simPickButton.Enabled = false;
+            simRoundButton.Enabled = false;
+            simDraftButton.Enabled = false;
         }
         private void OpenPlayerFormOnDoubleClickHandler(object sender, EventArgs e, Player player)
         {
