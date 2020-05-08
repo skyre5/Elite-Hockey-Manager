@@ -17,7 +17,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
     {
         private Draft _draft;
         //Used to track number of draft pick selections added to LayoutPanel
-        private int counter = 0;
+        private int _counter = 0;
+        private Team _selectingTeam;
         public DraftForm()
         {
             InitializeComponent();
@@ -32,9 +33,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         {
             this.Text = String.Format("Year {0} Draft", _draft.Year);
             UpdateRoundAndPick();
+            //If the draft was already in progress, add previous draft picks to layout panel
             if (_draft.CurrentPick != 1)
             {
                 AddDraftPicksToLayout(_draft.DraftPicks);
+                UpdateSelectingTeam();
             }
             if (_draft.DoneDrafting)
             {
@@ -67,6 +70,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             {
                 DisableSimButtons();
             }
+            UpdateSelectingTeam();
         }
 
         private void simRoundButton_Click(object sender, EventArgs e)
@@ -85,6 +89,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             {
                 DisableSimButtons();
             }
+            UpdateSelectingTeam();
         }
 
         private void simDraftButton_Click(object sender, EventArgs e)
@@ -99,10 +104,21 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             AddDraftPicksToLayout(newPicks);
 
             UpdateRoundAndPick();
+            DisableSimButtons();
+            UpdateSelectingTeam();
+        }
+        //Shows the team next in order to draft in the upcomingTeamLabel
+        private void UpdateSelectingTeam()
+        {
+            //If the draft is over, there is no upcoming team. disable the upcomingTeamLabel
             if (_draft.DoneDrafting)
             {
-                DisableSimButtons();
+                upcomingTeamLabel.Text = "";
+                upcomingTeamLabel.Enabled = false;
+                return;
             }
+            _selectingTeam = _draft.TeamDraftOrder[(_draft.CurrentPick - 1) % _draft.Teams];
+            upcomingTeamLabel.Text = $"Selecting Team:{_selectingTeam.FullName}";
         }
         private Label CreateDraftPickLabel(DraftPick draftPick)
         {
@@ -121,8 +137,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 {
                     return;
                 }
-                counter++;
-                if (counter % _draft.Teams == 1)
+                _counter++;
+                if (_counter % _draft.Teams == 1)
                 {
                     AddRoundLabel();
                 }
@@ -133,7 +149,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private void AddRoundLabel()
         {
             Label roundLabel = new Label();
-            roundLabel.Text = $"------Round {counter / _draft.Teams + 1}------";
+            roundLabel.Text = $"------Round {_counter / _draft.Teams + 1}------";
             draftDisplayLayoutPanel.Controls.Add(roundLabel);
         }
         /// <summary>
@@ -148,6 +164,21 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private void OpenPlayerFormOnDoubleClickHandler(object sender, EventArgs e, Player player)
         {
             PlayerDisplayForm form = new PlayerDisplayForm(player);
+            form.ShowDialog();
+        }
+
+        /// <summary>
+        /// When the selecting team is double clicked, display team in the view team form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void upcomingTeamLabel_DoubleClick(object sender, EventArgs e)
+        {
+            if (_selectingTeam == null)
+            {
+                return;
+            }
+            ViewTeamForm form = new ViewTeamForm(_selectingTeam);
             form.ShowDialog();
         }
     }

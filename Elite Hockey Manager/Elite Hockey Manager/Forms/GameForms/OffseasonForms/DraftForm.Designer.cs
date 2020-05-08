@@ -71,9 +71,10 @@
             this.upcomingTeamLabel.AutoSize = true;
             this.upcomingTeamLabel.Location = new System.Drawing.Point(174, 393);
             this.upcomingTeamLabel.Name = "upcomingTeamLabel";
-            this.upcomingTeamLabel.Size = new System.Drawing.Size(79, 13);
+            this.upcomingTeamLabel.Size = new System.Drawing.Size(84, 13);
             this.upcomingTeamLabel.TabIndex = 3;
-            this.upcomingTeamLabel.Text = "Next Team Up:";
+            this.upcomingTeamLabel.Text = "Selecting Team:";
+            this.upcomingTeamLabel.DoubleClick += new System.EventHandler(this.upcomingTeamLabel_DoubleClick);
             // 
             // simPickButton
             // 
