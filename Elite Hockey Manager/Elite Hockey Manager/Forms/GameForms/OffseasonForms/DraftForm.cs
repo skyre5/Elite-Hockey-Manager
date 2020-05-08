@@ -16,6 +16,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
     public partial class DraftForm : Form
     {
         private Draft _draft;
+        //Used to track number of draft pick selections added to LayoutPanel
+        private int counter = 0;
         public DraftForm()
         {
             InitializeComponent();
@@ -32,11 +34,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             UpdateRoundAndPick();
             if (_draft.CurrentPick != 1)
             {
-                foreach (DraftPick pick in _draft.DraftPicks)
-                {
-                    Label pickLabel = CreateDraftPickLabel(pick);
-                    draftDisplayLayoutPanel.Controls.Add(pickLabel);
-                }
+                AddDraftPicksToLayout(_draft.DraftPicks);
             }
             if (_draft.DoneDrafting)
             {
@@ -61,8 +59,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         {
             int pickNumber = _draft.CurrentPick;
             _draft.SimPick();
-            Label pickLabel = CreateDraftPickLabel(_draft.DraftPicks[pickNumber - 1]);
-            draftDisplayLayoutPanel.Controls.Add(pickLabel);
+            AddDraftPicksToLayout(new DraftPick[] { _draft.DraftPicks[pickNumber - 1] });
+            //Label pickLabel = CreateDraftPickLabel(_draft.DraftPicks[pickNumber - 1]);
+            //draftDisplayLayoutPanel.Controls.Add(pickLabel);
             UpdateRoundAndPick();
             if (_draft.DoneDrafting)
             {
@@ -77,11 +76,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             int finalRoundPickNumber = _draft.CurrentPick;
             //pickNumber reduced by one to get it to zero index based
             DraftPick[] newPicks = _draft.DraftPicks.Skip(pickNumber - 1).Take(finalRoundPickNumber - pickNumber).ToArray();
-            foreach (DraftPick pick in newPicks)
-            {
-                Label pickLabel = CreateDraftPickLabel(pick);
-                draftDisplayLayoutPanel.Controls.Add(pickLabel);
-            }
+
+            //Adds new draft picks to layout panel
+            AddDraftPicksToLayout(newPicks);
+
             UpdateRoundAndPick();
             if (_draft.DoneDrafting)
             {
@@ -96,11 +94,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             int finalRoundPickNumber = _draft.CurrentPick;
             //pickNumber reduced by one to get it to zero index based
             DraftPick[] newPicks = _draft.DraftPicks.Skip(pickNumber - 1).Take(finalRoundPickNumber - pickNumber).ToArray();
-            foreach (DraftPick pick in newPicks)
-            {
-                Label pickLabel = CreateDraftPickLabel(pick);
-                draftDisplayLayoutPanel.Controls.Add(pickLabel);
-            }
+
+            //Adds the newPicks to the layout panel
+            AddDraftPicksToLayout(newPicks);
+
             UpdateRoundAndPick();
             if (_draft.DoneDrafting)
             {
@@ -114,6 +111,30 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             pickLabel.AutoSize = true;
             pickLabel.MouseDoubleClick += (sender, e) => { OpenPlayerFormOnDoubleClickHandler(sender, e, draftPick.Player); };
             return pickLabel;
+        }
+        private void AddDraftPicksToLayout(DraftPick[] picks)
+        {
+            foreach (DraftPick pick in picks)
+            {
+                //If the pick hasn't been chosen yet, exits out of loop since the rest of the picks will be the same
+                if (pick.Equals(default(DraftPick)))
+                {
+                    return;
+                }
+                counter++;
+                if (counter % _draft.Teams == 1)
+                {
+                    AddRoundLabel();
+                }
+                Label pickLabel = CreateDraftPickLabel(pick);
+                draftDisplayLayoutPanel.Controls.Add(pickLabel);
+            }
+        }
+        private void AddRoundLabel()
+        {
+            Label roundLabel = new Label();
+            roundLabel.Text = $"------Round {counter / _draft.Teams + 1}------";
+            draftDisplayLayoutPanel.Controls.Add(roundLabel);
         }
         /// <summary>
         /// Enabled when the draft is complete and drafting is no longer possible 
