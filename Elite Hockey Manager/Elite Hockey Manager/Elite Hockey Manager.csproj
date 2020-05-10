@@ -165,13 +165,13 @@
     </Compile>
     <Compile Include="Classes\LeagueComponents\OffseasonClasses\Draft.cs" />
     <Compile Include="Classes\LeagueComponents\OffseasonClasses\FreeAgency.cs" />
-    <Compile Include="Classes\LeagueComponents\OffseasonClasses\PlayerProgression.cs" />
     <Compile Include="Classes\LeagueComponents\OffseasonClasses\Resign.cs" />
     <Compile Include="Classes\LeagueComponents\OffseasonClasses\Retirement.cs" />
     <Compile Include="Classes\LeagueComponents\Playoff.cs" />
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
+    <Compile Include="Classes\Players\PlayerComponents\Attributes\IPlayerProgression.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\SkaterAttributes.cs" />
     <Compile Include="Classes\GameComponents\Game.cs" />
     <Compile Include="Classes\LeagueComponents\ContractGenerator.cs" />

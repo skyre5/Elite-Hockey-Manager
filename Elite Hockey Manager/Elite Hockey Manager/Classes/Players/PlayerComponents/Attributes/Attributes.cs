@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    [Serializable]
+    //[Serializable]
     public abstract class Attributes : ISerializable
     {
         protected static Random rand = new Random();
@@ -51,6 +51,7 @@ namespace Elite_Hockey_Manager.Classes
             this._consistency = (int)info.GetValue("Consistency", typeof(int));
             this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
             this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
+
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {

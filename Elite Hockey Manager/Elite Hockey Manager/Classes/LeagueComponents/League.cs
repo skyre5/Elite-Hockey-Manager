@@ -536,6 +536,15 @@ namespace Elite_Hockey_Manager.Classes
                 PlayoffRounds = PlayoffRounds.Two;
             }
         }
+        #region Player Progression
+        private void ProgressAllLeagueActivePlayers()
+        {
+
+        }
+
+
+
+        #endregion 
         /// <summary>
         /// Sorts a list of teams by their record
         /// </summary>
@@ -563,7 +572,7 @@ namespace Elite_Hockey_Manager.Classes
 
             info.AddValue("Schedules", this._leagueHistorySchedules);
             info.AddValue("Playoffs", this._leagueHistoryPlayoffs);
-            info.AddValue("Drafts", this._leagueHistoryDrafts)
+            info.AddValue("Drafts", this._leagueHistoryDrafts);
         }
         protected League(SerializationInfo info, StreamingContext context)
         {
