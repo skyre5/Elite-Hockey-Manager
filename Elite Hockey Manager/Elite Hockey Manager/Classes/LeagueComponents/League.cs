@@ -560,6 +560,10 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Random", this.rand);
 
             info.AddValue("State", this.State);
+
+            info.AddValue("Schedules", this._leagueHistorySchedules);
+            info.AddValue("Playoffs", this._leagueHistoryPlayoffs);
+            info.AddValue("Drafts", this._leagueHistoryDrafts)
         }
         protected League(SerializationInfo info, StreamingContext context)
         {
@@ -576,6 +580,10 @@ namespace Elite_Hockey_Manager.Classes
             this.rand = (Random)info.GetValue("Random", typeof(Random));
 
             this.State = (LeagueState)info.GetValue("State", typeof(LeagueState));
+
+            this._leagueHistorySchedules = (List<Schedule>)info.GetValue("Schedules", typeof(List<Schedule>));
+            this._leagueHistoryPlayoffs = (List<Playoff>)info.GetValue("Schedules", typeof(List<Playoff>));
+            this._leagueHistoryDrafts = (List<Draft>)info.GetValue("Schedules", typeof(List<Draft>));
         }
     }
 }
