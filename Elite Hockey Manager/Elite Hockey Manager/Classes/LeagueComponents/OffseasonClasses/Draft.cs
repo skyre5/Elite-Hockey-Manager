@@ -125,11 +125,33 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         }
         protected Draft(SerializationInfo info, StreamingContext context)
         {
+            //this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
+            this._currentRound = (int)info.GetValue("CurrentPick", typeof(int));
+            this._currentRound = (int)info.GetValue("CurrentRound", typeof(int));
 
+            this._doneDrafting = (bool)info.GetValue("DoneDrafting", typeof(bool));
+
+            this.Year = (int)info.GetValue("Year", typeof(int));
+            this.Teams = (int)info.GetValue("Teams", typeof(int));
+
+            this.TeamDraftOrder = (Team[])info.GetValue("TeamDraftOrder", typeof(Team[]));
+            this.DraftPicks = (DraftPick[])info.GetValue("DraftPicks", typeof(DraftPick[]));
+            this.RemainingDraftPool = (List<Player>)info.GetValue("RemainingDraftPool", typeof(List<Player>));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            //info.AddValue("State", this.State);
+            info.AddValue("CurrentPick", this._currentPick);
+            info.AddValue("CurrentRound", this._currentRound);
+
+            info.AddValue("DoneDrafting", this._doneDrafting);
+
+            info.AddValue("Year", this.Year);
+            info.AddValue("Teams", this.Teams);
+
+            info.AddValue("TeamDraftOrder", this.TeamDraftOrder);
+            info.AddValue("DraftPicks", this.DraftPicks);
+            info.AddValue("RemainingDraftPool", this.RemainingDraftPool);
         }
 
     }
