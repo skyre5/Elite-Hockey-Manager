@@ -95,7 +95,7 @@ namespace Elite_Hockey_Manager.Classes
                 return "G";
             }
         }
-        public override Attributes Attributes
+        public override BaseAttributes Attributes
         {
             get
             {

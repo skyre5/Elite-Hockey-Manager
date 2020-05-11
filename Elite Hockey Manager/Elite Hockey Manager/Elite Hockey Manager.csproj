@@ -169,9 +169,9 @@
     <Compile Include="Classes\LeagueComponents\OffseasonClasses\Retirement.cs" />
     <Compile Include="Classes\LeagueComponents\Playoff.cs" />
     <Compile Include="Classes\LeagueComponents\Schedule.cs" />
-    <Compile Include="Classes\Players\PlayerComponents\Attributes\Attributes.cs" />
+    <Compile Include="Classes\Players\PlayerComponents\Attributes\BaseAttributes.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\GoalieAttributes.cs" />
-    <Compile Include="Classes\Players\PlayerComponents\Attributes\IPlayerProgression.cs" />
+    <Compile Include="Classes\Players\PlayerComponents\Attributes\PlayerProgressionTracker.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Attributes\SkaterAttributes.cs" />
     <Compile Include="Classes\GameComponents\Game.cs" />
     <Compile Include="Classes\LeagueComponents\ContractGenerator.cs" />

@@ -15,7 +15,7 @@ namespace Elite_Hockey_Manager.Classes
         ReboundControl
     }
     [Serializable]
-    public class GoalieAttributes : Attributes
+    public class GoalieAttributes : BaseAttributes
     {
         private int _high = DefaultRating;
         private int _low = DefaultRating;

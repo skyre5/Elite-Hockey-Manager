@@ -19,7 +19,7 @@ namespace Elite_Hockey_Manager.Classes
         Faceoff
     }
     [Serializable]
-    public class SkaterAttributes : Attributes
+    public class SkaterAttributes : BaseAttributes
     {
         //Shooting stats
         private int _wristShot = DefaultRating;

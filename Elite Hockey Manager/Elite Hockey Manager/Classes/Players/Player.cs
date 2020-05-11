@@ -189,7 +189,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
         }
-        public abstract Attributes Attributes
+        public abstract BaseAttributes Attributes
         {
             get;
             //set;

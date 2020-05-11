@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Elite_Hockey_Manager.Classes
 {
     //[Serializable]
-    public abstract class Attributes : ISerializable
+    public abstract class BaseAttributes : ISerializable
     {
         protected static Random rand = new Random();
         public const int DefaultRating = 50;
@@ -19,7 +19,7 @@ namespace Elite_Hockey_Manager.Classes
         private int _fatigue = 0;
 
         private int _injuryLength = 0;
-        public Attributes()
+        public BaseAttributes()
         {
 
         }
@@ -45,7 +45,7 @@ namespace Elite_Hockey_Manager.Classes
                 attribute = rating;
             }
         }
-        public Attributes(SerializationInfo info, StreamingContext context)
+        public BaseAttributes(SerializationInfo info, StreamingContext context)
         {
             this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
             this._consistency = (int)info.GetValue("Consistency", typeof(int));

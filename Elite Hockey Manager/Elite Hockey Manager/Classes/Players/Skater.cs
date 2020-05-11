@@ -13,7 +13,7 @@ namespace Elite_Hockey_Manager.Classes
     {
         protected List<SkaterStats> _stats = new List<SkaterStats>();
         protected SkaterAttributes _attributes;
-        public override Attributes Attributes
+        public override BaseAttributes Attributes
         {
             get
             {
