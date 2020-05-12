@@ -24,8 +24,8 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         /// Dictionary of each players attributes with key as attribute and element as a tuple with players original attribute
         /// as well as list with the players overall by each year afterwards
         /// </summary>
-        //Attribute Name -> (BaseAttributeValue when created, overalls by season first element is 1 year post rookie )
-        //AttributeTrackerDictionary["Wrist Shot"] = (80, [80, 84, 88, 81])
+        //Attribute Name -> (BaseAttributeValue when created, overalls for each season afterwards
+        //AttributeTrackerDictionary["Wrist Shot"] = (80, [82, 84, 88, 81])
         public Dictionary<string, Tuple<int, List<int>>> AttributeTrackerDictionary { get; } = new Dictionary<string, Tuple<int, List<int>>>();
         /// <summary>
         /// Tracks player overall each year starting with rookie year
@@ -36,6 +36,13 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             this.RookieYear = rookieYear;
             //Overall rating for year 1
             OverallTrackerList.Add(baseOverall);
+            SetBaseAttributes(playerAttributes);
+        }
+        public void UpdatePlayerAttributes(int newOverall, BaseAttributes updatedAttributes)
+        {
+            OverallTrackerList.Add(newOverall);
+            InputNewAttributes(updatedAttributes);
+            
         }
         /// <summary>
         /// Gets the latest cumulative changes in the players career from the players previous year to current
@@ -81,6 +88,28 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             else
             {
                 return null;
+            }
+        }
+        private void SetBaseAttributes(BaseAttributes attributes)
+        {
+            foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
+            {
+                AttributeTrackerDictionary[attribute.Item1] = new Tuple<int, List<int>>(attribute.Item2, new List<int>());
+            }
+        }
+        /// <summary>
+        /// Inputs the latest attributes from either goalie or skater, appends the current attribute onto the end of the list
+        /// Should only ever be called once a season for each player
+        /// </summary>
+        /// <param name="attributes">Attributes of either goalie or skater</param>
+        private void InputNewAttributes(BaseAttributes attributes)
+        {
+            //GetAttributeNames returns every attribute within either the goalie or skater attributes as a tuple with <string, int> where 
+            //string is stat name and int is the value it currently holds
+            //For every attribute name and value enter it int the dictionay and add it onto the end of the list
+            foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
+            {
+                AttributeTrackerDictionary[attribute.Item1].Item2.Add(attribute.Item2);
             }
         }
     }

@@ -63,6 +63,7 @@
     <Compile Include="Classes\LeagueComponents\PlayerGeneratorTests.cs" />
     <Compile Include="Classes\LeagueComponents\TeamGeneratorTests.cs" />
     <Compile Include="Classes\LeagueComponents\TeamTests.cs" />
+    <Compile Include="Classes\Players\PlayerComponents\Attributes\PlayerProgressionTrackerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
