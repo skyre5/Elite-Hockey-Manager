@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -39,7 +40,7 @@ namespace Elite_Hockey_Manager.Classes
         Backup,
         Role
     }
-    [Serializable]
+    //[Serializable]
     public abstract class Player : ISerializable
     {
         public abstract int PlayerStatusID
@@ -60,47 +61,6 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
-        //Keeps track of the players current team, if it is null they are a free agent
-        public Team CurrentTeam = null;
-        //Static random object for use in player number generation
-        private static Random rand = new Random();
-        //Incrementing int that will hold all players that play in the league
-        private static int idCount = 0;
-        //Set in constructor after incrementing the id count
-        private int _playerID;
-        //Random number between 1 and 99
-        private int _playerNumber = rand.Next(1, 100);
-        protected string _firstName;
-        protected string _lastName;
-        protected int _age;
-        protected List<PlayerStats> _careerStats = new List<PlayerStats>();
-        protected List<Contract> _careerContracts = new List<Contract>();
-        
-        public Player(string first, string last, int age, Contract contract)
-        {
-            //Input validation done in setters
-            FirstName = first;
-            LastName = last;
-            Age = age;
-            //Increments player id
-            idCount++;
-            _playerID = idCount;
-
-            //Adds initial contract to player
-            _careerContracts.Add(contract);
-        }
-
-        public Player(string first, string last, int age)
-        {
-            //Input validation done in setters
-            FirstName = first;
-            LastName = last;
-            Age = age;
-            //Increments player id
-            idCount++;
-            _playerID = idCount;
-        }
-
         public Contract CurrentContract
         {
             get
@@ -193,6 +153,54 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
             //set;
+        }
+        public PlayerProgressionTracker ProgressionTracker { get; private set; }
+        //Keeps track of the players current team, if it is null they are a free agent
+        public Team CurrentTeam = null;
+        //Static random object for use in player number generation
+        private static Random rand = new Random();
+        //Incrementing int that will hold all players that play in the league
+        private static int idCount = 0;
+        //Set in constructor after incrementing the id count
+        private int _playerID;
+        //Random number between 1 and 99
+        private int _playerNumber = rand.Next(1, 100);
+        protected string _firstName;
+        protected string _lastName;
+        protected int _age;
+        protected List<PlayerStats> _careerStats = new List<PlayerStats>();
+        protected List<Contract> _careerContracts = new List<Contract>();
+        
+        public Player(string first, string last, int age, Contract contract)
+        {
+            //Input validation done in setters
+            FirstName = first;
+            LastName = last;
+            Age = age;
+            //Increments player id
+            idCount++;
+            _playerID = idCount;
+
+            //Adds initial contract to player
+            _careerContracts.Add(contract);
+        }
+
+        public Player(string first, string last, int age)
+        {
+            //Input validation done in setters
+            FirstName = first;
+            LastName = last;
+            Age = age;
+            //Increments player id
+            idCount++;
+            _playerID = idCount;
+        }
+
+        public void SetPlayerProgressionTracker(int year)
+        {
+            //Attributes defined in skater for its children subclasses
+            //Overall defined in each non abstract child
+            this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
         private void IncrementYear()
         {

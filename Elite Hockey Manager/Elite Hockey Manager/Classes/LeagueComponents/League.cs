@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 using Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses;
 
@@ -233,12 +234,25 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void StartSeason()
         {
+            //Only needs to be called upon leagues first startup which is only time state will be unset
+            if (State == LeagueState.Unset)
+            {
+                InitializePlayersProgressionTrackers();
+            }
             _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             //Sets the day counter to the first day of the schedule
             DayIndex = 0;
             //Sets the League State to the regular season state
             State = LeagueState.RegularSeason;
             _scheduleLength = this.LeagueSchedule.SeasonSchedule.Count;
+        }
+        private void InitializePlayersProgressionTrackers()
+        {
+            //Sets each player in this league to have an initial progression tracker, only needs to be done upon leagues first ever setup
+            foreach (Player player in this.AllPlayers)
+            {
+                player.SetPlayerProgressionTracker(this._year);
+            }
         }
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams

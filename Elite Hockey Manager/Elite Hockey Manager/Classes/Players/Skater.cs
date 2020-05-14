@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 
 namespace Elite_Hockey_Manager.Classes
 {
