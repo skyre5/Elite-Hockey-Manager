@@ -68,6 +68,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             //The amount of draft picks to be made in the draft is the # of teams in the league * the amount of rounds that is specified for the draft
             DraftPicks = new DraftPick[Rounds * Teams];
             BaseDraftPool = PlayerGenerator.GenerateDraftPool(Teams, Rounds);
+            //Gives each potential drack pack an initial progress tracker
+            InitializePlayerTrackerToDraftClass();
             BaseDraftPool = BaseDraftPool.OrderByDescending(player => player.Overall).ToArray();
             //Switches the base draft pool to a list so that the original draft list can be stored as well as the players being chosen becoming unavailable to be picked
             RemainingDraftPool = BaseDraftPool.ToList();
@@ -110,6 +112,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             }
             _doneDrafting = true;
 
+        }
+        private void InitializePlayerTrackerToDraftClass()
+        {
+            foreach (Player player in BaseDraftPool)
+            {
+                //Players rookie year would be year 2 
+                player.SetPlayerProgressionTracker(this.Year + 1);
+            }
         }
         private void MakePick()
         {
