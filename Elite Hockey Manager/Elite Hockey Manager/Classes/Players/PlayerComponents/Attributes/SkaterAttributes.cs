@@ -18,7 +18,7 @@ namespace Elite_Hockey_Manager.Classes
         //Not included in guaranteed stat
         Faceoff
     }
-    [Serializable]
+    //[Serializable]
     public class SkaterAttributes : BaseAttributes
     {
         //Shooting stats
@@ -95,27 +95,7 @@ namespace Elite_Hockey_Manager.Classes
                     break;
             }
         }
-        protected SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this._wristShot = (int)info.GetValue("WristShot", typeof(int));
-            this._slapShot = (int)info.GetValue("SlapShot", typeof(int));
-            this._awareness = (int)info.GetValue("Awareness", typeof(int));
-            this._checking = (int)info.GetValue("Checking", typeof(int));
-            this._deking = (int)info.GetValue("Deking", typeof(int));
-            this._speed = (int)info.GetValue("Speed", typeof(int));
-            this._faceoff = (int)info.GetValue("Faceoff", typeof(int));
-        }
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("WristShot", this._wristShot);
-            info.AddValue("SlapShot", this._slapShot);
-            info.AddValue("Awareness", this._awareness);
-            info.AddValue("Checking", this._checking);
-            info.AddValue("Deking", this._deking);
-            info.AddValue("Speed", this._speed);
-            info.AddValue("Faceoff", this._faceoff);
-        }
+
         public int WristShot
         {
             get
@@ -349,7 +329,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
-
+        #region Player Progression
         internal override void ProgressPlayer(int age, string position, int playerStatusID)
         {
             if (position == "LD" || position == "RD")
@@ -435,11 +415,6 @@ namespace Elite_Hockey_Manager.Classes
                     break;
             }
         }
-        /// <summary>
-        /// Influnces each stat exlusive to skater based on ranges given from age and status
-        /// </summary>
-        /// <param name="negativeRange">The maximum value a player could lose</param>
-        /// <param name="upperRange">The maximum value a player could gain</param>
         protected override void GrowStats(int negativeRange, int upperRange)
         {
             WristShot += this.GetGrowthValue(negativeRange, upperRange);
@@ -449,6 +424,28 @@ namespace Elite_Hockey_Manager.Classes
             Deking += this.GetGrowthValue(negativeRange, upperRange);
             Speed += this.GetGrowthValue(negativeRange, upperRange);
             Faceoff += this.GetGrowthValue(negativeRange, upperRange);
+        }
+        #endregion
+        protected SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            this._wristShot = (int)info.GetValue("WristShot", typeof(int));
+            this._slapShot = (int)info.GetValue("SlapShot", typeof(int));
+            this._awareness = (int)info.GetValue("Awareness", typeof(int));
+            this._checking = (int)info.GetValue("Checking", typeof(int));
+            this._deking = (int)info.GetValue("Deking", typeof(int));
+            this._speed = (int)info.GetValue("Speed", typeof(int));
+            this._faceoff = (int)info.GetValue("Faceoff", typeof(int));
+        }
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("WristShot", this._wristShot);
+            info.AddValue("SlapShot", this._slapShot);
+            info.AddValue("Awareness", this._awareness);
+            info.AddValue("Checking", this._checking);
+            info.AddValue("Deking", this._deking);
+            info.AddValue("Speed", this._speed);
+            info.AddValue("Faceoff", this._faceoff);
         }
     }
 }

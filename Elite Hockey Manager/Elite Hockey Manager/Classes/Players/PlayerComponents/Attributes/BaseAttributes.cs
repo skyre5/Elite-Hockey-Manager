@@ -49,21 +49,7 @@ namespace Elite_Hockey_Manager.Classes
                 attribute = rating;
             }
         }
-        public BaseAttributes(SerializationInfo info, StreamingContext context)
-        {
-            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
-            this._consistency = (int)info.GetValue("Consistency", typeof(int));
-            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
-            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
 
-        }
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Clutchness", this._clutchness);
-            info.AddValue("Consistency", this._consistency);
-            info.AddValue("Fatigue", this._fatigue);
-            info.AddValue("InjuryLength", this._injuryLength);
-        }
         protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
         {
             if (baseStat < guaranteedRating)
@@ -87,18 +73,18 @@ namespace Elite_Hockey_Manager.Classes
             }
             else if (age == 19)
             {
-                lower -= 14;
+                lower -= 18;
                 upper -= 5;
                 guarantee -= 3;
             }
             else if (age == 20)
             {
-                lower -= 5;
+                lower -= 10;
                 upper -= 3;
             }
             else if (age == 21)
             {
-                lower -= 3;
+                lower -= 5;
             }
             else if (age >= 36)
             {
@@ -181,6 +167,7 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
         }
+        #region Player Progression
         /// <summary>
         /// Updates players attributes based on player status and current age
         /// </summary>
@@ -203,6 +190,11 @@ namespace Elite_Hockey_Manager.Classes
                 GrowStats(2 - (age - regressionBeginAge), 1);
             }
         }
+        /// <summary>
+        /// Grows each stat within attributes between 2 given values
+        /// </summary>
+        /// <param name="negativeRange">The maximum value a player could lose</param>
+        /// <param name="upperRange">The maximum value a player could gain</param>
         protected abstract void GrowStats(int negativeRange, int upperRange);
         /// <summary>
         /// Internal function to get a random value that a player will use to adjust attributes
@@ -215,6 +207,22 @@ namespace Elite_Hockey_Manager.Classes
             return rand.Next(losingRange + growthRange + 1) - losingRange;
         }
         internal abstract void ProgressPlayer(int _age, string position, int playerStatusID);
+        #endregion
+        public BaseAttributes(SerializationInfo info, StreamingContext context)
+        {
+            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
+            this._consistency = (int)info.GetValue("Consistency", typeof(int));
+            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
+            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
+
+        }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Clutchness", this._clutchness);
+            info.AddValue("Consistency", this._consistency);
+            info.AddValue("Fatigue", this._fatigue);
+            info.AddValue("InjuryLength", this._injuryLength);
+        }
     }
 
 }
