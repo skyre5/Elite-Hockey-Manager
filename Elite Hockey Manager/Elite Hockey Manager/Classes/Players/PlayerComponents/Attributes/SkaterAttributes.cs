@@ -350,5 +350,61 @@ namespace Elite_Hockey_Manager.Classes
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
 
+        internal override void ProgressPlayer(int age, string position, int playerStatusID)
+        {
+            if (position == "LD" || position == "RD")
+            {
+                ProgressDefender(age, (DefensePlayerStatus)playerStatusID);
+            }
+            else if (position == "LW" || position == "C" || position == "RW")
+            {
+
+            }
+            else
+            {
+                throw new ArgumentException("Invalid position sent to SkaterAttributes.ProgressPlayer");
+            }
+        }
+        private void ProgressDefender(int age, DefensePlayerStatus status)
+        {
+            switch (status)
+            {
+                case DefensePlayerStatus.Generational:
+                    ChoosePlayerGrowthPhase(age, 23, 34, 7);
+                    break;
+                case DefensePlayerStatus.Superstar:
+                    ChoosePlayerGrowthPhase(age, 21, 31, 5);
+                    break;
+                case DefensePlayerStatus.FirstPairing:
+                    ChoosePlayerGrowthPhase(age, 21, 30, 4);
+                    break;
+                case DefensePlayerStatus.SecondPairing:
+                    ChoosePlayerGrowthPhase(age, 21, 30, 3);
+                    break;
+                case DefensePlayerStatus.BottomPairing:
+                    ChoosePlayerGrowthPhase(age, 21, 34, 2);
+                    break;
+                case DefensePlayerStatus.Role:
+                    ChoosePlayerGrowthPhase(age, 22, 30, 2);
+                    break;
+                case DefensePlayerStatus.Unset:
+                default:
+                    ChoosePlayerGrowthPhase(age, 18, 35, 2);
+                    break;
+       
+            }
+        }
+        private void ProgressDefender(int age, ForwardPlayerStatus status);
+
+        protected override void GrowStats(int negativeRange, int upperRange)
+        {
+            WristShot += this.GetGrowthValue(negativeRange, upperRange);
+            SlapShot += this.GetGrowthValue(negativeRange, upperRange);
+            Awareness += this.GetGrowthValue(negativeRange, upperRange);
+            Checking += this.GetGrowthValue(negativeRange, upperRange);
+            Deking += this.GetGrowthValue(negativeRange, upperRange);
+            Speed += this.GetGrowthValue(negativeRange, upperRange);
+            Faceoff += this.GetGrowthValue(negativeRange, upperRange);
+        }
     }
 }

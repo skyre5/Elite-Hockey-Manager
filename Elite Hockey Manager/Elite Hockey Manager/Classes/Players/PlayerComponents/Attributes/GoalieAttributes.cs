@@ -188,5 +188,10 @@ namespace Elite_Hockey_Manager.Classes
             }
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
+
+        internal override void ProgressPlayer(int _age, string position, int playerStatusID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

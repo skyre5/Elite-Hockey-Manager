@@ -33,12 +33,16 @@ namespace Elite_Hockey_Manager.Classes
         }
         public static void CheckRating(ref int attribute, int rating)
         {
-            if (rating < 1 || rating > 100)
+            if (rating < 1)
             {
                 Console.WriteLine("Invalid input error");
                 //PropertyInfo.SetValue produces unhandleable handling for this exception
                 //Common problem online with no solution
                 //throw new ArgumentException("Error: Value entered needs to be within the range of (1-100)");
+            }
+            else if (rating > 100)
+            {
+                attribute = 100;
             }
             else
             {
@@ -177,6 +181,34 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
         }
+        /// <summary>
+        /// Updates players attributes based on player status and current age
+        /// </summary>
+        /// <param name="age">Age player is currently</param>
+        /// <param name="growthEndingAge">Age at which massive amounts of growth end</param>
+        /// <param name="regressionBeginAge">Age at which player begins to regress</param>
+        /// <param name="updateRange">The amount of skill a player can gain in 1 season</param>
+        protected void ChoosePlayerGrowthPhase(int age, int growthEndingAge, int regressionBeginAge, int updateRange)
+        {
+            if (age <= growthEndingAge)
+            {
+                GrowStats(2, updateRange);
+            }
+            else if (age < regressionBeginAge)
+            {
+                GrowStats(2, 3);
+            }
+            else if (age >= regressionBeginAge)
+            {
+                GrowStats(2 - (age - regressionBeginAge), 1);
+            }
+        }
+        protected abstract void GrowStats(int negativeRange, int upperRange);
+        protected int GetGrowthValue(int losingRange, int growthRange)
+        {
+            return rand.Next(losingRange + growthRange + 1) - losingRange;
+        }
+        internal abstract void ProgressPlayer(int _age, string position, int playerStatusID);
     }
 
 }
