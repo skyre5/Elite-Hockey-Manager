@@ -168,6 +168,7 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
         #region Player Progression
+        internal abstract void ProgressPlayer(int _age, string position, int playerStatusID);
         /// <summary>
         /// Updates players attributes based on player status and current age
         /// </summary>
@@ -206,7 +207,6 @@ namespace Elite_Hockey_Manager.Classes
         {
             return rand.Next(losingRange + growthRange + 1) - losingRange;
         }
-        internal abstract void ProgressPlayer(int _age, string position, int playerStatusID);
         #endregion
         public BaseAttributes(SerializationInfo info, StreamingContext context)
         {

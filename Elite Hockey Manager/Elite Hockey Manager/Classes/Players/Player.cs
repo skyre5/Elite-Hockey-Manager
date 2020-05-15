@@ -202,7 +202,7 @@ namespace Elite_Hockey_Manager.Classes
             //Overall defined in each non abstract child
             this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
-        private void AgePlayerAndProgress()
+        public void AgePlayerAndProgress()
         {
             Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
             Age++;

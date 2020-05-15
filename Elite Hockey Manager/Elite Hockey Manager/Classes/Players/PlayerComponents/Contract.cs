@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
 {
-    [Serializable]
+    //[Serializable]
     public class Contract : ISerializable
     {
         public int YearSigned

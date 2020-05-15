@@ -445,7 +445,7 @@ namespace Elite_Hockey_Manager.Classes
             while (goalies.Count < 2)
             {
                 Goalie emergencyCreateGoalie = PlayerGenerator.GenerateGoalie(3);
-                goalies.Add(emergencyCreateGoalie);
+                this.AddNewGoalie(emergencyCreateGoalie);
                 //Sets the players progression tracker for when a goalie must be created 
                 //only occurs in this function as well as the one in CheckForInjury
                 emergencyCreateGoalie.SetPlayerProgressionTracker(_year);
@@ -489,7 +489,7 @@ namespace Elite_Hockey_Manager.Classes
             while (players.Count < amountRequired)
             {
                 Player emergencyCreatePlayer = createPlayerFunc(position, quality, -1);
-                players.Add(emergencyCreatePlayer);
+                this.AddNewSkater((Skater)emergencyCreatePlayer);
                 //Adds a players progression tracker when abruptely created mid season for emergency purposes
                 //Only occurs in this function and AutoSetGoalies function
                 emergencyCreatePlayer.SetPlayerProgressionTracker(_year);
