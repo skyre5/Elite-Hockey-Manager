@@ -129,6 +129,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             Player pickedPlayer = RemainingDraftPool[0];
             RemainingDraftPool.RemoveAt(0);
 
+            //Adds newly picked player to teams roster
+            pickingTeam.AddNewPlayer(pickedPlayer);
+            //Generates contract for newly drafted player
+            ContractGenerator.GenerateContract(pickedPlayer);
+
             DraftPicks[_currentPick - 1] = new DraftPick(pickingTeam, pickedPlayer, _currentRound, _currentPick);
             _currentPick++;
             _currentRound = ((_currentPick - 1) / Teams) + 1;

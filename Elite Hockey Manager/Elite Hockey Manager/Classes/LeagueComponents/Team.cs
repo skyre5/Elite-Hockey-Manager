@@ -165,6 +165,9 @@ namespace Elite_Hockey_Manager.Classes
                 return String.Format("{0} {1}", _location, _teamName);
             }
         }
+
+
+
         public int TeamID
         {
             get
@@ -299,6 +302,17 @@ namespace Elite_Hockey_Manager.Classes
             //Adds a link to this Team object to the player that will link to the current team they play for 
             goalie.CurrentTeam = this;
             Roster.Add(goalie);
+        }
+        public void AddNewPlayer(Player pickedPlayer)
+        {
+            if (pickedPlayer is Goalie)
+            {
+                AddNewGoalie((Goalie)pickedPlayer);
+            }
+            else if (pickedPlayer is Skater)
+            {
+                AddNewSkater((Skater)pickedPlayer);
+            }
         }
         public override string ToString()
         {
@@ -495,16 +509,19 @@ namespace Elite_Hockey_Manager.Classes
                 emergencyCreatePlayer.SetPlayerProgressionTracker(_year);
             }
         }
+
+        internal void AdvanceYear()
+        {
+            throw new NotImplementedException();
+        }
+
         private void SetTeamStatsEvent()
         {
             this.CurrentSeasonStats.TeamStatsUpdated += TriggerTeamStatsEvent;
         }
         private void TriggerTeamStatsEvent(object sender, EventArgs e)
         {
-            if (TeamStatsUpdated != null)
-            {
-                TeamStatsUpdated(this, null);
-            }
+            TeamStatsUpdated?.Invoke(this, null);
         }
         /// <summary>
         /// Comparator for teams. Compares by points, then goals for, then alphabetically

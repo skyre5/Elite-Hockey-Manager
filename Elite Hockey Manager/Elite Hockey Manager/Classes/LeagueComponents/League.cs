@@ -503,6 +503,9 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AdvanceToOffseason(object sender, EventArgs e)
         {
+            _year++;
+            foreach (Team team in AllTeams)
+                team.AdvanceYear();
             Team[] draftOrder = GenerateDraftOrder();
             _leagueHistoryDrafts.Add(new Draft(_year, _numberOfTeams, draftOrder));
 
