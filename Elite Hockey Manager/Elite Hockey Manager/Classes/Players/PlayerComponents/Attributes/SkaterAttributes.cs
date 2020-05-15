@@ -358,13 +358,18 @@ namespace Elite_Hockey_Manager.Classes
             }
             else if (position == "LW" || position == "C" || position == "RW")
             {
-
+                ProgressForward(age, (ForwardPlayerStatus)playerStatusID);
             }
             else
             {
                 throw new ArgumentException("Invalid position sent to SkaterAttributes.ProgressPlayer");
             }
         }
+        /// <summary>
+        /// Sets player growth based on how old player is and defender player status
+        /// </summary>
+        /// <param name="age">Age of the player</param>
+        /// <param name="status">Players status ranging from Generational to Role and unset</param>
         private void ProgressDefender(int age, DefensePlayerStatus status)
         {
             switch (status)
@@ -394,8 +399,47 @@ namespace Elite_Hockey_Manager.Classes
        
             }
         }
-        private void ProgressDefender(int age, ForwardPlayerStatus status);
-
+        /// <summary>
+        /// Sets player growth based on how old player is and forward player status
+        /// </summary>
+        /// <param name="age"></param>
+        /// <param name="status"></param>
+        private void ProgressForward(int age, ForwardPlayerStatus status)
+        {
+            switch (status)
+            {
+                case ForwardPlayerStatus.Generational:
+                    ChoosePlayerGrowthPhase(age, 23, 34, 7);
+                    break;
+                case ForwardPlayerStatus.Superstar:
+                    ChoosePlayerGrowthPhase(age, 21, 32, 5);
+                    break;
+                case ForwardPlayerStatus.FirstLine:
+                    ChoosePlayerGrowthPhase(age, 21, 31, 4);
+                    break;
+                case ForwardPlayerStatus.TopSix:
+                    ChoosePlayerGrowthPhase(age, 21, 30, 3);
+                    break;
+                case ForwardPlayerStatus.TopNine:
+                    ChoosePlayerGrowthPhase(age, 21, 28, 3);
+                    break;
+                case ForwardPlayerStatus.BottomSix:
+                    ChoosePlayerGrowthPhase(age, 22, 30, 2);
+                    break;
+                case ForwardPlayerStatus.RolePlayer:
+                    ChoosePlayerGrowthPhase(age, 20, 32, 2);
+                    break;
+                case ForwardPlayerStatus.Unset:
+                default:
+                    ChoosePlayerGrowthPhase(age, 18, 35, 1);
+                    break;
+            }
+        }
+        /// <summary>
+        /// Influnces each stat exlusive to skater based on ranges given from age and status
+        /// </summary>
+        /// <param name="negativeRange">The maximum value a player could lose</param>
+        /// <param name="upperRange">The maximum value a player could gain</param>
         protected override void GrowStats(int negativeRange, int upperRange)
         {
             WristShot += this.GetGrowthValue(negativeRange, upperRange);

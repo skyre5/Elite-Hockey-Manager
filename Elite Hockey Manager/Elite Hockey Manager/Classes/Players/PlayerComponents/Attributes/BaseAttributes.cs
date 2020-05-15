@@ -204,6 +204,12 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
         protected abstract void GrowStats(int negativeRange, int upperRange);
+        /// <summary>
+        /// Internal function to get a random value that a player will use to adjust attributes
+        /// </summary>
+        /// <param name="losingRange">Max value a player could lose</param>
+        /// <param name="growthRange">Max value a player could gain </param>
+        /// <returns>A value in between and including -LosingRange and growthRange</returns>
         protected int GetGrowthValue(int losingRange, int growthRange)
         {
             return rand.Next(losingRange + growthRange + 1) - losingRange;

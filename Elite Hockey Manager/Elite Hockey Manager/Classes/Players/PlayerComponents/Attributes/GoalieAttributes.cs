@@ -189,9 +189,51 @@ namespace Elite_Hockey_Manager.Classes
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
 
-        internal override void ProgressPlayer(int _age, string position, int playerStatusID)
+        internal override void ProgressPlayer(int age, string position, int playerStatusID)
         {
-            throw new NotImplementedException();
+            if (position == "G")
+            {
+                ProgressGoalie(age, (GoaliePlayerStatus)playerStatusID);
+            }
+            else
+            {
+                throw new ArgumentException("Goalie was not sent to ProgressPlayer in GoalieAttributes");
+            }
+        }
+        private void ProgressGoalie(int age, GoaliePlayerStatus status)
+        {
+            switch (status)
+            {
+                case GoaliePlayerStatus.Generational:
+                    ChoosePlayerGrowthPhase(age, 23, 33, 6);
+                    break;
+                case GoaliePlayerStatus.Elite:
+                    ChoosePlayerGrowthPhase(age, 21, 30, 4);
+                    break;
+                case GoaliePlayerStatus.Starter:
+                    ChoosePlayerGrowthPhase(age, 21, 30, 3);
+                    break;
+                case GoaliePlayerStatus.LowStarter:
+                    ChoosePlayerGrowthPhase(age, 21, 28, 3);
+                    break;
+                case GoaliePlayerStatus.Backup:
+                    ChoosePlayerGrowthPhase(age, 20, 32, 2);
+                    break;
+                case GoaliePlayerStatus.Role:
+                    ChoosePlayerGrowthPhase(age, 23, 35, 1);
+                    break;
+                case GoaliePlayerStatus.Unset:
+                default:
+                    ChoosePlayerGrowthPhase(age, 18, 29, 1);
+                    break;
+            }
+        }
+        protected override void GrowStats(int negativeRange, int upperRange)
+        {
+            High += GetGrowthValue(negativeRange, upperRange);
+            Low += GetGrowthValue(negativeRange, upperRange);
+            Speed += GetGrowthValue(negativeRange, upperRange);
+            ReboundControl += GetGrowthValue(negativeRange, upperRange);
         }
     }
 }
