@@ -118,7 +118,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             foreach (Player player in BaseDraftPool)
             {
                 //Players rookie year would be year 2 
-                player.SetPlayerProgressionTracker(this.Year + 1);
+                player.InitializePlayerProgressionTracker(this.Year + 1);
             }
         }
         private void MakePick()

@@ -462,7 +462,7 @@ namespace Elite_Hockey_Manager.Classes
                 this.AddNewGoalie(emergencyCreateGoalie);
                 //Sets the players progression tracker for when a goalie must be created 
                 //only occurs in this function as well as the one in CheckForInjury
-                emergencyCreateGoalie.SetPlayerProgressionTracker(_year);
+                emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
 
             }
             _goalies[0] = (Goalie)goalies[0];
@@ -506,7 +506,7 @@ namespace Elite_Hockey_Manager.Classes
                 this.AddNewSkater((Skater)emergencyCreatePlayer);
                 //Adds a players progression tracker when abruptely created mid season for emergency purposes
                 //Only occurs in this function and AutoSetGoalies function
-                emergencyCreatePlayer.SetPlayerProgressionTracker(_year);
+                emergencyCreatePlayer.InitializePlayerProgressionTracker(_year);
             }
         }
 

@@ -195,13 +195,19 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _playerID = idCount;
         }
-
-        public void SetPlayerProgressionTracker(int year)
+        /// <summary>
+        /// Initializes the player progression tracker when they are created and have been given their base attributes
+        /// </summary>
+        /// <param name="year">Year in the league for which the players rookie season would take place</param>
+        public void InitializePlayerProgressionTracker(int year)
         {
             //Attributes defined in skater for its children subclasses
             //Overall defined in each non abstract child
             this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
+        /// <summary>
+        /// Advances the players age by a year and updates their attributes based on age and player status
+        /// </summary>
         public void AgePlayerAndProgress()
         {
             Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);

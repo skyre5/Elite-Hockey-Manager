@@ -251,7 +251,7 @@ namespace Elite_Hockey_Manager.Classes
             //Sets each player in this league to have an initial progression tracker, only needs to be done upon leagues first ever setup
             foreach (Player player in this.AllPlayers)
             {
-                player.SetPlayerProgressionTracker(this._year);
+                player.InitializePlayerProgressionTracker(this._year);
             }
         }
         /// <summary>
@@ -504,10 +504,19 @@ namespace Elite_Hockey_Manager.Classes
         public void AdvanceToOffseason(object sender, EventArgs e)
         {
             _year++;
+            State = LeagueState.Offseason;
+
+            //Updates each teams internal year variable
             foreach (Team team in AllTeams)
                 team.AdvanceYear();
+            //Generates draft order based on league standings and playoff performance 
             Team[] draftOrder = GenerateDraftOrder();
             _leagueHistoryDrafts.Add(new Draft(_year, _numberOfTeams, draftOrder));
+            //Ages every rostered player in the league and updates attributes
+            foreach (Player player in AllPlayers)
+            {
+                player.AgePlayerAndProgress();
+            }
 
         }
         /// <summary>
