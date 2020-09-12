@@ -26,6 +26,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public int homeGamesScheduled;
         public int awayGamesScheduled;
     }
+    [Serializable]
     public class Schedule
     {
         private Random rand;

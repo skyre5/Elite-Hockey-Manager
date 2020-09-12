@@ -617,8 +617,8 @@ namespace Elite_Hockey_Manager.Classes
             this.State = (LeagueState)info.GetValue("State", typeof(LeagueState));
 
             this._leagueHistorySchedules = (List<Schedule>)info.GetValue("Schedules", typeof(List<Schedule>));
-            this._leagueHistoryPlayoffs = (List<Playoff>)info.GetValue("Schedules", typeof(List<Playoff>));
-            this._leagueHistoryDrafts = (List<Draft>)info.GetValue("Schedules", typeof(List<Draft>));
+            this._leagueHistoryPlayoffs = (List<Playoff>)info.GetValue("Playoffs", typeof(List<Playoff>));
+            this._leagueHistoryDrafts = (List<Draft>)info.GetValue("Drafts", typeof(List<Draft>));
         }
     }
 }

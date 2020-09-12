@@ -26,7 +26,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         /// </summary>
         //Attribute Name -> (BaseAttributeValue when created, overalls for each season afterwards
         //AttributeTrackerDictionary["Wrist Shot"] = (80, [82, 84, 88, 81])
-        public Dictionary<string, Tuple<int, List<int>>> AttributeTrackerDictionary { get; } = new Dictionary<string, Tuple<int, List<int>>>();
+        public Dictionary<string, List<int>> AttributeTrackerDictionary { get; } = new Dictionary<string, List<int>>();
         /// <summary>
         /// Tracks player overall each year starting with rookie year
         /// </summary>
@@ -67,7 +67,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             int totalChangesInYear = 0;
             foreach (string key in AttributeTrackerDictionary.Keys)
             {
-                totalChangesInYear += AttributeTrackerDictionary[key].Item2[careerYear - 1];
+                totalChangesInYear += AttributeTrackerDictionary[key][careerYear - 1];
             }
             return totalChangesInYear;
         }
@@ -80,10 +80,10 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         /// </returns>
         public List<int> GetAttributeHistory(string attributeKey)
         {
-            Tuple<int, List<int>> attributeHistoryTuple;
-            if (AttributeTrackerDictionary.TryGetValue(attributeKey, out attributeHistoryTuple))
+            List<int> attributeHistoryList;
+            if (AttributeTrackerDictionary.TryGetValue(attributeKey, out attributeHistoryList))
             {
-                return attributeHistoryTuple.Item2;
+                return attributeHistoryList;
             }
             else
             {
@@ -94,7 +94,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         {
             foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
             {
-                AttributeTrackerDictionary[attribute.Item1] = new Tuple<int, List<int>>(attribute.Item2, new List<int>());
+                AttributeTrackerDictionary[attribute.Item1] = new List<int>(new List<int>() { attribute.Item2 });
             }
         }
         /// <summary>
@@ -109,7 +109,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             //For every attribute name and value enter it int the dictionay and add it onto the end of the list
             foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
             {
-                AttributeTrackerDictionary[attribute.Item1].Item2.Add(attribute.Item2);
+                AttributeTrackerDictionary[attribute.Item1].Add(attribute.Item2);
             }
         }
     }

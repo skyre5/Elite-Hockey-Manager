@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    enum SkaterAttributeNames : int
+    public enum SkaterAttributeNames : int
     {
         WristShot,
         SlapShot,

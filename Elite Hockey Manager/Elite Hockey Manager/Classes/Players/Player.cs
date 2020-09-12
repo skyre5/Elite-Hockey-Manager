@@ -211,6 +211,7 @@ namespace Elite_Hockey_Manager.Classes
         public void AgePlayerAndProgress()
         {
             Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
+            this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
             Age++;
         }
         public override string ToString()
