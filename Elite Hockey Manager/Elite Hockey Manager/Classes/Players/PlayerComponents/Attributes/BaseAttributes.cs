@@ -188,7 +188,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             else if (age >= regressionBeginAge)
             {
-                GrowStats(2 - (age - regressionBeginAge), 1);
+                GrowStats(1 + (age - regressionBeginAge), 1);
             }
         }
         /// <summary>
@@ -205,7 +205,7 @@ namespace Elite_Hockey_Manager.Classes
         /// <returns>A value in between and including -LosingRange and growthRange</returns>
         protected int GetGrowthValue(int losingRange, int growthRange)
         {
-            return rand.Next(losingRange + growthRange + 1) - losingRange;
+            return rand.Next(-losingRange, growthRange + 1);
         }
         #endregion
         public BaseAttributes(SerializationInfo info, StreamingContext context)

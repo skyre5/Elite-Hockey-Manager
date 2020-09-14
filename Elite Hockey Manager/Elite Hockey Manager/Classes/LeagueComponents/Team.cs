@@ -514,7 +514,7 @@ namespace Elite_Hockey_Manager.Classes
 
         internal void AdvanceYear()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void SetTeamStatsEvent()
