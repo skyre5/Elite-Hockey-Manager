@@ -11,6 +11,7 @@ using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
 using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
+using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls;
 
 namespace Elite_Hockey_Manager.Forms.GameForms
 {
@@ -137,26 +138,24 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
         }
 
-        private void SimLeagueOffseasonControl1_OpenStageFormEvent(int index)
+        private void SimLeagueOffseasonControl1_OpenStageFormEvent(OffseasonStage stage)
         {
-            if (index == 0)
+            switch (stage)
             {
-                DraftForm form = new DraftForm(_league.CurrentDraft);
-                form.ShowDialog();
-            }
-            else if (index == 1)
-            {
-                ResignForm form = new ResignForm();
-                form.ShowDialog();
-            }
-            else if (index == 2)
-            {
-                FreeAgencyForm form = new FreeAgencyForm();
-                form.ShowDialog();
-            }
-            else
-            {
-                Console.Error.WriteLine("Invalid stage index in open stage event");
+                case OffseasonStage.ProgressionAndRetirement:
+                    break;
+                case OffseasonStage.Draft:
+                    DraftForm draftForm = new DraftForm(_league.CurrentDraft);
+                    draftForm.ShowDialog();
+                    break;
+                case OffseasonStage.Resign:
+                    ResignForm resignForm = new ResignForm();
+                    resignForm.ShowDialog();
+                    break;
+                case OffseasonStage.FreeAgency:
+                    FreeAgencyForm form = new FreeAgencyForm();
+                    form.ShowDialog();
+                    break;
             }
         }
 

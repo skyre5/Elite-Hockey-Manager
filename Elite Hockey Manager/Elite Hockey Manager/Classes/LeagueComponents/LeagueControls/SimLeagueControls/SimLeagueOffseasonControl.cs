@@ -10,29 +10,36 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
 {
+    public enum OffseasonStage{
+        ProgressionAndRetirement,
+        Draft,
+        Resign,
+        FreeAgency
+    }
 #if DEBUG
     public partial class SimLeagueOffseasonControl: SimLeagueControlMiddle
 #else
         public partial class SimLeagueOffseasonControl : SimLeagueControl
 #endif
     {
-        public int StageIndex
+        public OffseasonStage StageIndex
         {
             get;
             private set;
         } = 0;
-        public readonly string[] Stages = new string[] { "Draft", "Resign Window", "Free Agency" };
-        public event Action<int> OpenStageFormEvent;
+        //public readonly string[] Stages = new string[] { "Draft", "Resign Window", "Free Agency" };
+        public event Action<OffseasonStage> OpenStageFormEvent;
         public event Action StageAdvancedEvent;
         public event Action SimAllStagesEvent;
         public event Action AdvanceToRegularSeasonEvent;
         public SimLeagueOffseasonControl()
         {
             InitializeComponent();
+            UpdateTitle();
         }
         private void UpdateTitle()
         {
-            stageLabel.Text = String.Format("Stage: {0}", Stages[StageIndex]);
+            stageLabel.Text = String.Format("Stage: {0}", StageIndex);
         }
         /// <summary>
         /// Opens form for the cooresponding offseason stage
@@ -52,8 +59,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public override void Sim2Button_Click(object sender, EventArgs e)
         {
             StageAdvancedEvent?.Invoke();
-            //If there is a stage to advance to, updates the stage to the next and updates this controls titleLabel
-            if (StageIndex < Stages.Count() - 1)
+            //If the stage index is not the final stage before the next season which is free agency, advange to the next stage within the enum OffseasonStage
+            if (StageIndex != OffseasonStage.FreeAgency)
             {
                 StageIndex++;
                 UpdateTitle();
