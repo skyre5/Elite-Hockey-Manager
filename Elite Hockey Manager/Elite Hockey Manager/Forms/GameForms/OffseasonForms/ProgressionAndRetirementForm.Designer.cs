@@ -28,42 +28,56 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.playerStatsDataView = new System.Windows.Forms.DataGridView();
             this.playerStatsDisplayPanel = new System.Windows.Forms.Panel();
             this.teamSelectionComboBox = new System.Windows.Forms.ComboBox();
             this.teamSelectionLabel = new System.Windows.Forms.Label();
             this.retirementCheckBox = new System.Windows.Forms.CheckBox();
-            this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Age = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FirstOverall = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NewOverall = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChangeAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rosterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.teamBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // playerStatsDataView
             // 
             this.playerStatsDataView.AllowUserToAddRows = false;
             this.playerStatsDataView.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.playerStatsDataView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.playerStatsDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerStatsDataView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Player,
-            this.Age,
-            this.FirstOverall,
-            this.NewOverall,
-            this.ChangeAmount});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.playerStatsDataView.DefaultCellStyle = dataGridViewCellStyle2;
             this.playerStatsDataView.Location = new System.Drawing.Point(12, 12);
             this.playerStatsDataView.Name = "playerStatsDataView";
             this.playerStatsDataView.ReadOnly = true;
-            this.playerStatsDataView.Size = new System.Drawing.Size(444, 480);
+            this.playerStatsDataView.RowHeadersVisible = false;
+            this.playerStatsDataView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.playerStatsDataView.Size = new System.Drawing.Size(612, 480);
             this.playerStatsDataView.TabIndex = 0;
             this.playerStatsDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // playerStatsDisplayPanel
             // 
-            this.playerStatsDisplayPanel.Location = new System.Drawing.Point(505, 21);
+            this.playerStatsDisplayPanel.Location = new System.Drawing.Point(793, 49);
             this.playerStatsDisplayPanel.Name = "playerStatsDisplayPanel";
-            this.playerStatsDisplayPanel.Size = new System.Drawing.Size(353, 415);
+            this.playerStatsDisplayPanel.Size = new System.Drawing.Size(306, 409);
             this.playerStatsDisplayPanel.TabIndex = 1;
             // 
             // teamSelectionComboBox
@@ -95,41 +109,20 @@
             this.retirementCheckBox.Text = "View Retired Players Only";
             this.retirementCheckBox.UseVisualStyleBackColor = true;
             // 
-            // Player
+            // rosterBindingSource
             // 
-            this.Player.HeaderText = "Player";
-            this.Player.Name = "Player";
-            this.Player.ReadOnly = true;
+            this.rosterBindingSource.DataMember = "Roster";
+            this.rosterBindingSource.DataSource = this.teamBindingSource;
             // 
-            // Age
+            // teamBindingSource
             // 
-            this.Age.HeaderText = "Age";
-            this.Age.Name = "Age";
-            this.Age.ReadOnly = true;
-            // 
-            // FirstOverall
-            // 
-            this.FirstOverall.HeaderText = "First Overall";
-            this.FirstOverall.Name = "FirstOverall";
-            this.FirstOverall.ReadOnly = true;
-            // 
-            // NewOverall
-            // 
-            this.NewOverall.HeaderText = "NewOverall";
-            this.NewOverall.Name = "NewOverall";
-            this.NewOverall.ReadOnly = true;
-            // 
-            // ChangeAmount
-            // 
-            this.ChangeAmount.HeaderText = "StatsChange";
-            this.ChangeAmount.Name = "ChangeAmount";
-            this.ChangeAmount.ReadOnly = true;
+            this.teamBindingSource.DataSource = typeof(Elite_Hockey_Manager.Classes.Team);
             // 
             // ProgressionAndRetirementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(910, 615);
+            this.ClientSize = new System.Drawing.Size(1162, 615);
             this.Controls.Add(this.retirementCheckBox);
             this.Controls.Add(this.teamSelectionLabel);
             this.Controls.Add(this.teamSelectionComboBox);
@@ -139,6 +132,8 @@
             this.Text = "Player Progression and Player Retirements";
             this.Load += new System.EventHandler(this.ProgressionAndRetirementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,12 +144,9 @@
         private System.Windows.Forms.DataGridView playerStatsDataView;
         private System.Windows.Forms.Panel playerStatsDisplayPanel;
         private System.Windows.Forms.ComboBox teamSelectionComboBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Player;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Age;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FirstOverall;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NewOverall;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ChangeAmount;
         private System.Windows.Forms.Label teamSelectionLabel;
         private System.Windows.Forms.CheckBox retirementCheckBox;
+        private System.Windows.Forms.BindingSource teamBindingSource;
+        private System.Windows.Forms.BindingSource rosterBindingSource;
     }
 }

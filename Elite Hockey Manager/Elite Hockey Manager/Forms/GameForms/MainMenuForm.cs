@@ -143,6 +143,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             switch (stage)
             {
                 case OffseasonStage.ProgressionAndRetirement:
+                    ProgressionAndRetirementForm progressionForm = new ProgressionAndRetirementForm(_league);
+                    progressionForm.ShowDialog();
                     break;
                 case OffseasonStage.Draft:
                     DraftForm draftForm = new DraftForm(_league.CurrentDraft);
