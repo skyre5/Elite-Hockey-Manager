@@ -37,9 +37,11 @@
             this.teamSelectionLabel = new System.Windows.Forms.Label();
             this.retirementCheckBox = new System.Windows.Forms.CheckBox();
             this.rosterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.forwardsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.teamBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,6 +74,7 @@
             this.playerStatsDataView.Size = new System.Drawing.Size(612, 480);
             this.playerStatsDataView.TabIndex = 0;
             this.playerStatsDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.playerStatsDataView.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.playerStatsDataView_ColumnHeaderMouseClick);
             // 
             // playerStatsDisplayPanel
             // 
@@ -114,9 +117,15 @@
             this.rosterBindingSource.DataMember = "Roster";
             this.rosterBindingSource.DataSource = this.teamBindingSource;
             // 
+            // forwardsBindingSource
+            // 
+            this.forwardsBindingSource.DataMember = "Forwards";
+            this.forwardsBindingSource.DataSource = this.teamBindingSource;
+            // 
             // teamBindingSource
             // 
             this.teamBindingSource.DataSource = typeof(Elite_Hockey_Manager.Classes.Team);
+            this.teamBindingSource.CurrentChanged += new System.EventHandler(this.teamBindingSource_CurrentChanged);
             // 
             // ProgressionAndRetirementForm
             // 
@@ -133,6 +142,7 @@
             this.Load += new System.EventHandler(this.ProgressionAndRetirementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -148,5 +158,6 @@
         private System.Windows.Forms.CheckBox retirementCheckBox;
         private System.Windows.Forms.BindingSource teamBindingSource;
         private System.Windows.Forms.BindingSource rosterBindingSource;
+        private System.Windows.Forms.BindingSource forwardsBindingSource;
     }
 }
