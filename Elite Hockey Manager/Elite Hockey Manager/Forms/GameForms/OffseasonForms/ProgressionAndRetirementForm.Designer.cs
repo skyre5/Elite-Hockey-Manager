@@ -49,6 +49,8 @@
             // 
             this.playerStatsDataView.AllowUserToAddRows = false;
             this.playerStatsDataView.AllowUserToDeleteRows = false;
+            this.playerStatsDataView.AllowUserToResizeColumns = false;
+            this.playerStatsDataView.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -87,11 +89,12 @@
             // 
             this.teamSelectionComboBox.FormattingEnabled = true;
             this.teamSelectionComboBox.Items.AddRange(new object[] {
-            "-All-"});
+            "- -"});
             this.teamSelectionComboBox.Location = new System.Drawing.Point(76, 509);
             this.teamSelectionComboBox.Name = "teamSelectionComboBox";
             this.teamSelectionComboBox.Size = new System.Drawing.Size(121, 21);
             this.teamSelectionComboBox.TabIndex = 2;
+            this.teamSelectionComboBox.SelectedIndexChanged += new System.EventHandler(this.teamSelectionComboBox_SelectedIndexChanged);
             // 
             // teamSelectionLabel
             // 
@@ -111,6 +114,7 @@
             this.retirementCheckBox.TabIndex = 4;
             this.retirementCheckBox.Text = "View Retired Players Only";
             this.retirementCheckBox.UseVisualStyleBackColor = true;
+            this.retirementCheckBox.CheckedChanged += new System.EventHandler(this.retirementCheckBox_CheckedChanged);
             // 
             // rosterBindingSource
             // 

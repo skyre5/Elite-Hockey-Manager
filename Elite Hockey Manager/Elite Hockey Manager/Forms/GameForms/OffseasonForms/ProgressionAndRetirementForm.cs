@@ -14,8 +14,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
     public partial class ProgressionAndRetirementForm : Form
     {
-        DataTable playerTable = new DataTable();
+        private DataTable _playerTable = new DataTable();
         private League _league;
+        private bool _retiredPlayers = false;
+        private Team _selectedTeam = null;
         public ProgressionAndRetirementForm()
         {
             InitializeComponent();
@@ -23,17 +25,19 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         public ProgressionAndRetirementForm(League league) : this()
         {
             _league = league;
-            playerTable.Columns.Add("ID", typeof(int));
-            playerTable.Columns.Add("TeamID", typeof(int));
-            playerTable.Columns.Add("Name", typeof(string));
-            playerTable.Columns.Add("Age", typeof(int));
-            playerTable.Columns.Add("Base Overall", typeof(int));
-            playerTable.Columns.Add("New Overall", typeof(int));
-            playerTable.Columns.Add("Total Change", typeof(int));
+            _playerTable.Columns.Add("ID", typeof(int));
+            _playerTable.Columns.Add("TeamID", typeof(int));
+            _playerTable.Columns.Add("Name", typeof(string));
+            _playerTable.Columns.Add("Age", typeof(int));
+            _playerTable.Columns.Add("Base Overall", typeof(int));
+            _playerTable.Columns.Add("New Overall", typeof(int));
+            _playerTable.Columns.Add("Total Change", typeof(int));
+            _playerTable.Columns.Add("Retired", typeof(bool));
         }
         private void ProgressionAndRetirementForm_Load(object sender, EventArgs e)
         {
             LoadPlayersIntoTable(_league.AllPlayers);
+            LoadTeamsIntoComboBox(_league.AllTeams);
         }
         private void LoadPlayersIntoTable(List<Player> players)
         {
@@ -47,22 +51,44 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                            p.Age,
                            BaseOverall = p.ProgressionTracker.OverallTrackerList[p.ProgressionTracker.OverallTrackerList.Count - 2],
                            NewOverall = p.ProgressionTracker.OverallTrackerList.Last(),
-                           TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes()
+                           TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes(),
+                           Retired = p.ProgressionTracker.IsRetired
 
                        };
             foreach (var player in query)
             {
-                DataRow row = playerTable.Rows.Add();
+                DataRow row = _playerTable.Rows.Add();
                 row.SetField("ID", player.ID);
+                row.SetField("TeamID", player.TeamID);
                 row.SetField("Name", player.Name);
                 row.SetField("Age", player.Age);
                 row.SetField("Base Overall", player.BaseOverall);
                 row.SetField("New Overall", player.NewOverall);
                 row.SetField("Total Change", player.TotalChange);
+                row.SetField("Retired", player.Retired);
             }
-            playerStatsDataView.DataSource = playerTable;
+            playerStatsDataView.DataSource = _playerTable;
             playerStatsDataView.Columns["ID"].Visible = false;
             playerStatsDataView.Columns["TeamID"].Visible = false;
+        }
+        private void LoadTeamsIntoComboBox(List<Team> teams)
+        {
+            foreach (Team team in teams) {
+                teamSelectionComboBox.Items.Add(team);
+            }
+        }
+        private void SelectByTeamAndRetirement()
+        {
+            if (_playerTable == null)
+            {
+                return;
+            }
+            var query = from p in _playerTable.AsEnumerable()
+                        where (_selectedTeam == null || p.Field<int?>("TeamID") == _selectedTeam.TeamID)
+                        where p.Field<bool>("Retired") == _retiredPlayers
+                        select p;
+            playerStatsDataView.DataSource = query.CopyToDataTable() ;
+
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -76,6 +102,25 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 
         private void playerStatsDataView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+        }
+
+        private void teamSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox box = (ComboBox)sender;
+            if (box.SelectedIndex == 0)
+            {
+                _selectedTeam = null;
+            }
+            else
+            {
+                _selectedTeam = (Team)box.SelectedItem;
+            }
+            SelectByTeamAndRetirement();
+        }
+
+        private void retirementCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _retiredPlayers = ((CheckBox)sender).Checked;
         }
     }
 }
