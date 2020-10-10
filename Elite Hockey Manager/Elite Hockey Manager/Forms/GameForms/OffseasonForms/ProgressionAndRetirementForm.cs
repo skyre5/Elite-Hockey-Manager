@@ -68,6 +68,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 row.SetField("Retired", player.Retired);
             }
             playerStatsDataView.DataSource = _playerTable;
+            ChangeColorOfTotalChangeRows();
             playerStatsDataView.Columns["ID"].Visible = false;
             playerStatsDataView.Columns["TeamID"].Visible = false;
         }
@@ -75,6 +76,35 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         {
             foreach (Team team in teams) {
                 teamSelectionComboBox.Items.Add(team);
+            }
+        }
+        private void ChangeColorOfTotalChangeRows()
+        {
+            foreach (DataGridViewRow row in playerStatsDataView.Rows)
+            {
+                DataGridViewCell cell = row.Cells["Total Change"];
+                switch ((int)cell.Value)
+                {
+                    case int n when (n >= 10):
+                        cell.Style.BackColor = Color.LightBlue;
+                        break;
+                    case int n when (n >= 5):
+                        cell.Style.BackColor = Color.Green;
+                        break;
+                    case int n when (n > 0):
+                        cell.Style.BackColor = Color.LightGreen;
+                        break;
+                    case int n when (n <= -10):
+                        cell.Style.BackColor = Color.Red;
+                        break;
+                    case int n when (n <= -5):
+                        cell.Style.BackColor = Color.Orange;
+                        break;
+                    case int n when (n < 0):
+                        cell.Style.BackColor = Color.PaleVioletRed;
+                        break;
+
+                }
             }
         }
         private void SelectByTeamAndRetirement()
@@ -88,6 +118,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                         where p.Field<bool>("Retired") == _retiredPlayers
                         select p;
             playerStatsDataView.DataSource = query.CopyToDataTable() ;
+            ChangeColorOfTotalChangeRows();
 
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
