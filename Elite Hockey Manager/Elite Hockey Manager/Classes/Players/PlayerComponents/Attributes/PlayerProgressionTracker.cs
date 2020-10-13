@@ -67,7 +67,9 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             int totalChangesInYear = 0;
             foreach (string key in AttributeTrackerDictionary.Keys)
             {
-                totalChangesInYear += AttributeTrackerDictionary[key][careerYear - 1];
+                int firstYear = AttributeTrackerDictionary[key][careerYear - 2];
+                int secondYear = AttributeTrackerDictionary[key][careerYear - 1];
+                totalChangesInYear += secondYear - firstYear;
             }
             return totalChangesInYear;
         }
