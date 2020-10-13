@@ -1,4 +1,5 @@
 ﻿using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         public ProgressionAndRetirementForm(League league) : this()
         {
             _league = league;
-            _playerTable.Columns.Add("ID", typeof(int));
+            _playerTable.Columns.Add("Tracker", typeof(PlayerProgressionTracker));
             _playerTable.Columns.Add("TeamID", typeof(int));
             _playerTable.Columns.Add("Name", typeof(string));
             _playerTable.Columns.Add("Age", typeof(int));
@@ -45,7 +46,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                         orderby p.ProgressionTracker.LatestTotalChangeInAttributes()
                         select new
                         {
-                           p.ID,
+                           p.ProgressionTracker,
                            p.CurrentTeam.TeamID,
                            Name = p.FullName,
                            p.Age,
@@ -58,7 +59,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             foreach (var player in query)
             {
                 DataRow row = _playerTable.Rows.Add();
-                row.SetField("ID", player.ID);
+                row.SetField("Tracker", player.ProgressionTracker);
                 row.SetField("TeamID", player.TeamID);
                 row.SetField("Name", player.Name);
                 row.SetField("Age", player.Age);
@@ -68,9 +69,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 row.SetField("Retired", player.Retired);
             }
             playerStatsDataView.DataSource = _playerTable;
-            ChangeColorOfTotalChangeRows();
-            playerStatsDataView.Columns["ID"].Visible = false;
+            //ChangeColorOfTotalChangeRows();
+            playerStatsDataView.Columns["Tracker"].Visible = false;
             playerStatsDataView.Columns["TeamID"].Visible = false;
+            playerStatsDataView.Sort(this.playerStatsDataView.Columns["Total Change"], ListSortDirection.Descending);
         }
         private void LoadTeamsIntoComboBox(List<Team> teams)
         {
@@ -121,10 +123,6 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             ChangeColorOfTotalChangeRows();
 
         }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void teamBindingSource_CurrentChanged(object sender, EventArgs e)
         {
@@ -152,6 +150,51 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private void retirementCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             _retiredPlayers = ((CheckBox)sender).Checked;
+        }
+
+        private void playerStatsDataView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            ChangeColorOfTotalChangeRows();
+        }
+
+        private void playerStatsDataView_SelectionChanged(object sender, EventArgs e)
+        {
+            DataGridView view = (DataGridView)sender;
+            //If event is called when a cell is not being clicked such as during the building of the table
+            //Return without building the playerDisplayLabel text
+            if (view.SelectedRows.Count == 0)
+            {
+                return;
+            }
+            //The row of the cell the user clicked up
+            DataGridViewRow row = view.SelectedRows[0];
+            string name = (string)row.Cells["Name"].Value;
+
+            int newOverall = (int)row.Cells["New Overall"].Value;
+            int oldOverall = (int)row.Cells["Base Overall"].Value;
+            int overallChange = newOverall - oldOverall;
+            string sign = GetSign(overallChange);
+
+            PlayerProgressionTracker tracker = (PlayerProgressionTracker)row.Cells["Tracker"].Value;
+            //Sets the text blank from latest call of function
+            playerDisplayLabel.Text = "";
+            playerDisplayLabel.Text += $"{name}\r\n";
+            playerDisplayLabel.Text += $"Overall: {newOverall}({sign}{overallChange})\r\n";
+            //For every stat in the attribute dictionary build a new line of the label for its name, new value, and its change since last season
+            foreach (string key in tracker.AttributeTrackerDictionary.Keys)
+            {
+                int difference = GetLatestDifference(tracker.AttributeTrackerDictionary[key]);
+                playerDisplayLabel.Text += $"{key}: {tracker.AttributeTrackerDictionary[key].Last()}" +
+                    $"({GetSign(difference)}{difference})\r\n";
+            }
+        }
+        private string GetSign(int value)
+        {
+            return value > 0 ? "+" : String.Empty;
+        }
+        private int GetLatestDifference(List<int> values)
+        {
+            return values.Last() - values[values.Count - 2];
         }
     }
 }

@@ -33,16 +33,18 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.playerStatsDataView = new System.Windows.Forms.DataGridView();
             this.playerStatsDisplayPanel = new System.Windows.Forms.Panel();
+            this.playerDisplayLabel = new System.Windows.Forms.Label();
             this.teamSelectionComboBox = new System.Windows.Forms.ComboBox();
             this.teamSelectionLabel = new System.Windows.Forms.Label();
             this.retirementCheckBox = new System.Windows.Forms.CheckBox();
             this.rosterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.forwardsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.teamBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.forwardsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).BeginInit();
+            this.playerStatsDisplayPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // playerStatsDataView
@@ -73,17 +75,29 @@
             this.playerStatsDataView.ReadOnly = true;
             this.playerStatsDataView.RowHeadersVisible = false;
             this.playerStatsDataView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.playerStatsDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.playerStatsDataView.Size = new System.Drawing.Size(612, 480);
             this.playerStatsDataView.TabIndex = 0;
-            this.playerStatsDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.playerStatsDataView.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.playerStatsDataView_ColumnHeaderMouseClick);
+            this.playerStatsDataView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.playerStatsDataView_DataBindingComplete);
+            this.playerStatsDataView.SelectionChanged += new System.EventHandler(this.playerStatsDataView_SelectionChanged);
             // 
             // playerStatsDisplayPanel
             // 
+            this.playerStatsDisplayPanel.Controls.Add(this.playerDisplayLabel);
             this.playerStatsDisplayPanel.Location = new System.Drawing.Point(793, 49);
             this.playerStatsDisplayPanel.Name = "playerStatsDisplayPanel";
             this.playerStatsDisplayPanel.Size = new System.Drawing.Size(306, 409);
             this.playerStatsDisplayPanel.TabIndex = 1;
+            // 
+            // playerDisplayLabel
+            // 
+            this.playerDisplayLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.playerDisplayLabel.Location = new System.Drawing.Point(0, 0);
+            this.playerDisplayLabel.Name = "playerDisplayLabel";
+            this.playerDisplayLabel.Size = new System.Drawing.Size(306, 409);
+            this.playerDisplayLabel.TabIndex = 0;
+            this.playerDisplayLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // teamSelectionComboBox
             // 
@@ -121,15 +135,15 @@
             this.rosterBindingSource.DataMember = "Roster";
             this.rosterBindingSource.DataSource = this.teamBindingSource;
             // 
-            // forwardsBindingSource
-            // 
-            this.forwardsBindingSource.DataMember = "Forwards";
-            this.forwardsBindingSource.DataSource = this.teamBindingSource;
-            // 
             // teamBindingSource
             // 
             this.teamBindingSource.DataSource = typeof(Elite_Hockey_Manager.Classes.Team);
             this.teamBindingSource.CurrentChanged += new System.EventHandler(this.teamBindingSource_CurrentChanged);
+            // 
+            // forwardsBindingSource
+            // 
+            this.forwardsBindingSource.DataMember = "Forwards";
+            this.forwardsBindingSource.DataSource = this.teamBindingSource;
             // 
             // ProgressionAndRetirementForm
             // 
@@ -145,9 +159,10 @@
             this.Text = "Player Progression and Player Retirements";
             this.Load += new System.EventHandler(this.ProgressionAndRetirementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.playerStatsDataView)).EndInit();
+            this.playerStatsDisplayPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rosterBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teamBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.forwardsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,5 +178,6 @@
         private System.Windows.Forms.BindingSource teamBindingSource;
         private System.Windows.Forms.BindingSource rosterBindingSource;
         private System.Windows.Forms.BindingSource forwardsBindingSource;
+        private System.Windows.Forms.Label playerDisplayLabel;
     }
 }
