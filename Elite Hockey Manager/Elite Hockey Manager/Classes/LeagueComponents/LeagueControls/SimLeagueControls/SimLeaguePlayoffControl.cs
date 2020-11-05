@@ -13,7 +13,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 #if DEBUG
     public partial class SimLeaguePlayoffControl : SimLeagueControlMiddle
 #else
-        public partial class SimLeagueOffseasonControl : SimLeagueControl
+        public partial class SimLeaguePlayoffControl : SimLeagueControl
 #endif
     {
         public EventHandler AdvanceLeagueStateToOffseason;

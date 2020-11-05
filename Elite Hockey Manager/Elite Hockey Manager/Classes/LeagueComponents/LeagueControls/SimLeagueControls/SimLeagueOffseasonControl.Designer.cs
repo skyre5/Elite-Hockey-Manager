@@ -96,6 +96,11 @@
 
         }
 
+        protected override void SetControlsText()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
 
         private System.Windows.Forms.Label stageLabel;
