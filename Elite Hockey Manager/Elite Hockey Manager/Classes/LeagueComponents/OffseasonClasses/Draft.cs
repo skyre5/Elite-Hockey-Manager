@@ -24,27 +24,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
     [Serializable]
     public class Draft : ISerializable
     {
-        public int CurrentPick
-        {
-            get
-            {
-                return _currentPick;
-            }
-        }
-        public int CurrentRound
-        {
-            get
-            {
-                return _currentRound;
-            }
-        }
-        public bool DoneDrafting
-        {
-            get
-            {
-                return _doneDrafting; 
-            }
-        }
+        public int CurrentPick { get; private set; } = 1;
+        public int CurrentRound { get; private set; } = 1;
+        public bool DoneDrafting { get; private set; } = false;
         //Static variable, changeable by options in the future
         public static int Rounds = 7;
         public readonly int Year;
@@ -58,9 +40,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         //Draft pool after picks are made, will finished with only the players that will go undrafted
         //Will have players removed constantly, so is switched to list
         public readonly List<Player> RemainingDraftPool;
-        private int _currentPick = 1;
-        private int _currentRound = 1;
-        private bool _doneDrafting = false;
+
         public Draft(int year, int teamsCount, Team[] draftOrder)
         {
             Year = year;
@@ -77,44 +57,44 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         }
         public void SimPick()
         {
-            if (_doneDrafting)
+            if (DoneDrafting)
             {
                 return;
             }
             MakePick();
-            if (_currentPick == Rounds * Teams + 1)
+            if (CurrentPick == Rounds * Teams + 1)
             {
-                _doneDrafting = true;
+                DoneDrafting = true;
             }
         }
         public void SimRound()
         {
-            if (_doneDrafting)
+            if (DoneDrafting)
             {
                 return;
             }
-            int nextRoundFirstPick = _currentRound * Teams + 1;
-            while (_currentPick < nextRoundFirstPick)
+            int nextRoundFirstPick = CurrentRound * Teams + 1;
+            while (CurrentPick < nextRoundFirstPick)
             {
                 MakePick();
             }
-            if (_currentPick == Rounds * Teams + 1)
+            if (CurrentPick == Rounds * Teams + 1)
             {
-                _doneDrafting = true;
+                DoneDrafting = true;
             }
         }
         public void SimDraft()
         {
-            if (_doneDrafting)
+            if (DoneDrafting)
             {
                 return;
             }
             int lastPickInDraft = Teams * Rounds;
-            while (_currentPick <= lastPickInDraft)
+            while (CurrentPick <= lastPickInDraft)
             {
                 MakePick();
             }
-            _doneDrafting = true;
+            DoneDrafting = true;
 
         }
         private void InitializePlayerTrackerToDraftClass()
@@ -128,7 +108,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         private void MakePick()
         {
             //Current pick must be offset by 1 to get into zero index
-            Team pickingTeam = TeamDraftOrder[(_currentPick - 1) % Teams];
+            Team pickingTeam = TeamDraftOrder[(CurrentPick - 1) % Teams];
             //Picks the highest overall player and removes them from the remaning draft pool list
             Player pickedPlayer = RemainingDraftPool[0];
             RemainingDraftPool.RemoveAt(0);
@@ -138,17 +118,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             //Generates contract for newly drafted player
             ContractGenerator.GenerateContract(pickedPlayer);
 
-            DraftPicks[_currentPick - 1] = new DraftPick(pickingTeam, pickedPlayer, _currentRound, _currentPick);
-            _currentPick++;
-            _currentRound = ((_currentPick - 1) / Teams) + 1;
+            DraftPicks[CurrentPick - 1] = new DraftPick(pickingTeam, pickedPlayer, CurrentRound, CurrentPick);
+            CurrentPick++;
+            CurrentRound = ((CurrentPick - 1) / Teams) + 1;
         }
         protected Draft(SerializationInfo info, StreamingContext context)
         {
             //this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
-            this._currentRound = (int)info.GetValue("CurrentPick", typeof(int));
-            this._currentRound = (int)info.GetValue("CurrentRound", typeof(int));
+            this.CurrentRound = (int)info.GetValue("CurrentPick", typeof(int));
+            this.CurrentRound = (int)info.GetValue("CurrentRound", typeof(int));
 
-            this._doneDrafting = (bool)info.GetValue("DoneDrafting", typeof(bool));
+            this.DoneDrafting = (bool)info.GetValue("DoneDrafting", typeof(bool));
 
             this.Year = (int)info.GetValue("Year", typeof(int));
             this.Teams = (int)info.GetValue("Teams", typeof(int));
@@ -160,10 +140,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             //info.AddValue("State", this.State);
-            info.AddValue("CurrentPick", this._currentPick);
-            info.AddValue("CurrentRound", this._currentRound);
+            info.AddValue("CurrentPick", this.CurrentPick);
+            info.AddValue("CurrentRound", this.CurrentRound);
 
-            info.AddValue("DoneDrafting", this._doneDrafting);
+            info.AddValue("DoneDrafting", this.DoneDrafting);
 
             info.AddValue("Year", this.Year);
             info.AddValue("Teams", this.Teams);

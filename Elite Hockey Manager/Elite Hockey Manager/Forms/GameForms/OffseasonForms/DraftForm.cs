@@ -33,11 +33,11 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         {
             this.Text = String.Format("Year {0} Draft", _draft.Year);
             UpdateRoundAndPick();
+            UpdateSelectingTeam();
             //If the draft was already in progress, add previous draft picks to layout panel
             if (_draft.CurrentPick != 1)
             {
                 AddDraftPicksToLayout(_draft.DraftPicks);
-                UpdateSelectingTeam();
             }
             if (_draft.DoneDrafting)
             {
