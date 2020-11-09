@@ -98,6 +98,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             {
                 MakePick();
             }
+            if (_currentPick == Rounds * Teams + 1)
+            {
+                _doneDrafting = true;
+            }
         }
         public void SimDraft()
         {
