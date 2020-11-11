@@ -22,7 +22,6 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class League : ISerializable
     {
-        private int _year = 1;
         private int _numberOfTeams;
         private int _scheduleLength;
         private static double _salaryCap = 50;
@@ -35,13 +34,7 @@ namespace Elite_Hockey_Manager.Classes
         private List<Playoff> _leagueHistoryPlayoffs = new List<Playoff>();
         //Stores all the drafts that occur in the leagues history
         private List<Draft> _leagueHistoryDrafts = new List<Draft>();
-        public int Year
-        {
-            get
-            {
-                return _year;
-            }
-        }
+        public int Year { get; private set; } = 1;
         public int DayIndex
         {
             get;
@@ -163,11 +156,11 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// The number of players within all the leagues teams
         /// </summary>
-        public int PlayerCount
+        public int ActivePlayerCount
         {
             get
             {
-                return AllPlayers.Count;
+                return ActivePlayers.Count;
             }
         }
         public string FirstConferenceName
@@ -197,7 +190,29 @@ namespace Elite_Hockey_Manager.Classes
                 return FirstConference.Concat(SecondConference).ToList();
             }
         }
-        public List<Player> AllPlayers
+        public List<Player> ActivePlayers
+        {
+            get
+            {
+                List<Player> players = new List<Player>();
+                players.AddRange(SignedPlayers);
+                players.AddRange(UnsignedPlayers);
+                return players;
+
+            }
+        }
+        public List<Player> Players
+        {
+            get
+            {
+                List<Player> players = new List<Player>();
+                players.AddRange(SignedPlayers);
+                players.AddRange(UnsignedPlayers);
+                players.AddRange(RetiredPlayers);
+                return players;
+            }
+        }
+        public List<Player> SignedPlayers
         {
             get
             {
@@ -211,6 +226,8 @@ namespace Elite_Hockey_Manager.Classes
 
             }
         }
+        public List<Player> RetiredPlayers { get; private set; } = new List<Player>();
+        public List<Player> UnsignedPlayers { get; private set; } = new List<Player>();
         public League(string name, string abbreviation, int teamsCount)
         {
             this.LeagueName = name;
@@ -249,9 +266,9 @@ namespace Elite_Hockey_Manager.Classes
         private void InitializePlayersProgressionTrackers()
         {
             //Sets each player in this league to have an initial progression tracker, only needs to be done upon leagues first ever setup
-            foreach (Player player in this.AllPlayers)
+            foreach (Player player in this.ActivePlayers)
             {
-                player.InitializePlayerProgressionTracker(this._year);
+                player.InitializePlayerProgressionTracker(this.Year);
             }
         }
         /// <summary>
@@ -498,12 +515,12 @@ namespace Elite_Hockey_Manager.Classes
                 //Confirms the two conferences are sorted so the playoff teams are correct
                 SortTeamList(FirstConference);
                 SortTeamList(SecondConference);
-                this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this._year, FirstConference, SecondConference));
+                this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this.Year, FirstConference, SecondConference));
             }
         }
         public void AdvanceToOffseason(object sender, EventArgs e)
         {
-            _year++;
+            Year++;
             State = LeagueState.Offseason;
 
             //Updates each teams internal year variable
@@ -511,9 +528,9 @@ namespace Elite_Hockey_Manager.Classes
                 team.AdvanceYear();
             //Generates draft order based on league standings and playoff performance 
             Team[] draftOrder = GenerateDraftOrder();
-            _leagueHistoryDrafts.Add(new Draft(_year, _numberOfTeams, draftOrder));
+            _leagueHistoryDrafts.Add(new Draft(Year, _numberOfTeams, draftOrder));
             //Ages every rostered player in the league and updates attributes
-            foreach (Player player in AllPlayers)
+            foreach (Player player in ActivePlayers)
             {
                 player.AgePlayerAndProgress();
             }

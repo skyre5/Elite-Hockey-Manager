@@ -37,7 +37,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         }
         private void ProgressionAndRetirementForm_Load(object sender, EventArgs e)
         {
-            LoadPlayersIntoTable(_league.AllPlayers);
+            LoadPlayersIntoTable(_league.ActivePlayers);
             LoadTeamsIntoComboBox(_league.AllTeams);
         }
         private void LoadPlayersIntoTable(List<Player> players)

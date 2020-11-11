@@ -35,7 +35,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private void PlayerValidation()
         {
-            lblPlayersHeader.Text = String.Format("Players: {0}", _league.PlayerCount);
+            lblPlayersHeader.Text = String.Format("Players: {0}", _league.ActivePlayerCount);
             int errorCount = _league.GetTeamErrorCount();
             lblPlayersCheck.Text = String.Format("Teams With Errors: {0}", errorCount);
             if (errorCount == 0)
