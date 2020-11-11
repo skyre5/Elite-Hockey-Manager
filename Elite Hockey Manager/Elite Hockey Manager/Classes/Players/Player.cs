@@ -145,7 +145,7 @@ namespace Elite_Hockey_Manager.Classes
         /// Keeps track of if the player is currently retired
         /// If player is retired, then no further additions should be made to this history
         /// </summary>
-        public bool Retired { get; private set; } = false;
+        public bool Retired { get; set; } = false;
         public abstract int Overall
         {
             get;
@@ -218,11 +218,6 @@ namespace Elite_Hockey_Manager.Classes
             Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
             Age++;
-        }
-        private bool ChooseToRetire()
-        {
-            retirementChoice = false;
-            bool isStillA
         }
         /// <summary>
         /// Method to add contract to a player

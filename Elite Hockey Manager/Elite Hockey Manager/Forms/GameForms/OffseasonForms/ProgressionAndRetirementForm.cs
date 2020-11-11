@@ -72,6 +72,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             //ChangeColorOfTotalChangeRows();
             playerStatsDataView.Columns["Tracker"].Visible = false;
             playerStatsDataView.Columns["TeamID"].Visible = false;
+            playerStatsDataView.Columns["Retired"].SortMode = DataGridViewColumnSortMode.Automatic;
             playerStatsDataView.Sort(this.playerStatsDataView.Columns["Total Change"], ListSortDirection.Descending);
         }
         private void LoadTeamsIntoComboBox(List<Team> teams)
@@ -119,7 +120,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                         where (_selectedTeam == null || p.Field<int?>("TeamID") == _selectedTeam.TeamID)
                         where p.Field<bool>("Retired") == _retiredPlayers
                         select p;
-            playerStatsDataView.DataSource = query.CopyToDataTable() ;
+            playerStatsDataView.DataSource = query.CopyToDataTable();
             ChangeColorOfTotalChangeRows();
 
         }
@@ -150,6 +151,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private void retirementCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             _retiredPlayers = ((CheckBox)sender).Checked;
+            SelectByTeamAndRetirement();
         }
 
         private void playerStatsDataView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

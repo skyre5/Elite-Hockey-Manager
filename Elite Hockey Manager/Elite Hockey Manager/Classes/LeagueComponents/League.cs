@@ -533,6 +533,9 @@ namespace Elite_Hockey_Manager.Classes
             foreach (Player player in ActivePlayers)
             {
                 player.AgePlayerAndProgress();
+                if (Retirement.ChooseToRetire(player, player.CurrentTeam, rand)) {
+                    player.Retired = true;
+                }
             }
 
         }

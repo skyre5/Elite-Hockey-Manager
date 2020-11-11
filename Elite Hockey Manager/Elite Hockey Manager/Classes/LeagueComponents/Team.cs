@@ -10,7 +10,7 @@ using Elite_Hockey_Manager.Classes.Stats;
 namespace Elite_Hockey_Manager.Classes
 {
     [Serializable]
-    public class Team : ISerializable, IEquatable<Team>, IComparable<Team>
+    public class Team : IEquatable<Team>, IComparable<Team> //,ISerializable
     {
         private int _year = 1;
         private string _location;
@@ -81,9 +81,6 @@ namespace Elite_Hockey_Manager.Classes
             private set;
         } = new List<Player>();
 
-        private Forward[,] _forwards = new Forward[4, 3];
-        private Defender[,] _defenders = new Defender[3, 2];
-        private Goalie[] _goalies = new Goalie[2];
         public Team(string location, string name)
         {
             Location = location;
@@ -175,27 +172,9 @@ namespace Elite_Hockey_Manager.Classes
                 return _teamID;
             }
         }
-        public Forward[,] Forwards
-        {
-            get
-            {
-                return _forwards;
-            }
-        }
-        public Defender[,] Defenders
-        {
-            get
-            {
-                return _defenders;
-            }
-        }
-        public Goalie[] Goalies
-        {
-            get
-            {
-                return _goalies;
-            }
-        }
+        public Forward[,] Forwards { get; } = new Forward[4, 3];
+        public Defender[,] Defenders { get; } = new Defender[3, 2];
+        public Goalie[] Goalies { get; } = new Goalie[2];
         /// <summary>
         /// List of all season stats through game history
         /// </summary>
@@ -236,7 +215,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 throw new ArgumentOutOfRangeException("Invalid line number(1-4)");
             }
-            return GetRow(_forwards, line - 1);
+            return GetRow(Forwards, line - 1);
         }
         /// <summary>
         /// Gets an array of size 2 for a specific defensive line
@@ -249,7 +228,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 throw new ArgumentException("Invalid line number(1-3)");
             }
-            return GetRow(_defenders, line - 1);
+            return GetRow(Defenders, line - 1);
         }
         /// <summary>
         /// Gets the starter or backup goalie for a game
@@ -258,14 +237,14 @@ namespace Elite_Hockey_Manager.Classes
         public Goalie GetGamesStartingGoalie()
         {
             //If the starting goalies fatigue is greater than 10, returns backup
-            if (_goalies[0].Attributes.Fatigue >= 10)
+            if (Goalies[0].Attributes.Fatigue >= 10)
             {
                 //If backup goaltender plays, reduce starters fatigue by 10
-                _goalies[0].Attributes.Fatigue -= 10;
-                return _goalies[1];
+                Goalies[0].Attributes.Fatigue -= 10;
+                return Goalies[1];
             }
             //Returns starter
-            return _goalies[0];
+            return Goalies[0];
         }
         /// <summary>
         /// Helper function to get a row of a 2d array based on row
@@ -383,7 +362,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 for (int j = 0; j <= 2; j++)
                 {
-                    if (_forwards[i, j] == null)
+                    if (Forwards[i, j] == null)
                     {
                         AutoSetForwardLines();
                         break;
@@ -395,7 +374,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 for (int j = 0; j <= 1; j++)
                 {
-                    if (_defenders[i, j] == null)
+                    if (Defenders[i, j] == null)
                     {
                         AutoSetDefenseLines();
                         break;
@@ -403,7 +382,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
             //If the goalies array contains a null value, set goalie lines
-            if (_goalies.Contains(null))
+            if (Goalies.Contains(null))
             {
                 AutoSetGoalies();
             }
@@ -428,9 +407,9 @@ namespace Elite_Hockey_Manager.Classes
             CheckForInjury(centers, 2, 5, 4, PlayerGenerator.GenerateForward);
             for (int i = 0; i <= 3; i++)
             {
-                _forwards[i, 0] = (Forward)leftWings[i];
-                _forwards[i, 1] = (Forward)centers[i];
-                _forwards[i, 2] = (Forward)rightWings[i];
+                Forwards[i, 0] = (Forward)leftWings[i];
+                Forwards[i, 1] = (Forward)centers[i];
+                Forwards[i, 2] = (Forward)rightWings[i];
             }
         }
         /// <summary>
@@ -445,8 +424,8 @@ namespace Elite_Hockey_Manager.Classes
             CheckForInjury(rightDefenders, 1, 4, 3, PlayerGenerator.GenerateDefender);
             for (int i = 0; i <= 2; i++)
             {
-                _defenders[i, 0] = (Defender)leftDefenders[i];
-                _defenders[i, 1] = (Defender)rightDefenders[i];
+                Defenders[i, 0] = (Defender)leftDefenders[i];
+                Defenders[i, 1] = (Defender)rightDefenders[i];
             }
         }
         /// <summary>
@@ -466,8 +445,8 @@ namespace Elite_Hockey_Manager.Classes
                 emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
 
             }
-            _goalies[0] = (Goalie)goalies[0];
-            _goalies[1] = (Goalie)goalies[1];
+            Goalies[0] = (Goalie)goalies[0];
+            Goalies[1] = (Goalie)goalies[1];
         }
         /// <summary>
         /// Adds new teamstats object to this Team class for the playoffs for the current year
@@ -548,24 +527,24 @@ namespace Elite_Hockey_Manager.Classes
             //If points are different, sort by points
             return t1.Points.CompareTo(t2.Points);
         }
-        protected Team(SerializationInfo info, StreamingContext context)
-        {
-            this._teamName = (string)info.GetValue("TeamName", typeof(string));
-            this._location = (string)info.GetValue("Location", typeof(string));
-            this._logoPath = (string)info.GetValue("Logo", typeof(string));
-            this._teamID = (int)info.GetValue("ID", typeof(int));
-            this._abbreviation = (string)info.GetValue("Abbreviation", typeof(string));
-            this.seasonTeamStats = (List<TeamStats>)info.GetValue("SeasonTeamStats", typeof(List<TeamStats>));
-        }
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("TeamName", this._teamName);
-            info.AddValue("Location", this._location);
-            info.AddValue("Logo", this._logoPath);
-            info.AddValue("ID", this._teamID);
-            info.AddValue("Abbreviation", this._abbreviation);
-            info.AddValue("SeasonTeamStats", this.seasonTeamStats);
-        }
+        //protected Team(SerializationInfo info, StreamingContext context)
+        //{
+        //    this._teamName = (string)info.GetValue("TeamName", typeof(string));
+        //    this._location = (string)info.GetValue("Location", typeof(string));
+        //    this._logoPath = (string)info.GetValue("Logo", typeof(string));
+        //    this._teamID = (int)info.GetValue("ID", typeof(int));
+        //    this._abbreviation = (string)info.GetValue("Abbreviation", typeof(string));
+        //    this.seasonTeamStats = (List<TeamStats>)info.GetValue("SeasonTeamStats", typeof(List<TeamStats>));
+        //}
+        //public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("TeamName", this._teamName);
+        //    info.AddValue("Location", this._location);
+        //    info.AddValue("Logo", this._logoPath);
+        //    info.AddValue("ID", this._teamID);
+        //    info.AddValue("Abbreviation", this._abbreviation);
+        //    info.AddValue("SeasonTeamStats", this.seasonTeamStats);
+        //}
 
     }
 }
