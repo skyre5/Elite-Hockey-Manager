@@ -53,7 +53,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                            BaseOverall = p.ProgressionTracker.OverallTrackerList[p.ProgressionTracker.OverallTrackerList.Count - 2],
                            NewOverall = p.ProgressionTracker.OverallTrackerList.Last(),
                            TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes(),
-                           Retired = p.ProgressionTracker.IsRetired
+                           p.Retired
 
                        };
             foreach (var player in query)

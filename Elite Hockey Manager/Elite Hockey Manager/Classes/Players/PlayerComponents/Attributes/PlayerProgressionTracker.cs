@@ -16,11 +16,6 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         /// </summary>
         public int RookieYear { get; private set; }
         /// <summary>
-        /// Keeps track of if the player is currently retired
-        /// If player is retired, then no further additions should be made to this history
-        /// </summary>
-        public bool IsRetired { get; private set; } = false;
-        /// <summary>
         /// Dictionary of each players attributes with key as attribute and element as a tuple with players original attribute
         /// as well as list with the players overall by each year afterwards
         /// </summary>

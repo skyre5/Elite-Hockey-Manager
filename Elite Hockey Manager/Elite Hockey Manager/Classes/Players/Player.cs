@@ -141,6 +141,11 @@ namespace Elite_Hockey_Manager.Classes
                 return _playerID;
             }
         }
+        /// <summary>
+        /// Keeps track of if the player is currently retired
+        /// If player is retired, then no further additions should be made to this history
+        /// </summary>
+        public bool Retired { get; private set; } = false;
         public abstract int Overall
         {
             get;
@@ -214,6 +219,24 @@ namespace Elite_Hockey_Manager.Classes
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
             Age++;
         }
+        private bool ChooseToRetire()
+        {
+            retirementChoice = false;
+            bool isStillA
+        }
+        /// <summary>
+        /// Method to add contract to a player
+        /// Contracts are added upon league creation, injury replacement players, draft pick created players, resign, and free agency
+        /// </summary>
+        /// <param name="contract"></param>
+        public void AddContract(Contract contract)
+        {
+            if (contract == null)
+            {
+                throw new ArgumentNullException("Null contract object can not be added");
+            }
+            _careerContracts.Add(contract);
+        }
         public override string ToString()
         {
             return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
@@ -238,14 +261,6 @@ namespace Elite_Hockey_Manager.Classes
             this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
             this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
             this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
-        }
-        public void AddContract(Contract contract)
-        {
-            if (contract == null)
-            {
-                throw new ArgumentNullException("Null contract object can not be added");
-            }
-            _careerContracts.Add(contract);
         }
     }
 }
