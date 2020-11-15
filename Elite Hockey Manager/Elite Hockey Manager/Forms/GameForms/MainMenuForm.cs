@@ -34,10 +34,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             //Adds the doWork function in league the background worker in the MainMenuForm for multithreading 
             simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
             //Events for switch from regular season to playoffs
-            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += _league.AdvanceToPlayoffs;
+            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) =>  _league.AdvanceToPlayoffs();
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += ChangeLayoutToPlayoffs;
             //Events for switch from playoffs to offseason 
-            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += _league.AdvanceToOffseason;
+            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => _league.AdvanceToOffseason();
             simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += ChangeLayoutToOffseason;
         }
 

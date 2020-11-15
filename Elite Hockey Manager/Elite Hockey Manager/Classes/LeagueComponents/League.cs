@@ -495,7 +495,7 @@ namespace Elite_Hockey_Manager.Classes
                 worker.ReportProgress(gameSimmedCount);      
             }
         }
-        public void AdvanceToPlayoffs(object sender, EventArgs e)
+        public void AdvanceToPlayoffs()
         {
             //In case this function is called without the regular season being complete, display error to console and force a finish to all simming of regular season
             if (!LeagueSchedule.IsFinishedSimming())
@@ -518,7 +518,7 @@ namespace Elite_Hockey_Manager.Classes
                 this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this.Year, FirstConference, SecondConference));
             }
         }
-        public void AdvanceToOffseason(object sender, EventArgs e)
+        public void AdvanceToOffseason()
         {
             Year++;
             State = LeagueState.Offseason;
