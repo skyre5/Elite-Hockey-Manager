@@ -536,9 +536,34 @@ namespace Elite_Hockey_Manager.Classes
                 if (Retirement.ChooseToRetire(player, player.CurrentTeam, rand)) {
                     player.Retired = true;
                 }
+                //Advances a year in the players contract
+                //if the contract remaining becomes 0 then the player is a free agent
+                if (player.CurrentContract.YearsRemaining > 0) { 
+                    player.CurrentContract.YearsRemaining -= 1;
+                }
+
             }
 
         }
+        public void SimulateResignPhase()
+        {
+            //Beginning of the next year will begin tracking at start of resign phase
+            this.Year++;
+            List<Player> newlyRetiredPlayers = ActivePlayers.Where(p => p.Retired == true).ToList();
+            //Moves all retired players into retiredPlayers list and removes them from the active list
+            foreach (Player player in newlyRetiredPlayers)
+            {
+                RetiredPlayers.Add(player);
+                ActivePlayers.Remove(player);
+                if (player.CurrentTeam != null)
+                {
+                    player.CurrentTeam.Roster.Remove(player);
+                }
+            }
+            //Will simulate the resigning of active players with expiring contracts
+            Resign.SimulateResignPeriod(this, rand);
+        }
+        public void SimulateFreeAgencyPhase()
         /// <summary>
         /// Generates the order of the draft based on standings from the previous season
         /// Non playoff teams are ordered worst to best

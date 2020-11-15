@@ -85,28 +85,20 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             if (minContractAmount == 0 && maxContractAmount == 0)
             {
-                Contract contract = new Contract(year, duration, 0);
+                Contract contract = new Contract(year, duration, .5);
                 player.AddContract(contract);
             }
             else
             {
                 double amount = GenerateContractAmount(minContractAmount, maxContractAmount);
+                if (amount < .5)
+                {
+                    amount = .5;
+                }
                 Contract contract = new Contract(year, duration, amount);
                 player.AddContract(contract);
             }
         }
-        //private static void GenerateVeteranContract(Forward player)
-        //{
-        //    int years = YearsForVeteranContract(player);
-        //}
-        //private static void GenerateVeteranContract(Defender player)
-        //{
-        //    int years = YearsForVeteranContract(player);
-        //}
-        //private static void GenerateVeteranContract(Goalie player)
-        //{
-        //    int years = YearsForVeteranContract(player);
-        //}
         private static double GenerateContractAmount(double minAmount, double maxAmount)
         {
             Random rand = new Random();

@@ -29,9 +29,9 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
         }
         private int _yearSigned = 1;
-        private int _yearsRemaining = 1;
         private int _contractDuration = 1;
-        private double _contractAmount = 0;
+        public int YearsRemaining { get; set; } = 1;
+        private double _contractAmount = .5;
         public int ContractDuration
         {
             get
@@ -58,7 +58,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
             set
             {
-                if (value < 0)
+                if (value < .5)
                 {
                     throw new ArgumentOutOfRangeException("Contract amount must be between .50 and 10");
                 }
@@ -68,18 +68,11 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
-        public int YearsRemaining
-        {
-            get
-            {
-                return _yearsRemaining;
-            }
-        }
         public Contract(int year, int duration, double amount)
         {
             this.YearSigned = year;
             this.ContractDuration = duration;
-            this._yearsRemaining = duration;
+            this.YearsRemaining = duration;
             this.ContractAmount = amount;
         }
         public Contract()
@@ -94,11 +87,11 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             //Versioning of contracts prior to contracts having remaining years
             try
             {
-                this._yearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
+                this.YearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
             }
             catch
             {
-                this._yearsRemaining = 1;
+                this.YearsRemaining = 1;
             }
         }
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -106,7 +99,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             info.AddValue("Year", this._yearSigned);
             info.AddValue("Duration", this._contractDuration);
             info.AddValue("Amount", this._contractAmount);
-            info.AddValue("YearsRemaining", this._yearsRemaining);
+            info.AddValue("YearsRemaining", this.YearsRemaining);
         }
     }
 }

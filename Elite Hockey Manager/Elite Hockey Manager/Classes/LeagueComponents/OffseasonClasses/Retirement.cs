@@ -85,7 +85,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 percentage *= .50;
             }
         }
-        private static bool IsStartingLevelPlayer(Player player, Team team)
+        public static bool IsStartingLevelPlayer(Player player, Team team)
         {
             //If the team is null, then there is no chance they are a starting level player
             if (team is null)
