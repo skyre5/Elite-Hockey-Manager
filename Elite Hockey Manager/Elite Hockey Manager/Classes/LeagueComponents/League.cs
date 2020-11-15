@@ -564,6 +564,9 @@ namespace Elite_Hockey_Manager.Classes
             Resign.SimulateResignPeriod(this, rand);
         }
         public void SimulateFreeAgencyPhase()
+        {
+            FreeAgency.SimulateFreeAgencyPeriod(this, rand);
+        }
         /// <summary>
         /// Generates the order of the draft based on standings from the previous season
         /// Non playoff teams are ordered worst to best

@@ -6,7 +6,28 @@ using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
-    class FreeAgency
+    public static class FreeAgency
     {
+        public static void SimulateFreeAgencyPeriod(League league, Random rand)
+        {
+            List<Player> freeAgents = league.UnsignedPlayers;
+            freeAgents = freeAgents.OrderByDescending(p => p.Overall).ToList();
+            foreach (Player player in freeAgents)
+            {
+                //Each player will get 3 opportunities to sign with a new team
+                //If all 3 passes fail then the player will remain unsigned for next season
+                for (int i = 0; i < 3; i++)
+                {
+                    Team signingTeam = league.AllTeams[rand.Next(league.NumberOfTeams)];
+                    if (Retirement.IsStartingLevelPlayer(player, signingTeam))
+                    {
+                        ContractGenerator.GenerateContract(player, league.Year);
+                        signingTeam.Roster.Add(player);
+                        league.UnsignedPlayers.Remove(player);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
