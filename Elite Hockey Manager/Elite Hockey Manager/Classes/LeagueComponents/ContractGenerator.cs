@@ -9,6 +9,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public static class ContractGenerator
     {
+        private static Random rand = new Random();
         //Salary cap of the league the system is currently generating contracts for
         //Default of 50
         private static double _salaryCap = 50.0;
@@ -101,7 +102,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private static double GenerateContractAmount(double minAmount, double maxAmount)
         {
-            Random rand = new Random();
             int lowerBound = (int)(minAmount / .25);
             int upperBound = (int)(maxAmount / .25);
             int amount = rand.Next(lowerBound, upperBound + 1);
@@ -224,7 +224,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
         private static int YearsForVeteranContract(Player player)
         {
-            Random rand = new Random();
             //1 - 8 year contracts
             int years = rand.Next(1, 9);
             //Only gives 1 year deals to players 41 or over
