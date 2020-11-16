@@ -58,18 +58,18 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         /// <param name="e"></param>
         public override void Sim2Button_Click(object sender, EventArgs e)
         {
-            StageAdvancedEvent?.Invoke();
             //If the stage index is not the final stage before the next season which is free agency, advange to the next stage within the enum OffseasonStage
             if (StageIndex != OffseasonStage.FreeAgency)
             {
                 StageIndex++;
                 UpdateTitle();
+                if (StageIndex == OffseasonStage.FreeAgency)
+                {
+                    advanceStateButton.Visible = true;
+                    advanceStateButton.Enabled = true;
+                }
             }
-            else
-            {
-                advanceStateButton.Visible = true;
-                advanceStateButton.Enabled = true;
-            }
+            StageAdvancedEvent?.Invoke();
         }
         /// <summary>
         /// Sims entire rest of offseason

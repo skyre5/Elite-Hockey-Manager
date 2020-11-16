@@ -46,7 +46,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
                 else
                 {
-                    _contractAmount = value;
+                    _contractDuration = value;
                 }
             }
         }

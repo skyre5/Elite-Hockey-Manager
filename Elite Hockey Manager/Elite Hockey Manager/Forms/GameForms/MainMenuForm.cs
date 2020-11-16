@@ -136,6 +136,21 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             simLeagueOffseasonControl1.Visible = true;
 
             simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
+            simLeagueOffseasonControl1.StageAdvancedEvent += () =>
+            {
+                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.Resign)
+                {
+                    if (!League.CurrentDraft.DoneDrafting)
+                    {
+                        League.CurrentDraft.SimDraft();
+                    }
+                    League.SimulateResignPhase();
+                }
+                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.FreeAgency)
+                {
+                    League.SimulateFreeAgencyPhase();
+                }
+            };
         }
 
         private void SimLeagueOffseasonControl1_OpenStageFormEvent(OffseasonStage stage)
@@ -151,7 +166,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                     draftForm.ShowDialog();
                     break;
                 case OffseasonStage.Resign:
-                    ResignForm resignForm = new ResignForm();
+                    ResignForm resignForm = new ResignForm(_league);
                     resignForm.ShowDialog();
                     break;
                 case OffseasonStage.FreeAgency:

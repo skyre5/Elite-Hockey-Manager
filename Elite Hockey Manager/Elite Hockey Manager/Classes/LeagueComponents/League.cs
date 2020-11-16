@@ -497,6 +497,7 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AdvanceToPlayoffs()
         {
+            int x = this.SignedPlayers.Where(y => y.CurrentContract.YearsRemaining == 1).Count();
             //In case this function is called without the regular season being complete, display error to console and force a finish to all simming of regular season
             if (!LeagueSchedule.IsFinishedSimming())
             {
@@ -547,8 +548,6 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void SimulateResignPhase()
         {
-            //Beginning of the next year will begin tracking at start of resign phase
-            this.Year++;
             List<Player> newlyRetiredPlayers = ActivePlayers.Where(p => p.Retired == true).ToList();
             //Moves all retired players into retiredPlayers list and removes them from the active list
             foreach (Player player in newlyRetiredPlayers)

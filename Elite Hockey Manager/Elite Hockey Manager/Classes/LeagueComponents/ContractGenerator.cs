@@ -132,10 +132,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     amount = .5;
                     break;
                 case ForwardPlayerStatus.RolePlayer:
-                    amount = 0;
+                    amount = .5;
                     break;
                 case ForwardPlayerStatus.Unset:
-                    amount = 0;
+                    amount = .5;
                     break;
             }
             Contract contract = new Contract(year, years, amount);
@@ -163,10 +163,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     amount = .5;
                     break;
                 case DefensePlayerStatus.Role:
-                    amount = 0;
+                    amount = .5;
                     break;
                 case DefensePlayerStatus.Unset:
-                    amount = 0;
+                    amount = .5;
                     break;
             }
             Contract contract = new Contract(year, years, amount);
@@ -195,7 +195,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     break;
                 case GoaliePlayerStatus.Role:
                 case GoaliePlayerStatus.Unset:
-                    amount = 0;
+                    amount = .5;
                     break;
             }
             Contract contract = new Contract(year, years, amount);

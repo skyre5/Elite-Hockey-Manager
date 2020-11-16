@@ -405,6 +405,9 @@
     <EmbeddedResource Include="Forms\GameForms\OffseasonForms\ProgressionAndRetirementForm.resx">
       <DependentUpon>ProgressionAndRetirementForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\OffseasonForms\ResignForm.resx">
+      <DependentUpon>ResignForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\PlayerDisplayForm.resx">
       <DependentUpon>PlayerDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
