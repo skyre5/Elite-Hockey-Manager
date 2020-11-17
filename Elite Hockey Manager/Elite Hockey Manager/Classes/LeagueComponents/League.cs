@@ -567,6 +567,28 @@ namespace Elite_Hockey_Manager.Classes
             FreeAgency.SimulateFreeAgencyPeriod(this, rand);
         }
         /// <summary>
+        /// Sets league object variables around to prepare for start of new season
+        /// Only called for each regular season after the first season that came prepared
+        /// </summary>
+        public void AdvanceToRegularSeason()
+        {
+            AddYearlyStats();
+        }
+        /// <summary>
+        /// Adds new seasonal stats to all signed players and teams
+        /// </summary>
+        private void AddYearlyStats()
+        {
+            foreach (Team team in AllTeams)
+            {
+                team.SeasonTeamStats.Add(new Stats.TeamStats(Year, false));
+            }
+            foreach (Player player in SignedPlayers)
+            {
+                player.AddStats(this.Year, player.CurrentTeam.TeamID, false);
+            }
+        }
+        /// <summary>
         /// Generates the order of the draft based on standings from the previous season
         /// Non playoff teams are ordered worst to best
         /// Playoff teams are ordered by round placement from worst to best with regular season tiebreakers for teams ending in same rounds
@@ -609,15 +631,6 @@ namespace Elite_Hockey_Manager.Classes
                 PlayoffRounds = PlayoffRounds.Two;
             }
         }
-        #region Player Progression
-        private void ProgressAllLeagueActivePlayers()
-        {
-
-        }
-
-
-
-        #endregion 
         /// <summary>
         /// Sorts a list of teams by their record
         /// </summary>

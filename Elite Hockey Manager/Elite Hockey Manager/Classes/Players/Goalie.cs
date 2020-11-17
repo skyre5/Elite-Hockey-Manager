@@ -88,6 +88,11 @@ namespace Elite_Hockey_Manager.Classes
             _attributes.GenerateGoalieStatRanges(status, _age);
         }
 
+        public override void AddStats(int year, int teamID, bool playoffs)
+        {
+            _stats.Add(new GoalieStats(year, teamID, playoffs));
+        }
+
         public override string Position
         {
             get

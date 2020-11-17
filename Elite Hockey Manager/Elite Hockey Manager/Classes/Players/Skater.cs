@@ -64,6 +64,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = new SkaterAttributes();
         }
+        public override void AddStats(int year, int teamID, bool playoffs)
+        {
+            _stats.Add(new SkaterStats(year, teamID, playoffs));
+        }
         public Skater(SerializationInfo info, StreamingContext context): base(info, context)
         {
             this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));

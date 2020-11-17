@@ -73,8 +73,6 @@ namespace Elite_Hockey_Manager.Classes
         }
         /// <summary>
         /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
-        /// TODO Fix this
-        /// Team.AddNewSkater and Team.AddNewGoalie should be used
         /// </summary>
         public List<Player> Roster
         {
@@ -91,7 +89,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            seasonTeamStats.Add(new TeamStats(1));
+            SeasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
         public Team(string location, string name, string imagePath)
@@ -102,7 +100,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
-            seasonTeamStats.Add(new TeamStats(1));
+            SeasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
         public string LogoPath
@@ -179,7 +177,7 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// List of all season stats through game history
         /// </summary>
-        private List<TeamStats> seasonTeamStats = new List<TeamStats>();
+        public List<TeamStats> SeasonTeamStats { get; private set; } = new List<TeamStats>();
         /// <summary>
         /// Gets the latest seasonal stats from the SeasonTeamStats list
         /// </summary>
@@ -187,21 +185,21 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return seasonTeamStats.Last();
+                return SeasonTeamStats.Last();
             }
         }
         public TeamStats CurrentRegularSeasonStats
         {
             get
             {
-                if (seasonTeamStats.Last().Playoff)
+                if (SeasonTeamStats.Last().Playoff)
                 {
                     //Gets the second to last teamStats of the list
-                    return seasonTeamStats[seasonTeamStats.Count - 2]; 
+                    return SeasonTeamStats[SeasonTeamStats.Count - 2]; 
                 }
                 else
                 {
-                    return seasonTeamStats.Last();
+                    return SeasonTeamStats.Last();
                 }
             }
         }
@@ -271,7 +269,7 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AddNewSkater(Skater skater)
         {
-            skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
+            //skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for 
             skater.CurrentTeam = this;
             ContractGenerator.GenerateContract(skater, this, Year);
@@ -279,7 +277,7 @@ namespace Elite_Hockey_Manager.Classes
         }
         public void AddNewGoalie(Goalie goalie)
         {
-            goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
+            //goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for 
             goalie.CurrentTeam = this;
             ContractGenerator.GenerateContract(goalie, this, Year);
@@ -458,18 +456,18 @@ namespace Elite_Hockey_Manager.Classes
         public void AddPlayoffsStatsToTeamAndPlayers()
         {
             //
-            seasonTeamStats.Add(new TeamStats(Year, true));
+            SeasonTeamStats.Add(new TeamStats(Year, true));
             foreach (Player player in Roster)
             {
                 if (player is Skater)
                 {
                     Skater skater = (Skater)player;
-                    skater.StatsList.Add(new SkaterStats(_year, _teamID, true));
+                    skater.AddStats(this._year, this._teamID, true);
                 }
                 if (player is Goalie)
                 {
                     Goalie goalie = (Goalie)player;
-                    goalie.StatsList.Add(new GoalieStats(_year, _teamID, true));
+                    goalie.AddStats(this._year, this._teamID, true);
                 }
             }
         }
@@ -488,6 +486,7 @@ namespace Elite_Hockey_Manager.Classes
                 Player emergencyCreatePlayer = createPlayerFunc(position, quality, -1);
                 players.Add(emergencyCreatePlayer);
                 this.AddNewSkater((Skater)emergencyCreatePlayer);
+                emergencyCreatePlayer.AddStats(this._year, this._teamID, false);
                 //Adds a players progression tracker when abruptely created mid season for emergency purposes
                 //Only occurs in this function and AutoSetGoalies function
                 emergencyCreatePlayer.InitializePlayerProgressionTracker(_year);

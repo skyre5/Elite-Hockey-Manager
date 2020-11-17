@@ -173,7 +173,6 @@ namespace Elite_Hockey_Manager.Classes
         protected string _firstName;
         protected string _lastName;
         protected int _age;
-        public List<PlayerStats> CareerStats { get; } = new List<PlayerStats>();
         public List<Contract> CareerContracts { get; } = new List<Contract>();
         
         public Player(string first, string last, int age, Contract contract)
@@ -219,6 +218,7 @@ namespace Elite_Hockey_Manager.Classes
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
             Age++;
         }
+        public abstract void AddStats(int year, int teamID, bool playoffs);
         /// <summary>
         /// Method to add contract to a player
         /// Contracts are added upon league creation, injury replacement players, draft pick created players, resign, and free agency
