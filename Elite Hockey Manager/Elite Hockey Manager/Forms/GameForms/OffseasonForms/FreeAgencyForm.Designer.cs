@@ -28,9 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // FreeAgencyForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "FreeAgencyForm";
+            this.ClientSize = new System.Drawing.Size(689, 526);
+            this.Name = "FreeAgencyForm";
+            this.Text = "Free Agency Signings";
+            this.Load += new System.EventHandler(this.FreeAgencyForm_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

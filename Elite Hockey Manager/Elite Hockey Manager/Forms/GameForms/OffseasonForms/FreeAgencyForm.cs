@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,22 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
     public partial class FreeAgencyForm : Form
     {
-        public FreeAgencyForm()
+        private List<Player> _freeAgents = new List<Player>();
+        public FreeAgencyForm(League league)
         {
             InitializeComponent();
+            if (league != null)
+            {
+                GetFreeAgents(league);
+            }
+        }
+        private void GetFreeAgents(League league)
+        {
+
+        }
+        private void FreeAgencyForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -99,6 +99,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 for (int line = 1; line <= 5; line++)
                 {
                     team.AddNewSkater(PlayerGenerator.GenerateForward(position, line));
+
                 }
             }
         }

@@ -115,8 +115,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 
             //Adds newly picked player to teams roster
             pickingTeam.Roster.Add(pickedPlayer);
+            pickedPlayer.CurrentTeam = pickingTeam;
             //Generates contract for newly drafted player
-            ContractGenerator.GenerateContract(pickedPlayer);
+            ContractGenerator.GenerateContract(pickedPlayer, pickingTeam, Year + 1);
 
             DraftPicks[CurrentPick - 1] = new DraftPick(pickingTeam, pickedPlayer, CurrentRound, CurrentPick);
             CurrentPick++;

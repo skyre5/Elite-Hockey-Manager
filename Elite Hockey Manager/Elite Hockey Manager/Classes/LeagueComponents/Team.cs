@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Classes.Stats;
 
 namespace Elite_Hockey_Manager.Classes
@@ -273,6 +274,7 @@ namespace Elite_Hockey_Manager.Classes
             skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for 
             skater.CurrentTeam = this;
+            ContractGenerator.GenerateContract(skater, this, Year);
             Roster.Add(skater);
         }
         public void AddNewGoalie(Goalie goalie)
@@ -280,6 +282,7 @@ namespace Elite_Hockey_Manager.Classes
             goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for 
             goalie.CurrentTeam = this;
+            ContractGenerator.GenerateContract(goalie, this, Year);
             Roster.Add(goalie);
         }
         public void AddNewPlayer(Player pickedPlayer)

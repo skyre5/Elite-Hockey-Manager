@@ -7,8 +7,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
 {
-    //[Serializable]
-    public class Contract : ISerializable
+    [Serializable]
+    public class Contract //: ISerializable
     {
         public int YearSigned
         {
@@ -28,6 +28,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
+        public Team SigningTeam { get; private set; } = null;
         private int _yearSigned = 1;
         private int _contractDuration = 1;
         public int YearsRemaining { get; set; } = 1;
@@ -68,38 +69,39 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
-        public Contract(int year, int duration, double amount)
+        public Contract(int year, int duration, double amount, Team signingTeam)
         {
             this.YearSigned = year;
             this.ContractDuration = duration;
             this.YearsRemaining = duration;
             this.ContractAmount = amount;
+            this.SigningTeam = signingTeam;
         }
         public Contract()
         {
 
         }
-        protected Contract(SerializationInfo info, StreamingContext context)
-        {
-            this._yearSigned = (int)info.GetValue("Year", typeof(int));
-            this._contractDuration = (int)info.GetValue("Duration", typeof(int));
-            this._contractAmount = (double)info.GetValue("Amount", typeof(double));
-            //Versioning of contracts prior to contracts having remaining years
-            try
-            {
-                this.YearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
-            }
-            catch
-            {
-                this.YearsRemaining = 1;
-            }
-        }
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Year", this._yearSigned);
-            info.AddValue("Duration", this._contractDuration);
-            info.AddValue("Amount", this._contractAmount);
-            info.AddValue("YearsRemaining", this.YearsRemaining);
-        }
+        //protected Contract(SerializationInfo info, StreamingContext context)
+        //{
+        //    this._yearSigned = (int)info.GetValue("Year", typeof(int));
+        //    this._contractDuration = (int)info.GetValue("Duration", typeof(int));
+        //    this._contractAmount = (double)info.GetValue("Amount", typeof(double));
+        //    //Versioning of contracts prior to contracts having remaining years
+        //    try
+        //    {
+        //        this.YearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
+        //    }
+        //    catch
+        //    {
+        //        this.YearsRemaining = 1;
+        //    }
+        //}
+        //public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("Year", this._yearSigned);
+        //    info.AddValue("Duration", this._contractDuration);
+        //    info.AddValue("Amount", this._contractAmount);
+        //    info.AddValue("YearsRemaining", this.YearsRemaining);
+        //}
     }
 }

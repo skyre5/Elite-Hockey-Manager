@@ -24,7 +24,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             {
                 if (player.Age < 25)
                 {
-                    ContractGenerator.GenerateContract(player, league.Year);
+                    ContractGenerator.GenerateContract(player, team, league.Year);
                     return;
                 }
                 else
@@ -44,11 +44,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                     //If the percentage chance succeeds, the player will resign with a contract calculated in the GenerateContract class
                     if (rollValue < percentage)
                     {
-                        ContractGenerator.GenerateContract(player, league.Year);
+                        ContractGenerator.GenerateContract(player, team, league.Year);
                     }
                     //The player will choose to not resign and be removed from the team and placed in the unsigned player list
                     else
                     {
+                        player.CurrentTeam = null;
                         league.UnsignedPlayers.Add(player);
                         team.Roster.Remove(player);
                     }

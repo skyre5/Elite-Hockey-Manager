@@ -21,7 +21,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                     Team signingTeam = league.AllTeams[rand.Next(league.NumberOfTeams)];
                     if (Retirement.IsStartingLevelPlayer(player, signingTeam))
                     {
-                        ContractGenerator.GenerateContract(player, league.Year);
+                        ContractGenerator.GenerateContract(player, signingTeam, league.Year);
                         signingTeam.Roster.Add(player);
                         league.UnsignedPlayers.Remove(player);
                         break;

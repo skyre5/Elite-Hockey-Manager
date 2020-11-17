@@ -346,7 +346,7 @@ namespace Elite_Hockey_Manager.Classes
                     break;
             }
             //Generates base contract for player based on overall
-            ContractGenerator.GenerateContract(newForward);
+            //ContractGenerator.GenerateContract(newForward);
             return newForward;
 
         }
@@ -427,7 +427,7 @@ namespace Elite_Hockey_Manager.Classes
 
             }
             //Generates base contract for player based on overall
-            ContractGenerator.GenerateContract(newDefender);
+            //ContractGenerator.GenerateContract(newDefender);
             //Sets faceoff to 50 for defenders since they don't use it
             newDefender.SkaterAttributes.Faceoff = 50;
             return newDefender;
@@ -496,7 +496,7 @@ namespace Elite_Hockey_Manager.Classes
                     break;
             }
             //Generates base contract for player based on overall
-            ContractGenerator.GenerateContract(newGoalie);
+            //ContractGenerator.GenerateContract(newGoalie);
             return newGoalie;
         }
         private static void WeightedPlayerRatingsGenerator(Player player, params int[] weights)

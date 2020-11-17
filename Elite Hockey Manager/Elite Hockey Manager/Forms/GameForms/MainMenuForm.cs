@@ -170,7 +170,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                     resignForm.ShowDialog();
                     break;
                 case OffseasonStage.FreeAgency:
-                    FreeAgencyForm form = new FreeAgencyForm();
+                    FreeAgencyForm form = new FreeAgencyForm(_league);
                     form.ShowDialog();
                     break;
             }
