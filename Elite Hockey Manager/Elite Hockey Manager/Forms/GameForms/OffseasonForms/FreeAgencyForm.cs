@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,45 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         }
         private void GetFreeAgents(League league)
         {
+            List<Player> baseFreeAgents = league.SignedPlayers.Where(p => p.CurrentContract.YearSigned == league.Year).ToList();
+            _freeAgents = baseFreeAgents.Where(p => p.CareerContracts.Count > 1)
+                .Where(p => p.CareerContracts[p.CareerContracts.Count() - 2].SigningTeam != p.CurrentTeam).ToList();
+
 
         }
         private void FreeAgencyForm_Load(object sender, EventArgs e)
         {
+            FillLayoutPanel();
+            SetTotalMoneySpent();
+        }
+        private void SetTotalMoneySpent()
+        {
+            double totalSpent = 0;
+            foreach (Player player in _freeAgents)
+            {
+                totalSpent += player.CurrentContract.YearsRemaining * player.CurrentContract.ContractAmount;
+            }
+            totalSpentLabel.Text = $"Cash Spent: {(totalSpent * 1E6).ToString("C", CultureInfo.CurrentCulture)}";
+        }
+        private void FillLayoutPanel()
+        {
+            _freeAgents = _freeAgents.OrderByDescending(p => p.CurrentContract.ContractAmount).ToList();
+            foreach (Player player in _freeAgents)
+            {
+                Label signingLabel = new Label
+                {
+                    //Stores the player object in the label so that it can be used to open up the player label
+                    Tag = player,
+                    Text = $"{player.FullName} ({player.Position}) joined the {player.CurrentTeam.TeamName}, moving on from the " +
+                    //Team they were previously signed on
+                    //TODO Create ability to determine if the player was previously unsigned for the entire previous year
+                    $"{player.CareerContracts[player.CareerContracts.Count() - 2].SigningTeam.TeamName} " +
+                    $"{player.CurrentContract.ContractAmount} AAV for {player.CurrentContract.ContractDuration} years",
+                    AutoSize = true
+                };
+                playersLayoutPanel.Controls.Add(signingLabel);
 
+            }
         }
     }
 }

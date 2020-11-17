@@ -23,6 +23,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                     {
                         ContractGenerator.GenerateContract(player, signingTeam, league.Year);
                         signingTeam.Roster.Add(player);
+                        player.CurrentTeam = signingTeam;
                         league.UnsignedPlayers.Remove(player);
                         break;
                     }

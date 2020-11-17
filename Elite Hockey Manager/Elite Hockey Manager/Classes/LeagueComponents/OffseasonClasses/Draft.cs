@@ -22,7 +22,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         }
     }
     [Serializable]
-    public class Draft : ISerializable
+    public class Draft
     {
         public int CurrentPick { get; private set; } = 1;
         public int CurrentRound { get; private set; } = 1;
@@ -123,36 +123,36 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             CurrentPick++;
             CurrentRound = ((CurrentPick - 1) / Teams) + 1;
         }
-        protected Draft(SerializationInfo info, StreamingContext context)
-        {
-            //this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
-            this.CurrentRound = (int)info.GetValue("CurrentPick", typeof(int));
-            this.CurrentRound = (int)info.GetValue("CurrentRound", typeof(int));
+        //protected Draft(SerializationInfo info, StreamingContext context)
+        //{
+        //    //this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
+        //    this.CurrentRound = (int)info.GetValue("CurrentPick", typeof(int));
+        //    this.CurrentRound = (int)info.GetValue("CurrentRound", typeof(int));
 
-            this.DoneDrafting = (bool)info.GetValue("DoneDrafting", typeof(bool));
+        //    this.DoneDrafting = (bool)info.GetValue("DoneDrafting", typeof(bool));
 
-            this.Year = (int)info.GetValue("Year", typeof(int));
-            this.Teams = (int)info.GetValue("Teams", typeof(int));
+        //    this.Year = (int)info.GetValue("Year", typeof(int));
+        //    this.Teams = (int)info.GetValue("Teams", typeof(int));
 
-            this.TeamDraftOrder = (Team[])info.GetValue("TeamDraftOrder", typeof(Team[]));
-            this.DraftPicks = (DraftPick[])info.GetValue("DraftPicks", typeof(DraftPick[]));
-            this.RemainingDraftPool = (List<Player>)info.GetValue("RemainingDraftPool", typeof(List<Player>));
-        }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            //info.AddValue("State", this.State);
-            info.AddValue("CurrentPick", this.CurrentPick);
-            info.AddValue("CurrentRound", this.CurrentRound);
+        //    this.TeamDraftOrder = (Team[])info.GetValue("TeamDraftOrder", typeof(Team[]));
+        //    this.DraftPicks = (DraftPick[])info.GetValue("DraftPicks", typeof(DraftPick[]));
+        //    this.RemainingDraftPool = (List<Player>)info.GetValue("RemainingDraftPool", typeof(List<Player>));
+        //}
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    //info.AddValue("State", this.State);
+        //    info.AddValue("CurrentPick", this.CurrentPick);
+        //    info.AddValue("CurrentRound", this.CurrentRound);
 
-            info.AddValue("DoneDrafting", this.DoneDrafting);
+        //    info.AddValue("DoneDrafting", this.DoneDrafting);
 
-            info.AddValue("Year", this.Year);
-            info.AddValue("Teams", this.Teams);
+        //    info.AddValue("Year", this.Year);
+        //    info.AddValue("Teams", this.Teams);
 
-            info.AddValue("TeamDraftOrder", this.TeamDraftOrder);
-            info.AddValue("DraftPicks", this.DraftPicks);
-            info.AddValue("RemainingDraftPool", this.RemainingDraftPool);
-        }
+        //    info.AddValue("TeamDraftOrder", this.TeamDraftOrder);
+        //    info.AddValue("DraftPicks", this.DraftPicks);
+        //    info.AddValue("RemainingDraftPool", this.RemainingDraftPool);
+        //}
 
     }
 }

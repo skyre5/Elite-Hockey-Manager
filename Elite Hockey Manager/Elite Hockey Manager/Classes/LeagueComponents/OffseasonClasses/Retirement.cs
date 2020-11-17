@@ -102,10 +102,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 startingSpots = 2;
 
             //Finds the players rank among players at that position on the team
-            int rosterRank = team.Roster.Where(x => x.Position == player.Position).OrderByDescending(x => x.Overall).ToList().FindIndex(x => x == player);
+            int rosterRank = team.Roster.Where(p => p.Position == player.Position).OrderByDescending(x => x.Overall)
+                .Where(p => p.Overall > player.Overall).Count() + 1;
 
-            if (rosterRank >= startingSpots)
-                return false;
+            if (rosterRank <= startingSpots)
+                return true;
             else
                 return false;
         }

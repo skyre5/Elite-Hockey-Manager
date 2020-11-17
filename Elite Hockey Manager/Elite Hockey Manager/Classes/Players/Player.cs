@@ -65,12 +65,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                if (_careerContracts.Count == 0)
+                if (CareerContracts.Count == 0)
                 {
-                    _careerContracts.Add(new Contract());
-                    _careerContracts.Last();
+                    CareerContracts.Add(new Contract());
+                    CareerContracts.Last();
                 }
-                return _careerContracts.Last();
+                return CareerContracts.Last();
             }
         }
         public string FullName
@@ -173,8 +173,8 @@ namespace Elite_Hockey_Manager.Classes
         protected string _firstName;
         protected string _lastName;
         protected int _age;
-        protected List<PlayerStats> _careerStats = new List<PlayerStats>();
-        protected List<Contract> _careerContracts = new List<Contract>();
+        public List<PlayerStats> CareerStats { get; } = new List<PlayerStats>();
+        public List<Contract> CareerContracts { get; } = new List<Contract>();
         
         public Player(string first, string last, int age, Contract contract)
         {
@@ -187,7 +187,7 @@ namespace Elite_Hockey_Manager.Classes
             _playerID = idCount;
 
             //Adds initial contract to player
-            _careerContracts.Add(contract);
+            CareerContracts.Add(contract);
         }
 
         public Player(string first, string last, int age)
@@ -230,7 +230,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 throw new ArgumentNullException("Null contract object can not be added");
             }
-            _careerContracts.Add(contract);
+            CareerContracts.Add(contract);
         }
         public override string ToString()
         {
@@ -243,7 +243,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Last", this._lastName);
             info.AddValue("Age", this._age);
             info.AddValue("PlayerID", this._playerID);
-            info.AddValue("Contracts", this._careerContracts);
+            info.AddValue("Contracts", this.CareerContracts);
             info.AddValue("PlayerNumber", this._playerNumber);
             info.AddValue("CurrentTeam", this.CurrentTeam);
         }
@@ -253,7 +253,7 @@ namespace Elite_Hockey_Manager.Classes
             this._lastName = (string)info.GetValue("Last", typeof(string));
             this._age = (int)info.GetValue("Age", typeof(int));
             this._playerID = (int)info.GetValue("PlayerID", typeof(int));
-            this._careerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
+            this.CareerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
             this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
             this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
         }
