@@ -36,9 +36,38 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             //Events for switch from regular season to playoffs
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) =>  _league.AdvanceToPlayoffs();
             simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += ChangeLayoutToPlayoffs;
+            //Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
+            simLeaguePlayoffControl.LeagueSimmedEvent += SimPlayoffs;
+            //Background worker for playoff will use Playoff.SimPlayoffsDoWork function
+            simPlayoffBackgroundWorker.DoWork += (o, args) =>
+            {
+                _league.currentPlayoff.SimPlayoffsDoWork(o, args);
+            };
             //Events for switch from playoffs to offseason 
             simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => _league.AdvanceToOffseason();
             simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += ChangeLayoutToOffseason;
+            //Events for offseason control
+            simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
+            simLeagueOffseasonControl1.StageAdvancedEvent += () =>
+            {
+                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.Resign)
+                {
+                    if (!League.CurrentDraft.DoneDrafting)
+                    {
+                        League.CurrentDraft.SimDraft();
+                    }
+                    League.SimulateResignPhase();
+                }
+                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.FreeAgency)
+                {
+                    League.SimulateFreeAgencyPhase();
+                }
+            };
+            simLeagueOffseasonControl1.AdvanceToRegularSeasonEvent += () =>
+            {
+                _league.AdvanceToRegularSeason();
+                ChangeLayoutToRegularSeason();
+            };
         }
 
         private void MainMenuForm_Load(object sender, EventArgs e)
@@ -112,6 +141,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 
             simLeagueRegularSeasonControl.Visible = false;
             simLeagueRegularSeasonControl.Enabled = false;
+            simLeagueRegularSeasonControl.SetAdvanceStateButton(false);
 
             simLeaguePlayoffControl.Visible = true;
             simLeaguePlayoffControl.Enabled = true;
@@ -123,34 +153,36 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
             leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
             leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
-            //Background worker for playoff will use Playoff.SimPlayoffsDoWork function
-            simPlayoffBackgroundWorker.DoWork += playoff.SimPlayoffsDoWork;
 
-            //Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
-            simLeaguePlayoffControl.LeagueSimmedEvent += SimPlayoffs;
+
         }
         private void ChangeLayoutToOffseason(object obj, EventArgs e)
         {
             playoffDisplayControl.Visible = false;
             simLeaguePlayoffControl.Visible = false;
+            simLeaguePlayoffControl.SetAdvanceStateButton(false);
             simLeagueOffseasonControl1.Visible = true;
 
-            simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
-            simLeagueOffseasonControl1.StageAdvancedEvent += () =>
-            {
-                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.Resign)
-                {
-                    if (!League.CurrentDraft.DoneDrafting)
-                    {
-                        League.CurrentDraft.SimDraft();
-                    }
-                    League.SimulateResignPhase();
-                }
-                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.FreeAgency)
-                {
-                    League.SimulateFreeAgencyPhase();
-                }
-            };
+        }
+        private void ChangeLayoutToRegularSeason()
+        {
+            //Resets the controls behavior so that the next time it appears it will begin at the first offseason stage
+            simLeagueOffseasonControl1.ResetControl();
+            simLeagueOffseasonControl1.Visible = false;
+            simLeagueRegularSeasonControl.Visible = true;
+            simLeagueRegularSeasonControl.Enabled = true;
+            standingsControl.Visible = true;
+            simLeagueRegularSeasonControl.Visible = true;
+            leagueGamesDisplay.Visible = true;
+            standingsControl.Enabled = true;
+            leagueGamesDisplay.SetSchedule(_league.LeagueSchedule.SeasonSchedule[_league.DayIndex]);
+            leagueGamesDisplay.SetDay(League.DayIndex + 1);
+            leagueLeadersStatsControl.InsertPlayerList(_league.SignedPlayers.ToArray());
+            //Updates the display of the standings to all the teams with their 0-0-0 records
+            standingsControl.LoadSortConferences();
+            simProgressBar.Visible = true;
+            simProgressBar.Enabled = true;
+
         }
 
         private void SimLeagueOffseasonControl1_OpenStageFormEvent(OffseasonStage stage)
@@ -210,7 +242,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 
             if (_league.LeagueSchedule.IsFinishedSimming())
             {
-                simLeagueRegularSeasonControl.EnableAdvanceStateButton();
+                simLeagueRegularSeasonControl.SetAdvanceStateButton(true);
             }
         }
         /// <summary>
@@ -236,7 +268,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             }
             else
             {
-                simLeaguePlayoffControl.EnableAdvanceStateButton();
+                simLeaguePlayoffControl.SetAdvanceStateButton(true);
             }
         }
     }

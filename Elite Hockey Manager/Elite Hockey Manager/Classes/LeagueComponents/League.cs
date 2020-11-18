@@ -256,11 +256,11 @@ namespace Elite_Hockey_Manager.Classes
             {
                 InitializePlayersProgressionTrackers();
             }
+            State = LeagueState.RegularSeason;
+            DayIndex = 0;
             _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             //Sets the day counter to the first day of the schedule
-            DayIndex = 0;
             //Sets the League State to the regular season state
-            State = LeagueState.RegularSeason;
             _scheduleLength = this.LeagueSchedule.SeasonSchedule.Count;
         }
         private void InitializePlayersProgressionTrackers()
@@ -572,6 +572,9 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void AdvanceToRegularSeason()
         {
+            State = LeagueState.RegularSeason;
+            DayIndex = 0;
+            _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             AddYearlyStats();
         }
         /// <summary>

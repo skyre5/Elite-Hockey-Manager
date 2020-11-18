@@ -68,8 +68,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
                     advanceStateButton.Visible = true;
                     advanceStateButton.Enabled = true;
                 }
+                StageAdvancedEvent?.Invoke();
             }
-            StageAdvancedEvent?.Invoke();
         }
         /// <summary>
         /// Sims entire rest of offseason
@@ -100,9 +100,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             //Sims 3 days of the free agency period
             RaiseLeagueSimmedEvent(3);
         }
+        /// <summary>
+        /// Advances the offseason to the regular season
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void advanceStateButton_Click(object sender, EventArgs e)
         {
             AdvanceToRegularSeasonEvent?.Invoke();
+        }
+
+        private void simThirdButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        public void ResetControl()
+        {
+            StageIndex = OffseasonStage.ProgressionAndRetirement;
+            UpdateTitle();
+            advanceStateButton.Visible = false;
+            advanceStateButton.Enabled = false;
         }
     }
 

@@ -25,10 +25,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         /// <summary>
         /// Enables and displays button to advance to the next league state
         /// </summary>
-        public void EnableAdvanceStateButton()
+        public void SetAdvanceStateButton(bool enabled)
         {
-            advanceStateButton.Enabled = true;
-            advanceStateButton.Visible = true;
+            advanceStateButton.Enabled = enabled;
+            advanceStateButton.Visible = enabled;
         }
         protected abstract void SetControlsText();
         public abstract void Sim1Button_Click(object sender, EventArgs e);

@@ -42,6 +42,7 @@
             this.simThirdButton.Location = new System.Drawing.Point(246, 28);
             this.simThirdButton.Size = new System.Drawing.Size(111, 23);
             this.simThirdButton.Text = "Finish Offseason";
+            this.simThirdButton.Click += new System.EventHandler(this.simThirdButton_Click);
             // 
             // simFourthButton
             // 

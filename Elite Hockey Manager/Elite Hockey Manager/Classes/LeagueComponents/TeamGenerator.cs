@@ -98,7 +98,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 for (int line = 1; line <= 5; line++)
                 {
-                    team.AddNewSkater(PlayerGenerator.GenerateForward(position, line));
+                    Skater skater = PlayerGenerator.GenerateForward(position, line);
+                    team.AddNewSkater(skater);
+                    skater.AddStats(1, team.TeamID, false);
+
 
                 }
             }
@@ -109,7 +112,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 for (int line = 1; line <= 4; line++)
                 {
-                    team.AddNewSkater(PlayerGenerator.GenerateDefender(position, line));
+                    Defender defender = PlayerGenerator.GenerateDefender(position, line);
+                    team.AddNewSkater(defender);
+                    defender.AddStats(1, team.TeamID, false);
                 }
             }
         }
@@ -117,7 +122,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         {
             for (int line = 0; line <= 2; line++)
             {
-                team.AddNewGoalie(PlayerGenerator.GenerateGoalie(line));
+                Goalie goalie = PlayerGenerator.GenerateGoalie(line);
+                team.AddNewGoalie(goalie);
+                goalie.AddStats(1, team.TeamID, false);
             }
         }
     }
