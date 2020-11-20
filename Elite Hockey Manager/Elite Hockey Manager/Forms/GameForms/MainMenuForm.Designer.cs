@@ -45,8 +45,8 @@
             // 
             this.simLeagueBackgroundWorker.WorkerReportsProgress = true;
             this.simLeagueBackgroundWorker.WorkerSupportsCancellation = true;
-            this.simLeagueBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.simLeagueBackgroundWorker_ProgressChanged);
-            this.simLeagueBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.simLeagueBackgroundWorker_RunWorkerCompleted);
+            this.simLeagueBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SimLeagueBackgroundWorker_ProgressChanged);
+            this.simLeagueBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SimLeagueBackgroundWorker_RunWorkerCompleted);
             // 
             // simProgressBar
             // 
@@ -68,8 +68,8 @@
             // 
             this.simPlayoffBackgroundWorker.WorkerReportsProgress = true;
             this.simPlayoffBackgroundWorker.WorkerSupportsCancellation = true;
-            this.simPlayoffBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.simPlayoffBackgroundWorker_ProgressChanged);
-            this.simPlayoffBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.simPlayoffBackgroundWorker_RunWorkerCompleted);
+            this.simPlayoffBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SimPlayoffBackgroundWorker_ProgressChanged);
+            this.simPlayoffBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SimPlayoffBackgroundWorker_RunWorkerCompleted);
             // 
             // simLeaguePlayoffControl
             // 

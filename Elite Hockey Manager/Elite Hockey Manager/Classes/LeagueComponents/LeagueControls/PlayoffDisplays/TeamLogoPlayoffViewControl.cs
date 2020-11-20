@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
+﻿using System.Drawing;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays
 {
@@ -18,6 +9,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             get;
             set;
         }
+
         public int Wins
         {
             get
@@ -29,11 +21,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 _wins = value;
             }
         }
+
         private int _wins = 0;
+
         public TeamLogoPlayoffViewControl() : base()
         {
             InitializeComponent();
         }
+
         public TeamLogoPlayoffViewControl(Team team, int playoffSeed) : base(team)
         {
             InitializeComponent();
@@ -47,8 +42,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             {
                 DisplayWinnerInSeries();
             }
-            teamLabel.Text = String.Format("({0}) {1}: {2}", Seed, _wins, this.Team.TeamName);
+            teamLabel.Text = $"({Seed}) {_wins}: {this.Team.TeamName}";
         }
+
         //public void DenoteHigherSeedInTie()
         //{
         //    if (_wins == 4)

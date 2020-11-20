@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
     [Serializable]
     public class Goalie : Player
     {
-
         private List<GoalieStats> _stats = new List<GoalieStats>();
         private GoalieAttributes _attributes;
+
         public GoalieStats Stats
         {
             get
@@ -26,6 +24,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _stats.Last();
             }
         }
+
         public List<GoalieStats> StatsList
         {
             get
@@ -33,11 +32,13 @@ namespace Elite_Hockey_Manager.Classes
                 return _stats;
             }
         }
+
         public GoaliePlayerStatus PlayerStatus
         {
             get;
             protected set;
         } = GoaliePlayerStatus.Unset;
+
         public override int Overall
         {
             get
@@ -50,6 +51,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             _attributes = Attributes;
         }
+
         public Goalie(string first, string last, int age, Contract contract, GoalieAttributes Attributes) : base(first, last, age, contract)
         {
             _attributes = Attributes;
@@ -59,10 +61,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             this._attributes = new GoalieAttributes();
         }
+
         public Goalie(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
             this._attributes = new GoalieAttributes();
         }
+
         protected Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._attributes = (GoalieAttributes)info.GetValue("Attributes", typeof(GoalieAttributes));
@@ -75,12 +79,14 @@ namespace Elite_Hockey_Manager.Classes
                 this.PlayerStatus = GoaliePlayerStatus.Unset;
             }
         }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Attributes", this._attributes);
             info.AddValue("PlayerStatus", this.PlayerStatus);
             base.GetObjectData(info, context);
         }
+
         public override void GenerateStats(int playerStatus)
         {
             GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
@@ -100,6 +106,7 @@ namespace Elite_Hockey_Manager.Classes
                 return "G";
             }
         }
+
         public override BaseAttributes Attributes
         {
             get
@@ -107,6 +114,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+
         public GoalieAttributes GoalieAttributes
         {
             get

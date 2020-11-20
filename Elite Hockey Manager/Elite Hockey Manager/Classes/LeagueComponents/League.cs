@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 using Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -19,6 +16,7 @@ namespace Elite_Hockey_Manager.Classes
         Playoffs,
         Offseason
     }
+
     [Serializable]
     public class League : ISerializable
     {
@@ -28,23 +26,30 @@ namespace Elite_Hockey_Manager.Classes
         public const double MINSALARYCAP = 40;
 
         private Random rand = new Random();
+
         //Stores all the years of league games played, the last element in the list is the current year of the league
         private List<Schedule> _leagueHistorySchedules = new List<Schedule>();
+
         //Stores all the years of playoffs, last element in list is the current year of playoffs
         private List<Playoff> _leagueHistoryPlayoffs = new List<Playoff>();
+
         //Stores all the drafts that occur in the leagues history
         private List<Draft> _leagueHistoryDrafts = new List<Draft>();
+
         public int Year { get; private set; } = 1;
+
         public int DayIndex
         {
             get;
             private set;
         } = 0;
+
         public LeagueState State
         {
             get;
             private set;
         } = LeagueState.Unset;
+
         /// <summary>
         /// Amount of teams the league will contain
         /// </summary>
@@ -68,6 +73,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         /// <summary>
         /// Gets the number of playoff rounds by the number of playoff teams, determined by n in 2^n of playoff teams
         /// </summary>
@@ -76,6 +82,7 @@ namespace Elite_Hockey_Manager.Classes
             get;
             private set;
         } = PlayoffRounds.Two;
+
         public Schedule LeagueSchedule
         {
             get
@@ -83,6 +90,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _leagueHistorySchedules.Last();
             }
         }
+
         public Playoff currentPlayoff
         {
             get
@@ -95,9 +103,9 @@ namespace Elite_Hockey_Manager.Classes
                 {
                     return _leagueHistoryPlayoffs.Last();
                 }
-
             }
         }
+
         /// <summary>
         /// The current draft is set as the latest draft occuring, if you wish to look back on further drafts use the function to pull up the list of drafts
         /// </summary>
@@ -115,6 +123,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         /// <summary>
         /// The amount of teams that currently are within the league
         /// </summary>
@@ -125,6 +134,7 @@ namespace Elite_Hockey_Manager.Classes
                 return AllTeams.Count;
             }
         }
+
         public static double SalaryCap
         {
             get
@@ -143,16 +153,19 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public string LeagueName
         {
             get;
             private set;
         }
+
         public string Abbreviation
         {
             get;
             private set;
         }
+
         /// <summary>
         /// The number of players within all the leagues teams
         /// </summary>
@@ -163,26 +176,31 @@ namespace Elite_Hockey_Manager.Classes
                 return ActivePlayers.Count;
             }
         }
+
         public string FirstConferenceName
         {
             get;
             private set;
         }
+
         public string SecondConferenceName
         {
             get;
             private set;
         }
+
         public List<Team> FirstConference
         {
             get;
             private set;
         } = new List<Team>();
+
         public List<Team> SecondConference
         {
             get;
             private set;
         } = new List<Team>();
+
         public List<Team> AllTeams
         {
             get
@@ -190,6 +208,7 @@ namespace Elite_Hockey_Manager.Classes
                 return FirstConference.Concat(SecondConference).ToList();
             }
         }
+
         public List<Player> ActivePlayers
         {
             get
@@ -198,9 +217,9 @@ namespace Elite_Hockey_Manager.Classes
                 players.AddRange(SignedPlayers);
                 players.AddRange(UnsignedPlayers);
                 return players;
-
             }
         }
+
         public List<Player> Players
         {
             get
@@ -212,6 +231,7 @@ namespace Elite_Hockey_Manager.Classes
                 return players;
             }
         }
+
         public List<Player> SignedPlayers
         {
             get
@@ -223,11 +243,12 @@ namespace Elite_Hockey_Manager.Classes
                     players.AddRange(team.Roster);
                 }
                 return players;
-
             }
         }
+
         public List<Player> RetiredPlayers { get; private set; } = new List<Player>();
         public List<Player> UnsignedPlayers { get; private set; } = new List<Player>();
+
         public League(string name, string abbreviation, int teamsCount)
         {
             this.LeagueName = name;
@@ -237,6 +258,7 @@ namespace Elite_Hockey_Manager.Classes
             this.FirstConferenceName = "West";
             this.SecondConferenceName = "East";
         }
+
         public League(string name, string abbreviation, int teamsCount, string firstConferenceName, string secondConferenceName)
         {
             this.LeagueName = name;
@@ -246,6 +268,7 @@ namespace Elite_Hockey_Manager.Classes
             this.FirstConferenceName = firstConferenceName;
             this.SecondConferenceName = secondConferenceName;
         }
+
         /// <summary>
         /// Starts the season by adding a new generated schedule. Sets the day index and LeagueState
         /// </summary>
@@ -263,6 +286,7 @@ namespace Elite_Hockey_Manager.Classes
             //Sets the League State to the regular season state
             _scheduleLength = this.LeagueSchedule.SeasonSchedule.Count;
         }
+
         private void InitializePlayersProgressionTrackers()
         {
             //Sets each player in this league to have an initial progression tracker, only needs to be done upon leagues first ever setup
@@ -271,10 +295,11 @@ namespace Elite_Hockey_Manager.Classes
                 player.InitializePlayerProgressionTracker(this.Year);
             }
         }
+
         /// <summary>
         /// Creates random teams to fill out the rest of the leagues teams
         /// </summary>
-        public  void FillRemainingTeams()
+        public void FillRemainingTeams()
         {
             //If the league is full
             if (IsFull())
@@ -311,6 +336,7 @@ namespace Elite_Hockey_Manager.Classes
                 FillConference(SecondConference, maxConferenceSize);
             }
         }
+
         /// <summary>
         /// Fills a conference with randomly generated teams to fill the conferences size
         /// </summary>
@@ -330,6 +356,7 @@ namespace Elite_Hockey_Manager.Classes
                 conference.Add(addTeam);
             }
         }
+
         /// <summary>
         /// Function that returns whether the league is at its specified size
         /// </summary>
@@ -338,10 +365,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             return FirstConference.Count + SecondConference.Count == _numberOfTeams;
         }
+
         public override string ToString()
         {
-            return String.Format("{0} - {1} - Teams:{2}", this.Abbreviation, this.LeagueName, this.NumberOfTeams);
+            return $"{this.Abbreviation} - {this.LeagueName} - Teams:{this.NumberOfTeams}";
         }
+
         /// <summary>
         /// Checks if a team exists within the league. Exists for avoiding duplicates within the league
         /// </summary>
@@ -351,8 +380,9 @@ namespace Elite_Hockey_Manager.Classes
         {
             return AllTeams.Contains(team);
         }
+
         /// <summary>
-        /// Checks if a team can be added to a certain conference. 
+        /// Checks if a team can be added to a certain conference.
         /// Used primarily for odd sized league logic
         /// </summary>
         /// <param name="conference">
@@ -386,9 +416,9 @@ namespace Elite_Hockey_Manager.Classes
             {
                 int maxTeams = (_numberOfTeams + 1) / 2;
                 return !(selectedConferenceSize == maxTeams);
-
             }
         }
+
         public void AddTeam(Team team, int conference = 1)
         {
             if (team == null)
@@ -413,13 +443,16 @@ namespace Elite_Hockey_Manager.Classes
                 case 1:
                     FirstConference.Add(team);
                     break;
+
                 case 2:
                     SecondConference.Add(team);
                     break;
+
                 default:
                     throw new ArgumentException("Conference is not defined");
             }
         }
+
         /// <summary>
         /// Fills each team in the league with the minimum number of players to function
         /// </summary>
@@ -434,6 +467,7 @@ namespace Elite_Hockey_Manager.Classes
                 TeamGenerator.FillTeam(team);
             }
         }
+
         public int GetTeamErrorCount()
         {
             int teamErrors = 0;
@@ -447,6 +481,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             return teamErrors;
         }
+
         public string GetTeamErrorMessage()
         {
             string errorMessage = "";
@@ -454,22 +489,25 @@ namespace Elite_Hockey_Manager.Classes
             {
                 if (!team.ValidMinimumTeamSize())
                 {
-                    errorMessage += String.Format("{0}\n", team.FullName);
+                    errorMessage += $"{team.FullName}\n";
                 }
             }
             return errorMessage;
         }
+
         public void SimLeague(int days)
         {
             if (DayIndex + days > LeagueSchedule.Length)
             {
                 days = LeagueSchedule.Length - DayIndex;
             }
-            for (int i = 0; i < days; i++) {
+            for (int i = 0; i < days; i++)
+            {
                 LeagueSchedule.SimDay(DayIndex);
                 DayIndex++;
             }
         }
+
         public void SimLeagueDoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
@@ -480,21 +518,22 @@ namespace Elite_Hockey_Manager.Classes
             {
                 simLength = LeagueSchedule.SeasonSchedule.Count - DayIndex;
             }
-           //If the requested amount to sim is greater than the rest of the seasons schedule, lowers the sim amount to only remaining days
-           if (simLength > (LeagueSchedule.SeasonSchedule.Count - (DayIndex)))
+            //If the requested amount to sim is greater than the rest of the seasons schedule, lowers the sim amount to only remaining days
+            if (simLength > (LeagueSchedule.SeasonSchedule.Count - (DayIndex)))
             {
                 simLength = LeagueSchedule.SeasonSchedule.Count - DayIndex;
             }
-           //Goes through each day requested to sim and sims that day, returns progress to calling form
-           for (int i = 0; i < simLength; i++)
+            //Goes through each day requested to sim and sims that day, returns progress to calling form
+            for (int i = 0; i < simLength; i++)
             {
                 //Adds the amount of games simmed that day to the gameSimmedCount variable to show progress
                 gameSimmedCount += LeagueSchedule.SeasonSchedule[DayIndex].Where(game => !game.Finished).Count();
                 //Sims 1 day in the league
                 SimLeague(1);
-                worker.ReportProgress(gameSimmedCount);      
+                worker.ReportProgress(gameSimmedCount);
             }
         }
+
         public void AdvanceToPlayoffs()
         {
             int x = this.SignedPlayers.Where(y => y.CurrentContract.YearsRemaining == 1).Count();
@@ -519,6 +558,7 @@ namespace Elite_Hockey_Manager.Classes
                 this._leagueHistoryPlayoffs.Add(new Playoff(this.PlayoffRounds, this.Year, FirstConference, SecondConference));
             }
         }
+
         public void AdvanceToOffseason()
         {
             Year++;
@@ -527,25 +567,26 @@ namespace Elite_Hockey_Manager.Classes
             //Updates each teams internal year variable
             foreach (Team team in AllTeams)
                 team.AdvanceYear();
-            //Generates draft order based on league standings and playoff performance 
+            //Generates draft order based on league standings and playoff performance
             Team[] draftOrder = GenerateDraftOrder();
             _leagueHistoryDrafts.Add(new Draft(Year, _numberOfTeams, draftOrder));
             //Ages every rostered player in the league and updates attributes
             foreach (Player player in ActivePlayers)
             {
                 player.AgePlayerAndProgress();
-                if (Retirement.ChooseToRetire(player, player.CurrentTeam, rand)) {
+                if (Retirement.ChooseToRetire(player, player.CurrentTeam, rand))
+                {
                     player.Retired = true;
                 }
                 //Advances a year in the players contract
                 //if the contract remaining becomes 0 then the player is a free agent
-                if (player.CurrentContract.YearsRemaining > 0) { 
+                if (player.CurrentContract.YearsRemaining > 0)
+                {
                     player.CurrentContract.YearsRemaining -= 1;
                 }
-
             }
-
         }
+
         public void SimulateResignPhase()
         {
             List<Player> newlyRetiredPlayers = ActivePlayers.Where(p => p.Retired == true).ToList();
@@ -562,10 +603,12 @@ namespace Elite_Hockey_Manager.Classes
             //Will simulate the resigning of active players with expiring contracts
             Resign.SimulateResignPeriod(this, rand);
         }
+
         public void SimulateFreeAgencyPhase()
         {
             FreeAgency.SimulateFreeAgencyPeriod(this, rand);
         }
+
         /// <summary>
         /// Sets league object variables around to prepare for start of new season
         /// Only called for each regular season after the first season that came prepared
@@ -577,6 +620,7 @@ namespace Elite_Hockey_Manager.Classes
             _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
             AddYearlyStats();
         }
+
         /// <summary>
         /// Adds new seasonal stats to all signed players and teams
         /// </summary>
@@ -591,6 +635,7 @@ namespace Elite_Hockey_Manager.Classes
                 player.AddStats(this.Year, player.CurrentTeam.TeamID, false);
             }
         }
+
         /// <summary>
         /// Generates the order of the draft based on standings from the previous season
         /// Non playoff teams are ordered worst to best
@@ -602,7 +647,7 @@ namespace Elite_Hockey_Manager.Classes
             Team[] DraftOrder = new Team[AllTeams.Count()];
             //Playoff teams in order for draft selection
             Team[] orderedPlayoffTeams = currentPlayoff.DraftOrderedPlayoffTeams();
-            //All non playoff teams 
+            //All non playoff teams
             Team[] nonPlayoffTeams = AllTeams.Except(orderedPlayoffTeams.ToList()).ToArray();
             //Sort by regular season standing in ascending order
             Array.Sort(nonPlayoffTeams);
@@ -610,8 +655,8 @@ namespace Elite_Hockey_Manager.Classes
             Array.Copy(nonPlayoffTeams, 0, DraftOrder, 0, nonPlayoffTeams.Count());
             Array.Copy(orderedPlayoffTeams, 0, DraftOrder, nonPlayoffTeams.Count(), orderedPlayoffTeams.Count());
             return DraftOrder;
-            
         }
+
         /// <summary>
         /// Sets the number of playoff teams and rounds by how many teams are in the league
         /// Number of teams between 6-10 will have 2 rounds with 4 playoff teams
@@ -634,6 +679,7 @@ namespace Elite_Hockey_Manager.Classes
                 PlayoffRounds = PlayoffRounds.Two;
             }
         }
+
         /// <summary>
         /// Sorts a list of teams by their record
         /// </summary>
@@ -643,6 +689,7 @@ namespace Elite_Hockey_Manager.Classes
             teamList.Sort();
             teamList.Reverse();
         }
+
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("LeagueName", this.LeagueName);
@@ -663,6 +710,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("Playoffs", this._leagueHistoryPlayoffs);
             info.AddValue("Drafts", this._leagueHistoryDrafts);
         }
+
         protected League(SerializationInfo info, StreamingContext context)
         {
             this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));

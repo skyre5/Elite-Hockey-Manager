@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
@@ -13,6 +10,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         public readonly Player Player;
         public readonly int Round;
         public readonly int Pick;
+
         public DraftPick(Team draftedTeam, Player draftedPlayer, int round, int pick)
         {
             Team = draftedTeam;
@@ -21,22 +19,30 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             Pick = pick;
         }
     }
+
     [Serializable]
     public class Draft
     {
         public int CurrentPick { get; private set; } = 1;
         public int CurrentRound { get; private set; } = 1;
         public bool DoneDrafting { get; private set; } = false;
+
         //Static variable, changeable by options in the future
         public static int Rounds = 7;
+
         public readonly int Year;
-        //Number of teams that are in the league, determines the length of each round and the total amount of draft picks to be made 
+
+        //Number of teams that are in the league, determines the length of each round and the total amount of draft picks to be made
         public readonly int Teams;
+
         //Order the teams draft in, from worst in the league to best, each round
         public readonly Team[] TeamDraftOrder;
+
         public readonly DraftPick[] DraftPicks;
-        //Pool of 18 year old players that are draft eligible, must always be greater than the number of draft picks 
+
+        //Pool of 18 year old players that are draft eligible, must always be greater than the number of draft picks
         public readonly Player[] BaseDraftPool;
+
         //Draft pool after picks are made, will finished with only the players that will go undrafted
         //Will have players removed constantly, so is switched to list
         public readonly List<Player> RemainingDraftPool;
@@ -55,6 +61,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             RemainingDraftPool = BaseDraftPool.ToList();
             TeamDraftOrder = draftOrder;
         }
+
         public void SimPick()
         {
             if (DoneDrafting)
@@ -67,6 +74,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 DoneDrafting = true;
             }
         }
+
         public void SimRound()
         {
             if (DoneDrafting)
@@ -83,6 +91,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 DoneDrafting = true;
             }
         }
+
         public void SimDraft()
         {
             if (DoneDrafting)
@@ -95,16 +104,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 MakePick();
             }
             DoneDrafting = true;
-
         }
+
         private void InitializePlayerTrackerToDraftClass()
         {
             foreach (Player player in BaseDraftPool)
             {
-                //Players rookie year would be year 2 
+                //Players rookie year would be year 2
                 player.InitializePlayerProgressionTracker(this.Year + 1);
             }
         }
+
         private void MakePick()
         {
             //Current pick must be offset by 1 to get into zero index
@@ -123,6 +133,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             CurrentPick++;
             CurrentRound = ((CurrentPick - 1) / Teams) + 1;
         }
+
         //protected Draft(SerializationInfo info, StreamingContext context)
         //{
         //    //this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
@@ -153,6 +164,5 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
         //    info.AddValue("DraftPicks", this.DraftPicks);
         //    info.AddValue("RemainingDraftPool", this.RemainingDraftPool);
         //}
-
     }
 }

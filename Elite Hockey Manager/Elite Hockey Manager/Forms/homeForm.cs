@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
+﻿using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Forms;
-using Elite_Hockey_Manager.Forms.GameForms;
 using Elite_Hockey_Manager.Forms.HelperForms;
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager
 {
     public partial class HomeForm : Form
     {
         private Game game;
+
         public HomeForm()
         {
             InitializeComponent();
@@ -39,9 +32,6 @@ namespace Elite_Hockey_Manager
             List<Forward> list1 = new List<Forward>();
             List<Center> list2 = new List<Center>();
             //Team x = new Team("Philly Flyers");
-            
-
-
         }
 
         private void playersBtn_Click(object sender, EventArgs e)
@@ -86,7 +76,6 @@ namespace Elite_Hockey_Manager
             x.AutoSetForwardLines();
             Game game = new Game(x, y, new Random());
             game.PlayGame();
-
         }
 
         private void HomeForm_FormClosing(object sender, FormClosingEventArgs e)

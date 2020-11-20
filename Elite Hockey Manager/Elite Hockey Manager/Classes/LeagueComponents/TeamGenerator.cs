@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -25,6 +21,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         {
             Initialize();
         }
+
         public static void Initialize()
         {
             string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
@@ -43,6 +40,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 Status = 0;
             }
         }
+
         public static Team GetTeam()
         {
             Tuple<string, string> teamName = GetFullTeamName();
@@ -53,6 +51,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Team team = new Team(teamName.Item1, teamName.Item2);
             return team;
         }
+
         public static Tuple<string, string> GetFullTeamName()
         {
             if (CityNames == null || TeamNames == null)
@@ -84,14 +83,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             LocationAndName = new Tuple<string, string>(city, name);
             //Returns the tuple with Location in first index and name in second index
             return LocationAndName;
-
         }
+
         public static void FillTeam(Team team)
         {
             FillForwards(team);
             FillDefenders(team);
             FillGoalies(team);
         }
+
         public static void FillForwards(Team team)
         {
             for (int position = 0; position <= 2; position++)
@@ -101,11 +101,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                     Skater skater = PlayerGenerator.GenerateForward(position, line);
                     team.AddNewSkater(skater);
                     skater.AddStats(1, team.TeamID, false);
-
-
                 }
             }
         }
+
         public static void FillDefenders(Team team)
         {
             for (int position = 0; position <= 1; position++)
@@ -118,6 +117,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+
         public static void FillGoalies(Team team)
         {
             for (int line = 0; line <= 2; line++)

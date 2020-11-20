@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
 {
-    public enum OffseasonStage{
+    public enum OffseasonStage
+    {
         ProgressionAndRetirement,
         Draft,
         Resign,
         FreeAgency
     }
+
 #if DEBUG
-    public partial class SimLeagueOffseasonControl: SimLeagueControlMiddle
+
+    public partial class SimLeagueOffseasonControl : SimLeagueControlMiddle
 #else
         public partial class SimLeagueOffseasonControl : SimLeagueControl
 #endif
@@ -27,20 +22,27 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             get;
             private set;
         } = 0;
+
         //public readonly string[] Stages = new string[] { "Draft", "Resign Window", "Free Agency" };
         public event Action<OffseasonStage> OpenStageFormEvent;
+
         public event Action StageAdvancedEvent;
+
         public event Action SimAllStagesEvent;
+
         public event Action AdvanceToRegularSeasonEvent;
+
         public SimLeagueOffseasonControl()
         {
             InitializeComponent();
             UpdateTitle();
         }
+
         private void UpdateTitle()
         {
-            stageLabel.Text = String.Format("Stage: {0}", StageIndex);
+            stageLabel.Text = $"Stage: {StageIndex}";
         }
+
         /// <summary>
         /// Opens form for the cooresponding offseason stage
         /// </summary>
@@ -50,6 +52,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             OpenStageFormEvent?.Invoke(StageIndex);
         }
+
         /// <summary>
         /// Sims to the next stage of the offseason, retirement, draft, signings, etc...
         /// Denoted by the sending of a -1 to signal a sim to the next offseason stage
@@ -71,6 +74,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
                 StageAdvancedEvent?.Invoke();
             }
         }
+
         /// <summary>
         /// Sims entire rest of offseason
         /// </summary>
@@ -80,8 +84,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             SimAllStagesEvent?.Invoke();
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -89,6 +94,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             RaiseLeagueSimmedEvent(1);
         }
+
         /// <summary>
         /// Sims 3 days during the free agency period which lasts a set number of days
         /// Only stage of offseason that tracks days
@@ -100,6 +106,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             //Sims 3 days of the free agency period
             RaiseLeagueSimmedEvent(3);
         }
+
         /// <summary>
         /// Advances the offseason to the regular season
         /// </summary>
@@ -112,8 +119,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 
         private void simThirdButton_Click(object sender, EventArgs e)
         {
-
         }
+
         public void ResetControl()
         {
             StageIndex = OffseasonStage.ProgressionAndRetirement;
@@ -122,5 +129,4 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             advanceStateButton.Enabled = false;
         }
     }
-
 }

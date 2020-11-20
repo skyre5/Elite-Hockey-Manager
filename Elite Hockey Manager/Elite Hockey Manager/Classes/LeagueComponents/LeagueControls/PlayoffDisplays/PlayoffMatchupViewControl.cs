@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.GameComponents;
+﻿using Elite_Hockey_Manager.Classes.GameComponents;
 using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
+using System;
+using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays
 {
@@ -21,11 +14,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 return _series;
             }
         }
+
         private PlayoffSeries _series;
+
         public PlayoffMatchupViewControl()
         {
             InitializeComponent();
         }
+
         public void UpdateDisplayByManualUserSim(object obj, EventArgs e)
         {
             Game game = (Game)obj;
@@ -41,6 +37,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
                 lowSeedTeamPlayoffControl.UpdateText();
             }
         }
+
         public void SetSeries(PlayoffSeries series)
         {
             _series = series;

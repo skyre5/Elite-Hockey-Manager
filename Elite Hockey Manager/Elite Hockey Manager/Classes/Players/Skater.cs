@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -14,6 +11,7 @@ namespace Elite_Hockey_Manager.Classes
     {
         protected List<SkaterStats> _stats = new List<SkaterStats>();
         protected SkaterAttributes _attributes;
+
         public override BaseAttributes Attributes
         {
             get
@@ -21,6 +19,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes;
             }
         }
+
         public SkaterAttributes SkaterAttributes
         {
             get
@@ -28,6 +27,7 @@ namespace Elite_Hockey_Manager.Classes
                 return (SkaterAttributes)_attributes;
             }
         }
+
         public SkaterStats Stats
         {
             get
@@ -41,6 +41,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _stats.Last();
             }
         }
+
         public List<SkaterStats> StatsList
         {
             get
@@ -48,30 +49,37 @@ namespace Elite_Hockey_Manager.Classes
                 return _stats;
             }
         }
+
         public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
         {
             _attributes = attributes;
         }
+
         public Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
         {
             _attributes = attributes;
         }
+
         public Skater(string first, string last, int age) : base(first, last, age)
         {
             _attributes = new SkaterAttributes();
         }
+
         public Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
             _attributes = new SkaterAttributes();
         }
+
         public override void AddStats(int year, int teamID, bool playoffs)
         {
             _stats.Add(new SkaterStats(year, teamID, playoffs));
         }
-        public Skater(SerializationInfo info, StreamingContext context): base(info, context)
+
+        public Skater(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
         }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);

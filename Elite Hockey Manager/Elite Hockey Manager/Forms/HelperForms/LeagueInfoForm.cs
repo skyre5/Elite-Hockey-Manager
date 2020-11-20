@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Elite_Hockey_Manager.Classes;
+using System;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
 
 namespace Elite_Hockey_Manager.Forms.HelperForms
 {
     public partial class LeagueInfoForm : Form
     {
         public League createdLeague = null;
+
         public LeagueInfoForm()
         {
             InitializeComponent();
@@ -21,12 +15,12 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
 
         private void leagueSizeBar_Scroll(object sender, EventArgs e)
         {
-            numTeamsLabel.Text = String.Format("Number of Teams: {0}", leagueSizeBar.Value);
+            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
         }
 
         private void LeagueInfoForm_Load(object sender, EventArgs e)
         {
-            numTeamsLabel.Text = String.Format("Number of Teams: {0}", leagueSizeBar.Value);
+            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
         }
 
         private void createLeagueButton_Click(object sender, EventArgs e)

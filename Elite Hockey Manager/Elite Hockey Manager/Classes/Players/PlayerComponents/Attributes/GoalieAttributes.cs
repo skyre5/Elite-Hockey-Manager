@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    enum GoalieStatNames : int
+    internal enum GoalieStatNames : int
     {
         High,
         Low,
         Speed,
         ReboundControl
     }
+
     //[Serializable]
     public class GoalieAttributes : BaseAttributes
     {
@@ -21,9 +19,11 @@ namespace Elite_Hockey_Manager.Classes
         private int _low = DefaultRating;
         private int _speed = DefaultRating;
         private int _reboundControl = DefaultRating;
+
         public GoalieAttributes()
         {
         }
+
         public override Tuple<string, int>[] GetAttributeNames()
         {
             Tuple<string, int>[] parentNames = base.GetAttributeNames();
@@ -57,17 +57,21 @@ namespace Elite_Hockey_Manager.Classes
                 case (int)GoalieStatNames.High:
                     GuaranteedStatSet(ref _high, rating);
                     break;
+
                 case (int)GoalieStatNames.Low:
                     GuaranteedStatSet(ref _low, rating);
                     break;
+
                 case (int)GoalieStatNames.Speed:
                     GuaranteedStatSet(ref _speed, rating);
                     break;
+
                 case (int)GoalieStatNames.ReboundControl:
                     GuaranteedStatSet(ref _reboundControl, rating);
                     break;
             }
         }
+
         public int High
         {
             get
@@ -79,6 +83,7 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _high, value);
             }
         }
+
         public int Low
         {
             get
@@ -90,6 +95,7 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _low, value);
             }
         }
+
         public int Speed
         {
             get
@@ -101,6 +107,7 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _speed, value);
             }
         }
+
         public int ReboundControl
         {
             get
@@ -124,6 +131,7 @@ namespace Elite_Hockey_Manager.Classes
             int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
             return overall;
         }
+
         public void GenerateGoalieStatRanges(GoaliePlayerStatus playerStatus, int age = 27)
         {
             int lowerBound, upperBound, guaranteedStat;
@@ -134,36 +142,43 @@ namespace Elite_Hockey_Manager.Classes
                     upperBound = 55;
                     guaranteedStat = 53;
                     break;
+
                 case GoaliePlayerStatus.Generational:
                     lowerBound = 80;
                     upperBound = 100;
                     guaranteedStat = 95;
                     break;
+
                 case GoaliePlayerStatus.Elite:
                     lowerBound = 75;
                     upperBound = 95;
                     guaranteedStat = 90;
                     break;
+
                 case GoaliePlayerStatus.Starter:
                     lowerBound = 75;
                     upperBound = 90;
                     guaranteedStat = 85;
                     break;
+
                 case GoaliePlayerStatus.LowStarter:
                     lowerBound = 70;
                     upperBound = 85;
                     guaranteedStat = 82;
                     break;
+
                 case GoaliePlayerStatus.Backup:
                     lowerBound = 65;
                     upperBound = 80;
                     guaranteedStat = 75;
                     break;
+
                 case GoaliePlayerStatus.Role:
                     lowerBound = 60;
                     upperBound = 78;
                     guaranteedStat = 72;
                     break;
+
                 default:
                     lowerBound = 50;
                     upperBound = 50;
@@ -172,7 +187,9 @@ namespace Elite_Hockey_Manager.Classes
             }
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
+
         #region Player Progression
+
         internal override void ProgressPlayer(int age, string position, int playerStatusID)
         {
             if (position == "G")
@@ -184,6 +201,7 @@ namespace Elite_Hockey_Manager.Classes
                 throw new ArgumentException("Goalie was not sent to ProgressPlayer in GoalieAttributes");
             }
         }
+
         private void ProgressGoalie(int age, GoaliePlayerStatus status)
         {
             switch (status)
@@ -191,27 +209,34 @@ namespace Elite_Hockey_Manager.Classes
                 case GoaliePlayerStatus.Generational:
                     ChoosePlayerGrowthPhase(age, 23, 33, 6);
                     break;
+
                 case GoaliePlayerStatus.Elite:
                     ChoosePlayerGrowthPhase(age, 21, 30, 4);
                     break;
+
                 case GoaliePlayerStatus.Starter:
                     ChoosePlayerGrowthPhase(age, 21, 30, 3);
                     break;
+
                 case GoaliePlayerStatus.LowStarter:
                     ChoosePlayerGrowthPhase(age, 21, 28, 3);
                     break;
+
                 case GoaliePlayerStatus.Backup:
                     ChoosePlayerGrowthPhase(age, 20, 32, 2);
                     break;
+
                 case GoaliePlayerStatus.Role:
                     ChoosePlayerGrowthPhase(age, 23, 35, 1);
                     break;
+
                 case GoaliePlayerStatus.Unset:
                 default:
                     ChoosePlayerGrowthPhase(age, 18, 29, 1);
                     break;
             }
         }
+
         protected override void GrowStats(int negativeRange, int upperRange)
         {
             High += GetGrowthValue(negativeRange, upperRange);
@@ -219,7 +244,9 @@ namespace Elite_Hockey_Manager.Classes
             Speed += GetGrowthValue(negativeRange, upperRange);
             ReboundControl += GetGrowthValue(negativeRange, upperRange);
         }
-        #endregion
+
+        #endregion Player Progression
+
         protected GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this._high = (int)info.GetValue("High", typeof(int));
@@ -227,6 +254,7 @@ namespace Elite_Hockey_Manager.Classes
             this._speed = (int)info.GetValue("Speed", typeof(int));
             this._reboundControl = (int)info.GetValue("ReboundControl", typeof(int));
         }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);

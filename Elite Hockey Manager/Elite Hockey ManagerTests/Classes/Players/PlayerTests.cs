@@ -1,11 +1,6 @@
-﻿using NUnit.Framework;
-using Elite_Hockey_Manager.Classes;
-using System;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
+using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {

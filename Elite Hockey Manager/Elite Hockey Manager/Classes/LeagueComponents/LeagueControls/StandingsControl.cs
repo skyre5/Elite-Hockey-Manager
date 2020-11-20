@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
+using System;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -18,10 +11,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             get;
             set;
         }
+
         public StandingsControl()
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// If ActiveLeague is set, will load conferences from set ActiveLeague
         /// </summary>
@@ -46,7 +41,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             League.SortTeamList(ActiveLeague.FirstConference);
             League.SortTeamList(ActiveLeague.SecondConference);
 
-
             //Number of playoff teams in each of the 2 conferences
             int playoffPositionCount = ActiveLeague.PlayoffRounds.GetTotalPlayoffTeams() / 2;
 
@@ -56,7 +50,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);
                 control.Team.TeamStatsUpdated += UpdateLeagueStandings;
 
-                //If the new teams control is in a playoff position, update it 
+                //If the new teams control is in a playoff position, update it
                 if (i + 1 <= playoffPositionCount)
                 {
                     control.UpdatePlayoffPosition(true);
@@ -70,7 +64,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 TeamLogoStandingViewControl control = new TeamLogoStandingViewControl(team);
                 control.Team.TeamStatsUpdated += UpdateLeagueStandings;
 
-                //If the new teams control is in a playoff position, update it 
+                //If the new teams control is in a playoff position, update it
                 if (i + 1 <= playoffPositionCount)
                 {
                     control.UpdatePlayoffPosition(true);
@@ -79,6 +73,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 secondConferenceLayout.Controls.Add(control);
             }
         }
+
         private void UpdateLeagueStandings(object sender, EventArgs e)
         {
             Team team;
@@ -99,8 +94,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 MessageBox.Show("Failed to update team standings, invalid StandingsControl.UpdateLeagueStandings event sender");
             }
-            
         }
+
         private void SortConferenceLayout(FlowLayoutPanel panel, Team team)
         {
             int index = -1;

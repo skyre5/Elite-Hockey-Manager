@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
 {
@@ -28,11 +23,13 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
+
         public Team SigningTeam { get; private set; } = null;
         private int _yearSigned = 1;
         private int _contractDuration = 1;
         public int YearsRemaining { get; set; } = 1;
         private double _contractAmount = .5;
+
         public int ContractDuration
         {
             get
@@ -51,6 +48,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
+
         public double ContractAmount
         {
             get
@@ -69,6 +67,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
                 }
             }
         }
+
         public Contract(int year, int duration, double amount, Team signingTeam)
         {
             this.YearSigned = year;
@@ -77,10 +76,11 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             this.ContractAmount = amount;
             this.SigningTeam = signingTeam;
         }
+
         public Contract()
         {
-
         }
+
         //protected Contract(SerializationInfo info, StreamingContext context)
         //{
         //    this._yearSigned = (int)info.GetValue("Year", typeof(int));

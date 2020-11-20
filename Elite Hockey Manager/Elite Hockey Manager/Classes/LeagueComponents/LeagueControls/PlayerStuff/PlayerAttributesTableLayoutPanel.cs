@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff
 {
     public class PlayerAttributesTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
     {
         private Player _player;
+
         public Player Player
         {
             get
@@ -26,9 +23,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 }
             }
         }
+
         public PlayerAttributesTableLayoutPanel()
         {
         }
+
         private void LoadTable()
         {
             Tuple<string, int>[] attributes = _player.Attributes.GetAttributeNames();
@@ -52,11 +51,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 }
             }
         }
+
         private Label CreateLabel(Tuple<string, int> attribute)
         {
             Label attributeLabel = new Label();
             attributeLabel.AutoSize = true;
-            attributeLabel.Text = String.Format("{0,-14}:{1}", attribute.Item1, attribute.Item2);
+            attributeLabel.Text = $@"{attribute.Item1,-14}:{attribute.Item2}";
             attributeLabel.Font = new Font("Courier New", 8f);
             return attributeLabel;
         }

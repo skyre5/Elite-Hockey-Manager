@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
 
 namespace Elite_Hockey_Manager.Classes.GameComponents
 {
     public enum ShotType { Wristshot, Slapshot, Backhand, Breakaway };
+
     public struct PlayersOnIce
     {
         public Skater[] homeForwards;
@@ -17,6 +16,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
         public Skater[] awayDefenders;
         public Goalie homeGoalie;
         public Goalie awayGoalie;
+
         //Home true, away false
         public Skater[] GetAllSkatersFromSide(bool side)
         {
@@ -30,10 +30,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return CombineArrays(awayForwards, awayDefenders);
             }
         }
+
         public Skater[] GetAllSkatersFromBothSides()
         {
             return CombineArrays(GetAllSkatersFromSide(true), GetAllSkatersFromSide(false));
         }
+
         private Skater[] CombineArrays(Skater[] array1, Skater[] array2)
         {
             Skater[] combinedArrays = new Skater[array1.Length + array2.Length];
@@ -42,35 +44,46 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             return combinedArrays;
         }
     }
+
     [Serializable]
     public class Game : ISerializable
     {
         public const bool HOMESCORINGCHANCE = true;
         public const bool AWAYSCORINGCHANCE = false;
+
         //Event for when game is finished
         public event EventHandler GameFinished;
+
         //Boolean to keep track of whether the starting goalies have been chosen
         //Starting goalies are chosen at the time of running the game, not when the constructor is ran and the object is created
         private bool startingGoaliesChosen = false;
+
         private Random rand;
         private List<Event> _gameEvents = new List<Event>();
+
         /// <summary>
-        /// Period of the game 
+        /// Period of the game
         /// 1-3 Periods played 20 minutes
         /// 4+ Overtime periods 20 minutes unless regular season in which 5 minute single overtime then shootout
         /// </summary>
         private int _period = 1;
+
         //15 second increments
         private int _timeIntervals = 0;
+
         private const int MAXTIMEREGULATION = 80;
         private const int MAXTIMEOVERTIME = 20;
+
         //Home and away hit totals
         private int homeHits = 0;
+
         private int awayHits = 0;
+
         //Home and away faceoff wins
         private int _homeFaceoffWins = 0;
+
         private int _awayFaceoffWins = 0;
-        
+
         private Side _winner;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
 
@@ -79,26 +92,31 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get;
             protected set;
         }
+
         public Team AwayTeam
         {
             get;
             protected set;
         }
+
         public int GameNumber
         {
             get;
             protected set;
         }
+
         public int HomeScore
         {
             get;
             private set;
         } = 0;
+
         public int AwayScore
         {
             get;
             private set;
         } = 0;
+
         public int HomeShots
         {
             get
@@ -106,11 +124,13 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return HomeShotsArray.Sum();
             }
         }
+
         public int[] HomeShotsArray
         {
             get;
             private set;
         } = new int[] { 0, 0, 0, 0 };
+
         public int AwayShots
         {
             get
@@ -118,11 +138,13 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return AwayShotsArray.Sum();
             }
         }
+
         public int[] AwayShotsArray
         {
             get;
             private set;
-        } = new int[] {0, 0, 0, 0};
+        } = new int[] { 0, 0, 0, 0 };
+
         public int Period
         {
             get
@@ -130,6 +152,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _period;
             }
         }
+
         public int TimeInterval
         {
             get
@@ -137,6 +160,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _timeIntervals;
             }
         }
+
         public int HomeFaceoffWins
         {
             get
@@ -144,6 +168,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _homeFaceoffWins;
             }
         }
+
         public int AwayFaceoffWins
         {
             get
@@ -151,26 +176,31 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _awayFaceoffWins;
             }
         }
+
         public int HomePowerplays
         {
             get;
             private set;
         } = 0;
+
         public int HomePowerplayGoals
         {
             get;
             private set;
         } = 0;
+
         public int AwayPowerplays
         {
             get;
             private set;
         } = 0;
+
         public int AwayPowerplayGoals
         {
             get;
             private set;
         } = 0;
+
         public Side Winner
         {
             get
@@ -178,6 +208,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _winner;
             }
         }
+
         public PlayersOnIce PlayersOnIce
         {
             get
@@ -185,13 +216,15 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _playersOnIce;
             }
         }
+
         public string Title
         {
             get
             {
-                return String.Format("{0} @ {1}", AwayTeam.TeamName, HomeTeam.TeamName);
+                return $@"{AwayTeam.TeamName} @ {HomeTeam.TeamName}";
             }
         }
+
         /// <summary>
         /// Boolean variable on whether the game has been finished yet
         /// </summary>
@@ -200,11 +233,13 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             get;
             private set;
         } = false;
+
         public bool Overtime
         {
             get;
             private set;
         } = false;
+
         public List<Event> GameEvents
         {
             get
@@ -212,6 +247,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _gameEvents;
             }
         }
+
         /// <summary>
         /// Public constructor for Game class in a dormant, yet to be played state
         /// </summary>
@@ -230,6 +266,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
 
             rand = random;
         }
+
         /// <summary>
         /// Plays the entire game from the point the game state was until it is completed
         /// </summary>
@@ -247,6 +284,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 PlayPeriod();
             }
         }
+
         public void SetStartingGoalies()
         {
             if (!startingGoaliesChosen)
@@ -256,6 +294,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 startingGoaliesChosen = true;
             }
         }
+
         public void PlayPeriod()
         {
             if (Finished)
@@ -319,6 +358,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 }
             }
         }
+
         public void IncrementTime(int intervals = 1)
         {
             if (Finished)
@@ -384,6 +424,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 ScoringChance();
             }
         }
+
         private void ScoringChance()
         {
             _timeIntervals++;
@@ -410,6 +451,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 TakeShot(skatersForPlay, defenders, goalie, scoringChanceSide);
             }
         }
+
         private void SetTimeOnIceStats()
         {
             foreach (Skater skater in _playersOnIce.GetAllSkatersFromBothSides())
@@ -418,6 +460,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 skater.Stats.TimeOnIce++;
             }
         }
+
         private void SetPlusMinusStats(bool scoringSide)
         {
             foreach (Skater skater in _playersOnIce.GetAllSkatersFromSide(scoringSide))
@@ -431,6 +474,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 skater.Stats.PlusMinus--;
             }
         }
+
         private void SetPlayers()
         {
             _playersOnIce.homeForwards = GetForwardLine(HomeTeam);
@@ -438,6 +482,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             _playersOnIce.homeDefenders = GetDefensiveLine(HomeTeam);
             _playersOnIce.awayDefenders = GetDefensiveLine(AwayTeam);
         }
+
         private bool Faceoff()
         {
             //Gets both centers off line and has faceoff
@@ -470,6 +515,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return AWAYSCORINGCHANCE;
             }
         }
+
         private bool GetShotTaken(Skater[] offensiveSkaters, Skater[] defenders)
         {
             int offensiveSumTotal = 0;
@@ -478,10 +524,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             //Shot taken about 1/4 opportunites, 1/3 for better stats
             foreach (Skater skater in offensiveSkaters)
             {
-                if (skater == null) {
+                if (skater == null)
+                {
                     offensiveSumTotal += 150;
                 }
-                else { 
+                else
+                {
                     //150 max
                     offensiveSumTotal += (int)(skater.SkaterAttributes.Speed * 1.5);
                     //100 max
@@ -507,6 +555,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             //If the chosen random number is less than the offensive total, return true for shot taken
             return choice <= offensiveSumTotal ? true : false;
         }
+
         private void TakeShot(Skater[] offensiveSkaters, Skater[] defenders, Goalie goalie, bool scoringChanceSide)
         {
             int[] weights;
@@ -529,15 +578,19 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 case (ShotType.Wristshot):
                     goalScored = WristShot(offensiveSkaters[0], goalie);
                     break;
+
                 case (ShotType.Slapshot):
                     goalScored = SlapShot(offensiveSkaters[0], goalie);
                     break;
+
                 case (ShotType.Backhand):
                     goalScored = Backhand(offensiveSkaters[0], goalie);
                     break;
+
                 case (ShotType.Breakaway):
                     goalScored = Breakaway(offensiveSkaters[0], goalie);
                     break;
+
                 default:
                     goalScored = WristShot(offensiveSkaters[0], goalie);
                     break;
@@ -582,8 +635,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                     AwayScore++;
                 }
             }
-            
         }
+
         private bool WristShot(Skater shotTaker, Goalie goalie)
         {
             int sumOffense = (int)Math.Pow(shotTaker.SkaterAttributes.WristShot, 1.5);
@@ -596,6 +649,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return false;
         }
+
         private bool SlapShot(Skater shotTaker, Goalie goalie)
         {
             //Less likely to score slapshot than wristshot
@@ -609,6 +663,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return false;
         }
+
         private bool Backhand(Skater shotTaker, Goalie goalie)
         {
             int backhand = (shotTaker.SkaterAttributes.WristShot + shotTaker.SkaterAttributes.Deking) / 2;
@@ -622,6 +677,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return false;
         }
+
         private bool Breakaway(Skater shotTaker, Goalie goalie)
         {
             int breakaway = shotTaker.SkaterAttributes.Deking + (shotTaker.SkaterAttributes.Speed / 10) + (shotTaker.SkaterAttributes.WristShot / 10);
@@ -635,6 +691,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return false;
         }
+
         private ShotType GetShotType(int[] weights)
         {
             if (weights.Length > 4)
@@ -653,10 +710,12 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return ShotType.Wristshot;
         }
+
         private Skater[] GetSkatersOnIce(bool scoringChanceSide)
         {
             return _playersOnIce.GetAllSkatersFromSide(scoringChanceSide);
         }
+
         private Skater[] GetChosenDefenders(bool scoringChanceSide)
         {
             if (scoringChanceSide == AWAYSCORINGCHANCE)
@@ -669,6 +728,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 return _playersOnIce.awayDefenders;
             }
         }
+
         private Skater[] GetSkatersForPlay(Skater[] skaters)
         {
             Skater[] playersForPlay = new Skater[3];
@@ -693,16 +753,19 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             return playersForPlay;
         }
+
         private Skater[] GetForwardLine(Team team)
         {
             int line = ChooseForwardLineNumber();
             return team.GetForwardLine(line);
         }
+
         private Skater[] GetDefensiveLine(Team team)
         {
             int line = ChooseDefenseLineNumber();
             return team.GetDefensiveLine(line);
         }
+
         private int ChooseForwardLineNumber()
         {
             //Chances that each line will be chosen to play a particular event
@@ -725,8 +788,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             Console.WriteLine("Error in Game.ChooseForwardLineNumber function: Does not return a line number in for loop.");
             return 4;
-            
         }
+
         private int ChooseDefenseLineNumber()
         {
             //Chances that each line will be chosen to play a particular event
@@ -747,8 +810,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             }
             Console.WriteLine("Error in Game.ChooseDefenseLineNumber function: Does not return a line number in for loop.");
             return 4;
-
         }
+
         private int ChoosePlayerNumber()
         {
             int[] weights = new int[] { 25, 25, 25, 13, 12 };
@@ -765,12 +828,13 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             Console.WriteLine("Game.ChoosePrimaryPlayerNumber error, passed through for statement");
             return 0;
         }
+
         /// <summary>
         /// Inputs all the stats for the game when it is finished
         /// </summary>
         private void InputStats()
         {
-            //If any events are tied to game finishing, passes the current game object to that event 
+            //If any events are tied to game finishing, passes the current game object to that event
             if (GameFinished != null)
             {
                 GameFinished(this, null);
@@ -796,7 +860,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
 
                 //Losing goaltender
                 _playersOnIce.awayGoalie.Stats.Losses++;
-                //Losing goalie gains 5 fatigue for losing 
+                //Losing goalie gains 5 fatigue for losing
                 _playersOnIce.awayGoalie.Attributes.Fatigue += 5;
             }
             else
@@ -816,6 +880,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
                 _playersOnIce.homeGoalie.Attributes.Fatigue += 5;
             }
         }
+
         /// <summary>
         /// Function called at end of game to add a game played to forwards, defenders, and starting goalie
         /// </summary>
@@ -842,6 +907,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
             _playersOnIce.homeGoalie.Stats.AddGameStarted();
             _playersOnIce.awayGoalie.Stats.AddGameStarted();
         }
+
         protected Game(SerializationInfo info, StreamingContext context)
         {
             this.HomeTeam = (Team)info.GetValue("HomeTeam", typeof(Team));
@@ -867,6 +933,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents
 
             this.rand = (Random)info.GetValue("Random", typeof(Random));
         }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("HomeTeam", this.HomeTeam);

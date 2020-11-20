@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Elite_Hockey_Manager.Forms.GameForms;
+using System;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Forms.GameForms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -25,18 +19,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 UpdateDisplay();
             }
         }
+
         private Team _team = null;
         private Point teamLabelStartingPoint;
+
         public TeamLogoStandingViewControl(Team team)
         {
             InitializeComponent();
-            
+
             if (team == null)
             {
                 throw new ArgumentNullException("Team entered was null in TeamLogoStandingViewControl");
             }
-            Team = team; 
+            Team = team;
         }
+
         /// <summary>
         /// Base constructor for child class TeamLogoPlayoffViewControl to have a designer view
         /// </summary>
@@ -45,11 +42,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             InitializeComponent();
             teamLabelStartingPoint = teamLabel.Location;
         }
+
         public void RedrawRecord()
         {
-                teamLabel.Text = Team?.TeamNameWithRecord;
-
+            teamLabel.Text = Team?.TeamNameWithRecord;
         }
+
         /// <summary>
         /// If the team is in the playoff their text in the label will be bold
         /// </summary>
@@ -68,10 +66,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 teamLabel.Font = new Font(teamLabel.Font, FontStyle.Regular);
             }
         }
+
         private void TeamLogoStandingViewControl_Load(object sender, EventArgs e)
         {
             UpdateDisplay();
         }
+
         private void UpdateDisplay()
         {
             //Null checks the 2 displays
@@ -92,6 +92,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             teamLabel.Text = Team?.TeamNameWithRecord;
         }
+
         private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
         {
             if (Team != null)

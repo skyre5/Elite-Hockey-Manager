@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Elite_Hockey_Manager.Classes.GameComponents;
+using System;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.GameComponents;
 
 namespace Elite_Hockey_Manager.Forms.GameForms
 {
@@ -18,6 +11,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             get;
             private set;
         } = null;
+
         public GameForm(Game game)
         {
             Game = game;
@@ -32,6 +26,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
                 gameControl.Game = Game;
             }
         }
+
         /// <summary>
         /// Called when a game is set for the form
         /// Sets up the titles and page's components

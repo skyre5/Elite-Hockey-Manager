@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.GameComponents;
 
 namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 {
@@ -13,6 +8,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         Shorthanded,
         Powerplay
     }
+
     public static class EnumExtensions
     {
         public static string GoalTypeToShortenedString(GoalType gt)
@@ -21,26 +17,32 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
             {
                 case GoalType.EvenStrength:
                     return "ES";
+
                 case GoalType.Powerplay:
                     return "PP";
+
                 case GoalType.Shorthanded:
                     return "SH";
+
                 default:
                     return gt.ToString();
             }
         }
     }
+
     public enum Side : int
     {
-        Home, 
+        Home,
         Away
     }
+
     public abstract class Event
     {
         private Player _player;
         private int _period;
         private int _time;
         private Side _side;
+
         public Player Player
         {
             get
@@ -56,6 +58,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _player = value;
             }
         }
+
         public int Period
         {
             get
@@ -71,6 +74,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _period = value;
             }
         }
+
         public int Time
         {
             get
@@ -86,7 +90,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _time = value;
             }
         }
-        public Side Side {
+
+        public Side Side
+        {
             get
             {
                 return _side;
@@ -96,6 +102,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _side = value;
             }
         }
+
         public Event(Player player, int period, int time, Side side)
         {
             Player = player;
@@ -104,6 +111,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
             Side = side;
         }
     }
+
     public class GoalEvent : Event
     {
         private Player _assister1;
@@ -111,6 +119,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         private GoalType _goalType;
         private ShotType _shotType;
         private PlayersOnIce _playersOnIce = new PlayersOnIce();
+
         public Player Assister1
         {
             get
@@ -122,6 +131,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _assister1 = value;
             }
         }
+
         public Player Assister2
         {
             get
@@ -133,6 +143,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _assister2 = value;
             }
         }
+
         public GoalType GoalType
         {
             get
@@ -144,6 +155,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _goalType = value;
             }
         }
+
         public ShotType ShotType
         {
             get
@@ -166,21 +178,24 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 
         public override string ToString()
         {
-            string returnString = String.Format("({0}) {1} Goal: {2}:{3}", Side, EnumExtensions.GoalTypeToShortenedString(GoalType), Player.Position, Player.LastName);
+            string returnString =
+                $"({Side}) {EnumExtensions.GoalTypeToShortenedString(GoalType)} Goal: {Player.Position}:{Player.LastName}";
             if (Assister1 != null)
             {
-                returnString += String.Format("-{0}:{1}", Assister1.Position, Assister1.LastName);
+                returnString += $"-{Assister1.Position}:{Assister1.LastName}";
             }
             if (Assister2 != null)
             {
-                returnString += String.Format("-{0}:{1}", Assister2.Position, Assister2.LastName);
+                returnString += $"-{Assister2.Position}:{Assister2.LastName}";
             }
             return returnString;
         }
     }
+
     public class HitEvent : Event
     {
         private Player _playerHit;
+
         public Player PlayerHit
         {
             get
@@ -196,19 +211,23 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _playerHit = null;
             }
         }
+
         public HitEvent(Player player, int period, int time, Side side, Player playerHit) : base(player, period, time, side)
         {
             PlayerHit = playerHit;
         }
+
         public override string ToString()
         {
-            return String.Format("({0}) {1}:{2} Hit On {3}:{4}", Side, Player.Position, Player.LastName, PlayerHit.Position, PlayerHit.LastName);
+            return $"({Side}) {Player.Position}:{Player.LastName} Hit On {PlayerHit.Position}:{PlayerHit.LastName}";
         }
     }
+
     public class PenaltyEvent : Event
     {
         private int _minutes;
         private Player _playerTakenOn;
+
         public int Minutes
         {
             get
@@ -224,6 +243,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _minutes = value;
             }
         }
+
         public Player PlayerTakenOn
         {
             get
@@ -235,19 +255,23 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _playerTakenOn = value;
             }
         }
+
         public PenaltyEvent(Player player, int period, int time, Side side, int minutes, Player playerTakenOn = null) : base(player, period, time, side)
         {
             Minutes = minutes;
             PlayerTakenOn = playerTakenOn;
         }
+
         public override string ToString()
         {
-            return String.Format("({0}) {1} Minute Penalty-{2}:{3}", Side, Minutes, Player.Position, Player.LastName);
+            return $"({Side}) {Minutes} Minute Penalty-{Player.Position}:{Player.LastName}";
         }
     }
+
     public class ShotEvent : Event
     {
         private ShotType _shotType;
+
         public ShotType ShotType
         {
             get
@@ -259,13 +283,15 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
                 _shotType = value;
             }
         }
+
         public ShotEvent(Player player, int period, int time, Side side, ShotType shotType) : base(player, period, time, side)
         {
             ShotType = shotType;
         }
+
         public override string ToString()
         {
-            return String.Format("({0}) {1} {2}:{3}", Side, ShotType, Player.Position, Player.LastName);
+            return $"({Side}) {ShotType} {Player.Position}:{Player.LastName}";
         }
     }
 }

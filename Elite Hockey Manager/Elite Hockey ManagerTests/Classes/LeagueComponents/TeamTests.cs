@@ -1,12 +1,6 @@
-﻿using NUnit.Framework;
-using Elite_Hockey_Manager.Classes;
-using System;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents;
 using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {
@@ -72,6 +66,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             }
             Assert.AreEqual(testTeam.ValidMinimumTeamSize(), pass);
         }
+
         /// <summary>
         /// Tests that a full team made from the team generator will have correct lines of the right position
         /// </summary>
@@ -82,6 +77,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             TeamGenerator.FillTeam(testTeam);
             AutoSetLinesTest(testTeam);
         }
+
         /// <summary>
         /// Tests that a team with no players will have more players auto-assigned to the team
         /// Also tests that all needed positions are filled and the correct positions
@@ -92,6 +88,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             Team testTeam = TeamGenerator.GetTeam();
             AutoSetLinesTest(testTeam);
         }
+
         private void AutoSetLinesTest(Team testTeam)
         {
             testTeam.AutoSetLines();
@@ -113,6 +110,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             }
             Assert.Pass();
         }
+
         /// <summary>
         /// Checks if any player inside the 2d array is null
         /// Fails if null is found
@@ -133,6 +131,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
                 }
             }
         }
+
         /// <summary>
         /// Checks 2d array for variable that is not of type
         /// </summary>

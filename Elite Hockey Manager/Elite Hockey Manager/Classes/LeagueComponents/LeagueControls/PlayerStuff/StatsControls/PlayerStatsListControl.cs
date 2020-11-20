@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls;
+using System;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls
 {
@@ -29,6 +24,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 }
             }
         }
+
         public string Title
         {
             get
@@ -40,6 +36,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 titleLabel.Text = value;
             }
         }
+
         public int LabelCount
         {
             get
@@ -57,21 +54,25 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 //ClearPlayerLabels();
             }
         }
+
         //public variables
-        //Set by classes container 
+        //Set by classes container
         public Label[] PlayerLabels;
 
         //private variables
         private const int LABELHEIGHT = 30;
+
         private bool _displayTeamAbbreviation = false;
         private string _title = "statName";
         private int _LabelCount;
         private PlayerLabel[] _playerLabelsForDisplay = null;
+
         public PlayerStatsListControl()
         {
             InitializeComponent();
             LabelCount = 5;
         }
+
         public void UpdateDisplay(PlayerLabel[] InputPlayersLabels)
         {
             PlayerLabels = new Label[InputPlayersLabels.Count()];
@@ -98,8 +99,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             else
             {
                 throw new ArgumentNullException("PlayerStatsListControl _playerLabels was not initialized.");
-            } 
+            }
         }
+
         private void ClearPlayerLabels()
         {
             if (_playerLabelsForDisplay != null)
@@ -111,6 +113,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 _playerLabelsForDisplay = null;
             }
         }
+
         public void AddPlayerLabelsToDisplay(PlayerLabel[] displayedPlayerLabels)
         {
             for (int i = 0; i < displayedPlayerLabels.Count(); i++)
@@ -123,6 +126,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 this.Controls.Add(displayedPlayerLabels[i]);
             }
         }
+
         /// <summary>
         /// Updates all the player labels within this control to the updated playerLabelsForDisplay value
         /// Displays the team abbreviation next to the name of the player on the label(Logic done within PlayerLabel class)

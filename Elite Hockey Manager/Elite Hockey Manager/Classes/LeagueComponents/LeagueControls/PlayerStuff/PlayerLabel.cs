@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
+﻿using Elite_Hockey_Manager.Forms.GameForms;
+using System;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Forms.GameForms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls
 {
@@ -25,6 +20,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 }
             }
         }
+
         public bool DisplayTeamAbbreviation
         {
             get
@@ -37,9 +33,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 UpdateTeamAbbreviation();
             }
         }
+
         private Player _player;
         private bool _displayTeamAbbreviation = false;
         private string displayPlayerString;
+
         public PlayerLabel()
         {
             //this.Font = new Font(this.Font, FontStyle.Underline);
@@ -51,18 +49,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
             this.AutoSize = true;
             this.DoubleClick += LabelDoubleClicked;
         }
-        public PlayerLabel(Player player): this()
+
+        public PlayerLabel(Player player) : this()
         {
             Player = player;
             displayPlayerString = _player.ToString().Trim();
             this.Text = displayPlayerString;
         }
+
         public PlayerLabel(Player player, double statToDisplay) : this()
         {
             Player = player;
-            displayPlayerString = String.Format("{0}:{1} {2:0.##}", _player.Position, _player.FullName, statToDisplay);
+            displayPlayerString = $"{_player.Position}:{_player.FullName} {statToDisplay:0.##}";
             this.Text = displayPlayerString;
         }
+
         private void LabelDoubleClicked(object sender, EventArgs e)
         {
             if (_player != null)
@@ -71,6 +72,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 form.ShowDialog();
             }
         }
+
         /// <summary>
         /// Updates the text of this label on a change in the DisplayTeamAbbreviation public property
         /// </summary>
@@ -82,7 +84,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
             {
                 if (_player.CurrentTeam != null)
                 {
-                    this.Text = String.Format("({0}){1}", _player.CurrentTeam.Abbreviation, displayPlayerString);
+                    this.Text = $"({_player.CurrentTeam.Abbreviation}){displayPlayerString}";
                 }
             }
             //If the display appreviation boolean is false, Set the text of this label to the base displayPlayerString

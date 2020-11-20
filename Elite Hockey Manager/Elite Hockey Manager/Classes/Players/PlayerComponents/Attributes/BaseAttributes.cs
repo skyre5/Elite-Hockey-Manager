@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -12,17 +8,20 @@ namespace Elite_Hockey_Manager.Classes
     {
         protected static Random rand = new Random();
         public const int DefaultRating = 50;
+
         //General stats
         protected int _clutchness = DefaultRating;
+
         protected int _consistency = DefaultRating;
 
         private int _fatigue = 0;
 
         private int _injuryLength = 0;
+
         public BaseAttributes()
         {
-
         }
+
         public virtual Tuple<string, int>[] GetAttributeNames()
         {
             Tuple<string, int>[] names = {
@@ -31,6 +30,7 @@ namespace Elite_Hockey_Manager.Classes
             };
             return names;
         }
+
         public static void CheckRating(ref int attribute, int rating)
         {
             if (rating < 1)
@@ -61,8 +61,11 @@ namespace Elite_Hockey_Manager.Classes
                 baseStat++;
             }
         }
+
         protected abstract void GenerateStats(int age, int lower, int upper, int guarantee);
+
         protected abstract void GuaranteedStatChoice(int rating);
+
         protected void ModifyBoundsToAge(int age, ref int lower, ref int upper, ref int guarantee)
         {
             if (age == 18)
@@ -93,6 +96,7 @@ namespace Elite_Hockey_Manager.Classes
                 guarantee -= (age - 36);
             }
         }
+
         /// <summary>
         /// Stat to keep track of goalies fatigue, will gain more fatigue from losing than winning
         /// Will cause the backup goaltender to get games played when the starter has gotten fatigued enough
@@ -108,6 +112,7 @@ namespace Elite_Hockey_Manager.Classes
                 _fatigue = value;
             }
         }
+
         public int Clutchness
         {
             get
@@ -127,6 +132,7 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _clutchness, value);
             }
         }
+
         public int Consistency
         {
             get
@@ -138,6 +144,7 @@ namespace Elite_Hockey_Manager.Classes
                 CheckRating(ref _consistency, value);
             }
         }
+
         public int InjuryLength
         {
             get
@@ -156,6 +163,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public bool Injured
         {
             get
@@ -167,8 +175,11 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
         }
+
         #region Player Progression
+
         internal abstract void ProgressPlayer(int _age, string position, int playerStatusID);
+
         /// <summary>
         /// Updates players attributes based on player status and current age
         /// </summary>
@@ -191,12 +202,14 @@ namespace Elite_Hockey_Manager.Classes
                 GrowStats(1 + (age - regressionBeginAge), 1);
             }
         }
+
         /// <summary>
         /// Grows each stat within attributes between 2 given values
         /// </summary>
         /// <param name="negativeRange">The maximum value a player could lose</param>
         /// <param name="upperRange">The maximum value a player could gain</param>
         protected abstract void GrowStats(int negativeRange, int upperRange);
+
         /// <summary>
         /// Internal function to get a random value that a player will use to adjust attributes
         /// </summary>
@@ -207,15 +220,17 @@ namespace Elite_Hockey_Manager.Classes
         {
             return rand.Next(-losingRange, growthRange + 1);
         }
-        #endregion
+
+        #endregion Player Progression
+
         public BaseAttributes(SerializationInfo info, StreamingContext context)
         {
             this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
             this._consistency = (int)info.GetValue("Consistency", typeof(int));
             this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
             this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
-
         }
+
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Clutchness", this._clutchness);
@@ -224,5 +239,4 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("InjuryLength", this._injuryLength);
         }
     }
-
 }

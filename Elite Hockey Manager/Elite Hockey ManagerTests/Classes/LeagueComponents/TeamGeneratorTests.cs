@@ -1,12 +1,6 @@
 ﻿using NUnit.Framework;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Reflection;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
 {
@@ -19,6 +13,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
             Assert.IsNotNull(TeamGenerator.CityNames);
             Assert.IsNotNull(TeamGenerator.TeamNames);
         }
+
         [Test()]
         public void GetFullTeamNameTest()
         {
@@ -29,6 +24,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
             Assert.IsNotEmpty(names.Item2);
             Assert.IsNotNull(names.Item2);
         }
+
         [Test()]
         public void TeamGeneratorStatusTest()
         {

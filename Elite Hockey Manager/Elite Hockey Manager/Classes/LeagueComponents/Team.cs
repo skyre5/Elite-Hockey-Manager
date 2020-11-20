@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents;
+using Elite_Hockey_Manager.Classes.Stats;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using Elite_Hockey_Manager.Classes.Stats;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -20,7 +17,9 @@ namespace Elite_Hockey_Manager.Classes
         private string _logoPath = null;
         private int _teamID = -1;
         private static int idCount = 0;
+
         public event EventHandler TeamStatsUpdated;
+
         public int Year
         {
             get
@@ -28,6 +27,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _year;
             }
         }
+
         public string TeamName
         {
             get
@@ -46,6 +46,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public string Abbreviation
         {
             get
@@ -64,6 +65,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public string TeamNameWithRecord
         {
             get
@@ -71,6 +73,7 @@ namespace Elite_Hockey_Manager.Classes
                 return TeamName + CurrentSeasonStats.Record();
             }
         }
+
         /// <summary>
         /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
         /// </summary>
@@ -92,6 +95,7 @@ namespace Elite_Hockey_Manager.Classes
             SeasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
+
         public Team(string location, string name, string imagePath)
         {
             Location = location;
@@ -103,6 +107,7 @@ namespace Elite_Hockey_Manager.Classes
             SeasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
         }
+
         public string LogoPath
         {
             get
@@ -114,6 +119,7 @@ namespace Elite_Hockey_Manager.Classes
                 _logoPath = value;
             }
         }
+
         public string Location
         {
             get
@@ -130,9 +136,9 @@ namespace Elite_Hockey_Manager.Classes
                 {
                     _location = value.Trim();
                 }
-
             }
         }
+
         public Image Logo
         {
             get
@@ -154,15 +160,14 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public string FullName
         {
             get
             {
-                return String.Format("{0} {1}", _location, _teamName);
+                return $"{_location} {_teamName}";
             }
         }
-
-
 
         public int TeamID
         {
@@ -171,13 +176,16 @@ namespace Elite_Hockey_Manager.Classes
                 return _teamID;
             }
         }
+
         public Forward[,] Forwards { get; } = new Forward[4, 3];
         public Defender[,] Defenders { get; } = new Defender[3, 2];
         public Goalie[] Goalies { get; } = new Goalie[2];
+
         /// <summary>
         /// List of all season stats through game history
         /// </summary>
         public List<TeamStats> SeasonTeamStats { get; private set; } = new List<TeamStats>();
+
         /// <summary>
         /// Gets the latest seasonal stats from the SeasonTeamStats list
         /// </summary>
@@ -188,6 +196,7 @@ namespace Elite_Hockey_Manager.Classes
                 return SeasonTeamStats.Last();
             }
         }
+
         public TeamStats CurrentRegularSeasonStats
         {
             get
@@ -195,7 +204,7 @@ namespace Elite_Hockey_Manager.Classes
                 if (SeasonTeamStats.Last().Playoff)
                 {
                     //Gets the second to last teamStats of the list
-                    return SeasonTeamStats[SeasonTeamStats.Count - 2]; 
+                    return SeasonTeamStats[SeasonTeamStats.Count - 2];
                 }
                 else
                 {
@@ -203,6 +212,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         /// <summary>
         /// Gets an array of size 3 for a specific forward line
         /// </summary>
@@ -216,6 +226,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             return GetRow(Forwards, line - 1);
         }
+
         /// <summary>
         /// Gets an array of size 2 for a specific defensive line
         /// </summary>
@@ -229,6 +240,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             return GetRow(Defenders, line - 1);
         }
+
         /// <summary>
         /// Gets the starter or backup goalie for a game
         /// </summary>
@@ -245,6 +257,7 @@ namespace Elite_Hockey_Manager.Classes
             //Returns starter
             return Goalies[0];
         }
+
         /// <summary>
         /// Helper function to get a row of a 2d array based on row
         /// </summary>
@@ -261,28 +274,31 @@ namespace Elite_Hockey_Manager.Classes
             //Gets the size of the 2nd dimension of the 2d array
             int rowLength = players.GetLength(1);
             Skater[] line = new Skater[rowLength];
-            for (int i = 0;i < rowLength; i++)
+            for (int i = 0; i < rowLength; i++)
             {
                 line[i] = players[row, i];
             }
             return line;
         }
+
         public void AddNewSkater(Skater skater)
         {
             //skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
-            //Adds a link to this Team object to the player that will link to the current team they play for 
+            //Adds a link to this Team object to the player that will link to the current team they play for
             skater.CurrentTeam = this;
             ContractGenerator.GenerateContract(skater, this, Year);
             Roster.Add(skater);
         }
+
         public void AddNewGoalie(Goalie goalie)
         {
             //goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
-            //Adds a link to this Team object to the player that will link to the current team they play for 
+            //Adds a link to this Team object to the player that will link to the current team they play for
             goalie.CurrentTeam = this;
             ContractGenerator.GenerateContract(goalie, this, Year);
             Roster.Add(goalie);
         }
+
         public void AddNewPlayer(Player pickedPlayer)
         {
             if (pickedPlayer is Goalie)
@@ -294,23 +310,28 @@ namespace Elite_Hockey_Manager.Classes
                 AddNewSkater((Skater)pickedPlayer);
             }
         }
+
         public override string ToString()
         {
             return FullName;
         }
+
         public override int GetHashCode()
         {
             return _teamID.GetHashCode() ^ FullName.GetHashCode();
         }
+
         public bool Equals(Team other)
         {
             return int.Equals(this.GetHashCode(), other.GetHashCode());
             //return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
         }
+
         public int GetPositionCount<T>()
         {
             return Roster.Where(player => player is T).Count();
         }
+
         /// <summary>
         /// Returns a list of players of position T
         /// Sorted by overall
@@ -324,6 +345,7 @@ namespace Elite_Hockey_Manager.Classes
             return Roster.Where(player => player is T && !player.Attributes.Injured)
                 .OrderByDescending(item => item.Overall).ToList();
         }
+
         public double GetCapSpent()
         {
             double totalCap = 0;
@@ -333,6 +355,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             return totalCap;
         }
+
         /// <summary>
         /// Boolean function that returns whether the team has a valid number or greater of forwards(12), defenders(6), and goalies(2)
         /// </summary>
@@ -356,6 +379,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             return true;
         }
+
         public void ValidateLines()
         {
             //If any forward spots are null, auto set forward lines
@@ -388,12 +412,14 @@ namespace Elite_Hockey_Manager.Classes
                 AutoSetGoalies();
             }
         }
+
         public void AutoSetLines()
         {
             AutoSetForwardLines();
             AutoSetDefenseLines();
             AutoSetGoalies();
         }
+
         /// <summary>
         /// Sets the 4 forward lines sorted by overall and with no injured forwards
         /// Will sign new role players if unable to meet required amount
@@ -413,6 +439,7 @@ namespace Elite_Hockey_Manager.Classes
                 Forwards[i, 2] = (Forward)rightWings[i];
             }
         }
+
         /// <summary>
         /// Sets the 3 defensive lines sorted by overall and with no injured defenders
         /// Will sign new role players if unable to meet required amount
@@ -429,6 +456,7 @@ namespace Elite_Hockey_Manager.Classes
                 Defenders[i, 1] = (Defender)rightDefenders[i];
             }
         }
+
         /// <summary>
         /// Sets the 2 goalies sorted by overall with no injured goalies
         /// Will sign new role players if unable to meet required amount
@@ -441,14 +469,14 @@ namespace Elite_Hockey_Manager.Classes
                 Goalie emergencyCreateGoalie = PlayerGenerator.GenerateGoalie(3);
                 this.AddNewGoalie(emergencyCreateGoalie);
                 goalies.Add(emergencyCreateGoalie);
-                //Sets the players progression tracker for when a goalie must be created 
+                //Sets the players progression tracker for when a goalie must be created
                 //only occurs in this function as well as the one in CheckForInjury
                 emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
-
             }
             Goalies[0] = (Goalie)goalies[0];
             Goalies[1] = (Goalie)goalies[1];
         }
+
         /// <summary>
         /// Adds new teamstats object to this Team class for the playoffs for the current year
         /// Adds new playerstats object to each playoff player for the current year
@@ -471,6 +499,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         /// <summary>
         /// Checks to make sure there are a sufficient amount of players to fill out the forward and defensive lines
         /// </summary>
@@ -502,10 +531,12 @@ namespace Elite_Hockey_Manager.Classes
         {
             this.CurrentSeasonStats.TeamStatsUpdated += TriggerTeamStatsEvent;
         }
+
         private void TriggerTeamStatsEvent(object sender, EventArgs e)
         {
             TeamStatsUpdated?.Invoke(this, null);
         }
+
         /// <summary>
         /// Comparator for teams. Compares by points, then goals for, then alphabetically
         /// </summary>
@@ -520,7 +551,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 if (t1.GoalsFor == t2.GoalsFor)
                 {
-                    //If both teams have same amount of points and goalsFor, compare alphabetically 
+                    //If both teams have same amount of points and goalsFor, compare alphabetically
                     return this.TeamName.CompareTo(other.TeamName);
                 }
                 //If points are the same, compare by goalsFor
@@ -529,6 +560,7 @@ namespace Elite_Hockey_Manager.Classes
             //If points are different, sort by points
             return t1.Points.CompareTo(t2.Points);
         }
+
         //protected Team(SerializationInfo info, StreamingContext context)
         //{
         //    this._teamName = (string)info.GetValue("TeamName", typeof(string));
@@ -547,6 +579,5 @@ namespace Elite_Hockey_Manager.Classes
         //    info.AddValue("Abbreviation", this._abbreviation);
         //    info.AddValue("SeasonTeamStats", this.seasonTeamStats);
         //}
-
     }
 }

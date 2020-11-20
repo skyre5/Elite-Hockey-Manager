@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -20,7 +18,8 @@ namespace Elite_Hockey_Manager.Classes
         BottomSix,
         RolePlayer
     }
-    public enum DefensePlayerStatus: int
+
+    public enum DefensePlayerStatus : int
     {
         Unset,
         Generational,
@@ -30,7 +29,8 @@ namespace Elite_Hockey_Manager.Classes
         BottomPairing,
         Role
     }
-    public enum GoaliePlayerStatus: int
+
+    public enum GoaliePlayerStatus : int
     {
         Unset,
         Generational,
@@ -40,6 +40,7 @@ namespace Elite_Hockey_Manager.Classes
         Backup,
         Role
     }
+
     //[Serializable]
     public abstract class Player : ISerializable
     {
@@ -47,6 +48,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get;
         }
+
         public int PlayerNumber
         {
             get
@@ -61,6 +63,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public Contract CurrentContract
         {
             get
@@ -73,6 +76,7 @@ namespace Elite_Hockey_Manager.Classes
                 return CareerContracts.Last();
             }
         }
+
         public string FullName
         {
             get
@@ -80,6 +84,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _firstName + " " + _lastName;
             }
         }
+
         public string FirstName
         {
             get
@@ -98,6 +103,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public string LastName
         {
             get
@@ -116,6 +122,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public int Age
         {
             get
@@ -134,6 +141,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public int ID
         {
             get
@@ -141,40 +149,51 @@ namespace Elite_Hockey_Manager.Classes
                 return _playerID;
             }
         }
+
         /// <summary>
         /// Keeps track of if the player is currently retired
         /// If player is retired, then no further additions should be made to this history
         /// </summary>
         public bool Retired { get; set; } = false;
+
         public abstract int Overall
         {
             get;
         }
+
         public abstract string Position
         {
             get;
         }
+
         public abstract BaseAttributes Attributes
         {
             get;
             //set;
         }
+
         public PlayerProgressionTracker ProgressionTracker { get; private set; }
+
         //Keeps track of the players current team, if it is null they are a free agent
         public Team CurrentTeam = null;
+
         //Static random object for use in player number generation
         private static Random rand = new Random();
+
         //Incrementing int that will hold all players that play in the league
         private static int idCount = 0;
+
         //Set in constructor after incrementing the id count
         private int _playerID;
+
         //Random number between 1 and 99
         private int _playerNumber = rand.Next(1, 100);
+
         protected string _firstName;
         protected string _lastName;
         protected int _age;
         public List<Contract> CareerContracts { get; } = new List<Contract>();
-        
+
         public Player(string first, string last, int age, Contract contract)
         {
             //Input validation done in setters
@@ -199,6 +218,7 @@ namespace Elite_Hockey_Manager.Classes
             idCount++;
             _playerID = idCount;
         }
+
         /// <summary>
         /// Initializes the player progression tracker when they are created and have been given their base attributes
         /// </summary>
@@ -209,6 +229,7 @@ namespace Elite_Hockey_Manager.Classes
             //Overall defined in each non abstract child
             this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
+
         /// <summary>
         /// Advances the players age by a year and updates their attributes based on age and player status
         /// </summary>
@@ -218,7 +239,9 @@ namespace Elite_Hockey_Manager.Classes
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
             Age++;
         }
+
         public abstract void AddStats(int year, int teamID, bool playoffs);
+
         /// <summary>
         /// Method to add contract to a player
         /// Contracts are added upon league creation, injury replacement players, draft pick created players, resign, and free agency
@@ -232,11 +255,14 @@ namespace Elite_Hockey_Manager.Classes
             }
             CareerContracts.Add(contract);
         }
+
         public override string ToString()
         {
             return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
         }
+
         public abstract void GenerateStats(int playerStatus);
+
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("First", this._firstName);
@@ -247,6 +273,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("PlayerNumber", this._playerNumber);
             info.AddValue("CurrentTeam", this.CurrentTeam);
         }
+
         public Player(SerializationInfo info, StreamingContext context)
         {
             this._firstName = (string)info.GetValue("First", typeof(string));

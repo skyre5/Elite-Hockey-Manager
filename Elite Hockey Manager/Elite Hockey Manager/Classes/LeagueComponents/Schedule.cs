@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes.GameComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.GameComponents;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
@@ -11,21 +9,25 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     {
         public Team team;
         public ScheduleCounter counter;
+
         public TeamPair(Team newTeam)
         {
             team = newTeam;
             counter = new ScheduleCounter();
         }
+
         public override string ToString()
         {
-            return String.Format("{0} Home:{1} Away:{2}", team.TeamName, counter.homeGamesScheduled, counter.awayGamesScheduled);
+            return $"{team.TeamName} Home:{counter.homeGamesScheduled} Away:{counter.awayGamesScheduled}";
         }
     }
+
     public class ScheduleCounter
     {
         public int homeGamesScheduled;
         public int awayGamesScheduled;
     }
+
     [Serializable]
     public class Schedule
     {
@@ -36,6 +38,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         private int _maxGamesPerDay;
         private int _scheduleSize;
         private List<List<Game>> _seasonSchedule = new List<List<Game>>();
+
         public List<List<Game>> SeasonSchedule
         {
             get
@@ -43,6 +46,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _seasonSchedule;
             }
         }
+
         public int Length
         {
             get
@@ -50,6 +54,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _seasonSchedule.Count;
             }
         }
+
         public void SimDay(int day)
         {
             if (day < 0 || day >= SeasonSchedule.Count)
@@ -61,6 +66,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 game.PlayGame();
             }
         }
+
         public Schedule(List<Team> firstConference, List<Team> secondConference, Random random)
         {
             //Sets random to league-wide random
@@ -73,6 +79,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             SetMaxGamesInADay();
             GenerateRegularSeason();
         }
+
         /// <summary>
         /// Function to return total number of games scheduled for season
         /// </summary>
@@ -82,13 +89,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             int totalGames = 0;
             foreach (List<Game> day in _seasonSchedule)
             {
-                foreach(Game game in day)
+                foreach (Game game in day)
                 {
                     totalGames++;
                 }
             }
             return totalGames;
         }
+
         /// <summary>
         /// Gets the total of games that are not finished that are yet to be simmed or partially simmed
         /// </summary>
@@ -96,7 +104,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public int RemainingGamesToSim(int dayIndex, int duration)
         {
             int totalGames = 0;
-            //If simming rest of season with -1 key. Calculation duration of rest of league 
+            //If simming rest of season with -1 key. Calculation duration of rest of league
             if (duration == -1)
             {
                 duration = _seasonSchedule.Count - dayIndex;
@@ -107,7 +115,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 {
                     break;
                 }
-                foreach(Game game in _seasonSchedule[dayIndex + i])
+                foreach (Game game in _seasonSchedule[dayIndex + i])
                 {
                     if (!game.Finished)
                     {
@@ -117,8 +125,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             return totalGames;
         }
+
         /// <summary>
-        /// Function to determine if there are any games left to sim 
+        /// Function to determine if there are any games left to sim
         /// </summary>
         /// <returns>Return boolean of if the schedule is done being simmed
         /// True - League is done simming all games in this class
@@ -138,6 +147,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             return true;
         }
+
         /// <summary>
         /// Function to force the etnire schedule to be simmed, used in case of error simming schedule
         /// </summary>
@@ -154,6 +164,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+
         private void GenerateRegularSeason()
         {
             int gamesScheduled = 0;
@@ -189,6 +200,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 _seasonSchedule.Add(daySchedule);
             }
         }
+
         private void FixOddTeamLeague(TeamPair lastTeam, ref int newGameNumber)
         {
             //home game missing
@@ -217,6 +229,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+
         private TeamPair ChooseAwayTeam(List<TeamPair> awayTeams)
         {
             //Chooses a random team among the away teams list
@@ -226,6 +239,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             awayTeams.RemoveAt(choice);
             return chosenTeam;
         }
+
         private List<TeamPair> GetHomeTeams()
         {
             //Takes only teams where they have played less than 41 home games
@@ -236,11 +250,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 .Take(_maxGamesPerDay).ToList();
             return homeTeams;
         }
+
         private List<TeamPair> GetAwayTeams(List<TeamPair> homeTeams)
         {
             List<TeamPair> onlyAwayTeams = _teamsList.Except(homeTeams).ToList();
-            List <TeamPair> awayTeams = onlyAwayTeams.Where(x => x.counter.awayGamesScheduled < 41).ToList();
-            for (int i = 0;;)
+            List<TeamPair> awayTeams = onlyAwayTeams.Where(x => x.counter.awayGamesScheduled < 41).ToList();
+            for (int i = 0; ;)
             {
                 if (i == homeTeams.Count)
                 {
@@ -268,6 +283,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }*/
             return awayTeams;
         }
+
         private void SetTeamsList()
         {
             List<Team> allTeams = _firstConference.Concat(_secondConference).ToList();
@@ -276,6 +292,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 _teamsList.Add(new TeamPair(team));
             }
         }
+
         private void SetMaxGamesInADay()
         {
             //Half of the number of the teams in the league, rounds down

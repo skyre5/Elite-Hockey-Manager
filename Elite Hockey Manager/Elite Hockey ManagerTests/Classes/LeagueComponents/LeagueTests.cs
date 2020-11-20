@@ -1,11 +1,7 @@
-﻿using NUnit.Framework;
-using Elite_Hockey_Manager.Classes;
+﻿using Elite_Hockey_Manager.Classes.LeagueComponents;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {
@@ -26,6 +22,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             List<Team> testConference = new List<Team>();
             Assert.Throws<ArgumentOutOfRangeException>(() => League.FillConference(testConference, -10));
         }
+
         [TestCase(6)]
         [TestCase(7)]
         [TestCase(32)]
@@ -37,6 +34,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             int testLeagueSize = testLeague.FirstConference.Count + testLeague.SecondConference.Count;
             Assert.AreEqual(testLeagueSize, leagueSize);
         }
+
         [TestCase(5)]
         [TestCase(33)]
         public void LeagueOutOfRangeSizeTest(int leagueSize)
@@ -86,6 +84,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             Team testTeam = new Team("test", "test");
             Assert.Throws<ArgumentException>(() => testLeague.AddTeam(testTeam, 1));
         }
+
         [Test()]
         public void AddTeamUnevenCoferenceFullTest()
         {
@@ -129,7 +128,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
 
             Assert.AreEqual(testLeague.GetTeamErrorCount(), 6);
 
-            //Makes team valid 
+            //Makes team valid
             TeamGenerator.FillTeam(testTeam);
 
             //League should return 5 errors since the new team is now valid

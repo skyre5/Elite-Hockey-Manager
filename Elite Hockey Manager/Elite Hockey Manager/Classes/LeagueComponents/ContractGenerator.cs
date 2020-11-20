@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using System;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public static class ContractGenerator
     {
         private static Random rand = new Random();
+
         //Salary cap of the league the system is currently generating contracts for
         //Default of 50
         private static double _salaryCap = 50.0;
+
         /// <summary>
         /// Sets the salary cap for the league that the ContractGenerator is generating for
         /// </summary>
@@ -28,6 +26,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 _salaryCap = newCap;
             }
         }
+
         public static void GenerateContract(Player player, Team signingTeam, int year = 1)
         {
             //Players 21 or under will be getting contracts that pass until the end of their 21 year old contracts
@@ -48,6 +47,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 GenerateVeteranContract(player, year, signingTeam);
             }
         }
+
         private static void GenerateVeteranContract(Player player, int year, Team signingTeam)
         {
             int duration = YearsForVeteranContract(player);
@@ -100,6 +100,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 player.AddContract(contract);
             }
         }
+
         private static double GenerateContractAmount(double minAmount, double maxAmount)
         {
             int lowerBound = (int)(minAmount / .25);
@@ -107,6 +108,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             int amount = rand.Next(lowerBound, upperBound + 1);
             return (amount * 0.25);
         }
+
         private static void GenerateYouthContract(Forward player, int year, Team signingTeam)
         {
             int years = YearsForEntryContract(player);
@@ -116,24 +118,31 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 case ForwardPlayerStatus.Generational:
                     amount = 2;
                     break;
+
                 case ForwardPlayerStatus.Superstar:
                     amount = 1.5;
                     break;
+
                 case ForwardPlayerStatus.FirstLine:
                     amount = 1;
                     break;
+
                 case ForwardPlayerStatus.TopSix:
                     amount = .5;
                     break;
+
                 case ForwardPlayerStatus.TopNine:
                     amount = .5;
                     break;
+
                 case ForwardPlayerStatus.BottomSix:
                     amount = .5;
                     break;
+
                 case ForwardPlayerStatus.RolePlayer:
                     amount = .5;
                     break;
+
                 case ForwardPlayerStatus.Unset:
                     amount = .5;
                     break;
@@ -141,6 +150,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Contract contract = new Contract(year, years, amount, signingTeam);
             player.AddContract(contract);
         }
+
         private static void GenerateYouthContract(Defender player, int year, Team signingTeam)
         {
             int years = YearsForEntryContract(player);
@@ -150,21 +160,27 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 case DefensePlayerStatus.Generational:
                     amount = 2.5;
                     break;
+
                 case DefensePlayerStatus.Superstar:
                     amount = 2;
                     break;
+
                 case DefensePlayerStatus.FirstPairing:
                     amount = 1.5;
                     break;
+
                 case DefensePlayerStatus.SecondPairing:
                     amount = 1;
                     break;
+
                 case DefensePlayerStatus.BottomPairing:
                     amount = .5;
                     break;
+
                 case DefensePlayerStatus.Role:
                     amount = .5;
                     break;
+
                 case DefensePlayerStatus.Unset:
                     amount = .5;
                     break;
@@ -172,6 +188,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Contract contract = new Contract(year, years, amount, signingTeam);
             player.AddContract(contract);
         }
+
         private static void GenerateYouthContract(Goalie player, int year, Team signingTeam)
         {
             int years = YearsForEntryContract(player);
@@ -181,18 +198,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 case GoaliePlayerStatus.Generational:
                     amount = 2.5;
                     break;
+
                 case GoaliePlayerStatus.Elite:
                     amount = 2;
                     break;
+
                 case GoaliePlayerStatus.Starter:
                     amount = 1.5;
                     break;
+
                 case GoaliePlayerStatus.LowStarter:
                     amount = 1;
                     break;
+
                 case GoaliePlayerStatus.Backup:
                     amount = .5;
                     break;
+
                 case GoaliePlayerStatus.Role:
                 case GoaliePlayerStatus.Unset:
                     amount = .5;
@@ -201,6 +223,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             Contract contract = new Contract(year, years, amount, signingTeam);
             player.AddContract(contract);
         }
+
         private static int YearsForEntryContract(Player player)
         {
             int years = 1;
@@ -209,12 +232,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 case 18:
                     years = 4;
                     break;
+
                 case 19:
                     years = 3;
                     break;
+
                 case 20:
                     years = 2;
                     break;
+
                 case 21:
                 default:
                     years = 1;
@@ -222,6 +248,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             return years;
         }
+
         private static int YearsForVeteranContract(Player player)
         {
             //1 - 8 year contracts
@@ -240,4 +267,3 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
     }
 }
-

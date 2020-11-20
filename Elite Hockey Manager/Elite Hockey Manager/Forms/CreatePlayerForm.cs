@@ -1,33 +1,31 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
-using System.IO;
 
 namespace Elite_Hockey_Manager.Forms
 {
     public partial class CreatePlayerForm : Form
     {
-        int randomChoice = 0;
-        Type sortType = typeof(Player);
+        private int randomChoice = 0;
+        private Type sortType = typeof(Player);
+
         //List of user created players
-        BindingList<Player> playerList;
-        BindingList<Player> displayList = new BindingList<Player>();
+        private BindingList<Player> playerList;
+
+        private BindingList<Player> displayList = new BindingList<Player>();
+
         //Bool variable to track whether to ask player to save before exiting
         private bool changeMade = false;
+
         public CreatePlayerForm()
         {
             InitializeComponent();
             createPositionDropdown.SelectedIndex = 0;
         }
+
         /// <summary>
         /// Fills the PlayerListBox with all the user created players
         /// </summary>
@@ -36,7 +34,6 @@ namespace Elite_Hockey_Manager.Forms
             playerListBox.DataSource = null;
             CategorizePlayerList<Player>();
             playerListBox.DataSource = displayList;
-            
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -68,6 +65,7 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
         private void PlayersForm_Load(object sender, EventArgs e)
         {
             if (!SaveLoadUtils.LoadListToFile<Player>("PlayerData.data", out playerList))
@@ -84,7 +82,6 @@ namespace Elite_Hockey_Manager.Forms
             try
             {
                 randomChoice = int.Parse(tag);
-                
             }
             catch (Exception ex)
             {
@@ -113,21 +110,27 @@ namespace Elite_Hockey_Manager.Forms
                     case 0:
                         playerList.Add(PlayerGenerator.CreateRandomCenter());
                         break;
+
                     case 1:
                         playerList.Add(PlayerGenerator.CreateRandomLeftWing());
                         break;
+
                     case 2:
                         playerList.Add(PlayerGenerator.CreateRandomRightWing());
                         break;
+
                     case 3:
                         playerList.Add(PlayerGenerator.CreateRandomLeftDefender());
                         break;
+
                     case 4:
                         playerList.Add(PlayerGenerator.CreateRandomRightDefender());
                         break;
+
                     case 5:
                         playerList.Add(PlayerGenerator.CreateRandomGoalie());
                         break;
+
                     default:
                         Console.WriteLine("Invalid entry from creating random players:" + randomChoice.ToString());
                         break;
@@ -136,11 +139,12 @@ namespace Elite_Hockey_Manager.Forms
             //Pushes added player to Player containing list box for display
             //Only if it matches the current sort type
             Player newPlayer = playerList[playerList.Count - 1];
-            if (sortType.IsInstanceOfType(newPlayer)) 
+            if (sortType.IsInstanceOfType(newPlayer))
             {
                 displayList.Add(newPlayer);
             }
         }
+
         private void sortRadioChange(object sender, EventArgs e)
         {
             int sortChoice;
@@ -162,44 +166,54 @@ namespace Elite_Hockey_Manager.Forms
                     CategorizePlayerList<Player>();
                     sortType = typeof(Player);
                     break;
+
                 case 1:
                     CategorizePlayerList<Skater>();
                     sortType = typeof(Skater);
                     break;
+
                 case 2:
                     CategorizePlayerList<Goalie>();
                     sortType = typeof(Goalie);
                     break;
+
                 case 3:
                     CategorizePlayerList<Forward>();
                     sortType = typeof(Forward);
                     break;
+
                 case 4:
                     CategorizePlayerList<Defender>();
                     sortType = typeof(Defender);
                     break;
+
                 case 5:
                     CategorizePlayerList<Center>();
                     sortType = typeof(Center);
                     break;
+
                 case 6:
                     CategorizePlayerList<LeftWinger>();
                     sortType = typeof(LeftWinger);
                     break;
+
                 case 7:
                     CategorizePlayerList<RightWinger>();
                     sortType = typeof(RightWinger);
                     break;
+
                 case 8:
                     CategorizePlayerList<LeftDefensemen>();
                     sortType = typeof(LeftDefensemen);
                     break;
+
                 case 9:
                     CategorizePlayerList<RightDefensemen>();
                     sortType = typeof(RightDefensemen);
                     break;
             }
         }
+
         public void CategorizePlayerList<T>()
         {
             displayList = new BindingList<Player>();
@@ -230,7 +244,7 @@ namespace Elite_Hockey_Manager.Forms
 
         private void createPositionDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //TODO Can probably be done in a better way 
+            //TODO Can probably be done in a better way
             string position = (string)createPositionDropdown.SelectedItem;
             if (position == "G")
             {
@@ -303,15 +317,19 @@ namespace Elite_Hockey_Manager.Forms
                     case "C":
                         newPlayer = new Center(firstName, lastName, age, SA);
                         break;
+
                     case "LW":
                         newPlayer = new LeftWinger(firstName, lastName, age, SA);
                         break;
+
                     case "RW":
                         newPlayer = new RightWinger(firstName, lastName, age, SA);
                         break;
+
                     case "LD":
                         newPlayer = new LeftDefensemen(firstName, lastName, age, SA);
                         break;
+
                     case "RD":
                         newPlayer = new RightDefensemen(firstName, lastName, age, SA);
                         break;
@@ -331,11 +349,13 @@ namespace Elite_Hockey_Manager.Forms
         {
             changeMade = true;
             int index = playerListBox.SelectedIndex;
-            if (index != -1) {
+            if (index != -1)
+            {
                 Player editPlayer = displayList[index];
                 OpenEditPlayer(editPlayer);
             }
         }
+
         private void OpenEditPlayer(Player editPlayer)
         {
             EditPlayerForm form = new EditPlayerForm(editPlayer);

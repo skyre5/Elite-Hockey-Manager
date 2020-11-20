@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
+﻿using Elite_Hockey_Manager.Classes;
+using System;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms
 {
     public partial class EditPlayerForm : Form
     {
         //Value used to tell if there was a change when leaving a textbox
-        string initialValue;
-        Player player;
+        private string initialValue;
+
+        private Player player;
+
         public EditPlayerForm(Player chosenPlayer)
         {
             player = chosenPlayer;
             InitializeComponent();
         }
+
         private void EditPlayerForm_Load(object sender, EventArgs e)
         {
             this.Text = player.FullName + " - Edit";
@@ -29,10 +25,10 @@ namespace Elite_Hockey_Manager.Forms
             lastText.Text = player.LastName;
             ageText.Text = player.Age.ToString();
             idText.Text = player.ID.ToString();
-            overallLabel.Text = String.Format("Overall: {0}", player.Overall);
+            overallLabel.Text = $"Overall: {player.Overall}";
             FillStats();
-
         }
+
         private void TextBoxLeave(object sender, EventArgs e)
         {
             TextBox statText = (TextBox)sender;
@@ -47,7 +43,7 @@ namespace Elite_Hockey_Manager.Forms
                     property = player.Attributes.GetType().GetProperty(propertyName);
                     property.SetValue(player.Attributes, Convert.ChangeType(newValue, property.PropertyType), null);
                     statText.Text = property.GetValue(player.Attributes).ToString();
-                    overallLabel.Text = String.Format("Overall: {0}", player.Overall);
+                    overallLabel.Text = $"Overall: {player.Overall}";
                 }
                 catch (Exception ex)
                 {
@@ -57,11 +53,13 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
         private void TextBoxEnter(object sender, EventArgs e)
         {
             TextBox statBox = (TextBox)sender;
             initialValue = statBox.Text.Trim();
         }
+
         private void GeneralTextBoxLeave(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -78,9 +76,11 @@ namespace Elite_Hockey_Manager.Forms
                     case "FirstName":
                         player.FirstName = generalText;
                         break;
+
                     case "LastName":
                         player.LastName = generalText;
                         break;
+
                     case "Age":
                         player.Age = int.Parse(generalText);
                         break;
@@ -92,6 +92,7 @@ namespace Elite_Hockey_Manager.Forms
                 MessageBox.Show(ex.ToString());
             }
         }
+
         private void FillStats()
         {
             Tuple<String, int>[] statNames;
@@ -115,20 +116,19 @@ namespace Elite_Hockey_Manager.Forms
             for (int i = 0; i < statNames.Length; i++)
             {
                 Label statLabel = new Label();
-                statLabel.Text = String.Format("{0,15} :", statNames[i].Item1);
+                statLabel.Text = $"{statNames[i].Item1,15} :";
                 statLabel.AutoSize = true;
-                statLabel.Location = new System.Drawing.Point(startingX, startingY + (i *20) );
+                statLabel.Location = new System.Drawing.Point(startingX, startingY + (i * 20));
                 statsGroup.Controls.Add(statLabel);
 
                 TextBox statText = new TextBox();
                 statText.Text = statNames[i].Item2.ToString();
                 statText.Tag = statNames[i].Item1;
                 statText.Size = new System.Drawing.Size(43, 20);
-                statText.Location = new System.Drawing.Point(startingX + 150, startingY + (i * 20) );
+                statText.Location = new System.Drawing.Point(startingX + 150, startingY + (i * 20));
                 statText.Leave += new System.EventHandler(this.TextBoxLeave);
                 statText.Enter += new System.EventHandler(this.TextBoxEnter);
                 statsGroup.Controls.Add(statText);
-
             }
         }
 

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
@@ -47,6 +44,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             //If randomNumber is less than the base percentage calculated, the player will retire
             return randomNumber < basePercentage;
         }
+
         private static double AgeToPercentage(int age)
         {
             switch (age)
@@ -63,10 +61,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 //Max percentage for 35-49 is 1.92
                 case int a when (a < 50):
                     return .42 + .10 * (a - 34);
+
                 default:
                     return 1;
             }
         }
+
         private static void ModifyPercentageByCurrentContract(Player player, Team playersTeam, ref double percentage)
         {
             //If the players team is null, they are 20% likely to retire since they did not play during the last year
@@ -85,6 +85,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 percentage *= .50;
             }
         }
+
         public static bool IsStartingLevelPlayer(Player player, Team team)
         {
             //If the team is null, then there is no chance they are a starting level player

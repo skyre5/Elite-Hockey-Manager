@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
@@ -15,6 +8,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public event EventHandler SelectButtonClicked;
 
         private League _league;
+
         public League League
         {
             get
@@ -22,6 +16,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _league;
             }
         }
+
         public LeagueControl(League league)
         {
             _league = league;
@@ -33,11 +28,12 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             CheckIsLeagueFullTeams();
         }
+
         private void PlayerValidation()
         {
-            lblPlayersHeader.Text = String.Format("Players: {0}", _league.ActivePlayerCount);
+            lblPlayersHeader.Text = $"Players: {_league.ActivePlayerCount}";
             int errorCount = _league.GetTeamErrorCount();
-            lblPlayersCheck.Text = String.Format("Teams With Errors: {0}", errorCount);
+            lblPlayersCheck.Text = $"Teams With Errors: {errorCount}";
             if (errorCount == 0)
             {
                 picPlayersCheck.Image = Properties.Resources.checkmark;
@@ -59,10 +55,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             _league.FillRemainingTeams();
             CheckIsLeagueFullTeams();
         }
+
         private void CheckIsLeagueFullTeams()
         {
-            lblName.Text = String.Format("{0}({1})", _league.LeagueName, _league.Abbreviation);
-            lblTeamsCount.Text = String.Format("{0}/{1}", _league.TeamCount, _league.NumberOfTeams);
+            lblName.Text = $@"{_league.LeagueName}({_league.Abbreviation})";
+            lblTeamsCount.Text = $@"{_league.TeamCount}/{_league.NumberOfTeams}";
             if (_league.IsFull())
             {
                 picTeamsCheck.Image = Properties.Resources.checkmark;

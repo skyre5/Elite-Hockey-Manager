@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Linq;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
@@ -19,10 +16,12 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private League _league;
         private bool _retiredPlayers = false;
         private Team _selectedTeam = null;
+
         public ProgressionAndRetirementForm()
         {
             InitializeComponent();
         }
+
         public ProgressionAndRetirementForm(League league) : this()
         {
             _league = league;
@@ -35,27 +34,28 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             _playerTable.Columns.Add("Total Change", typeof(int));
             _playerTable.Columns.Add("Retired", typeof(bool));
         }
+
         private void ProgressionAndRetirementForm_Load(object sender, EventArgs e)
         {
             LoadPlayersIntoTable(_league.ActivePlayers);
             LoadTeamsIntoComboBox(_league.AllTeams);
         }
+
         private void LoadPlayersIntoTable(List<Player> players)
         {
             var query = from p in players
                         orderby p.ProgressionTracker.LatestTotalChangeInAttributes()
                         select new
                         {
-                           p.ProgressionTracker,
-                           p.CurrentTeam.TeamID,
-                           Name = p.FullName,
-                           p.Age,
-                           BaseOverall = p.ProgressionTracker.OverallTrackerList[p.ProgressionTracker.OverallTrackerList.Count - 2],
-                           NewOverall = p.ProgressionTracker.OverallTrackerList.Last(),
-                           TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes(),
-                           p.Retired
-
-                       };
+                            p.ProgressionTracker,
+                            p.CurrentTeam.TeamID,
+                            Name = p.FullName,
+                            p.Age,
+                            BaseOverall = p.ProgressionTracker.OverallTrackerList[p.ProgressionTracker.OverallTrackerList.Count - 2],
+                            NewOverall = p.ProgressionTracker.OverallTrackerList.Last(),
+                            TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes(),
+                            p.Retired
+                        };
             foreach (var player in query)
             {
                 DataRow row = _playerTable.Rows.Add();
@@ -75,12 +75,15 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             playerStatsDataView.Columns["Retired"].SortMode = DataGridViewColumnSortMode.Automatic;
             playerStatsDataView.Sort(this.playerStatsDataView.Columns["Total Change"], ListSortDirection.Descending);
         }
+
         private void LoadTeamsIntoComboBox(List<Team> teams)
         {
-            foreach (Team team in teams) {
+            foreach (Team team in teams)
+            {
                 teamSelectionComboBox.Items.Add(team);
             }
         }
+
         private void ChangeColorOfTotalChangeRows()
         {
             foreach (DataGridViewRow row in playerStatsDataView.Rows)
@@ -91,25 +94,30 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                     case int n when (n >= 10):
                         cell.Style.BackColor = Color.LightBlue;
                         break;
+
                     case int n when (n >= 5):
                         cell.Style.BackColor = Color.Green;
                         break;
+
                     case int n when (n > 0):
                         cell.Style.BackColor = Color.LightGreen;
                         break;
+
                     case int n when (n <= -10):
                         cell.Style.BackColor = Color.Red;
                         break;
+
                     case int n when (n <= -5):
                         cell.Style.BackColor = Color.Orange;
                         break;
+
                     case int n when (n < 0):
                         cell.Style.BackColor = Color.PaleVioletRed;
                         break;
-
                 }
             }
         }
+
         private void SelectByTeamAndRetirement()
         {
             if (_playerTable == null)
@@ -122,12 +130,10 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                         select p;
             playerStatsDataView.DataSource = query.CopyToDataTable();
             ChangeColorOfTotalChangeRows();
-
         }
 
         private void teamBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-
         }
 
         private void playerStatsDataView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -190,10 +196,12 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                     $"({GetSign(difference)}{difference})\r\n";
             }
         }
+
         private string GetSign(int value)
         {
             return value > 0 ? "+" : String.Empty;
         }
+
         private int GetLatestDifference(List<int> values)
         {
             return values.Last() - values[values.Count - 2];

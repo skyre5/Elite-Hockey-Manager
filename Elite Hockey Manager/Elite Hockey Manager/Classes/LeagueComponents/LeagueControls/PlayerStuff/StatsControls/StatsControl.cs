@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls
@@ -20,16 +16,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
             set
             {
-                //Gets the width of the playerStatsControl within this control before it is redrawn with a new size 
+                //Gets the width of the playerStatsControl within this control before it is redrawn with a new size
                 int pastWidth = playerStatsControl.Width;
                 //Sets the new Display type which goes to child PlayerStatsControl and redraws it using childs logic
                 this.playerStatsControl.DisplayType = value;
                 //Adjusts controls within this control to the resized playerStatsControl
                 AdjustDisplayForDisplayTypeChange(pastWidth);
                 AdjustButtonsToNewDisplayType(value);
-
             }
         }
+
         public String Title
         {
             get
@@ -41,6 +37,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 titleLabel.Text = value;
             }
         }
+
         public bool DisplayTeamAbbreviation
         {
             get
@@ -50,9 +47,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             set
             {
                 playerStatsControl.DisplayTeamAbbreviation = value;
-
             }
         }
+
         public StatsControl()
         {
             InitializeComponent();
@@ -65,6 +62,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             goalieStatsButton.Enabled = true;
             playerStatsControl.UpdateStats();
         }
+
         private void goalieStatsButton_Click(object sender, EventArgs e)
         {
             DisplayType = StatsDisplayType.Goalie;
@@ -72,10 +70,11 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             goalieStatsButton.Enabled = false;
             playerStatsControl.UpdateStats();
         }
+
         private void statsFormButton_Click(object sender, EventArgs e)
         {
-
         }
+
         /// <summary>
         /// Helper function that takes an array of players and sorts them into skaters and goalies.
         /// Takes those 2 sorted new arrays and places them into InsertSkaterList and InsertGoalieList functions
@@ -88,6 +87,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             //Sorts the list of players that are goalies, casts them to goalie, converts to array
             InsertGoalieList(players.Where(player => player is Goalie).Cast<Goalie>().ToArray());
         }
+
         /// <summary>
         /// Sets desired array of skaters to be stored and sorted within child playerStatsControl class
         /// Only updates display if skater display type is active
@@ -98,6 +98,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             //Logic handled within PlayerStatsControl class
             this.playerStatsControl.StoredSkaters = skaters;
         }
+
         /// <summary>
         /// Sets desired array of goalies to be stored and sorted within child playerStatsControl class
         /// Only updates display if goalie display type is active
@@ -108,6 +109,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             //Logic handled within PlayerStatsControl class
             this.playerStatsControl.StoredGoalies = goalies;
         }
+
         private void AdjustDisplayForDisplayTypeChange(int pastWidth)
         {
             //Adjusts the width of the titleLabel so that it will be center alligned again, and adjust size for auto size
@@ -118,6 +120,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             //Moves the entire control so that the autosize difference will stay aligned with the right side of where it was initially placed
             this.Location = new Point(this.Location.X + (pastWidth - this.Width), this.Location.Y);
         }
+
         private void AdjustButtonsToNewDisplayType(StatsDisplayType newDisplayType)
         {
             if (newDisplayType == StatsDisplayType.Goalie)

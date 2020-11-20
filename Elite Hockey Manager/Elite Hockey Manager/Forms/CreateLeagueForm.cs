@@ -1,26 +1,23 @@
-﻿using System;
+﻿using Elite_Hockey_Manager.Classes;
+using Elite_Hockey_Manager.Forms.HelperForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Elite_Hockey_Manager.Forms.HelperForms;
-using Elite_Hockey_Manager.Classes;
 
 namespace Elite_Hockey_Manager.Forms
 {
     public partial class CreateLeagueForm : Form
     {
-        League selectedLeague = null;
-        BindingList<Team> firstConference;
-        BindingList<Team> secondConference;
-        BindingList<League> LeagueList;
+        private League selectedLeague = null;
+        private BindingList<Team> firstConference;
+        private BindingList<Team> secondConference;
+        private BindingList<League> LeagueList;
 
-        BindingList<Team> UserCreatedTeamList;
-        BindingList<Team> displayUserCreatedTeamList;
+        private BindingList<Team> UserCreatedTeamList;
+        private BindingList<Team> displayUserCreatedTeamList;
+
         public CreateLeagueForm()
         {
             InitializeComponent();
@@ -59,6 +56,7 @@ namespace Elite_Hockey_Manager.Forms
                 LoadConferences(selectedLeague);
             }
         }
+
         private void LoadConferences(League league)
         {
             if (league == null)
@@ -75,7 +73,6 @@ namespace Elite_Hockey_Manager.Forms
                 secondConferenceListBox.DataSource = secondConference;
                 userTeamsListBox.DataSource = displayUserCreatedTeamList;
             }
-
         }
 
         private void fillBtn_Click(object sender, EventArgs e)
@@ -129,6 +126,7 @@ namespace Elite_Hockey_Manager.Forms
                 AddTeamToLeague(1, firstConferenceListBox, addedTeam);
             }
         }
+
         private void addSecondConferenceBtn_Click(object sender, EventArgs e)
         {
             if (userTeamsListBox.SelectedItem != null && selectedLeague != null)
@@ -137,6 +135,7 @@ namespace Elite_Hockey_Manager.Forms
                 AddTeamToLeague(2, secondConferenceListBox, addedTeam);
             }
         }
+
         private void AddTeamToLeague(int conferenceID, ListBox conferenceListBox, Team addedTeam)
         {
             List<Team> conference;
@@ -145,9 +144,11 @@ namespace Elite_Hockey_Manager.Forms
                 case 1:
                     conference = selectedLeague.FirstConference;
                     break;
+
                 case 2:
                     conference = selectedLeague.SecondConference;
                     break;
+
                 default:
                     conference = new List<Team>();
                     break;

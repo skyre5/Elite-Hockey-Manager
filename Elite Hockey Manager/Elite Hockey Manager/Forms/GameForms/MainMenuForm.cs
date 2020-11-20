@@ -1,275 +1,350 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Elite_Hockey_Manager.Classes;
-using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
-using Elite_Hockey_Manager.Classes.GameComponents;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls;
-
-namespace Elite_Hockey_Manager.Forms.GameForms
+﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows.Forms;
+
+    using Elite_Hockey_Manager.Classes;
+    using Elite_Hockey_Manager.Classes.GameComponents;
+    using Elite_Hockey_Manager.Classes.LeagueComponents;
+    using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls;
+    using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
+
+    /// <summary>
+    /// The main menu form. Where the majority of the game will take place
+    /// </summary>
     public partial class MainMenuForm : Form
     {
-        public League League
-        {
-            get
-            {
-                return _league;
-            }
-        }
-        private League _league;
+        #region Fields
+
+        /// <summary>
+        /// The games to sim.
+        /// </summary>
         private int gamesToSim;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainMenuForm"/> class.
+        /// </summary>
+        /// <param name="league">
+        /// The league.
+        /// </param>
         public MainMenuForm(League league)
         {
-            InitializeComponent();
-            _league = league;
-            this.Text = String.Format("{0} - Home", _league.LeagueName);
-            //Adds the doWork function in league the background worker in the MainMenuForm for multithreading 
-            simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
-            //Events for switch from regular season to playoffs
-            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) =>  _league.AdvanceToPlayoffs();
-            simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += ChangeLayoutToPlayoffs;
-            //Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
-            simLeaguePlayoffControl.LeagueSimmedEvent += SimPlayoffs;
-            //Background worker for playoff will use Playoff.SimPlayoffsDoWork function
-            simPlayoffBackgroundWorker.DoWork += (o, args) =>
+            this.InitializeComponent();
+            League = league;
+
+            // Adds the doWork function in league the background worker in the MainMenuForm for multi-threading
+            this.simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
+
+            // Events for switch from regular season to playoffs
+            this.simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) => League.AdvanceToPlayoffs();
+            this.simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) => this.ChangeLayoutToPlayoffs();
+
+            // Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
+            this.simLeaguePlayoffControl.LeagueSimmedEvent += this.SimPlayoffs;
+
+            // Background worker for playoff will use Playoff.SimPlayoffsDoWork function
+            this.simPlayoffBackgroundWorker.DoWork += (o, args) =>
             {
-                _league.currentPlayoff.SimPlayoffsDoWork(o, args);
+                League.currentPlayoff.SimPlayoffsDoWork(o, args);
             };
-            //Events for switch from playoffs to offseason 
-            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => _league.AdvanceToOffseason();
-            simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += ChangeLayoutToOffseason;
-            //Events for offseason control
-            simLeagueOffseasonControl1.OpenStageFormEvent += SimLeagueOffseasonControl1_OpenStageFormEvent;
-            simLeagueOffseasonControl1.StageAdvancedEvent += () =>
-            {
-                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.Resign)
+
+            // Events for switch from playoffs to offseason
+            this.simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => League.AdvanceToOffseason();
+            this.simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => this.ChangeLayoutToOffseason();
+
+            // Events for off-season control
+            this.simLeagueOffseasonControl1.OpenStageFormEvent += this.SimLeagueOffseasonControl1_OpenStageFormEvent;
+            this.simLeagueOffseasonControl1.StageAdvancedEvent += () =>
                 {
-                    if (!League.CurrentDraft.DoneDrafting)
+                    switch (simLeagueOffseasonControl1.StageIndex)
                     {
-                        League.CurrentDraft.SimDraft();
+                        case OffseasonStage.Resign:
+                        {
+                            if (!League.CurrentDraft.DoneDrafting)
+                            {
+                                League.CurrentDraft.SimDraft();
+                            }
+
+                            League.SimulateResignPhase();
+                            break;
+                        }
+
+                        case OffseasonStage.FreeAgency:
+                            League.SimulateFreeAgencyPhase();
+                            break;
                     }
-                    League.SimulateResignPhase();
-                }
-                if (simLeagueOffseasonControl1.StageIndex == OffseasonStage.FreeAgency)
-                {
-                    League.SimulateFreeAgencyPhase();
-                }
-            };
-            simLeagueOffseasonControl1.AdvanceToRegularSeasonEvent += () =>
+                };
+            this.simLeagueOffseasonControl1.AdvanceToRegularSeasonEvent += () =>
             {
-                _league.AdvanceToRegularSeason();
+                League.AdvanceToRegularSeason();
                 ChangeLayoutToRegularSeason();
             };
         }
 
-        private void MainMenuForm_Load(object sender, EventArgs e)
-        {
-            standingsControl.ActiveLeague = _league;
-            //If this is a new league being loaded, create a schedule and set state to regular season
-            if (_league.State == LeagueState.Unset)
-            {
-                _league.StartSeason();
-            }
-            standingsControl.LoadSortConferences();
-            if (League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count)
-            {
-                leagueGamesDisplay.SetSchedule(new List<Game>());
-            }
-            else
-            {
-                leagueGamesDisplay.SetSchedule(_league.LeagueSchedule.SeasonSchedule[_league.DayIndex]);
-            }
-            //Ofsets the variable which is base 0 to the respective day it cooresponds to. Day 0 to 1...
-            leagueGamesDisplay.SetDay(League.DayIndex + 1);
-            //Sets the statsControls list of player that will be sorted by their statistics, displays league leaders for each category
-            leagueLeadersStatsControl.InsertPlayerList(_league.SignedPlayers.ToArray());
-            simLeagueRegularSeasonControl.LeagueSimmedEvent += SimLeague;
+        #endregion Constructors
 
-        }
-        private void SimLeague(int days)
+        #region Properties
+
+        /// <summary>
+        /// Gets the league.
+        /// </summary>
+        public League League { get; }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Changes the layout of this form to match a view displaying offseason controls
+        /// </summary>
+        private void ChangeLayoutToOffseason()
         {
-            if (!simLeagueBackgroundWorker.IsBusy){
-                //League.SimLeague(days);
-                this.gamesToSim = League.LeagueSchedule.RemainingGamesToSim(League.DayIndex, days);
-                simProgressBar.Maximum = gamesToSim;
-                simProgressLabel.Text = String.Format("{0}/{1} Games Simmed", 0, gamesToSim);
-                simLeagueBackgroundWorker.RunWorkerAsync(days);
-            }
-            else
-            {
-                MessageBox.Show("League is currently simming, please wait");
-            }
-        }
-        private void SimPlayoffs(int days)
-        {
-            if (!simPlayoffBackgroundWorker.IsBusy)
-            {
-                simProgressLabel.Text = String.Format("{0} Games Simmed", 0);
-                simPlayoffBackgroundWorker.RunWorkerAsync(days);
-            }
-            else
-            {
-                MessageBox.Show("League is currently simming playoffs, please wait for sim to complete");
-            }
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine(League);
+            this.playoffDisplayControl.Visible = false;
+            this.simLeaguePlayoffControl.Visible = false;
+            this.simLeaguePlayoffControl.SetAdvanceStateButton(false);
+            this.simLeagueOffseasonControl1.Visible = true;
         }
 
-        private void ChangeLayoutToPlayoffs(object obj, EventArgs e)
+        /// <summary>
+        /// Changes the layout of this form to match a view displaying playoff controls
+        /// </summary>
+        private void ChangeLayoutToPlayoffs()
         {
-            standingsControl.Visible = false;
-            standingsControl.Enabled = false;
+            this.standingsControl.Visible = false;
+            this.standingsControl.Enabled = false;
 
-            //leagueLeadersStatsControl.Visible = false;
-            //leagueLeadersStatsControl.Enabled = false;
-            leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
+            this.leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
 
-            playoffDisplayControl.Visible = true;
-            playoffDisplayControl.Enabled = true;
-            playoffDisplayControl.League = this.League;
-            playoffDisplayControl.UpdatePlayoffs();
+            this.playoffDisplayControl.Visible = true;
+            this.playoffDisplayControl.Enabled = true;
+            this.playoffDisplayControl.League = this.League;
+            this.playoffDisplayControl.UpdatePlayoffs();
 
-            simLeagueRegularSeasonControl.Visible = false;
-            simLeagueRegularSeasonControl.Enabled = false;
-            simLeagueRegularSeasonControl.SetAdvanceStateButton(false);
+            this.simLeagueRegularSeasonControl.Visible = false;
+            this.simLeagueRegularSeasonControl.Enabled = false;
+            this.simLeagueRegularSeasonControl.SetAdvanceStateButton(false);
 
-            simLeaguePlayoffControl.Visible = true;
-            simLeaguePlayoffControl.Enabled = true;
+            this.simLeaguePlayoffControl.Visible = true;
+            this.simLeaguePlayoffControl.Enabled = true;
 
-            simProgressBar.Visible = false;
-            simProgressBar.Enabled = false;
+            this.simProgressBar.Visible = false;
+            this.simProgressBar.Enabled = false;
 
-            Playoff playoff = _league.currentPlayoff;
-            leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
-            leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
-            leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
-
-
+            Playoff playoff = League.currentPlayoff;
+            this.leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
+            this.leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
+            this.leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(this.playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
         }
-        private void ChangeLayoutToOffseason(object obj, EventArgs e)
-        {
-            playoffDisplayControl.Visible = false;
-            simLeaguePlayoffControl.Visible = false;
-            simLeaguePlayoffControl.SetAdvanceStateButton(false);
-            simLeagueOffseasonControl1.Visible = true;
 
-        }
+        /// <summary>
+        /// Changes the layout of this form to match a view displaying regular season controls
+        /// </summary>
         private void ChangeLayoutToRegularSeason()
         {
-            //Resets the controls behavior so that the next time it appears it will begin at the first offseason stage
-            simLeagueOffseasonControl1.ResetControl();
-            simLeagueOffseasonControl1.Visible = false;
-            simLeagueRegularSeasonControl.Visible = true;
-            simLeagueRegularSeasonControl.Enabled = true;
-            standingsControl.Visible = true;
-            simLeagueRegularSeasonControl.Visible = true;
-            leagueGamesDisplay.Visible = true;
-            standingsControl.Enabled = true;
-            leagueGamesDisplay.SetSchedule(_league.LeagueSchedule.SeasonSchedule[_league.DayIndex]);
-            leagueGamesDisplay.SetDay(League.DayIndex + 1);
-            leagueLeadersStatsControl.InsertPlayerList(_league.SignedPlayers.ToArray());
-            //Updates the display of the standings to all the teams with their 0-0-0 records
-            standingsControl.LoadSortConferences();
-            simProgressBar.Visible = true;
-            simProgressBar.Enabled = true;
+            // Resets the controls behavior so that the next time it appears it will begin at the first offseason stage
+            this.simLeagueOffseasonControl1.ResetControl();
+            this.simLeagueOffseasonControl1.Visible = false;
+            this.simLeagueRegularSeasonControl.Visible = true;
+            this.simLeagueRegularSeasonControl.Enabled = true;
+            this.standingsControl.Visible = true;
+            this.simLeagueRegularSeasonControl.Visible = true;
+            this.leagueGamesDisplay.Visible = true;
+            this.standingsControl.Enabled = true;
+            this.leagueGamesDisplay.SetSchedule(League.LeagueSchedule.SeasonSchedule[League.DayIndex]);
+            this.leagueGamesDisplay.SetDay(League.DayIndex + 1);
+            this.leagueLeadersStatsControl.InsertPlayerList(League.SignedPlayers.ToArray());
 
+            // Updates the display of the standings to all the teams with their 0-0-0 records
+            this.standingsControl.LoadSortConferences();
+            this.simProgressBar.Visible = true;
+            this.simProgressBar.Enabled = true;
         }
 
-        private void SimLeagueOffseasonControl1_OpenStageFormEvent(OffseasonStage stage)
+        /// <summary>
+        /// Loads the content into the form when the form is loaded into view
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void MainMenuForm_Load(object sender, EventArgs e)
         {
-            switch (stage)
+            this.Text = $@"{League.LeagueName} - Home";
+            this.standingsControl.ActiveLeague = League;
+
+            // If this is a new league being loaded, create a schedule and set state to regular season
+            if (League.State == LeagueState.Unset)
             {
-                case OffseasonStage.ProgressionAndRetirement:
-                    ProgressionAndRetirementForm progressionForm = new ProgressionAndRetirementForm(_league);
-                    progressionForm.ShowDialog();
-                    break;
-                case OffseasonStage.Draft:
-                    DraftForm draftForm = new DraftForm(_league.CurrentDraft);
-                    draftForm.ShowDialog();
-                    break;
-                case OffseasonStage.Resign:
-                    ResignForm resignForm = new ResignForm(_league);
-                    resignForm.ShowDialog();
-                    break;
-                case OffseasonStage.FreeAgency:
-                    FreeAgencyForm form = new FreeAgencyForm(_league);
-                    form.ShowDialog();
-                    break;
+                League.StartSeason();
+            }
+
+            this.standingsControl.LoadSortConferences();
+            this.leagueGamesDisplay.SetSchedule(League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count
+                                                    ? new List<Game>()
+                                                    : League.LeagueSchedule.SeasonSchedule[League.DayIndex]);
+
+            // Offsets the variable which is base 0 to the respective day it corresponds to. Day 0 to 1...
+            this.leagueGamesDisplay.SetDay(League.DayIndex + 1);
+
+            // Sets the statsControls list of player that will be sorted by their statistics, displays league leaders for each category
+            this.leagueLeadersStatsControl.InsertPlayerList(League.SignedPlayers.ToArray());
+            this.simLeagueRegularSeasonControl.LeagueSimmedEvent += this.SimLeague;
+        }
+
+        /// <summary>
+        /// Simulates the league given a certain amount of days to move forward in the schedule
+        /// </summary>
+        /// <param name="days">
+        /// Number of days that will be simulated ahead, at least 1 game occurs on each day until the schedule is finished
+        /// </param>
+        private void SimLeague(int days)
+        {
+            if (!this.simLeagueBackgroundWorker.IsBusy)
+            {
+                // League.SimLeague(days);
+                this.gamesToSim = League.LeagueSchedule.RemainingGamesToSim(League.DayIndex, days);
+                this.simProgressBar.Maximum = this.gamesToSim;
+                this.simProgressLabel.Text = $@"{0}/{this.gamesToSim} Games Simulated";
+                this.simLeagueBackgroundWorker.RunWorkerAsync(days);
+            }
+            else
+            {
+                MessageBox.Show(@"League is currently simulating, please wait");
             }
         }
 
         /// <summary>
         /// Function for display progress changed of simBackgroundWorker
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void simLeagueBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        /// <param name="sender">BackgroundWorker sender</param>
+        /// <param name="e">Args that holds the new progress</param>
+        private void SimLeagueBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            simProgressLabel.Text = String.Format("{0}/{1} Games Simmed", e.ProgressPercentage, this.gamesToSim);
-            simProgressBar.Value = e.ProgressPercentage;
+            this.simProgressLabel.Text = $@"{e.ProgressPercentage}/{this.gamesToSim} Games Simulated";
+            this.simProgressBar.Value = e.ProgressPercentage;
         }
-        /// <summary>
-        /// Code that runs when the simBackgroundWorker is complete or cancelled 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void simLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //Updates the standingsControl to show updated results from games played
-            standingsControl.LoadSortConferences();
-            //Once simming is complete or cancelled, will display the new games on the schedule. if there are none, produces an empty game section and goes to playoffs
-            if (League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count)
-            {
-                leagueGamesDisplay.SetSchedule(new List<Game>());
-            }
-            else
-            {
-                leagueGamesDisplay.SetSchedule(_league.LeagueSchedule.SeasonSchedule[_league.DayIndex]);
-            }
-            leagueGamesDisplay.SetDay(League.DayIndex + 1);
-            //Updates the league leaders stats box when the league has been simmed, new stats to be re-sorted
-            leagueLeadersStatsControl.InsertPlayerList(_league.SignedPlayers.ToArray());
 
-            if (_league.LeagueSchedule.IsFinishedSimming())
+        /// <summary>
+        /// Code that runs when the simBackgroundWorker is complete or cancelled
+        /// </summary>
+        /// <param name="sender">BackgroundWorker sender</param>
+        /// <param name="e">WorkerCompleted args</param>
+        private void SimLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Updates the standingsControl to show updated results from games played
+            this.standingsControl.LoadSortConferences();
+
+            // Once simulating is complete or cancelled, will display the new games on the schedule. if there are none, produces an empty game section and goes to playoffs
+            this.leagueGamesDisplay.SetSchedule(League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count
+                                                    ? new List<Game>()
+                                                    : League.LeagueSchedule.SeasonSchedule[League.DayIndex]);
+            this.leagueGamesDisplay.SetDay(League.DayIndex + 1);
+
+            // Updates the league leaders stats box when the league has been simulated, new stats to be re-sorted
+            this.leagueLeadersStatsControl.InsertPlayerList(League.SignedPlayers.ToArray());
+
+            if (League.LeagueSchedule.IsFinishedSimming())
             {
-                simLeagueRegularSeasonControl.SetAdvanceStateButton(true);
+                this.simLeagueRegularSeasonControl.SetAdvanceStateButton(true);
             }
         }
+
+        /// <summary>
+        /// Opens the form of the chosen offseason stage that is passed
+        /// </summary>
+        /// <param name="stage">
+        /// The offseason stage of the form that will be opened of enum OffseasonStage
+        /// </param>
+        private void SimLeagueOffseasonControl1_OpenStageFormEvent(OffseasonStage stage)
+        {
+            switch (stage)
+            {
+                case OffseasonStage.ProgressionAndRetirement:
+                    ProgressionAndRetirementForm progressionForm = new ProgressionAndRetirementForm(League);
+                    progressionForm.ShowDialog();
+                    break;
+
+                case OffseasonStage.Draft:
+                    DraftForm draftForm = new DraftForm(League.CurrentDraft);
+                    draftForm.ShowDialog();
+                    break;
+
+                case OffseasonStage.Resign:
+                    ResignForm resignForm = new ResignForm(League);
+                    resignForm.ShowDialog();
+                    break;
+
+                case OffseasonStage.FreeAgency:
+                    FreeAgencyForm form = new FreeAgencyForm(League);
+                    form.ShowDialog();
+                    break;
+            }
+        }
+
         /// <summary>
         /// Report progress function for simPlayoffBackgroundWorker
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void simPlayoffBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        /// <param name="sender">BackgroundWorker sender</param>
+        /// <param name="e">ProgressChanged args</param>
+        private void SimPlayoffBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            simProgressLabel.Text = String.Format("{0} Games Simmed", e.ProgressPercentage);
+            this.simProgressLabel.Text = $@"{e.ProgressPercentage} Games Simulated";
         }
 
-        private void simPlayoffBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        /// <summary>
+        /// The sim playoff background worker_ run worker completed.
+        /// </summary>
+        /// <param name="sender">
+        /// BackgroundWorker sender
+        /// </param>
+        /// <param name="e">
+        /// WorkCompleted args
+        /// </param>
+        private void SimPlayoffBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            playoffDisplayControl.UpdatePlayoffs();
-            leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
-            leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
-            leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
-            //If the playoffs are not done being simmed, there are still games to be played
+            this.playoffDisplayControl.UpdatePlayoffs();
+            this.leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
+            this.leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
+            this.leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
+
+            // If the playoffs are not done being simulated, there are still games to be played
             if (!League.currentPlayoff.FinishedSimming)
             {
-                leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));
+                this.leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(this.playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));
             }
             else
             {
-                simLeaguePlayoffControl.SetAdvanceStateButton(true);
+                this.simLeaguePlayoffControl.SetAdvanceStateButton(true);
             }
         }
+
+        /// <summary>
+        /// Simulates the playoffs given a certain number of days to simulate
+        /// </summary>
+        /// <param name="days">
+        /// Number of days to be simulated, at least 1 game will occur on each day
+        /// </param>
+        private void SimPlayoffs(int days)
+        {
+            if (!this.simPlayoffBackgroundWorker.IsBusy)
+            {
+                this.simProgressLabel.Text = @"0 Games Simulated";
+                this.simPlayoffBackgroundWorker.RunWorkerAsync(days);
+            }
+            else
+            {
+                MessageBox.Show(@"League is currently simulating playoffs, please wait for sim to complete");
+            }
+        }
+
+        #endregion Methods
     }
 }

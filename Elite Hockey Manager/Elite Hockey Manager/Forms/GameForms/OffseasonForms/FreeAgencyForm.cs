@@ -1,13 +1,9 @@
 ﻿using Elite_Hockey_Manager.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
@@ -15,6 +11,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
     public partial class FreeAgencyForm : Form
     {
         private List<Player> _freeAgents = new List<Player>();
+
         public FreeAgencyForm(League league)
         {
             InitializeComponent();
@@ -23,19 +20,20 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 GetFreeAgents(league);
             }
         }
+
         private void GetFreeAgents(League league)
         {
             List<Player> baseFreeAgents = league.SignedPlayers.Where(p => p.CurrentContract.YearSigned == league.Year).ToList();
             _freeAgents = baseFreeAgents.Where(p => p.CareerContracts.Count > 1)
                 .Where(p => p.CareerContracts[p.CareerContracts.Count() - 2].SigningTeam != p.CurrentTeam).ToList();
-
-
         }
+
         private void FreeAgencyForm_Load(object sender, EventArgs e)
         {
             FillLayoutPanel();
             SetTotalMoneySpent();
         }
+
         private void SetTotalMoneySpent()
         {
             double totalSpent = 0;
@@ -45,6 +43,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
             totalSpentLabel.Text = $"Cash Spent: {(totalSpent * 1E6).ToString("C", CultureInfo.CurrentCulture)}";
         }
+
         private void FillLayoutPanel()
         {
             _freeAgents = _freeAgents.OrderByDescending(p => p.CurrentContract.ContractAmount).ToList();
@@ -62,7 +61,6 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                     AutoSize = true
                 };
                 playersLayoutPanel.Controls.Add(signingLabel);
-
             }
         }
     }

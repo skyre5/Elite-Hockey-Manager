@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+using System;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -16,18 +12,23 @@ namespace Elite_Hockey_Manager.Classes
             get;
             protected set;
         } = ForwardPlayerStatus.Unset;
+
         public Forward(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
         }
+
         public Forward(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
         {
         }
+
         public Forward(string first, string last, int age) : base(first, last, age)
         {
         }
+
         public Forward(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
+
         public Forward(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             try
@@ -39,6 +40,7 @@ namespace Elite_Hockey_Manager.Classes
                 this.PlayerStatus = ForwardPlayerStatus.Unset;
             }
         }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("PlayerStatus", this.PlayerStatus);
@@ -52,12 +54,12 @@ namespace Elite_Hockey_Manager.Classes
                 return (int)PlayerStatus;
             }
         }
+
         public override void GenerateStats(int playerStatus)
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
             PlayerStatus = status;
             _attributes.GenerateForwardStatRanges(status, _age);
-            
         }
     }
 }

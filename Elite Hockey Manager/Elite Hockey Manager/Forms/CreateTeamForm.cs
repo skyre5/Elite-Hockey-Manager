@@ -14,9 +14,10 @@ namespace Elite_Hockey_Manager.Forms
 {
     public partial class CreateTeamForm : Form
     {
-        string currentDirectory = null;
-        Team selectedTeam = null;
-        BindingList<Team> teamList;
+        private string currentDirectory = null;
+        private Team selectedTeam = null;
+        private BindingList<Team> teamList;
+
         public CreateTeamForm()
         {
             InitializeComponent();
@@ -38,19 +39,20 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
         private void CopyImage(string filePath)
         {
             try
             {
                 string fileName = System.IO.Path.GetFileName(filePath);
                 System.IO.File.Copy(filePath, currentDirectory + fileName);
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void TeamForm_Load(object sender, EventArgs e)
         {
             if (!SaveLoadUtils.LoadListToFile<Team>("TeamData.data", out teamList))
@@ -59,7 +61,7 @@ namespace Elite_Hockey_Manager.Forms
             }
             teamListBox.DataSource = teamList;
             LoadTreeView();
-            //If the default folder is found load it 
+            //If the default folder is found load it
             if (Directory.Exists(@"Files/Images/Default"))
             {
                 LoadImagesFromDirectory(@"Files/Images/Default");
@@ -70,11 +72,11 @@ namespace Elite_Hockey_Manager.Forms
                 LoadImagesFromDirectory(imageTreeView.TopNode.Name);
                 setDirectoryName(imageTreeView.TopNode.Text);
             }
-            
+
             //Expands the top level of the treeview
             imageTreeView.TopNode.Expand();
-
         }
+
         private void LoadTreeView()
         {
             if (!Directory.Exists(@"Files\Images"))
@@ -96,6 +98,7 @@ namespace Elite_Hockey_Manager.Forms
             DirectoryInfo directoryInfo = new DirectoryInfo(@"Files\Images");
             BuildTree(directoryInfo, imageTreeView.Nodes);
         }
+
         private void LoadImagesFromDirectory(string path)
         {
             currentDirectory = path + @"/";
@@ -118,6 +121,7 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
         private void BuildTree(DirectoryInfo directory, TreeNodeCollection parent)
         {
             TreeNode thisNode = parent.Add(directory.FullName, directory.Name);
@@ -126,7 +130,7 @@ namespace Elite_Hockey_Manager.Forms
             int imageCount = directory.GetFiles("*.png").Length;
             if (imageCount > 0)
             {
-                thisNode.Nodes.Add("Count", String.Format("{0} Image(s)", imageCount));
+                thisNode.Nodes.Add("Count", $"{imageCount} Image(s)");
             }
             //Shows all the file names of the current directory
             /*foreach (FileInfo file in directory.GetFiles())
@@ -154,13 +158,14 @@ namespace Elite_Hockey_Manager.Forms
                 LoadImagesFromDirectory(node.Name);
             }
         }
+
         private void setDirectoryName(string name)
         {
-            directoryLabel.Text = String.Format("Current Directory: {0}", name);
+            directoryLabel.Text = $"Current Directory: {name}";
         }
+
         private void imageListView_DoubleClick(object sender, EventArgs e)
         {
-
             ListViewItem item = imageListView.SelectedItems[0];
             logoPictureBox.Image = Image.FromFile((string)item.Tag);
             logoPictureBox.Image.Tag = item.Tag;
@@ -194,12 +199,14 @@ namespace Elite_Hockey_Manager.Forms
         {
             resetTeamGroup();
         }
+
         private void resetTeamGroup()
         {
             cityText.Clear();
             nameText.Clear();
             logoPictureBox.Image = null;
         }
+
         private void createEditButton_Click(object sender, EventArgs e)
         {
             if (selectedTeam == null)
@@ -233,10 +240,10 @@ namespace Elite_Hockey_Manager.Forms
 
                     selectedTeam.LogoPath = logoPath;
                     logoPictureBox.Image = selectedTeam.Logo;
-
                 }
             }
         }
+
         private string GetImagePath()
         {
             Uri basePath = new Uri(Directory.GetCurrentDirectory() + @"\Files");
@@ -251,6 +258,7 @@ namespace Elite_Hockey_Manager.Forms
                 return relPath;
             }
         }
+
         private void CreateTeam()
         {
             string location = cityText.Text;
@@ -265,7 +273,6 @@ namespace Elite_Hockey_Manager.Forms
                 }
                 else
                 {
-                    
                     newTeam = new Team(location, teamName, imagePath);
                 }
                 teamList.Add(newTeam);
@@ -276,6 +283,7 @@ namespace Elite_Hockey_Manager.Forms
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void teamListBox_DoubleClick(object sender, EventArgs e)
         {
             createEditButton.Text = "Save Changes";

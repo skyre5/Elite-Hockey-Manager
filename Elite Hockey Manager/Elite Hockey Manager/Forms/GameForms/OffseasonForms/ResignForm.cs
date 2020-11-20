@@ -1,13 +1,9 @@
 ﻿using Elite_Hockey_Manager.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
@@ -15,6 +11,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
     public partial class ResignForm : Form
     {
         private List<Player> _resignedPlayers = new List<Player>();
+
         public ResignForm(League league)
         {
             InitializeComponent();
@@ -26,6 +23,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             SetTotalMoneySpent();
             FillLayoutPanel();
         }
+
         private void SetTotalMoneySpent()
         {
             double totalSpent = 0;
@@ -35,6 +33,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
             totalSpentLabel.Text = $"Cash Spent: {(totalSpent * 1E6).ToString("C", CultureInfo.CurrentCulture)}";
         }
+
         private void FillLayoutPanel()
         {
             _resignedPlayers = _resignedPlayers.OrderByDescending(p => p.CurrentContract.ContractAmount).ToList();
@@ -49,7 +48,6 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                     AutoSize = true
                 };
                 playersLayoutPanel.Controls.Add(signingLabel);
-
             }
         }
     }

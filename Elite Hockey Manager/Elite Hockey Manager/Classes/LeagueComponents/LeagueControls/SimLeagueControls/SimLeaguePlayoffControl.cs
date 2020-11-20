@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
 {
 #if DEBUG
+
     public partial class SimLeaguePlayoffControl : SimLeagueControlMiddle
 #else
         public partial class SimLeaguePlayoffControl : SimLeagueControl
 #endif
     {
         public EventHandler AdvanceLeagueStateToOffseason;
+
         public SimLeaguePlayoffControl()
         {
             InitializeComponent();
             SetControlsText();
         }
+
         protected override void SetControlsText()
         {
             simDisplayLabel.Text = "Sim Playoffs:";
@@ -33,6 +28,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             simFifthButton.Enabled = false;
             simFifthButton.Visible = false;
         }
+
         /// <summary>
         /// Sims 1 game of the series across the league
         /// </summary>
@@ -42,6 +38,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             RaiseLeagueSimmedEvent(1);
         }
+
         /// <summary>
         /// Sims 3 days of the series in the league
         /// </summary>
@@ -51,6 +48,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             RaiseLeagueSimmedEvent(3);
         }
+
         /// <summary>
         /// Sims the entire current round of the playoffs and moves it to the next round
         /// </summary>
@@ -60,6 +58,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             RaiseLeagueSimmedEvent(7);
         }
+
         /// <summary>
         /// Sims the entire playoffs, passes -1 to denote the rest of the playoffs to be simmed
         /// </summary>
@@ -69,6 +68,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             RaiseLeagueSimmedEvent(-1);
         }
+
         /// <summary>
         /// Not used in this control
         /// Invisible and unenabled in setControlsText function
@@ -78,6 +78,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public override void Sim5Button_Click(object sender, EventArgs e)
         {
         }
+
         public override void advanceStateButton_Click(object sender, EventArgs e)
         {
             AdvanceLeagueStateToOffseason(this, null);

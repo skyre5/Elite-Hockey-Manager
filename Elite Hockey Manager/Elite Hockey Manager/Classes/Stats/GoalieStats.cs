@@ -1,56 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Elite_Hockey_Manager.Classes
+﻿namespace Elite_Hockey_Manager.Classes
 {
     public class GoalieStats : PlayerStats
     {
-
         public GoalieStats(int year, int teamID, bool playoff = false) : base(year, teamID, playoff)
         {
         }
+
         public void AddGameStarted()
         {
             GamesPlayed++;
             GamesStarted++;
         }
+
         public void AddReliefStart()
         {
             GamesPlayed++;
         }
+
         public int GamesStarted
         {
             get;
             set;
         } = 0;
+
         public int Wins
         {
             get;
             set;
         } = 0;
+
         public int Losses
         {
             get;
             set;
         } = 0;
+
         public int Shutouts
         {
             get;
             set;
         } = 0;
+
         public int ShotsFaced
         {
             get;
             set;
         } = 0;
+
         public int GoalsAllowed
         {
             get;
             set;
         } = 0;
+
         public double GAA
         {
             get
@@ -66,36 +68,43 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public int BreakawayShots
         {
             get;
             set;
         } = 0;
+
         public int BreakawayGoalsAllowed
         {
             get;
             set;
         } = 0;
+
         public int PowerplayShots
         {
             get;
             set;
         } = 0;
+
         public int PowerplayGoalsAllowed
         {
             get;
             set;
         } = 0;
+
         public int ShorthandedShots
         {
             get;
             set;
         } = 0;
+
         public int ShorthandedGoalsAllowed
         {
             get;
             set;
         } = 0;
+
         /// <summary>
         /// SavePercentage gotten by dividing shots faced by shots faced + goals allowed
         /// Returns 0 if no shots have been faced, avoids divide by zero error
@@ -114,6 +123,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public double PowerplaySavePercentage
         {
             get
@@ -128,6 +138,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public double ShorthandedSavePercentage
         {
             get
@@ -142,6 +153,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
             }
         }
+
         public double BreakawaySavePercentage
         {
             get

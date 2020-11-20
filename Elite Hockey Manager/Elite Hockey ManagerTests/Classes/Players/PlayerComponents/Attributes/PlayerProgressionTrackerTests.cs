@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes.Tests
 {
@@ -32,7 +27,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes.Tests
             testSkaterAttributes.SlapShot = 80;
             PlayerProgressionTracker testTracker = new PlayerProgressionTracker(1, 80, testSkaterAttributes);
             testSkaterAttributes.SlapShot = 90;
-            testTracker.UpdatePlayerAttributes(83,testSkaterAttributes);
+            testTracker.UpdatePlayerAttributes(83, testSkaterAttributes);
             List<int> slapshotTuple = testTracker.AttributeTrackerDictionary["SlapShot"];
             //Tests that the base attribute from the initialization does not get changed
             Assert.AreEqual(80, slapshotTuple[0]);

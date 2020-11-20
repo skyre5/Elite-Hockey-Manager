@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
@@ -17,6 +14,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 SimulateTeamResign(league, team, rand);
             }
         }
+
         private static void SimulateTeamResign(League league, Team team, Random rand)
         {
             List<Player> expiringPlayers = team.Roster.Where(p => p.CurrentContract.YearsRemaining == 0).ToList();
@@ -32,7 +30,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                     //n% chance of player resigning with team
                     int percentage;
                     Type playerType = player.GetType();
-                    if (Retirement.IsStartingLevelPlayer(player, team)) {
+                    if (Retirement.IsStartingLevelPlayer(player, team))
+                    {
                         percentage = 80;
                     }
                     else

@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Elite_Hockey_Manager.Classes;
 using Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses;
-using Elite_Hockey_Manager.Classes.LeagueComponents;
-using Elite_Hockey_Manager.Classes;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
     public partial class DraftForm : Form
     {
         private Draft _draft;
+
         //Used to track number of draft pick selections added to LayoutPanel
         private int _counter = 0;
+
         private Team _selectingTeam;
+
         public DraftForm()
         {
             InitializeComponent();
         }
+
         public DraftForm(Draft draft)
         {
             InitializeComponent();
@@ -31,7 +28,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 
         private void DraftForm_Load(object sender, EventArgs e)
         {
-            this.Text = String.Format("Year {0} Draft", _draft.Year);
+            this.Text = $"Year {_draft.Year} Draft";
             UpdateRoundAndPick();
             UpdateSelectingTeam();
             //If the draft was already in progress, add previous draft picks to layout panel
@@ -44,6 +41,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 DisableSimButtons();
             }
         }
+
         private void UpdateRoundAndPick()
         {
             if (_draft.DoneDrafting)
@@ -53,8 +51,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
             else
             {
-                roundLabel.Text = String.Format("Current Round:{0}", _draft.CurrentRound);
-                pickLabel.Text = String.Format("Current Pick:{0}", _draft.CurrentPick);
+                roundLabel.Text = $"Current Round:{_draft.CurrentRound}";
+                pickLabel.Text = $"Current Pick:{_draft.CurrentPick}";
             }
         }
 
@@ -107,6 +105,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             DisableSimButtons();
             UpdateSelectingTeam();
         }
+
         //Shows the team next in order to draft in the upcomingTeamLabel
         private void UpdateSelectingTeam()
         {
@@ -120,6 +119,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             _selectingTeam = _draft.TeamDraftOrder[(_draft.CurrentPick - 1) % _draft.Teams];
             upcomingTeamLabel.Text = $"Selecting Team:{_selectingTeam.FullName}";
         }
+
         private Label CreateDraftPickLabel(DraftPick draftPick)
         {
             Label pickLabel = new Label();
@@ -128,6 +128,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             pickLabel.MouseDoubleClick += (sender, e) => { OpenPlayerFormOnDoubleClickHandler(sender, e, draftPick.Player); };
             return pickLabel;
         }
+
         private void AddDraftPicksToLayout(DraftPick[] picks)
         {
             foreach (DraftPick pick in picks)
@@ -146,14 +147,16 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 draftDisplayLayoutPanel.Controls.Add(pickLabel);
             }
         }
+
         private void AddRoundLabel()
         {
             Label roundLabel = new Label();
             roundLabel.Text = $"------Round {_counter / _draft.Teams + 1}------";
             draftDisplayLayoutPanel.Controls.Add(roundLabel);
         }
+
         /// <summary>
-        /// Enabled when the draft is complete and drafting is no longer possible 
+        /// Enabled when the draft is complete and drafting is no longer possible
         /// </summary>
         private void DisableSimButtons()
         {
@@ -161,6 +164,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             simRoundButton.Enabled = false;
             simDraftButton.Enabled = false;
         }
+
         private void OpenPlayerFormOnDoubleClickHandler(object sender, EventArgs e, Player player)
         {
             PlayerDisplayForm form = new PlayerDisplayForm(player);

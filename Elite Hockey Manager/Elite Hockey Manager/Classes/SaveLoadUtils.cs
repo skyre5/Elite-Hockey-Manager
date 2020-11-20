@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elite_Hockey_Manager.Classes
 {
@@ -29,6 +26,7 @@ namespace Elite_Hockey_Manager.Classes
                 return false;
             }
         }
+
         public static bool LoadListToFile<T>(string fileName, out BindingList<T> bindingList)
         {
             //Loads the file of the given name if it is found
@@ -59,6 +57,7 @@ namespace Elite_Hockey_Manager.Classes
                 return true;
             }
         }
+
         public static List<string> ReadFromFile(string filename)
         {
             List<string> list = new List<string>();
