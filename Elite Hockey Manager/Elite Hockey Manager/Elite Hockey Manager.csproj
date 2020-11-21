@@ -286,6 +286,18 @@
     <Compile Include="Forms\GameForms\PlayerDisplayForm.Designer.cs">
       <DependentUpon>PlayerDisplayForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GameForms\PlayerStatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\PlayerStatsForm.Designer.cs">
+      <DependentUpon>PlayerStatsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GameForms\TeamStatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GameForms\TeamStatsForm.Designer.cs">
+      <DependentUpon>TeamStatsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GameForms\ViewTeamForm.cs">
       <SubType>Form</SubType>
     </Compile>

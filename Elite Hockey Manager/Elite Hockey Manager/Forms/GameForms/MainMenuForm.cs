@@ -1,14 +1,15 @@
 ﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows.Forms;
+
     using Elite_Hockey_Manager.Classes;
     using Elite_Hockey_Manager.Classes.GameComponents;
     using Elite_Hockey_Manager.Classes.LeagueComponents;
     using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls;
     using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Windows.Forms;
 
     /// <summary>
     /// The main menu form. Where the majority of the game will take place
@@ -36,6 +37,12 @@
         {
             this.InitializeComponent();
             League = league;
+
+            // Events for stats menu clicks
+            this.playerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, false);
+            this.allTimePlayerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, true);
+            this.currentSeasonTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, false);
+            this.allTimeTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, true);
 
             // Adds the doWork function in league the background worker in the MainMenuForm for multi-threading
             this.simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
@@ -199,6 +206,18 @@
         }
 
         /// <summary>
+        /// Event handler for the player stats selections in the menu
+        /// </summary>
+        /// <param name="sender">Menu item that the user clicked on</param>
+        /// <param name="e">event args</param>
+        /// <param name="allTime">Whether the form will load all time stats or current season stats</param>
+        private void PlayerStatsMenuItem_Click(object sender, EventArgs e, bool allTime)
+        {
+            PlayerStatsForm form = new PlayerStatsForm(League, allTime);
+            form.ShowDialog();
+        }
+
+        /// <summary>
         /// Simulates the league given a certain amount of days to move forward in the schedule
         /// </summary>
         /// <param name="days">
@@ -342,6 +361,18 @@
             {
                 MessageBox.Show(@"League is currently simulating playoffs, please wait for sim to complete");
             }
+        }
+
+        /// <summary>
+        /// Event handler for the team stats selections in the menu
+        /// </summary>
+        /// <param name="sender">Menu item that was pressed</param>
+        /// <param name="e">event args</param>
+        /// <param name="allTime">Whether the form will load all time stats or current season stats</param>
+        private void TeamStatsMenuItem_Click(object sender, EventArgs e, bool allTime)
+        {
+            TeamStatsForm form = new TeamStatsForm(League, allTime);
+            form.ShowDialog();
         }
 
         #endregion Methods

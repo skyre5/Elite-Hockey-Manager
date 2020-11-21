@@ -39,6 +39,15 @@
             this.leagueGamesDisplay = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LeagueGamesDisplayControl();
             this.standingsControl = new Elite_Hockey_Manager.Classes.LeagueComponents.StandingsControl();
             this.simLeagueOffseasonControl1 = new Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueOffseasonControl();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.statsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playerStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentSeasonPlayerStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allTimePlayerStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.teamMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentSeasonTeamStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allTimeTeamStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // simLeagueBackgroundWorker
@@ -74,7 +83,7 @@
             // simLeaguePlayoffControl
             // 
             this.simLeaguePlayoffControl.Enabled = false;
-            this.simLeaguePlayoffControl.Location = new System.Drawing.Point(476, 319);
+            this.simLeaguePlayoffControl.Location = new System.Drawing.Point(476, 349);
             this.simLeaguePlayoffControl.Name = "simLeaguePlayoffControl";
             this.simLeaguePlayoffControl.Size = new System.Drawing.Size(360, 58);
             this.simLeaguePlayoffControl.TabIndex = 7;
@@ -84,7 +93,7 @@
             // 
             this.playoffDisplayControl.Enabled = false;
             this.playoffDisplayControl.League = null;
-            this.playoffDisplayControl.Location = new System.Drawing.Point(-1, -2);
+            this.playoffDisplayControl.Location = new System.Drawing.Point(0, 63);
             this.playoffDisplayControl.Name = "playoffDisplayControl";
             this.playoffDisplayControl.SelectedRounds = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffRounds.Four;
             this.playoffDisplayControl.Size = new System.Drawing.Size(966, 299);
@@ -123,18 +132,79 @@
             // 
             this.standingsControl.ActiveLeague = null;
             this.standingsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.standingsControl.Location = new System.Drawing.Point(12, 12);
+            this.standingsControl.Location = new System.Drawing.Point(12, 63);
             this.standingsControl.Name = "standingsControl";
             this.standingsControl.Size = new System.Drawing.Size(458, 341);
             this.standingsControl.TabIndex = 0;
             // 
             // simLeagueOffseasonControl1
             // 
-            this.simLeagueOffseasonControl1.Location = new System.Drawing.Point(476, 339);
+            this.simLeagueOffseasonControl1.Location = new System.Drawing.Point(476, 359);
             this.simLeagueOffseasonControl1.Name = "simLeagueOffseasonControl1";
             this.simLeagueOffseasonControl1.Size = new System.Drawing.Size(360, 58);
             this.simLeagueOffseasonControl1.TabIndex = 8;
             this.simLeagueOffseasonControl1.Visible = false;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statsToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1766, 24);
+            this.menuStrip.TabIndex = 9;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // statsToolStripMenuItem
+            // 
+            this.statsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playerStatsMenuItem,
+            this.teamMenuItem});
+            this.statsToolStripMenuItem.Name = "statsToolStripMenuItem";
+            this.statsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.statsToolStripMenuItem.Text = "Stats";
+            // 
+            // playerStatsMenuItem
+            // 
+            this.playerStatsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentSeasonPlayerStatsMenuItem,
+            this.allTimePlayerStatsMenuItem});
+            this.playerStatsMenuItem.Name = "playerStatsMenuItem";
+            this.playerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerStatsMenuItem.Text = "Player Stats";
+            // 
+            // currentSeasonPlayerStatsMenuItem
+            // 
+            this.currentSeasonPlayerStatsMenuItem.Name = "currentSeasonPlayerStatsMenuItem";
+            this.currentSeasonPlayerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.currentSeasonPlayerStatsMenuItem.Text = "Current Season";
+            // 
+            // allTimePlayerStatsMenuItem
+            // 
+            this.allTimePlayerStatsMenuItem.Name = "allTimePlayerStatsMenuItem";
+            this.allTimePlayerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allTimePlayerStatsMenuItem.Text = "All Time";
+            // 
+            // teamMenuItem
+            // 
+            this.teamMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentSeasonTeamStatsMenuItem,
+            this.allTimeTeamStatsMenuItem});
+            this.teamMenuItem.Name = "teamMenuItem";
+            this.teamMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teamMenuItem.Text = "Team Stats";
+            // 
+            // currentSeasonTeamStatsMenuItem
+            // 
+            this.currentSeasonTeamStatsMenuItem.Name = "currentSeasonTeamStatsMenuItem";
+            this.currentSeasonTeamStatsMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.currentSeasonTeamStatsMenuItem.Text = "Current Season";
+            // 
+            // allTimeTeamStatsMenuItem
+            // 
+            this.allTimeTeamStatsMenuItem.Name = "allTimeTeamStatsMenuItem";
+            this.allTimeTeamStatsMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.allTimeTeamStatsMenuItem.Text = "All Time";
             // 
             // MainMenuForm
             // 
@@ -150,8 +220,12 @@
             this.Controls.Add(this.simLeagueRegularSeasonControl);
             this.Controls.Add(this.leagueGamesDisplay);
             this.Controls.Add(this.standingsControl);
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "MainMenuForm";
             this.Load += new System.EventHandler(this.MainMenuForm_Load);
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,5 +244,13 @@
         private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeaguePlayoffControl simLeaguePlayoffControl;
         private System.ComponentModel.BackgroundWorker simPlayoffBackgroundWorker;
         private Classes.LeagueComponents.LeagueControls.SimLeagueControls.SimLeagueOffseasonControl simLeagueOffseasonControl1;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem statsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playerStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem teamMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem currentSeasonPlayerStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allTimePlayerStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem currentSeasonTeamStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allTimeTeamStatsMenuItem;
     }
 }
