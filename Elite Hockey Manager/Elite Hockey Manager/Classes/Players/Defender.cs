@@ -7,11 +7,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Defender : Skater
     {
-        public DefensePlayerStatus PlayerStatus
-        {
-            get;
-            protected set;
-        } = DefensePlayerStatus.Unset;
+        #region Constructors
 
         public Defender(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -41,6 +37,10 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public override int Overall
         {
             get
@@ -49,6 +49,12 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        public DefensePlayerStatus PlayerStatus
+        {
+            get;
+            protected set;
+        } = DefensePlayerStatus.Unset;
+
         public override int PlayerStatusID
         {
             get
@@ -56,6 +62,10 @@ namespace Elite_Hockey_Manager.Classes
                 return (int)PlayerStatus;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public override void GenerateStats(int playerStatus)
         {
@@ -69,5 +79,7 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("PlayerStatus", this.PlayerStatus);
             base.GetObjectData(info, context);
         }
+
+        #endregion Methods
     }
 }

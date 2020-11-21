@@ -9,8 +9,43 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Skater : Player
     {
-        protected List<SkaterStats> _stats = new List<SkaterStats>();
+        #region Fields
+
         protected SkaterAttributes _attributes;
+        protected List<SkaterStats> _stats = new List<SkaterStats>();
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
+        {
+            _attributes = attributes;
+        }
+
+        public Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
+        {
+            _attributes = attributes;
+        }
+
+        public Skater(string first, string last, int age) : base(first, last, age)
+        {
+            _attributes = new SkaterAttributes();
+        }
+
+        public Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        {
+            _attributes = new SkaterAttributes();
+        }
+
+        public Skater(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public override BaseAttributes Attributes
         {
@@ -50,34 +85,13 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
-        {
-            _attributes = attributes;
-        }
+        #endregion Properties
 
-        public Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
-        {
-            _attributes = attributes;
-        }
-
-        public Skater(string first, string last, int age) : base(first, last, age)
-        {
-            _attributes = new SkaterAttributes();
-        }
-
-        public Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
-        {
-            _attributes = new SkaterAttributes();
-        }
+        #region Methods
 
         public override void AddStats(int year, int teamID, bool playoffs)
         {
             _stats.Add(new SkaterStats(year, teamID, playoffs));
-        }
-
-        public Skater(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -85,5 +99,7 @@ namespace Elite_Hockey_Manager.Classes
             base.GetObjectData(info, context);
             info.AddValue("Attributes", this._attributes);
         }
+
+        #endregion Methods
     }
 }

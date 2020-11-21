@@ -4,19 +4,25 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
     public partial class HomeLineControl : UserControl
     {
+        #region Constructors
+
         public HomeLineControl()
         {
             InitializeComponent();
         }
 
-        public void SetForwards(string players)
-        {
-            forwardsLabel.Text = players;
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public void SetDefenders(string players)
         {
             DefendersLabel.Text = players;
+        }
+
+        public void SetForwards(string players)
+        {
+            forwardsLabel.Text = players;
         }
 
         public void SetGoalie(string player)
@@ -27,5 +33,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private void linePanel_Paint(object sender, PaintEventArgs e)
         {
         }
+
+        #endregion Methods
     }
 }

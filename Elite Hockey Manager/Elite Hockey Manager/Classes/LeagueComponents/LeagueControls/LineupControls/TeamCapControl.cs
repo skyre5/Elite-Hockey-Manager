@@ -6,26 +6,43 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupControls
 {
+    //https://stackoverflow.com/questions/778678/how-to-change-the-color-of-progressbar-in-c-sharp-net-3-5/9753302#9753302
+    public static class ModifyProgressBarColor
+    {
+        #region Methods
+
+        public static void SetState(this ProgressBar pBar, int state)
+        {
+            SendMessage(pBar.Handle, 1040, (IntPtr)state, IntPtr.Zero);
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr w, IntPtr l);
+
+        #endregion Methods
+    }
+
     public partial class TeamCapControl : UserControl
     {
-        private Team _team;
-        private double _salaryCap = 40;
+        #region Fields
 
-        public Team Team
+        private double _salaryCap = 40;
+        private Team _team;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public TeamCapControl()
         {
-            get
-            {
-                return _team;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _team = value;
-                    SetDisplay();
-                }
-            }
+            InitializeComponent();
+            _salaryCap = League.SalaryCap;
+            capProgressBar.Maximum = (int)_salaryCap;
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         public Double SalaryCap
         {
@@ -46,12 +63,25 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
             }
         }
 
-        public TeamCapControl()
+        public Team Team
         {
-            InitializeComponent();
-            _salaryCap = League.SalaryCap;
-            capProgressBar.Maximum = (int)_salaryCap;
+            get
+            {
+                return _team;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _team = value;
+                    SetDisplay();
+                }
+            }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         private void SetDisplay()
         {
@@ -69,17 +99,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 capProgressBar.Value = capToInt;
             }
         }
-    }
 
-    //https://stackoverflow.com/questions/778678/how-to-change-the-color-of-progressbar-in-c-sharp-net-3-5/9753302#9753302
-    public static class ModifyProgressBarColor
-    {
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr w, IntPtr l);
-
-        public static void SetState(this ProgressBar pBar, int state)
-        {
-            SendMessage(pBar.Handle, 1040, (IntPtr)state, IntPtr.Zero);
-        }
+        #endregion Methods
     }
 }

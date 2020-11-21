@@ -6,7 +6,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 {
     public class PlayerAttributesTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
     {
+        #region Fields
+
         private Player _player;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayerAttributesTableLayoutPanel()
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public Player Player
         {
@@ -24,8 +38,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
         }
 
-        public PlayerAttributesTableLayoutPanel()
+        #endregion Properties
+
+        #region Methods
+
+        private Label CreateLabel(Tuple<string, int> attribute)
         {
+            Label attributeLabel = new Label();
+            attributeLabel.AutoSize = true;
+            attributeLabel.Text = $@"{attribute.Item1,-14}:{attribute.Item2}";
+            attributeLabel.Font = new Font("Courier New", 8f);
+            return attributeLabel;
         }
 
         private void LoadTable()
@@ -52,13 +75,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
         }
 
-        private Label CreateLabel(Tuple<string, int> attribute)
-        {
-            Label attributeLabel = new Label();
-            attributeLabel.AutoSize = true;
-            attributeLabel.Text = $@"{attribute.Item1,-14}:{attribute.Item2}";
-            attributeLabel.Font = new Font("Courier New", 8f);
-            return attributeLabel;
-        }
+        #endregion Methods
     }
 }

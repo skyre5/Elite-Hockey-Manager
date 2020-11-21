@@ -7,49 +7,78 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public static class TeamGenerator
     {
-        public static int Status
-        {
-            get;
-            private set;
-        } = 0;
+        #region Fields
 
         public static List<string> CityNames;
+
         public static List<string> TeamNames;
+
         private static Random rand = new Random();
+
+        #endregion Fields
+
+        #region Constructors
 
         static TeamGenerator()
         {
             Initialize();
         }
 
-        public static void Initialize()
+        #endregion Constructors
+
+        #region Properties
+
+        public static int Status
         {
-            string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
-            string cityPath = new Uri(basePath + @"\Files\cityNames.txt").LocalPath;
-            CityNames = SaveLoadUtils.ReadFromFile(cityPath);
-            string teamPath = new Uri(basePath + @"\Files\teamNames.txt").LocalPath;
-            TeamNames = SaveLoadUtils.ReadFromFile(teamPath);
-            if (CityNames == null || TeamNames == null || CityNames.Count == 0 || TeamNames.Count == 0)
+            get;
+            private set;
+        } = 0;
+
+        #endregion Properties
+
+        #region Methods
+
+        public static void FillDefenders(Team team)
+        {
+            for (int position = 0; position <= 1; position++)
             {
-                //There was an error in loading the team names
-                //Displays status to parent using static class
-                Status = -1;
-            }
-            else
-            {
-                Status = 0;
+                for (int line = 1; line <= 4; line++)
+                {
+                    Defender defender = PlayerGenerator.GenerateDefender(position, line);
+                    team.AddNewSkater(defender);
+                    defender.AddStats(1, team.TeamID, false);
+                }
             }
         }
 
-        public static Team GetTeam()
+        public static void FillForwards(Team team)
         {
-            Tuple<string, string> teamName = GetFullTeamName();
-            if (teamName == null)
+            for (int position = 0; position <= 2; position++)
             {
-                return null;
+                for (int line = 1; line <= 5; line++)
+                {
+                    Skater skater = PlayerGenerator.GenerateForward(position, line);
+                    team.AddNewSkater(skater);
+                    skater.AddStats(1, team.TeamID, false);
+                }
             }
-            Team team = new Team(teamName.Item1, teamName.Item2);
-            return team;
+        }
+
+        public static void FillGoalies(Team team)
+        {
+            for (int line = 0; line <= 2; line++)
+            {
+                Goalie goalie = PlayerGenerator.GenerateGoalie(line);
+                team.AddNewGoalie(goalie);
+                goalie.AddStats(1, team.TeamID, false);
+            }
+        }
+
+        public static void FillTeam(Team team)
+        {
+            FillForwards(team);
+            FillDefenders(team);
+            FillGoalies(team);
         }
 
         public static Tuple<string, string> GetFullTeamName()
@@ -85,47 +114,36 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return LocationAndName;
         }
 
-        public static void FillTeam(Team team)
+        public static Team GetTeam()
         {
-            FillForwards(team);
-            FillDefenders(team);
-            FillGoalies(team);
+            Tuple<string, string> teamName = GetFullTeamName();
+            if (teamName == null)
+            {
+                return null;
+            }
+            Team team = new Team(teamName.Item1, teamName.Item2);
+            return team;
         }
 
-        public static void FillForwards(Team team)
+        public static void Initialize()
         {
-            for (int position = 0; position <= 2; position++)
+            string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+            string cityPath = new Uri(basePath + @"\Files\cityNames.txt").LocalPath;
+            CityNames = SaveLoadUtils.ReadFromFile(cityPath);
+            string teamPath = new Uri(basePath + @"\Files\teamNames.txt").LocalPath;
+            TeamNames = SaveLoadUtils.ReadFromFile(teamPath);
+            if (CityNames == null || TeamNames == null || CityNames.Count == 0 || TeamNames.Count == 0)
             {
-                for (int line = 1; line <= 5; line++)
-                {
-                    Skater skater = PlayerGenerator.GenerateForward(position, line);
-                    team.AddNewSkater(skater);
-                    skater.AddStats(1, team.TeamID, false);
-                }
+                //There was an error in loading the team names
+                //Displays status to parent using static class
+                Status = -1;
+            }
+            else
+            {
+                Status = 0;
             }
         }
 
-        public static void FillDefenders(Team team)
-        {
-            for (int position = 0; position <= 1; position++)
-            {
-                for (int line = 1; line <= 4; line++)
-                {
-                    Defender defender = PlayerGenerator.GenerateDefender(position, line);
-                    team.AddNewSkater(defender);
-                    defender.AddStats(1, team.TeamID, false);
-                }
-            }
-        }
-
-        public static void FillGoalies(Team team)
-        {
-            for (int line = 0; line <= 2; line++)
-            {
-                Goalie goalie = PlayerGenerator.GenerateGoalie(line);
-                team.AddNewGoalie(goalie);
-                goalie.AddStats(1, team.TeamID, false);
-            }
-        }
+        #endregion Methods
     }
 }

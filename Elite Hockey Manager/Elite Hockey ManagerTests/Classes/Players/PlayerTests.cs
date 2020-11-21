@@ -4,9 +4,13 @@ using System.Collections.Generic;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {
+    using Elite_Hockey_Manager.Classes.LeagueComponents;
+
     [TestFixture()]
     public class PlayerTests
     {
+        #region Methods
+
         [Test()]
         public void AgePlayerAndProgressTest()
         {
@@ -19,5 +23,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             List<int> history = tracker.GetAttributeHistory(SkaterAttributeNames.WristShot.ToString());
             Assert.AreEqual(history.Count, 3);
         }
+
+        #endregion Methods
     }
 }

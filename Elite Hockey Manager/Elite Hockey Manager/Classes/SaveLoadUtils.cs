@@ -8,24 +8,7 @@ namespace Elite_Hockey_Manager.Classes
 {
     public static class SaveLoadUtils
     {
-        public static bool SaveListToFile<T>(string fileName, BindingList<T> bindingList)
-        {
-            try
-            {
-                //Saves the contents of the playerList into a data file
-                //Creates it if one did not exist
-                Stream playersStream = File.Open(fileName, FileMode.Create);
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(playersStream, bindingList);
-                playersStream.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return false;
-            }
-        }
+        #region Methods
 
         public static bool LoadListToFile<T>(string fileName, out BindingList<T> bindingList)
         {
@@ -87,5 +70,26 @@ namespace Elite_Hockey_Manager.Classes
                 return null;
             }
         }
+
+        public static bool SaveListToFile<T>(string fileName, BindingList<T> bindingList)
+        {
+            try
+            {
+                //Saves the contents of the playerList into a data file
+                //Creates it if one did not exist
+                Stream playersStream = File.Open(fileName, FileMode.Create);
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(playersStream, bindingList);
+                playersStream.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
+
+        #endregion Methods
     }
 }

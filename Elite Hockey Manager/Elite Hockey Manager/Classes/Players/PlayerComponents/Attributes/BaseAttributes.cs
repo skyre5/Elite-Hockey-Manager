@@ -6,8 +6,10 @@ namespace Elite_Hockey_Manager.Classes
     //[Serializable]
     public abstract class BaseAttributes : ISerializable
     {
-        protected static Random rand = new Random();
+        #region Fields
+
         public const int DefaultRating = 50;
+        protected static Random rand = new Random();
 
         //General stats
         protected int _clutchness = DefaultRating;
@@ -18,100 +20,25 @@ namespace Elite_Hockey_Manager.Classes
 
         private int _injuryLength = 0;
 
+        #endregion Fields
+
+        #region Constructors
+
         public BaseAttributes()
         {
         }
 
-        public virtual Tuple<string, int>[] GetAttributeNames()
+        public BaseAttributes(SerializationInfo info, StreamingContext context)
         {
-            Tuple<string, int>[] names = {
-                Tuple.Create("Clutchness", this._clutchness),
-                Tuple.Create("Consistency", this._consistency)
-            };
-            return names;
+            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
+            this._consistency = (int)info.GetValue("Consistency", typeof(int));
+            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
+            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
         }
 
-        public static void CheckRating(ref int attribute, int rating)
-        {
-            if (rating < 1)
-            {
-                Console.WriteLine("Invalid input error");
-                //PropertyInfo.SetValue produces unhandleable handling for this exception
-                //Common problem online with no solution
-                //throw new ArgumentException("Error: Value entered needs to be within the range of (1-100)");
-            }
-            else if (rating > 100)
-            {
-                attribute = 100;
-            }
-            else
-            {
-                attribute = rating;
-            }
-        }
+        #endregion Constructors
 
-        protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
-        {
-            if (baseStat < guaranteedRating)
-            {
-                baseStat = guaranteedRating;
-            }
-            else if (baseStat < 100)
-            {
-                baseStat++;
-            }
-        }
-
-        protected abstract void GenerateStats(int age, int lower, int upper, int guarantee);
-
-        protected abstract void GuaranteedStatChoice(int rating);
-
-        protected void ModifyBoundsToAge(int age, ref int lower, ref int upper, ref int guarantee)
-        {
-            if (age == 18)
-            {
-                lower -= 25;
-                upper -= 5;
-                guarantee -= 5;
-            }
-            else if (age == 19)
-            {
-                lower -= 18;
-                upper -= 5;
-                guarantee -= 3;
-            }
-            else if (age == 20)
-            {
-                lower -= 10;
-                upper -= 3;
-            }
-            else if (age == 21)
-            {
-                lower -= 5;
-            }
-            else if (age >= 36)
-            {
-                lower -= 1 + (2 * (age - 36));
-                upper -= 1 + (age - 36);
-                guarantee -= (age - 36);
-            }
-        }
-
-        /// <summary>
-        /// Stat to keep track of goalies fatigue, will gain more fatigue from losing than winning
-        /// Will cause the backup goaltender to get games played when the starter has gotten fatigued enough
-        /// </summary>
-        public int Fatigue
-        {
-            get
-            {
-                return _fatigue;
-            }
-            set
-            {
-                _fatigue = value;
-            }
-        }
+        #region Properties
 
         public int Clutchness
         {
@@ -145,6 +72,34 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        /// <summary>
+        /// Stat to keep track of goalies fatigue, will gain more fatigue from losing than winning
+        /// Will cause the backup goaltender to get games played when the starter has gotten fatigued enough
+        /// </summary>
+        public int Fatigue
+        {
+            get
+            {
+                return _fatigue;
+            }
+            set
+            {
+                _fatigue = value;
+            }
+        }
+
+        public bool Injured
+        {
+            get
+            {
+                if (InjuryLength > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public int InjuryLength
         {
             get
@@ -164,17 +119,94 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public bool Injured
+        #endregion Properties
+
+        #region Methods
+
+        public static void CheckRating(ref int attribute, int rating)
         {
-            get
+            if (rating < 1)
             {
-                if (InjuryLength > 0)
-                {
-                    return true;
-                }
-                return false;
+                Console.WriteLine("Invalid input error");
+                //PropertyInfo.SetValue produces unhandleable handling for this exception
+                //Common problem online with no solution
+                //throw new ArgumentException("Error: Value entered needs to be within the range of (1-100)");
+            }
+            else if (rating > 100)
+            {
+                attribute = 100;
+            }
+            else
+            {
+                attribute = rating;
             }
         }
+
+        public virtual Tuple<string, int>[] GetAttributeNames()
+        {
+            Tuple<string, int>[] names = {
+                Tuple.Create("Clutchness", this._clutchness),
+                Tuple.Create("Consistency", this._consistency)
+            };
+            return names;
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Clutchness", this._clutchness);
+            info.AddValue("Consistency", this._consistency);
+            info.AddValue("Fatigue", this._fatigue);
+            info.AddValue("InjuryLength", this._injuryLength);
+        }
+
+        protected abstract void GenerateStats(int age, int lower, int upper, int guarantee);
+
+        protected abstract void GuaranteedStatChoice(int rating);
+
+        protected void GuaranteedStatSet(ref int baseStat, int guaranteedRating)
+        {
+            if (baseStat < guaranteedRating)
+            {
+                baseStat = guaranteedRating;
+            }
+            else if (baseStat < 100)
+            {
+                baseStat++;
+            }
+        }
+
+        protected void ModifyBoundsToAge(int age, ref int lower, ref int upper, ref int guarantee)
+        {
+            if (age == 18)
+            {
+                lower -= 25;
+                upper -= 5;
+                guarantee -= 5;
+            }
+            else if (age == 19)
+            {
+                lower -= 18;
+                upper -= 5;
+                guarantee -= 3;
+            }
+            else if (age == 20)
+            {
+                lower -= 10;
+                upper -= 3;
+            }
+            else if (age == 21)
+            {
+                lower -= 5;
+            }
+            else if (age >= 36)
+            {
+                lower -= 1 + (2 * (age - 36));
+                upper -= 1 + (age - 36);
+                guarantee -= (age - 36);
+            }
+        }
+
+        #endregion Methods
 
         #region Player Progression
 
@@ -204,13 +236,6 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         /// <summary>
-        /// Grows each stat within attributes between 2 given values
-        /// </summary>
-        /// <param name="negativeRange">The maximum value a player could lose</param>
-        /// <param name="upperRange">The maximum value a player could gain</param>
-        protected abstract void GrowStats(int negativeRange, int upperRange);
-
-        /// <summary>
         /// Internal function to get a random value that a player will use to adjust attributes
         /// </summary>
         /// <param name="losingRange">Max value a player could lose</param>
@@ -221,22 +246,13 @@ namespace Elite_Hockey_Manager.Classes
             return rand.Next(-losingRange, growthRange + 1);
         }
 
+        /// <summary>
+        /// Grows each stat within attributes between 2 given values
+        /// </summary>
+        /// <param name="negativeRange">The maximum value a player could lose</param>
+        /// <param name="upperRange">The maximum value a player could gain</param>
+        protected abstract void GrowStats(int negativeRange, int upperRange);
+
         #endregion Player Progression
-
-        public BaseAttributes(SerializationInfo info, StreamingContext context)
-        {
-            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
-            this._consistency = (int)info.GetValue("Consistency", typeof(int));
-            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
-            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Clutchness", this._clutchness);
-            info.AddValue("Consistency", this._consistency);
-            info.AddValue("Fatigue", this._fatigue);
-            info.AddValue("InjuryLength", this._injuryLength);
-        }
     }
 }

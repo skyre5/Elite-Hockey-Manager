@@ -2,52 +2,38 @@
 {
     public class GoalieStats : PlayerStats
     {
+        #region Constructors
+
         public GoalieStats(int year, int teamID, bool playoff = false) : base(year, teamID, playoff)
         {
         }
 
-        public void AddGameStarted()
+        #endregion Constructors
+
+        #region Properties
+
+        public int BreakawayGoalsAllowed
         {
-            GamesPlayed++;
-            GamesStarted++;
+            get;
+            set;
+        } = 0;
+
+        public double BreakawaySavePercentage
+        {
+            get
+            {
+                if (this.BreakawayShots > 0)
+                {
+                    return ((double)this.BreakawayShots / (double)(this.BreakawayShots + this.BreakawayGoalsAllowed));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
 
-        public void AddReliefStart()
-        {
-            GamesPlayed++;
-        }
-
-        public int GamesStarted
-        {
-            get;
-            set;
-        } = 0;
-
-        public int Wins
-        {
-            get;
-            set;
-        } = 0;
-
-        public int Losses
-        {
-            get;
-            set;
-        } = 0;
-
-        public int Shutouts
-        {
-            get;
-            set;
-        } = 0;
-
-        public int ShotsFaced
-        {
-            get;
-            set;
-        } = 0;
-
-        public int GoalsAllowed
+        public int BreakawayShots
         {
             get;
             set;
@@ -69,19 +55,19 @@
             }
         }
 
-        public int BreakawayShots
+        public int GamesStarted
         {
             get;
             set;
         } = 0;
 
-        public int BreakawayGoalsAllowed
+        public int GoalsAllowed
         {
             get;
             set;
         } = 0;
 
-        public int PowerplayShots
+        public int Losses
         {
             get;
             set;
@@ -93,13 +79,22 @@
             set;
         } = 0;
 
-        public int ShorthandedShots
+        public double PowerplaySavePercentage
         {
-            get;
-            set;
-        } = 0;
+            get
+            {
+                if (this.PowerplayShots > 0)
+                {
+                    return ((double)this.PowerplayShots / (double)(this.PowerplayShots + this.PowerplayGoalsAllowed));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
-        public int ShorthandedGoalsAllowed
+        public int PowerplayShots
         {
             get;
             set;
@@ -124,20 +119,11 @@
             }
         }
 
-        public double PowerplaySavePercentage
+        public int ShorthandedGoalsAllowed
         {
-            get
-            {
-                if (this.PowerplayShots > 0)
-                {
-                    return ((double)this.PowerplayShots / (double)(this.PowerplayShots + this.PowerplayGoalsAllowed));
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+            get;
+            set;
+        } = 0;
 
         public double ShorthandedSavePercentage
         {
@@ -154,19 +140,45 @@
             }
         }
 
-        public double BreakawaySavePercentage
+        public int ShorthandedShots
         {
-            get
-            {
-                if (this.BreakawayShots > 0)
-                {
-                    return ((double)this.BreakawayShots / (double)(this.BreakawayShots + this.BreakawayGoalsAllowed));
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            get;
+            set;
+        } = 0;
+
+        public int ShotsFaced
+        {
+            get;
+            set;
+        } = 0;
+
+        public int Shutouts
+        {
+            get;
+            set;
+        } = 0;
+
+        public int Wins
+        {
+            get;
+            set;
+        } = 0;
+
+        #endregion Properties
+
+        #region Methods
+
+        public void AddGameStarted()
+        {
+            GamesPlayed++;
+            GamesStarted++;
         }
+
+        public void AddReliefStart()
+        {
+            GamesPlayed++;
+        }
+
+        #endregion Methods
     }
 }

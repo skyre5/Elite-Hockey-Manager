@@ -12,12 +12,59 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     [Serializable]
     public class Playoff : ISerializable
     {
-        public int CurrentRound
+        #region Fields
+
+        public readonly PlayoffRounds PlayoffRounds;
+
+        public readonly int PlayoffYear;
+
+        public PlayoffSeries[][] playoffSeriesArray;
+
+        private int _currentDay = 1;
+
+        private int _currentRound = 1;
+
+        //Holds the initial playoff participants
+        private List<Team> _firstConference, _secondConference;
+
+        //Tracks the remaining teams left in the playoffs
+        private List<Team> firstConferenceRemainingTeams, secondConferenceRemainingTeams;
+
+        private Random rand = new Random();
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Playoff(PlayoffRounds rounds, int year, List<Team> first, List<Team> second)
         {
-            get
-            {
-                return _currentRound;
-            }
+            PlayoffRounds = rounds;
+            PlayoffYear = year;
+            _firstConference = first.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
+            _secondConference = second.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
+            firstConferenceRemainingTeams = new List<Team>(_firstConference);
+            secondConferenceRemainingTeams = new List<Team>(_secondConference);
+            //Adds new TeamStats to each playoff team
+            AddPlayoffStats();
+            //Builds the playoffSeriesArray jagged array sizes
+            DefinePlayoffSeriesArray();
+            //Creates playoff matchups so highest ranked seeds go against lowest seeds and so on for both sides
+            CreatePlayoffMatchups();
+        }
+
+        protected Playoff(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public Team Champion
+        {
+            get;
+            private set;
         }
 
         public int CurrentDay
@@ -27,6 +74,20 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 return _currentDay;
             }
         }
+
+        public int CurrentRound
+        {
+            get
+            {
+                return _currentRound;
+            }
+        }
+
+        public bool FinishedSimming
+        {
+            get;
+            private set;
+        } = false;
 
         //Returns a shallow copy of the teams in the playoffs for the first conference
         public List<Team> FirstConferencePlayoffTeams
@@ -46,110 +107,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        public bool FinishedSimming
-        {
-            get;
-            private set;
-        } = false;
+        #endregion Properties
 
-        public Team Champion
-        {
-            get;
-            private set;
-        }
-
-        public readonly PlayoffRounds PlayoffRounds;
-        public readonly int PlayoffYear;
-        public PlayoffSeries[][] playoffSeriesArray;
-
-        //Holds the initial playoff participants
-        private List<Team> _firstConference, _secondConference;
-
-        //Tracks the remaining teams left in the playoffs
-        private List<Team> firstConferenceRemainingTeams, secondConferenceRemainingTeams;
-
-        private int _currentRound = 1;
-        private int _currentDay = 1;
-        private Random rand = new Random();
-
-        public Playoff(PlayoffRounds rounds, int year, List<Team> first, List<Team> second)
-        {
-            PlayoffRounds = rounds;
-            PlayoffYear = year;
-            _firstConference = first.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
-            _secondConference = second.Take(PlayoffRounds.GetTotalPlayoffTeams() / 2).ToList();
-            firstConferenceRemainingTeams = new List<Team>(_firstConference);
-            secondConferenceRemainingTeams = new List<Team>(_secondConference);
-            //Adds new TeamStats to each playoff team
-            AddPlayoffStats();
-            //Builds the playoffSeriesArray jagged array sizes
-            DefinePlayoffSeriesArray();
-            //Creates playoff matchups so highest ranked seeds go against lowest seeds and so on for both sides
-            CreatePlayoffMatchups();
-        }
-
-        /// <summary>
-        /// Gets the games from the current playoff round and day in the series
-        /// </summary>
-        /// <returns>Returns a list of all the games that are taking place at the current round and day</returns>
-        public List<Game> GetCurrentPlayoffGames()
-        {
-            List<Game> daySchedule = new List<Game>();
-            foreach (PlayoffSeries series in playoffSeriesArray[CurrentRound - 1])
-            {
-                if (series.GetGameByIndex(_currentDay - 1) != null)
-                {
-                    daySchedule.Add(series.GetGameByIndex(_currentDay - 1));
-                }
-            }
-            return daySchedule;
-        }
-
-        public void SimPlayoffsDoWork(object sender, DoWorkEventArgs e)
-        {
-            //If the playoffs is already done being simmed then
-            if (FinishedSimming)
-            {
-                return;
-            }
-            BackgroundWorker worker = (BackgroundWorker)sender;
-            int gamesSimmedCount = 0;
-            int argumentValue = (int)e.Argument;
-            if (argumentValue == -1)
-            {
-                while (!FinishedSimming)
-                {
-                    gamesSimmedCount += SimDayOfPlayoffs();
-                    worker.ReportProgress(gamesSimmedCount);
-                }
-            }
-            //Else the argument value is the amount of games to be simmed, or to the end of the current round
-            else
-            {
-                int startingRound = _currentRound;
-                for (int i = 0; i < argumentValue; i++)
-                {
-                    //If advanced to the next round or the playoffs is finished simming, break out of for loop
-                    if (_currentRound != startingRound || FinishedSimming)
-                    {
-                        break;
-                    }
-                    gamesSimmedCount += SimDayOfPlayoffs();
-                    worker.ReportProgress(gamesSimmedCount);
-                }
-            }
-        }
-
-        public List<Player> GetAllPlayoffPlayers()
-        {
-            List<Player> playoffPlayers = new List<Player>();
-            for (int i = 0; i < _firstConference.Count; i++)
-            {
-                playoffPlayers.AddRange(_firstConference[i].Roster);
-                playoffPlayers.AddRange(_secondConference[i].Roster);
-            }
-            return playoffPlayers;
-        }
+        #region Methods
 
         /// <summary>
         /// Can only be called after the playoffs are done being simmed
@@ -188,34 +148,86 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return orderedTeams;
         }
 
-        private int SimDayOfPlayoffs()
+        public List<Player> GetAllPlayoffPlayers()
         {
-            bool isGamesOnCurrentDay = false;
-            int currentDayIndex = _currentDay - 1;
-            int gamesSimmedCount = 0;
-            foreach (PlayoffSeries series in playoffSeriesArray[_currentRound - 1])
+            List<Player> playoffPlayers = new List<Player>();
+            for (int i = 0; i < _firstConference.Count; i++)
             {
-                Game game = series.GetGameByIndex(currentDayIndex);
-                if (game != null)
+                playoffPlayers.AddRange(_firstConference[i].Roster);
+                playoffPlayers.AddRange(_secondConference[i].Roster);
+            }
+            return playoffPlayers;
+        }
+
+        /// <summary>
+        /// Gets the games from the current playoff round and day in the series
+        /// </summary>
+        /// <returns>Returns a list of all the games that are taking place at the current round and day</returns>
+        public List<Game> GetCurrentPlayoffGames()
+        {
+            List<Game> daySchedule = new List<Game>();
+            foreach (PlayoffSeries series in playoffSeriesArray[CurrentRound - 1])
+            {
+                if (series.GetGameByIndex(_currentDay - 1) != null)
                 {
-                    isGamesOnCurrentDay = true;
-                    if (!game.Finished)
-                    {
-                        game.PlayGame();
-                        gamesSimmedCount++;
-                    }
+                    daySchedule.Add(series.GetGameByIndex(_currentDay - 1));
                 }
             }
-            //If all the series are done in less than 7 or the existing game 7s have been simmed
-            if (!isGamesOnCurrentDay || currentDayIndex == 6)
+            return daySchedule;
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SimPlayoffsDoWork(object sender, DoWorkEventArgs e)
+        {
+            //If the playoffs is already done being simmed then
+            if (FinishedSimming)
             {
-                AdvanceToNextRound();
+                return;
             }
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            int gamesSimmedCount = 0;
+            int argumentValue = (int)e.Argument;
+            if (argumentValue == -1)
+            {
+                while (!FinishedSimming)
+                {
+                    gamesSimmedCount += SimDayOfPlayoffs();
+                    worker.ReportProgress(gamesSimmedCount);
+                }
+            }
+            //Else the argument value is the amount of games to be simmed, or to the end of the current round
             else
             {
-                _currentDay++;
+                int startingRound = _currentRound;
+                for (int i = 0; i < argumentValue; i++)
+                {
+                    //If advanced to the next round or the playoffs is finished simming, break out of for loop
+                    if (_currentRound != startingRound || FinishedSimming)
+                    {
+                        break;
+                    }
+                    gamesSimmedCount += SimDayOfPlayoffs();
+                    worker.ReportProgress(gamesSimmedCount);
+                }
             }
-            return gamesSimmedCount;
+        }
+
+        /// <summary>
+        /// Adds new playoff version of TeamStats object to seasonStats list in Team object
+        /// </summary>
+        private void AddPlayoffStats()
+        {
+            //Sizes of both lists will always be the same
+            for (int i = 0; i < _firstConference.Count; i++)
+            {
+                //Adds a new TeamStats object to internal team list denoting this years playoffs
+                _firstConference[i].AddPlayoffsStatsToTeamAndPlayers();
+                _secondConference[i].AddPlayoffsStatsToTeamAndPlayers();
+            }
         }
 
         private void AdvanceToNextRound()
@@ -238,35 +250,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        private void RemoveLosingTeamsFromRemainingTeamsLists()
-        {
-            firstConferenceRemainingTeams.Clear();
-            secondConferenceRemainingTeams.Clear();
-            PlayoffSeries selectedSeries;
-            int seriesLength = playoffSeriesArray[_currentRound - 1].Length;
-            for (int i = 0; i < seriesLength; i++)
-            {
-                selectedSeries = playoffSeriesArray[_currentRound - 1][i];
-                if (i < (seriesLength / 2))
-                {
-                    firstConferenceRemainingTeams.Add(selectedSeries.Winner);
-                }
-                else
-                {
-                    secondConferenceRemainingTeams.Add(selectedSeries.Winner);
-                }
-            }
-        }
-
         /// <summary>
-        /// Defines the size of a jagged array for both x andividual y sizes
+        /// Builds playoff series for a conference based on the number of teams remaining in the playoffs
         /// </summary>
-        private void DefinePlayoffSeriesArray()
+        /// <param name="fullConference">Initial list of all teams from this conference in the playoffs, used to get seeds</param>
+        /// <param name="remainingConferenceTeams">The remaining teams of this conference still in the playoffs, all picked out and put into playoff series objects</param>
+        /// <param name="startingIndex">Index at which to start adding the playoff series to the playoffSeriesArray, first conference always starts at 0 and second conference takes up 2nd half of array. always an even size</param>
+        private void BuildPlayoffSeriesForConference(List<Team> fullConference, List<Team> remainingConferenceTeams, int startingIndex)
         {
-            playoffSeriesArray = new PlayoffSeries[(int)PlayoffRounds][];
-            for (int i = 0; i < playoffSeriesArray.Count(); i++)
+            League.SortTeamList(remainingConferenceTeams);
+            for (int i = 0; i < remainingConferenceTeams.Count / 2; i++)
             {
-                playoffSeriesArray[i] = new PlayoffSeries[PlayoffRounds.GetTotalPlayoffTeams() / (int)Math.Pow(2, i + 1)];
+                Team highTeam = remainingConferenceTeams[i];
+                int highSeed = GetSeed(fullConference, highTeam);
+                Team lowTeam = remainingConferenceTeams[remainingConferenceTeams.Count - 1 - i];
+                int lowSeed = GetSeed(fullConference, lowTeam);
+                playoffSeriesArray[_currentRound - 1][i + startingIndex] =
+                    new PlayoffSeries(highTeam, highSeed, lowTeam, lowSeed, _currentRound, rand);
             }
         }
 
@@ -308,22 +308,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         }
 
         /// <summary>
-        /// Builds playoff series for a conference based on the number of teams remaining in the playoffs
+        /// Defines the size of a jagged array for both x andividual y sizes
         /// </summary>
-        /// <param name="fullConference">Initial list of all teams from this conference in the playoffs, used to get seeds</param>
-        /// <param name="remainingConferenceTeams">The remaining teams of this conference still in the playoffs, all picked out and put into playoff series objects</param>
-        /// <param name="startingIndex">Index at which to start adding the playoff series to the playoffSeriesArray, first conference always starts at 0 and second conference takes up 2nd half of array. always an even size</param>
-        private void BuildPlayoffSeriesForConference(List<Team> fullConference, List<Team> remainingConferenceTeams, int startingIndex)
+        private void DefinePlayoffSeriesArray()
         {
-            League.SortTeamList(remainingConferenceTeams);
-            for (int i = 0; i < remainingConferenceTeams.Count / 2; i++)
+            playoffSeriesArray = new PlayoffSeries[(int)PlayoffRounds][];
+            for (int i = 0; i < playoffSeriesArray.Count(); i++)
             {
-                Team highTeam = remainingConferenceTeams[i];
-                int highSeed = GetSeed(fullConference, highTeam);
-                Team lowTeam = remainingConferenceTeams[remainingConferenceTeams.Count - 1 - i];
-                int lowSeed = GetSeed(fullConference, lowTeam);
-                playoffSeriesArray[_currentRound - 1][i + startingIndex] =
-                    new PlayoffSeries(highTeam, highSeed, lowTeam, lowSeed, _currentRound, rand);
+                playoffSeriesArray[i] = new PlayoffSeries[PlayoffRounds.GetTotalPlayoffTeams() / (int)Math.Pow(2, i + 1)];
             }
         }
 
@@ -338,34 +330,101 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return initialPlayoffTeamList.FindIndex(team => team == selectedTeam) + 1;
         }
 
-        /// <summary>
-        /// Adds new playoff version of TeamStats object to seasonStats list in Team object
-        /// </summary>
-        private void AddPlayoffStats()
+        private void RemoveLosingTeamsFromRemainingTeamsLists()
         {
-            //Sizes of both lists will always be the same
-            for (int i = 0; i < _firstConference.Count; i++)
+            firstConferenceRemainingTeams.Clear();
+            secondConferenceRemainingTeams.Clear();
+            PlayoffSeries selectedSeries;
+            int seriesLength = playoffSeriesArray[_currentRound - 1].Length;
+            for (int i = 0; i < seriesLength; i++)
             {
-                //Adds a new TeamStats object to internal team list denoting this years playoffs
-                _firstConference[i].AddPlayoffsStatsToTeamAndPlayers();
-                _secondConference[i].AddPlayoffsStatsToTeamAndPlayers();
+                selectedSeries = playoffSeriesArray[_currentRound - 1][i];
+                if (i < (seriesLength / 2))
+                {
+                    firstConferenceRemainingTeams.Add(selectedSeries.Winner);
+                }
+                else
+                {
+                    secondConferenceRemainingTeams.Add(selectedSeries.Winner);
+                }
             }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        private int SimDayOfPlayoffs()
         {
-            throw new NotImplementedException();
+            bool isGamesOnCurrentDay = false;
+            int currentDayIndex = _currentDay - 1;
+            int gamesSimmedCount = 0;
+            foreach (PlayoffSeries series in playoffSeriesArray[_currentRound - 1])
+            {
+                Game game = series.GetGameByIndex(currentDayIndex);
+                if (game != null)
+                {
+                    isGamesOnCurrentDay = true;
+                    if (!game.Finished)
+                    {
+                        game.PlayGame();
+                        gamesSimmedCount++;
+                    }
+                }
+            }
+            //If all the series are done in less than 7 or the existing game 7s have been simmed
+            if (!isGamesOnCurrentDay || currentDayIndex == 6)
+            {
+                AdvanceToNextRound();
+            }
+            else
+            {
+                _currentDay++;
+            }
+            return gamesSimmedCount;
         }
 
-        protected Playoff(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion Methods
     }
 
     [Serializable]
     public class PlayoffSeries : ISerializable
     {
+        #region Fields
+
+        public readonly int HighSeed, LowSeed;
+
+        public readonly Team HighSeedTeam, LowSeedTeam;
+
+        public readonly int Round;
+
+        private int _highWins = 0, _lowWins = 0;
+
+        private Random rand;
+
+        private Game[] seriesGames = new Game[7];
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayoffSeries(Team highSeedTeam, int highSeed, Team lowSeedTeam, int lowSeed, int playoffRound, Random leagueRand)
+        {
+            HighSeedTeam = highSeedTeam;
+            HighSeed = highSeed;
+            LowSeedTeam = lowSeedTeam;
+            LowSeed = lowSeed;
+            Round = playoffRound;
+            rand = leagueRand;
+            //Creates the series matches
+            CreateGamesSchedule();
+        }
+
+        protected PlayoffSeries(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public int HighWins
         {
             get
@@ -374,11 +433,43 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
+        //The losing team in the series, if series is unfinished returns null
+        public Team Loser
+        {
+            get
+            {
+                if (!SeriesFinished)
+                {
+                    return null;
+                }
+                if (_highWins == 4)
+                {
+                    return LowSeedTeam;
+                }
+                else
+                {
+                    return HighSeedTeam;
+                }
+            }
+        }
+
         public int LowWins
         {
             get
             {
                 return _lowWins;
+            }
+        }
+
+        /// <summary>
+        /// Boolean that shows if the series is finished and a winner is determined
+        /// </summary>
+        public bool SeriesFinished
+        {
+            get
+            {
+                //If the winner is null then neither team has reached 4 wins and won
+                return Winner != null;
             }
         }
 
@@ -405,64 +496,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        //The losing team in the series, if series is unfinished returns null
-        public Team Loser
-        {
-            get
-            {
-                if (!SeriesFinished)
-                {
-                    return null;
-                }
-                if (_highWins == 4)
-                {
-                    return LowSeedTeam;
-                }
-                else
-                {
-                    return HighSeedTeam;
-                }
-            }
-        }
+        #endregion Properties
 
-        /// <summary>
-        /// Boolean that shows if the series is finished and a winner is determined
-        /// </summary>
-        public bool SeriesFinished
-        {
-            get
-            {
-                //If the winner is null then neither team has reached 4 wins and won
-                return Winner != null;
-            }
-        }
-
-        public readonly Team HighSeedTeam, LowSeedTeam;
-        public readonly int HighSeed, LowSeed;
-        public readonly int Round;
-
-        private int _highWins = 0, _lowWins = 0;
-        private Game[] seriesGames = new Game[7];
-        private Random rand;
+        #region Methods
 
         ///////////
         ///////////
         ///////////
         ///////////
         ///////////
-
-        public PlayoffSeries(Team highSeedTeam, int highSeed, Team lowSeedTeam, int lowSeed, int playoffRound, Random leagueRand)
-        {
-            HighSeedTeam = highSeedTeam;
-            HighSeed = highSeed;
-            LowSeedTeam = lowSeedTeam;
-            LowSeed = lowSeed;
-            Round = playoffRound;
-            rand = leagueRand;
-            //Creates the series matches
-            CreateGamesSchedule();
-        }
-
         /// <summary>
         /// Gets the game of the series based on the zero based day index
         /// </summary>
@@ -471,6 +513,24 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public Game GetGameByIndex(int dayIndex)
         {
             return seriesGames[dayIndex];
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Clears the remaining game in the series so the containing class knows there are no games to be played
+        /// </summary>
+        /// <param name="seriesFinishedGameIndex">Game index of game that ended the series 1-7</param>
+        private void ClearRemainingGames(int seriesFinishedGameIndex)
+        {
+            //Index is offset by 1 to get to zero base but 1 is added because you dont want to turn the game you just finished null
+            for (int i = seriesFinishedGameIndex - 1 + 1; i <= 6; i++)
+            {
+                seriesGames[i] = null;
+            }
         }
 
         /// <summary>
@@ -489,27 +549,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             seriesGames[5] = new Game(LowSeedTeam, HighSeedTeam, rand, 6);
             seriesGames[6] = new Game(HighSeedTeam, LowSeedTeam, rand, 7);
             SetGameFinishedEvents();
-        }
-
-        private void SetGameFinishedEvents()
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                seriesGames[i].GameFinished += InputGameResults;
-            }
-        }
-
-        /// <summary>
-        /// Clears the remaining game in the series so the containing class knows there are no games to be played
-        /// </summary>
-        /// <param name="seriesFinishedGameIndex">Game index of game that ended the series 1-7</param>
-        private void ClearRemainingGames(int seriesFinishedGameIndex)
-        {
-            //Index is offset by 1 to get to zero base but 1 is added because you dont want to turn the game you just finished null
-            for (int i = seriesFinishedGameIndex - 1 + 1; i <= 6; i++)
-            {
-                seriesGames[i] = null;
-            }
         }
 
         private void InputGameResults(object obj, EventArgs e)
@@ -544,14 +583,14 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        private void SetGameFinishedEvents()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 7; i++)
+            {
+                seriesGames[i].GameFinished += InputGameResults;
+            }
         }
 
-        protected PlayoffSeries(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion Methods
     }
 }

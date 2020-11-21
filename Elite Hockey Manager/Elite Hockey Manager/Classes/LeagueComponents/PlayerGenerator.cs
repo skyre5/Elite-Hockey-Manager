@@ -1,4 +1,4 @@
-﻿namespace Elite_Hockey_Manager.Classes
+﻿namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     using System;
     using System.Collections.Generic;

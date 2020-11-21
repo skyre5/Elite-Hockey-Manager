@@ -7,6 +7,17 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    public enum DefensePlayerStatus : int
+    {
+        Unset,
+        Generational,
+        Superstar,
+        FirstPairing,
+        SecondPairing,
+        BottomPairing,
+        Role
+    }
+
     public enum ForwardPlayerStatus : int
     {
         Unset,
@@ -17,17 +28,6 @@ namespace Elite_Hockey_Manager.Classes
         TopNine,
         BottomSix,
         RolePlayer
-    }
-
-    public enum DefensePlayerStatus : int
-    {
-        Unset,
-        Generational,
-        Superstar,
-        FirstPairing,
-        SecondPairing,
-        BottomPairing,
-        Role
     }
 
     public enum GoaliePlayerStatus : int
@@ -44,144 +44,22 @@ namespace Elite_Hockey_Manager.Classes
     //[Serializable]
     public abstract class Player : ISerializable
     {
-        public abstract int PlayerStatusID
-        {
-            get;
-        }
-
-        public int PlayerNumber
-        {
-            get
-            {
-                return _playerNumber;
-            }
-            private set
-            {
-                if (value < 1 || value > 99)
-                {
-                    throw new ArgumentException("Number must fall between 1 and 99");
-                }
-            }
-        }
-
-        public Contract CurrentContract
-        {
-            get
-            {
-                if (CareerContracts.Count == 0)
-                {
-                    CareerContracts.Add(new Contract());
-                    CareerContracts.Last();
-                }
-                return CareerContracts.Last();
-            }
-        }
-
-        public string FullName
-        {
-            get
-            {
-                return _firstName + " " + _lastName;
-            }
-        }
-
-        public string FirstName
-        {
-            get
-            {
-                return _firstName;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Error: First name entered must contain a valid value");
-                }
-                else
-                {
-                    _firstName = value;
-                }
-            }
-        }
-
-        public string LastName
-        {
-            get
-            {
-                return _lastName;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Error: Last name entered must contain a value");
-                }
-                else
-                {
-                    _lastName = value;
-                }
-            }
-        }
-
-        public int Age
-        {
-            get
-            {
-                return _age;
-            }
-            set
-            {
-                if (value < 17 || value > 50)
-                {
-                    throw new ArgumentException("Error: Age set should be within the range of 17 to 50");
-                }
-                else
-                {
-                    _age = value;
-                }
-            }
-        }
-
-        public int ID
-        {
-            get
-            {
-                return _playerID;
-            }
-        }
-
-        /// <summary>
-        /// Keeps track of if the player is currently retired
-        /// If player is retired, then no further additions should be made to this history
-        /// </summary>
-        public bool Retired { get; set; } = false;
-
-        public abstract int Overall
-        {
-            get;
-        }
-
-        public abstract string Position
-        {
-            get;
-        }
-
-        public abstract BaseAttributes Attributes
-        {
-            get;
-            //set;
-        }
-
-        public PlayerProgressionTracker ProgressionTracker { get; private set; }
+        #region Fields
 
         //Keeps track of the players current team, if it is null they are a free agent
         public Team CurrentTeam = null;
 
-        //Static random object for use in player number generation
-        private static Random rand = new Random();
+        protected int _age;
+
+        protected string _firstName;
+
+        protected string _lastName;
 
         //Incrementing int that will hold all players that play in the league
         private static int idCount = 0;
+
+        //Static random object for use in player number generation
+        private static Random rand = new Random();
 
         //Set in constructor after incrementing the id count
         private int _playerID;
@@ -189,10 +67,9 @@ namespace Elite_Hockey_Manager.Classes
         //Random number between 1 and 99
         private int _playerNumber = rand.Next(1, 100);
 
-        protected string _firstName;
-        protected string _lastName;
-        protected int _age;
-        public List<Contract> CareerContracts { get; } = new List<Contract>();
+        #endregion Fields
+
+        #region Constructors
 
         public Player(string first, string last, int age, Contract contract)
         {
@@ -219,28 +96,156 @@ namespace Elite_Hockey_Manager.Classes
             _playerID = idCount;
         }
 
-        /// <summary>
-        /// Initializes the player progression tracker when they are created and have been given their base attributes
-        /// </summary>
-        /// <param name="year">Year in the league for which the players rookie season would take place</param>
-        public void InitializePlayerProgressionTracker(int year)
+        public Player(SerializationInfo info, StreamingContext context)
         {
-            //Attributes defined in skater for its children subclasses
-            //Overall defined in each non abstract child
-            this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
+            this._firstName = (string)info.GetValue("First", typeof(string));
+            this._lastName = (string)info.GetValue("Last", typeof(string));
+            this._age = (int)info.GetValue("Age", typeof(int));
+            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
+            this.CareerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
+            this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
+            this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
         }
 
-        /// <summary>
-        /// Advances the players age by a year and updates their attributes based on age and player status
-        /// </summary>
-        public void AgePlayerAndProgress()
+        #endregion Constructors
+
+        #region Properties
+
+        public int Age
         {
-            Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
-            this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
-            Age++;
+            get
+            {
+                return _age;
+            }
+            set
+            {
+                if (value < 17 || value > 50)
+                {
+                    throw new ArgumentException("Error: Age set should be within the range of 17 to 50");
+                }
+                else
+                {
+                    _age = value;
+                }
+            }
         }
 
-        public abstract void AddStats(int year, int teamID, bool playoffs);
+        public abstract BaseAttributes Attributes
+        {
+            get;
+            //set;
+        }
+
+        public List<Contract> CareerContracts { get; } = new List<Contract>();
+
+        public Contract CurrentContract
+        {
+            get
+            {
+                if (CareerContracts.Count == 0)
+                {
+                    CareerContracts.Add(new Contract());
+                    CareerContracts.Last();
+                }
+                return CareerContracts.Last();
+            }
+        }
+
+        public string FirstName
+        {
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Error: First name entered must contain a valid value");
+                }
+                else
+                {
+                    _firstName = value;
+                }
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return _firstName + " " + _lastName;
+            }
+        }
+
+        public int ID
+        {
+            get
+            {
+                return _playerID;
+            }
+        }
+
+        public string LastName
+        {
+            get
+            {
+                return _lastName;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Error: Last name entered must contain a value");
+                }
+                else
+                {
+                    _lastName = value;
+                }
+            }
+        }
+
+        public abstract int Overall
+        {
+            get;
+        }
+
+        public int PlayerNumber
+        {
+            get
+            {
+                return _playerNumber;
+            }
+            private set
+            {
+                if (value < 1 || value > 99)
+                {
+                    throw new ArgumentException("Number must fall between 1 and 99");
+                }
+            }
+        }
+
+        public abstract int PlayerStatusID
+        {
+            get;
+        }
+
+        public abstract string Position
+        {
+            get;
+        }
+
+        public PlayerProgressionTracker ProgressionTracker { get; private set; }
+
+        /// <summary>
+        /// Keeps track of if the player is currently retired
+        /// If player is retired, then no further additions should be made to this history
+        /// </summary>
+        public bool Retired { get; set; } = false;
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Method to add contract to a player
@@ -256,9 +261,16 @@ namespace Elite_Hockey_Manager.Classes
             CareerContracts.Add(contract);
         }
 
-        public override string ToString()
+        public abstract void AddStats(int year, int teamID, bool playoffs);
+
+        /// <summary>
+        /// Advances the players age by a year and updates their attributes based on age and player status
+        /// </summary>
+        public void AgePlayerAndProgress()
         {
-            return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
+            Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
+            this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
+            Age++;
         }
 
         public abstract void GenerateStats(int playerStatus);
@@ -274,15 +286,22 @@ namespace Elite_Hockey_Manager.Classes
             info.AddValue("CurrentTeam", this.CurrentTeam);
         }
 
-        public Player(SerializationInfo info, StreamingContext context)
+        /// <summary>
+        /// Initializes the player progression tracker when they are created and have been given their base attributes
+        /// </summary>
+        /// <param name="year">Year in the league for which the players rookie season would take place</param>
+        public void InitializePlayerProgressionTracker(int year)
         {
-            this._firstName = (string)info.GetValue("First", typeof(string));
-            this._lastName = (string)info.GetValue("Last", typeof(string));
-            this._age = (int)info.GetValue("Age", typeof(int));
-            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
-            this.CareerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
-            this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
-            this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
+            //Attributes defined in skater for its children subclasses
+            //Overall defined in each non abstract child
+            this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
+        }
+
+        #endregion Methods
     }
 }

@@ -6,6 +6,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
     public static class FreeAgency
     {
+        #region Methods
+
         public static void SimulateFreeAgencyPeriod(League league, Random rand)
         {
             List<Player> freeAgents = league.UnsignedPlayers;
@@ -28,5 +30,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 }
             }
         }
+
+        #endregion Methods
     }
 }

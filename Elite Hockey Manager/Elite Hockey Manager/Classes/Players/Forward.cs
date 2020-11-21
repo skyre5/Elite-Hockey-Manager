@@ -7,11 +7,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class Forward : Skater
     {
-        public ForwardPlayerStatus PlayerStatus
-        {
-            get;
-            protected set;
-        } = ForwardPlayerStatus.Unset;
+        #region Constructors
 
         public Forward(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -41,11 +37,15 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        #endregion Constructors
+
+        #region Properties
+
+        public ForwardPlayerStatus PlayerStatus
         {
-            info.AddValue("PlayerStatus", this.PlayerStatus);
-            base.GetObjectData(info, context);
-        }
+            get;
+            protected set;
+        } = ForwardPlayerStatus.Unset;
 
         public override int PlayerStatusID
         {
@@ -55,11 +55,23 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         public override void GenerateStats(int playerStatus)
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
             PlayerStatus = status;
             _attributes.GenerateForwardStatRanges(status, _age);
         }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("PlayerStatus", this.PlayerStatus);
+            base.GetObjectData(info, context);
+        }
+
+        #endregion Methods
     }
 }

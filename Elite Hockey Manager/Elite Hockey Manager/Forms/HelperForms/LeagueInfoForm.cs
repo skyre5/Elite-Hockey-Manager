@@ -6,22 +6,22 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
 {
     public partial class LeagueInfoForm : Form
     {
+        #region Fields
+
         public League createdLeague = null;
+
+        #endregion Fields
+
+        #region Constructors
 
         public LeagueInfoForm()
         {
             InitializeComponent();
         }
 
-        private void leagueSizeBar_Scroll(object sender, EventArgs e)
-        {
-            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
-        }
+        #endregion Constructors
 
-        private void LeagueInfoForm_Load(object sender, EventArgs e)
-        {
-            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
-        }
+        #region Methods
 
         private void createLeagueButton_Click(object sender, EventArgs e)
         {
@@ -40,5 +40,17 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        private void LeagueInfoForm_Load(object sender, EventArgs e)
+        {
+            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
+        }
+
+        private void leagueSizeBar_Scroll(object sender, EventArgs e)
+        {
+            numTeamsLabel.Text = $"Number of Teams: {leagueSizeBar.Value}";
+        }
+
+        #endregion Methods
     }
 }

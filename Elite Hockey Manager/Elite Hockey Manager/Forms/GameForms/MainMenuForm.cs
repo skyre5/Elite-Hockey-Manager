@@ -1,15 +1,14 @@
 ﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Windows.Forms;
-
     using Elite_Hockey_Manager.Classes;
     using Elite_Hockey_Manager.Classes.GameComponents;
     using Elite_Hockey_Manager.Classes.LeagueComponents;
     using Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls;
     using Elite_Hockey_Manager.Forms.GameForms.OffseasonForms;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows.Forms;
 
     /// <summary>
     /// The main menu form. Where the majority of the game will take place

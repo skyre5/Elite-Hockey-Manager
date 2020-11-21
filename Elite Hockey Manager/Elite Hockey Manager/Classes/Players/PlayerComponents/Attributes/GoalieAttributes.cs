@@ -15,62 +15,32 @@ namespace Elite_Hockey_Manager.Classes
     //[Serializable]
     public class GoalieAttributes : BaseAttributes
     {
+        #region Fields
+
         private int _high = DefaultRating;
         private int _low = DefaultRating;
-        private int _speed = DefaultRating;
         private int _reboundControl = DefaultRating;
+        private int _speed = DefaultRating;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GoalieAttributes()
         {
         }
 
-        public override Tuple<string, int>[] GetAttributeNames()
+        protected GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Tuple<string, int>[] parentNames = base.GetAttributeNames();
-            Tuple<string, int>[] newNames = {
-                Tuple.Create("High", this._high),
-                Tuple.Create("Low", this._low),
-                Tuple.Create("Speed", this._speed),
-                Tuple.Create("ReboundControl", this._reboundControl)
-            };
-            Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
-            return statNames;
+            this._high = (int)info.GetValue("High", typeof(int));
+            this._low = (int)info.GetValue("Low", typeof(int));
+            this._speed = (int)info.GetValue("Speed", typeof(int));
+            this._reboundControl = (int)info.GetValue("ReboundControl", typeof(int));
         }
 
-        protected override void GenerateStats(int age, int lower, int upper, int guarantee)
-        {
-            ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
-            _high = rand.Next(lower, upper + 1);
-            _low = rand.Next(lower, upper + 1);
-            _speed = rand.Next(lower, upper + 1);
-            _reboundControl = rand.Next(lower, upper + 1);
-            GuaranteedStatChoice(guarantee);
-        }
+        #endregion Constructors
 
-        protected override void GuaranteedStatChoice(int rating)
-        {
-            Random rand = new Random();
-            //0-3
-            int choice = rand.Next(0, 4);
-            switch (choice)
-            {
-                case (int)GoalieStatNames.High:
-                    GuaranteedStatSet(ref _high, rating);
-                    break;
-
-                case (int)GoalieStatNames.Low:
-                    GuaranteedStatSet(ref _low, rating);
-                    break;
-
-                case (int)GoalieStatNames.Speed:
-                    GuaranteedStatSet(ref _speed, rating);
-                    break;
-
-                case (int)GoalieStatNames.ReboundControl:
-                    GuaranteedStatSet(ref _reboundControl, rating);
-                    break;
-            }
-        }
+        #region Properties
 
         public int High
         {
@@ -96,18 +66,6 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public int Speed
-        {
-            get
-            {
-                return _speed;
-            }
-            set
-            {
-                CheckRating(ref _speed, value);
-            }
-        }
-
         public int ReboundControl
         {
             get
@@ -120,17 +78,21 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public int GoalieOverall()
+        public int Speed
         {
-            //90% of rating is from average of high, low, speed, and rebound control
-            double baseTotal = (((double)(High + Low + Speed + ReboundControl)) / 4);
-            baseTotal *= 0.90;
-            //Takes goalies clutch rating as 10% of goalies rating
-            double clutchTotal = ((double)(Clutchness)) / 10;
-            //Rounds up addition of base and total and rounds up into int
-            int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
-            return overall;
+            get
+            {
+                return _speed;
+            }
+            set
+            {
+                CheckRating(ref _speed, value);
+            }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public void GenerateGoalieStatRanges(GoaliePlayerStatus playerStatus, int age = 27)
         {
@@ -188,6 +150,77 @@ namespace Elite_Hockey_Manager.Classes
             GenerateStats(age, lowerBound, upperBound, guaranteedStat);
         }
 
+        public override Tuple<string, int>[] GetAttributeNames()
+        {
+            Tuple<string, int>[] parentNames = base.GetAttributeNames();
+            Tuple<string, int>[] newNames = {
+                Tuple.Create("High", this._high),
+                Tuple.Create("Low", this._low),
+                Tuple.Create("Speed", this._speed),
+                Tuple.Create("ReboundControl", this._reboundControl)
+            };
+            Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
+            return statNames;
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("High", this._high);
+            info.AddValue("Low", this._low);
+            info.AddValue("Speed", this._speed);
+            info.AddValue("ReboundControl", this._reboundControl);
+        }
+
+        public int GoalieOverall()
+        {
+            //90% of rating is from average of high, low, speed, and rebound control
+            double baseTotal = (((double)(High + Low + Speed + ReboundControl)) / 4);
+            baseTotal *= 0.90;
+            //Takes goalies clutch rating as 10% of goalies rating
+            double clutchTotal = ((double)(Clutchness)) / 10;
+            //Rounds up addition of base and total and rounds up into int
+            int overall = (int)Math.Ceiling(baseTotal + clutchTotal);
+            return overall;
+        }
+
+        protected override void GenerateStats(int age, int lower, int upper, int guarantee)
+        {
+            ModifyBoundsToAge(age, ref lower, ref upper, ref guarantee);
+            _high = rand.Next(lower, upper + 1);
+            _low = rand.Next(lower, upper + 1);
+            _speed = rand.Next(lower, upper + 1);
+            _reboundControl = rand.Next(lower, upper + 1);
+            GuaranteedStatChoice(guarantee);
+        }
+
+        protected override void GuaranteedStatChoice(int rating)
+        {
+            Random rand = new Random();
+            //0-3
+            int choice = rand.Next(0, 4);
+            switch (choice)
+            {
+                case (int)GoalieStatNames.High:
+                    GuaranteedStatSet(ref _high, rating);
+                    break;
+
+                case (int)GoalieStatNames.Low:
+                    GuaranteedStatSet(ref _low, rating);
+                    break;
+
+                case (int)GoalieStatNames.Speed:
+                    GuaranteedStatSet(ref _speed, rating);
+                    break;
+
+                case (int)GoalieStatNames.ReboundControl:
+                    GuaranteedStatSet(ref _reboundControl, rating);
+                    break;
+            }
+        }
+
+        #endregion Methods
+
         #region Player Progression
 
         internal override void ProgressPlayer(int age, string position, int playerStatusID)
@@ -200,6 +233,14 @@ namespace Elite_Hockey_Manager.Classes
             {
                 throw new ArgumentException("Goalie was not sent to ProgressPlayer in GoalieAttributes");
             }
+        }
+
+        protected override void GrowStats(int negativeRange, int upperRange)
+        {
+            High += GetGrowthValue(negativeRange, upperRange);
+            Low += GetGrowthValue(negativeRange, upperRange);
+            Speed += GetGrowthValue(negativeRange, upperRange);
+            ReboundControl += GetGrowthValue(negativeRange, upperRange);
         }
 
         private void ProgressGoalie(int age, GoaliePlayerStatus status)
@@ -237,31 +278,6 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        protected override void GrowStats(int negativeRange, int upperRange)
-        {
-            High += GetGrowthValue(negativeRange, upperRange);
-            Low += GetGrowthValue(negativeRange, upperRange);
-            Speed += GetGrowthValue(negativeRange, upperRange);
-            ReboundControl += GetGrowthValue(negativeRange, upperRange);
-        }
-
         #endregion Player Progression
-
-        protected GoalieAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this._high = (int)info.GetValue("High", typeof(int));
-            this._low = (int)info.GetValue("Low", typeof(int));
-            this._speed = (int)info.GetValue("Speed", typeof(int));
-            this._reboundControl = (int)info.GetValue("ReboundControl", typeof(int));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("High", this._high);
-            info.AddValue("Low", this._low);
-            info.AddValue("Speed", this._speed);
-            info.AddValue("ReboundControl", this._reboundControl);
-        }
     }
 }

@@ -3,9 +3,13 @@ using System.Linq;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {
+    using Elite_Hockey_Manager.Classes.LeagueComponents;
+
     [TestFixture()]
     public class PlayerGeneratorTests
     {
+        #region Methods
+
         [Test()]
         public void CreateRandomLeftWingTest()
         {
@@ -20,5 +24,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             //Ensures there are enough players for all the draft picks to be available to choose players
             Assert.IsTrue(testDraftPool.Count() > 210);
         }
+
+        #endregion Methods
     }
 }

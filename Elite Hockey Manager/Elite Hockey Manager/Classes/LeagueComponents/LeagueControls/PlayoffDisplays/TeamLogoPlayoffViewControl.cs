@@ -4,6 +4,30 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
 {
     public partial class TeamLogoPlayoffViewControl : TeamLogoStandingViewControl
     {
+        #region Fields
+
+        private int _wins = 0;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public TeamLogoPlayoffViewControl() : base()
+        {
+            InitializeComponent();
+        }
+
+        public TeamLogoPlayoffViewControl(Team team, int playoffSeed) : base(team)
+        {
+            InitializeComponent();
+            Seed = playoffSeed;
+            UpdateText();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public int Seed
         {
             get;
@@ -22,28 +46,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
-        private int _wins = 0;
+        #endregion Properties
 
-        public TeamLogoPlayoffViewControl() : base()
-        {
-            InitializeComponent();
-        }
-
-        public TeamLogoPlayoffViewControl(Team team, int playoffSeed) : base(team)
-        {
-            InitializeComponent();
-            Seed = playoffSeed;
-            UpdateText();
-        }
-
-        public void UpdateText()
-        {
-            if (_wins == 4)
-            {
-                DisplayWinnerInSeries();
-            }
-            teamLabel.Text = $"({Seed}) {_wins}: {this.Team.TeamName}";
-        }
+        #region Methods
 
         //public void DenoteHigherSeedInTie()
         //{
@@ -60,5 +65,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         {
             teamLabel.Font = new Font(teamLabel.Font, FontStyle.Bold);
         }
+
+        public void UpdateText()
+        {
+            if (_wins == 4)
+            {
+                DisplayWinnerInSeries();
+            }
+            teamLabel.Text = $"({Seed}) {_wins}: {this.Team.TeamName}";
+        }
+
+        #endregion Methods
     }
 }

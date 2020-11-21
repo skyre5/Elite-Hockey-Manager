@@ -7,21 +7,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public partial class TeamLogoStandingViewControl : UserControl
     {
-        public Team Team
-        {
-            get
-            {
-                return _team;
-            }
-            set
-            {
-                _team = value;
-                UpdateDisplay();
-            }
-        }
+        #region Fields
 
         private Team _team = null;
+
         private Point teamLabelStartingPoint;
+
+        #endregion Fields
+
+        #region Constructors
 
         public TeamLogoStandingViewControl(Team team)
         {
@@ -42,6 +36,27 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             InitializeComponent();
             teamLabelStartingPoint = teamLabel.Location;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public Team Team
+        {
+            get
+            {
+                return _team;
+            }
+            set
+            {
+                _team = value;
+                UpdateDisplay();
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public void RedrawRecord()
         {
@@ -64,6 +79,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             else
             {
                 teamLabel.Font = new Font(teamLabel.Font, FontStyle.Regular);
+            }
+        }
+
+        private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
+        {
+            if (Team != null)
+            {
+                ViewTeamForm form = new ViewTeamForm(Team);
+                form.Show();
             }
         }
 
@@ -93,13 +117,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             teamLabel.Text = Team?.TeamNameWithRecord;
         }
 
-        private void TeamLogoStandingViewControl_DoubleClick(object sender, EventArgs e)
-        {
-            if (Team != null)
-            {
-                ViewTeamForm form = new ViewTeamForm(Team);
-                form.Show();
-            }
-        }
+        #endregion Methods
     }
 }

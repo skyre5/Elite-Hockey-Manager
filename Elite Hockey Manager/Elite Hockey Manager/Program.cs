@@ -5,6 +5,8 @@ namespace Elite_Hockey_Manager
 {
     internal static class Program
     {
+        #region Methods
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,5 +18,7 @@ namespace Elite_Hockey_Manager
             HomeForm form = new HomeForm();
             form.ShowDialog();
         }
+
+        #endregion Methods
     }
 }

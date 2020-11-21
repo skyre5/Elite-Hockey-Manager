@@ -7,6 +7,30 @@ namespace Elite_Hockey_Manager.Classes.Tests
     [TestFixture()]
     public class TeamTests
     {
+        #region Methods
+
+        /// <summary>
+        /// Tests that a full team made from the team generator will have correct lines of the right position
+        /// </summary>
+        [Test()]
+        public void AutoSetLinesTestFullTeam()
+        {
+            Team testTeam = TeamGenerator.GetTeam();
+            TeamGenerator.FillTeam(testTeam);
+            AutoSetLinesTest(testTeam);
+        }
+
+        /// <summary>
+        /// Tests that a team with no players will have more players auto-assigned to the team
+        /// Also tests that all needed positions are filled and the correct positions
+        /// </summary>
+        [Test()]
+        public void AutoSetLinesTestIncompleteTeam()
+        {
+            Team testTeam = TeamGenerator.GetTeam();
+            AutoSetLinesTest(testTeam);
+        }
+
         [Test()]
         public void EqualsTest()
         {
@@ -65,28 +89,6 @@ namespace Elite_Hockey_Manager.Classes.Tests
                 testTeam.Roster.Add(PlayerGenerator.CreateRandomGoalie());
             }
             Assert.AreEqual(testTeam.ValidMinimumTeamSize(), pass);
-        }
-
-        /// <summary>
-        /// Tests that a full team made from the team generator will have correct lines of the right position
-        /// </summary>
-        [Test()]
-        public void AutoSetLinesTestFullTeam()
-        {
-            Team testTeam = TeamGenerator.GetTeam();
-            TeamGenerator.FillTeam(testTeam);
-            AutoSetLinesTest(testTeam);
-        }
-
-        /// <summary>
-        /// Tests that a team with no players will have more players auto-assigned to the team
-        /// Also tests that all needed positions are filled and the correct positions
-        /// </summary>
-        [Test()]
-        public void AutoSetLinesTestIncompleteTeam()
-        {
-            Team testTeam = TeamGenerator.GetTeam();
-            AutoSetLinesTest(testTeam);
         }
 
         private void AutoSetLinesTest(Team testTeam)
@@ -152,5 +154,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
                 }
             }
         }
+
+        #endregion Methods
     }
 }

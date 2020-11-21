@@ -8,6 +8,37 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 {
     public partial class PlayerStatsListControl : UserControl
     {
+        #region Fields
+
+        //public variables
+        //Set by classes container
+        public Label[] PlayerLabels;
+
+        //private variables
+        private const int LABELHEIGHT = 30;
+
+        private bool _displayTeamAbbreviation = false;
+
+        private int _LabelCount;
+
+        private PlayerLabel[] _playerLabelsForDisplay = null;
+
+        private string _title = "statName";
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayerStatsListControl()
+        {
+            InitializeComponent();
+            LabelCount = 5;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public bool DisplayTeamAbbreviation
         {
             get
@@ -22,18 +53,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 {
                     UpdatePlayerLabelsTeamAbbreviations();
                 }
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                titleLabel.Text = value;
             }
         }
 
@@ -55,22 +74,33 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
         }
 
-        //public variables
-        //Set by classes container
-        public Label[] PlayerLabels;
-
-        //private variables
-        private const int LABELHEIGHT = 30;
-
-        private bool _displayTeamAbbreviation = false;
-        private string _title = "statName";
-        private int _LabelCount;
-        private PlayerLabel[] _playerLabelsForDisplay = null;
-
-        public PlayerStatsListControl()
+        public string Title
         {
-            InitializeComponent();
-            LabelCount = 5;
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                titleLabel.Text = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public void AddPlayerLabelsToDisplay(PlayerLabel[] displayedPlayerLabels)
+        {
+            for (int i = 0; i < displayedPlayerLabels.Count(); i++)
+            {
+                displayedPlayerLabels[i].Location = new Point(
+                    0,
+                    (LABELHEIGHT * (i + 1)) + 1
+                    );
+                displayedPlayerLabels[i].DisplayTeamAbbreviation = _displayTeamAbbreviation;
+                this.Controls.Add(displayedPlayerLabels[i]);
+            }
         }
 
         public void UpdateDisplay(PlayerLabel[] InputPlayersLabels)
@@ -114,19 +144,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
         }
 
-        public void AddPlayerLabelsToDisplay(PlayerLabel[] displayedPlayerLabels)
-        {
-            for (int i = 0; i < displayedPlayerLabels.Count(); i++)
-            {
-                displayedPlayerLabels[i].Location = new Point(
-                    0,
-                    (LABELHEIGHT * (i + 1)) + 1
-                    );
-                displayedPlayerLabels[i].DisplayTeamAbbreviation = _displayTeamAbbreviation;
-                this.Controls.Add(displayedPlayerLabels[i]);
-            }
-        }
-
         /// <summary>
         /// Updates all the player labels within this control to the updated playerLabelsForDisplay value
         /// Displays the team abbreviation next to the name of the player on the label(Logic done within PlayerLabel class)
@@ -140,5 +157,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 label.DisplayTeamAbbreviation = _displayTeamAbbreviation;
             }
         }
+
+        #endregion Methods
     }
 }

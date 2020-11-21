@@ -8,39 +8,26 @@ namespace Elite_Hockey_Manager.Classes.Tests
     [TestFixture()]
     public class LeagueTests
     {
-        [Test()]
-        public void FillConferenceCorrectCountTest()
-        {
-            List<Team> testConference = new List<Team>();
-            League.FillConference(testConference, 16);
-            Assert.AreEqual(testConference.Count, 16);
-        }
+        #region Methods
 
         [Test()]
-        public void FillConferenceNegativeNumberTest()
+        public void AddTeamCheckForExistingTeamCheck()
         {
-            List<Team> testConference = new List<Team>();
-            Assert.Throws<ArgumentOutOfRangeException>(() => League.FillConference(testConference, -10));
+            League testLeague = new League("Test", "TST", 31);
+            Team testTeam = new Team("test", "test");
+            testLeague.AddTeam(testTeam, 2);
+            //Tests that you can't add the same team twice to a league
+            Assert.Throws<ArgumentException>(() => testLeague.AddTeam(testTeam, 2));
         }
 
         [TestCase(6)]
         [TestCase(7)]
-        [TestCase(32)]
-        [TestCase(31)]
-        public void FillRemainingTeamsTest(int leagueSize)
+        public void AddTeamFullTest(int leagueSize)
         {
-            League testLeague = new League("Test", "test", leagueSize);
+            League testLeague = new League("Test", "TST", leagueSize);
             testLeague.FillRemainingTeams();
-            int testLeagueSize = testLeague.FirstConference.Count + testLeague.SecondConference.Count;
-            Assert.AreEqual(testLeagueSize, leagueSize);
-        }
-
-        [TestCase(5)]
-        [TestCase(33)]
-        public void LeagueOutOfRangeSizeTest(int leagueSize)
-        {
-            League testLeague;
-            Assert.Throws<ArgumentException>(() => testLeague = new League("Test", "Test", leagueSize));
+            Team testTeam = new Team("test", "test");
+            Assert.Throws<ArgumentException>(() => testLeague.AddTeam(testTeam, 1));
         }
 
         [Test()]
@@ -66,26 +53,6 @@ namespace Elite_Hockey_Manager.Classes.Tests
         }
 
         [Test()]
-        public void AddTeamCheckForExistingTeamCheck()
-        {
-            League testLeague = new League("Test", "TST", 31);
-            Team testTeam = new Team("test", "test");
-            testLeague.AddTeam(testTeam, 2);
-            //Tests that you can't add the same team twice to a league
-            Assert.Throws<ArgumentException>(() => testLeague.AddTeam(testTeam, 2));
-        }
-
-        [TestCase(6)]
-        [TestCase(7)]
-        public void AddTeamFullTest(int leagueSize)
-        {
-            League testLeague = new League("Test", "TST", leagueSize);
-            testLeague.FillRemainingTeams();
-            Team testTeam = new Team("test", "test");
-            Assert.Throws<ArgumentException>(() => testLeague.AddTeam(testTeam, 1));
-        }
-
-        [Test()]
         public void AddTeamUnevenCoferenceFullTest()
         {
             League testLeague = new League("test", "TST", 7);
@@ -95,6 +62,21 @@ namespace Elite_Hockey_Manager.Classes.Tests
             }
             testLeague.AddTeam(TeamGenerator.GetTeam(), 2);
             Assert.Throws<ArgumentException>(() => testLeague.AddTeam(TeamGenerator.GetTeam(), 1));
+        }
+
+        [Test()]
+        public void FillConferenceCorrectCountTest()
+        {
+            List<Team> testConference = new List<Team>();
+            League.FillConference(testConference, 16);
+            Assert.AreEqual(testConference.Count, 16);
+        }
+
+        [Test()]
+        public void FillConferenceNegativeNumberTest()
+        {
+            List<Team> testConference = new List<Team>();
+            Assert.Throws<ArgumentOutOfRangeException>(() => League.FillConference(testConference, -10));
         }
 
         [Test()]
@@ -111,6 +93,18 @@ namespace Elite_Hockey_Manager.Classes.Tests
                 }
             }
             Assert.Pass();
+        }
+
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(32)]
+        [TestCase(31)]
+        public void FillRemainingTeamsTest(int leagueSize)
+        {
+            League testLeague = new League("Test", "test", leagueSize);
+            testLeague.FillRemainingTeams();
+            int testLeagueSize = testLeague.FirstConference.Count + testLeague.SecondConference.Count;
+            Assert.AreEqual(testLeagueSize, leagueSize);
         }
 
         [Test()]
@@ -140,5 +134,15 @@ namespace Elite_Hockey_Manager.Classes.Tests
             //League should now return zero errors since all teams and players are valid
             Assert.AreEqual(testLeague.GetTeamErrorCount(), 0);
         }
+
+        [TestCase(5)]
+        [TestCase(33)]
+        public void LeagueOutOfRangeSizeTest(int leagueSize)
+        {
+            League testLeague;
+            Assert.Throws<ArgumentException>(() => testLeague = new League("Test", "Test", leagueSize));
+        }
+
+        #endregion Methods
     }
 }

@@ -7,6 +7,8 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public abstract class WingerBase : Forward
     {
+        #region Constructors
+
         public WingerBase(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
         }
@@ -27,6 +29,10 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public override int Overall
         {
             get
@@ -34,5 +40,7 @@ namespace Elite_Hockey_Manager.Classes
                 return _attributes.WingerOverall();
             }
         }
+
+        #endregion Properties
     }
 }

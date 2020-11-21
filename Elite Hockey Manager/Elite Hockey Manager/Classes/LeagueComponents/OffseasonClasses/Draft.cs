@@ -6,10 +6,16 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
     public struct DraftPick
     {
-        public readonly Team Team;
+        #region Fields
+
+        public readonly int Pick;
         public readonly Player Player;
         public readonly int Round;
-        public readonly int Pick;
+        public readonly Team Team;
+
+        #endregion Fields
+
+        #region Constructors
 
         public DraftPick(Team draftedTeam, Player draftedPlayer, int round, int pick)
         {
@@ -18,34 +24,38 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             Round = round;
             Pick = pick;
         }
+
+        #endregion Constructors
     }
 
     [Serializable]
     public class Draft
     {
-        public int CurrentPick { get; private set; } = 1;
-        public int CurrentRound { get; private set; } = 1;
-        public bool DoneDrafting { get; private set; } = false;
+        #region Fields
 
         //Static variable, changeable by options in the future
         public static int Rounds = 7;
 
-        public readonly int Year;
-
-        //Number of teams that are in the league, determines the length of each round and the total amount of draft picks to be made
-        public readonly int Teams;
-
-        //Order the teams draft in, from worst in the league to best, each round
-        public readonly Team[] TeamDraftOrder;
-
-        public readonly DraftPick[] DraftPicks;
-
         //Pool of 18 year old players that are draft eligible, must always be greater than the number of draft picks
         public readonly Player[] BaseDraftPool;
+
+        public readonly DraftPick[] DraftPicks;
 
         //Draft pool after picks are made, will finished with only the players that will go undrafted
         //Will have players removed constantly, so is switched to list
         public readonly List<Player> RemainingDraftPool;
+
+        //Order the teams draft in, from worst in the league to best, each round
+        public readonly Team[] TeamDraftOrder;
+
+        //Number of teams that are in the league, determines the length of each round and the total amount of draft picks to be made
+        public readonly int Teams;
+
+        public readonly int Year;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Draft(int year, int teamsCount, Team[] draftOrder)
         {
@@ -60,6 +70,32 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             //Switches the base draft pool to a list so that the original draft list can be stored as well as the players being chosen becoming unavailable to be picked
             RemainingDraftPool = BaseDraftPool.ToList();
             TeamDraftOrder = draftOrder;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public int CurrentPick { get; private set; } = 1;
+        public int CurrentRound { get; private set; } = 1;
+        public bool DoneDrafting { get; private set; } = false;
+
+        #endregion Properties
+
+        #region Methods
+
+        public void SimDraft()
+        {
+            if (DoneDrafting)
+            {
+                return;
+            }
+            int lastPickInDraft = Teams * Rounds;
+            while (CurrentPick <= lastPickInDraft)
+            {
+                MakePick();
+            }
+            DoneDrafting = true;
         }
 
         public void SimPick()
@@ -92,20 +128,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             }
         }
 
-        public void SimDraft()
-        {
-            if (DoneDrafting)
-            {
-                return;
-            }
-            int lastPickInDraft = Teams * Rounds;
-            while (CurrentPick <= lastPickInDraft)
-            {
-                MakePick();
-            }
-            DoneDrafting = true;
-        }
-
         private void InitializePlayerTrackerToDraftClass()
         {
             foreach (Player player in BaseDraftPool)
@@ -133,6 +155,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             CurrentPick++;
             CurrentRound = ((CurrentPick - 1) / Teams) + 1;
         }
+
+        #endregion Methods
 
         //protected Draft(SerializationInfo info, StreamingContext context)
         //{

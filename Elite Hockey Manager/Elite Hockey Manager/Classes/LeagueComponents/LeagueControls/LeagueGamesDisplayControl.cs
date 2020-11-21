@@ -8,24 +8,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
     public partial class LeagueGamesDisplayControl : UserControl
     {
+        #region Fields
+
         public List<GameDisplayControl> viewableGameDisplayControls = new List<GameDisplayControl>();
+
+        #endregion Fields
+
+        #region Constructors
 
         public LeagueGamesDisplayControl()
         {
             InitializeComponent();
         }
 
-        public void SetSchedule(List<Game> games)
-        {
-            gameLayoutPanel.Controls.Clear();
-            viewableGameDisplayControls.Clear();
-            foreach (Game game in games)
-            {
-                GameDisplayControl gameDisplayControl = new GameDisplayControl(game);
-                gameLayoutPanel.Controls.Add(gameDisplayControl);
-                viewableGameDisplayControls.Add(gameDisplayControl);
-            }
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public void LinkPlayoffMatchupViewControlEvents(List<PlayoffMatchupViewControl> playoffControls)
         {
@@ -54,5 +52,19 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         {
             dayLabel.Text = $@"Round {round} Day:{day}";
         }
+
+        public void SetSchedule(List<Game> games)
+        {
+            gameLayoutPanel.Controls.Clear();
+            viewableGameDisplayControls.Clear();
+            foreach (Game game in games)
+            {
+                GameDisplayControl gameDisplayControl = new GameDisplayControl(game);
+                gameLayoutPanel.Controls.Add(gameDisplayControl);
+                viewableGameDisplayControls.Add(gameDisplayControl);
+            }
+        }
+
+        #endregion Methods
     }
 }

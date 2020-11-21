@@ -14,44 +14,28 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         Four = 4
     }
 
-    internal static class PlayoffRoundsMethods
-    {
-        public static int GetTotalPlayoffTeams(this PlayoffRounds rounds)
-        {
-            switch (rounds)
-            {
-                case PlayoffRounds.Four:
-                    return 16;
-
-                case PlayoffRounds.Three:
-                    return 8;
-
-                case PlayoffRounds.Two:
-                    return 4;
-
-                default:
-                    throw new ArgumentException("PlayoffRounds is set to an unknown value");
-            }
-        }
-    }
-
     public partial class PlayoffDisplayControl : UserControl
     {
-        public PlayoffRounds SelectedRounds
+        #region Fields
+
+        private League _league;
+
+        private PlayoffRounds _selectedRounds = PlayoffRounds.Two;
+
+        private Panel[] panels;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayoffDisplayControl()
         {
-            get
-            {
-                return _selectedRounds;
-            }
-            set
-            {
-                _selectedRounds = value;
-                //Creates an array of Panels to store the display data
-                CreatePanels();
-                //Puts the Panels in the control
-                UpdateDisplay();
-            }
+            InitializeComponent();
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         public League League
         {
@@ -69,14 +53,25 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
-        private League _league;
-        private PlayoffRounds _selectedRounds = PlayoffRounds.Two;
-        private Panel[] panels;
-
-        public PlayoffDisplayControl()
+        public PlayoffRounds SelectedRounds
         {
-            InitializeComponent();
+            get
+            {
+                return _selectedRounds;
+            }
+            set
+            {
+                _selectedRounds = value;
+                //Creates an array of Panels to store the display data
+                CreatePanels();
+                //Puts the Panels in the control
+                UpdateDisplay();
+            }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public List<PlayoffMatchupViewControl> GetActivePlayoffMatchupViewControls(int currentRound)
         {
@@ -102,6 +97,39 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
+        private void AddPlayoffMatchupViewControls(Panel panel, int offset)
+        {
+            int middlePlayoffIndex = (int)_selectedRounds;
+            int controlsToAdd;
+            //If the middle panel is being filled, one 1 view will be needed to be added
+            if (middlePlayoffIndex == offset)
+            {
+                controlsToAdd = 1;
+            }
+            else
+            {
+                //The absolute value of the middle round minus the given offset will give the distance of rounds between the final and selected round
+                //Subtracting that minus 1 and raising 2 to this power will give the amount of games in this round and side of the bracked
+                //I.E 4 rounds - middle index is 4 - round 1 will give 3 - subtract 1 and raise 2 to 2 will give 4 playoff games on that side of the bracket
+                controlsToAdd = (int)Math.Pow(2, (Math.Abs(middlePlayoffIndex - offset) - 1));
+            }
+            //Will be used to arrange the controls within the panel based on the height of this panel
+            int totalHeight = panel.Size.Height;
+            for (int i = 0; i < controlsToAdd; i++)
+            {
+                PlayoffMatchupViewControl playoffViewControl = new PlayoffMatchupViewControl();
+                //
+                int baseY = (int)((double)totalHeight * ((double)(i + 1) / (double)(controlsToAdd + 1)));
+                int offsetY = baseY - (playoffViewControl.Size.Height / 2);
+                if (offsetY < 0)
+                {
+                    offsetY = 0;
+                }
+                panel.Controls.Add(playoffViewControl);
+                playoffViewControl.Location = new Point(0, offsetY);
+            }
+        }
+
         private void AddPlayoffRoundToDisplay(Playoff playoff, int currentRound)
         {
             //If the current round is the finals
@@ -121,6 +149,47 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
+        /// <summary>
+        /// Creates a label with specificied properties and adds it to panel at given index
+        /// </summary>
+        /// <param name="title">String of the type of playoff series the label will be added to, I.E finals, semifinals, quarterfinals as well as conference titles</param>
+        /// <param name="panelIndex">Index of the panel in panels array to add this label to</param>
+        private void CreateLabelAddToPanel(string title, int panelIndex)
+        {
+            Label label = new Label();
+            label.Text = title;
+            label.AutoSize = false;
+            label.Size = new Size(panels[0].Size.Width, label.Size.Height);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            panels[panelIndex].Controls.Add(label);
+            label.Location = new Point(0, 0);
+        }
+
+        /// <summary>
+        /// Creates an array of panels to be added to control
+        /// </summary>
+        private void CreatePanels()
+        {
+            //Private PlayoffRounds enum class variable
+            switch (_selectedRounds)
+            {
+                case PlayoffRounds.Two:
+                    panels = new Panel[3];
+                    break;
+
+                case PlayoffRounds.Three:
+                    panels = new Panel[5];
+                    break;
+
+                case PlayoffRounds.Four:
+                    panels = new Panel[7];
+                    break;
+
+                default:
+                    throw new ArgumentException("Invalid playoffRounds in PlayoffDisplayControl.CreatePanels function");
+            }
+        }
+
         private void DefineSeriesInPanel(Panel panel, PlayoffSeries[] seriesArray)
         {
             PlayoffMatchupViewControl[] matchupViewControls = panel.Controls.OfType<PlayoffMatchupViewControl>().ToArray();
@@ -131,6 +200,39 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             for (int i = 0; i < matchupViewControls.Length; i++)
             {
                 matchupViewControls[i].SetSeries(seriesArray[i]);
+            }
+        }
+
+        /// <summary>
+        /// Adds a label to each of the panels in panels array to specify title of the round
+        /// </summary>
+        private void SetRoundTitles()
+        {
+            int finalIndex = (int)SelectedRounds;
+            for (int i = 1; i <= finalIndex; i++)
+            {
+                switch (finalIndex - i)
+                {
+                    //League Finals
+                    case (0):
+                        CreateLabelAddToPanel("Finals", finalIndex - 1);
+                        break;
+                    //Conference Finals
+                    case (1):
+                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Conference Finals", finalIndex + 1 - 1);
+                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Conference Finals", finalIndex - 1 - 1);
+                        break;
+                    //Conference Semi Finals
+                    case (2):
+                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Semi-Finals", finalIndex + 2 - 1);
+                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Semi-Finals", finalIndex - 2 - 1);
+                        break;
+                    //Conference quarter finals
+                    case (3):
+                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Quarter-Finals", finalIndex + 3 - 1);
+                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Quarter-Finals", finalIndex - 3 - 1);
+                        break;
+                }
             }
         }
 
@@ -173,111 +275,31 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             SetRoundTitles();
         }
 
-        private void AddPlayoffMatchupViewControls(Panel panel, int offset)
-        {
-            int middlePlayoffIndex = (int)_selectedRounds;
-            int controlsToAdd;
-            //If the middle panel is being filled, one 1 view will be needed to be added
-            if (middlePlayoffIndex == offset)
-            {
-                controlsToAdd = 1;
-            }
-            else
-            {
-                //The absolute value of the middle round minus the given offset will give the distance of rounds between the final and selected round
-                //Subtracting that minus 1 and raising 2 to this power will give the amount of games in this round and side of the bracked
-                //I.E 4 rounds - middle index is 4 - round 1 will give 3 - subtract 1 and raise 2 to 2 will give 4 playoff games on that side of the bracket
-                controlsToAdd = (int)Math.Pow(2, (Math.Abs(middlePlayoffIndex - offset) - 1));
-            }
-            //Will be used to arrange the controls within the panel based on the height of this panel
-            int totalHeight = panel.Size.Height;
-            for (int i = 0; i < controlsToAdd; i++)
-            {
-                PlayoffMatchupViewControl playoffViewControl = new PlayoffMatchupViewControl();
-                //
-                int baseY = (int)((double)totalHeight * ((double)(i + 1) / (double)(controlsToAdd + 1)));
-                int offsetY = baseY - (playoffViewControl.Size.Height / 2);
-                if (offsetY < 0)
-                {
-                    offsetY = 0;
-                }
-                panel.Controls.Add(playoffViewControl);
-                playoffViewControl.Location = new Point(0, offsetY);
-            }
-        }
+        #endregion Methods
+    }
 
-        /// <summary>
-        /// Creates an array of panels to be added to control
-        /// </summary>
-        private void CreatePanels()
+    internal static class PlayoffRoundsMethods
+    {
+        #region Methods
+
+        public static int GetTotalPlayoffTeams(this PlayoffRounds rounds)
         {
-            //Private PlayoffRounds enum class variable
-            switch (_selectedRounds)
+            switch (rounds)
             {
-                case PlayoffRounds.Two:
-                    panels = new Panel[3];
-                    break;
+                case PlayoffRounds.Four:
+                    return 16;
 
                 case PlayoffRounds.Three:
-                    panels = new Panel[5];
-                    break;
+                    return 8;
 
-                case PlayoffRounds.Four:
-                    panels = new Panel[7];
-                    break;
+                case PlayoffRounds.Two:
+                    return 4;
 
                 default:
-                    throw new ArgumentException("Invalid playoffRounds in PlayoffDisplayControl.CreatePanels function");
+                    throw new ArgumentException("PlayoffRounds is set to an unknown value");
             }
         }
 
-        /// <summary>
-        /// Adds a label to each of the panels in panels array to specify title of the round
-        /// </summary>
-        private void SetRoundTitles()
-        {
-            int finalIndex = (int)SelectedRounds;
-            for (int i = 1; i <= finalIndex; i++)
-            {
-                switch (finalIndex - i)
-                {
-                    //League Finals
-                    case (0):
-                        CreateLabelAddToPanel("Finals", finalIndex - 1);
-                        break;
-                    //Conference Finals
-                    case (1):
-                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Conference Finals", finalIndex + 1 - 1);
-                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Conference Finals", finalIndex - 1 - 1);
-                        break;
-                    //Conference Semi Finals
-                    case (2):
-                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Semi-Finals", finalIndex + 2 - 1);
-                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Semi-Finals", finalIndex - 2 - 1);
-                        break;
-                    //Conference quarter finals
-                    case (3):
-                        CreateLabelAddToPanel($"{_league?.FirstConferenceName} Quarter-Finals", finalIndex + 3 - 1);
-                        CreateLabelAddToPanel($"{_league?.SecondConferenceName} Quarter-Finals", finalIndex - 3 - 1);
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates a label with specificied properties and adds it to panel at given index
-        /// </summary>
-        /// <param name="title">String of the type of playoff series the label will be added to, I.E finals, semifinals, quarterfinals as well as conference titles</param>
-        /// <param name="panelIndex">Index of the panel in panels array to add this label to</param>
-        private void CreateLabelAddToPanel(string title, int panelIndex)
-        {
-            Label label = new Label();
-            label.Text = title;
-            label.AutoSize = false;
-            label.Size = new Size(panels[0].Size.Width, label.Size.Height);
-            label.TextAlign = ContentAlignment.MiddleCenter;
-            panels[panelIndex].Controls.Add(label);
-            label.Location = new Point(0, 0);
-        }
+        #endregion Methods
     }
 }

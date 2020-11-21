@@ -9,43 +9,14 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Goalie : Player
     {
-        private List<GoalieStats> _stats = new List<GoalieStats>();
+        #region Fields
+
         private GoalieAttributes _attributes;
+        private List<GoalieStats> _stats = new List<GoalieStats>();
 
-        public GoalieStats Stats
-        {
-            get
-            {
-                if (_stats.Count == 0)
-                {
-                    Console.WriteLine("Unset goalie stats added\n" + new System.Diagnostics.StackTrace().ToString());
-                    _stats.Add(new GoalieStats(-1, -1));
-                }
-                return _stats.Last();
-            }
-        }
+        #endregion Fields
 
-        public List<GoalieStats> StatsList
-        {
-            get
-            {
-                return _stats;
-            }
-        }
-
-        public GoaliePlayerStatus PlayerStatus
-        {
-            get;
-            protected set;
-        } = GoaliePlayerStatus.Unset;
-
-        public override int Overall
-        {
-            get
-            {
-                return _attributes.GoalieOverall();
-            }
-        }
+        #region Constructors
 
         public Goalie(string first, string last, int age, GoalieAttributes Attributes) : base(first, last, age)
         {
@@ -80,32 +51,9 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Attributes", this._attributes);
-            info.AddValue("PlayerStatus", this.PlayerStatus);
-            base.GetObjectData(info, context);
-        }
+        #endregion Constructors
 
-        public override void GenerateStats(int playerStatus)
-        {
-            GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
-            PlayerStatus = status;
-            _attributes.GenerateGoalieStatRanges(status, _age);
-        }
-
-        public override void AddStats(int year, int teamID, bool playoffs)
-        {
-            _stats.Add(new GoalieStats(year, teamID, playoffs));
-        }
-
-        public override string Position
-        {
-            get
-            {
-                return "G";
-            }
-        }
+        #region Properties
 
         public override BaseAttributes Attributes
         {
@@ -123,6 +71,20 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        public override int Overall
+        {
+            get
+            {
+                return _attributes.GoalieOverall();
+            }
+        }
+
+        public GoaliePlayerStatus PlayerStatus
+        {
+            get;
+            protected set;
+        } = GoaliePlayerStatus.Unset;
+
         public override int PlayerStatusID
         {
             get
@@ -130,5 +92,59 @@ namespace Elite_Hockey_Manager.Classes
                 return (int)PlayerStatus;
             }
         }
+
+        public override string Position
+        {
+            get
+            {
+                return "G";
+            }
+        }
+
+        public GoalieStats Stats
+        {
+            get
+            {
+                if (_stats.Count == 0)
+                {
+                    Console.WriteLine("Unset goalie stats added\n" + new System.Diagnostics.StackTrace().ToString());
+                    _stats.Add(new GoalieStats(-1, -1));
+                }
+                return _stats.Last();
+            }
+        }
+
+        public List<GoalieStats> StatsList
+        {
+            get
+            {
+                return _stats;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public override void AddStats(int year, int teamID, bool playoffs)
+        {
+            _stats.Add(new GoalieStats(year, teamID, playoffs));
+        }
+
+        public override void GenerateStats(int playerStatus)
+        {
+            GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
+            PlayerStatus = status;
+            _attributes.GenerateGoalieStatRanges(status, _age);
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Attributes", this._attributes);
+            info.AddValue("PlayerStatus", this.PlayerStatus);
+            base.GetObjectData(info, context);
+        }
+
+        #endregion Methods
     }
 }

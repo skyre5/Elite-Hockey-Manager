@@ -6,16 +6,26 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public partial class StandingsControl : UserControl
     {
+        #region Constructors
+
+        public StandingsControl()
+        {
+            InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public League ActiveLeague
         {
             get;
             set;
         }
 
-        public StandingsControl()
-        {
-            InitializeComponent();
-        }
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// If ActiveLeague is set, will load conferences from set ActiveLeague
@@ -74,28 +84,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        private void UpdateLeagueStandings(object sender, EventArgs e)
-        {
-            Team team;
-            try
-            {
-                team = (Team)sender;
-                //If team is in first conference
-                if (ActiveLeague.FirstConference.Contains(team))
-                {
-                    SortConferenceLayout(firstConferenceLayout, team);
-                }
-                else
-                {
-                    SortConferenceLayout(secondConferenceLayout, team);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Failed to update team standings, invalid StandingsControl.UpdateLeagueStandings event sender");
-            }
-        }
-
         private void SortConferenceLayout(FlowLayoutPanel panel, Team team)
         {
             int index = -1;
@@ -135,5 +123,29 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
         }
+
+        private void UpdateLeagueStandings(object sender, EventArgs e)
+        {
+            Team team;
+            try
+            {
+                team = (Team)sender;
+                //If team is in first conference
+                if (ActiveLeague.FirstConference.Contains(team))
+                {
+                    SortConferenceLayout(firstConferenceLayout, team);
+                }
+                else
+                {
+                    SortConferenceLayout(secondConferenceLayout, team);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to update team standings, invalid StandingsControl.UpdateLeagueStandings event sender");
+            }
+        }
+
+        #endregion Methods
     }
 }

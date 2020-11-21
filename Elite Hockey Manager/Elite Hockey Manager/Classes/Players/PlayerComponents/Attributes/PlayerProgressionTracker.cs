@@ -5,11 +5,19 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
 {
     public class PlayerProgressionTracker
     {
-        /// <summary>
-        /// Indicates the players rookie year
-        /// Used to keep an offset so that a players changes can be tracked by personal history as well as league history
-        /// </summary>
-        public int RookieYear { get; private set; }
+        #region Constructors
+
+        public PlayerProgressionTracker(int rookieYear, int baseOverall, BaseAttributes playerAttributes)
+        {
+            this.RookieYear = rookieYear;
+            //Overall rating for year 1
+            OverallTrackerList.Add(baseOverall);
+            SetBaseAttributes(playerAttributes);
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         /// <summary>
         /// Dictionary of each players attributes with key as attribute and element as a tuple with players original attribute
@@ -24,18 +32,34 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
         /// </summary>
         public List<int> OverallTrackerList { get; } = new List<int>();
 
-        public PlayerProgressionTracker(int rookieYear, int baseOverall, BaseAttributes playerAttributes)
-        {
-            this.RookieYear = rookieYear;
-            //Overall rating for year 1
-            OverallTrackerList.Add(baseOverall);
-            SetBaseAttributes(playerAttributes);
-        }
+        /// <summary>
+        /// Indicates the players rookie year
+        /// Used to keep an offset so that a players changes can be tracked by personal history as well as league history
+        /// </summary>
+        public int RookieYear { get; private set; }
 
-        public void UpdatePlayerAttributes(int newOverall, BaseAttributes updatedAttributes)
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Function to get the history of a players career history in a certain specific attribute
+        /// </summary>
+        /// <param name="attributeKey">String name of the attribute thats history will be returned</param>
+        /// <returns>Returns a list of all the attribute values the player has had in their career
+        /// Returns null if empty
+        /// </returns>
+        public List<int> GetAttributeHistory(string attributeKey)
         {
-            OverallTrackerList.Add(newOverall);
-            InputNewAttributes(updatedAttributes);
+            List<int> attributeHistoryList;
+            if (AttributeTrackerDictionary.TryGetValue(attributeKey, out attributeHistoryList))
+            {
+                return attributeHistoryList;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -69,32 +93,10 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
             return totalChangesInYear;
         }
 
-        /// <summary>
-        /// Function to get the history of a players career history in a certain specific attribute
-        /// </summary>
-        /// <param name="attributeKey">String name of the attribute thats history will be returned</param>
-        /// <returns>Returns a list of all the attribute values the player has had in their career
-        /// Returns null if empty
-        /// </returns>
-        public List<int> GetAttributeHistory(string attributeKey)
+        public void UpdatePlayerAttributes(int newOverall, BaseAttributes updatedAttributes)
         {
-            List<int> attributeHistoryList;
-            if (AttributeTrackerDictionary.TryGetValue(attributeKey, out attributeHistoryList))
-            {
-                return attributeHistoryList;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private void SetBaseAttributes(BaseAttributes attributes)
-        {
-            foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
-            {
-                AttributeTrackerDictionary[attribute.Item1] = new List<int>(new List<int>() { attribute.Item2 });
-            }
+            OverallTrackerList.Add(newOverall);
+            InputNewAttributes(updatedAttributes);
         }
 
         /// <summary>
@@ -112,5 +114,15 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
                 AttributeTrackerDictionary[attribute.Item1].Add(attribute.Item2);
             }
         }
+
+        private void SetBaseAttributes(BaseAttributes attributes)
+        {
+            foreach (Tuple<string, int> attribute in attributes.GetAttributeNames())
+            {
+                AttributeTrackerDictionary[attribute.Item1] = new List<int>(new List<int>() { attribute.Item2 });
+            }
+        }
+
+        #endregion Methods
     }
 }

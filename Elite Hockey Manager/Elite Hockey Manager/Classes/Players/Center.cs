@@ -7,6 +7,8 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Center : Forward
     {
+        #region Constructors
+
         public Center(string first, string last, int age) : base(first, last, age)
         {
         }
@@ -27,6 +29,10 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public override int Overall
         {
             get
@@ -42,5 +48,7 @@ namespace Elite_Hockey_Manager.Classes
                 return "C";
             }
         }
+
+        #endregion Properties
     }
 }

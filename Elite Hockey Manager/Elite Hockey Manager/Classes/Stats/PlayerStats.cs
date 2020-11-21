@@ -2,24 +2,26 @@
 {
     public abstract class PlayerStats
     {
-        public int Year
+        #region Fields
+
+        protected int _team;
+
+        protected int _year;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayerStats(int year, int teamID, bool playoff = false)
         {
-            get
-            {
-                return _year;
-            }
+            _year = year;
+            _team = teamID;
+            Playoff = playoff;
         }
 
-        /// <summary>
-        /// Team id of current set of stats
-        /// </summary>
-        public int Team
-        {
-            get
-            {
-                return _team;
-            }
-        }
+        #endregion Constructors
+
+        #region Properties
 
         public int GamesPlayed
         {
@@ -33,14 +35,25 @@
             private set;
         }
 
-        protected int _year;
-        protected int _team;
-
-        public PlayerStats(int year, int teamID, bool playoff = false)
+        /// <summary>
+        /// Team id of current set of stats
+        /// </summary>
+        public int Team
         {
-            _year = year;
-            _team = teamID;
-            Playoff = playoff;
+            get
+            {
+                return _team;
+            }
         }
+
+        public int Year
+        {
+            get
+            {
+                return _year;
+            }
+        }
+
+        #endregion Properties
     }
 }

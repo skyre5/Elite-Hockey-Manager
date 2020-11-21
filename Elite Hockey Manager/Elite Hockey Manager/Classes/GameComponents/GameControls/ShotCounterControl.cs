@@ -6,10 +6,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
     public partial class ShotCounterControl : UserControl
     {
-        private Label[] homeLabels;
-        private int[] homeShots = new int[] { 0, 0, 0, 0 };
+        #region Fields
+
         private Label[] awayLabels;
         private int[] awayShots = new int[] { 0, 0, 0, 0 };
+        private Label[] homeLabels;
+        private int[] homeShots = new int[] { 0, 0, 0, 0 };
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// Constructor putting control labels into an array
@@ -20,6 +26,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             homeLabels = new Label[] { homeFirstLabel, homeSecondLabel, homeThirdLabel, homeOvertimeLabel, homeTotalLabel };
             awayLabels = new Label[] { awayFirstLabel, awaySecondLabel, awayThirdLabel, awayOvertimeLabel, awayTotalLabel };
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// Takes game object and sets shots in control to games stats
@@ -88,5 +98,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
                 awayLabels.Last().Text = awayShots.Sum().ToString();
             }
         }
+
+        #endregion Methods
     }
 }

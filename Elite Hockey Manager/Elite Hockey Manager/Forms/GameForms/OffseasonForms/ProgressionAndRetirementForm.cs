@@ -12,10 +12,16 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
     public partial class ProgressionAndRetirementForm : Form
     {
-        private DataTable _playerTable = new DataTable();
+        #region Fields
+
         private League _league;
+        private DataTable _playerTable = new DataTable();
         private bool _retiredPlayers = false;
         private Team _selectedTeam = null;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ProgressionAndRetirementForm()
         {
@@ -35,10 +41,52 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             _playerTable.Columns.Add("Retired", typeof(bool));
         }
 
-        private void ProgressionAndRetirementForm_Load(object sender, EventArgs e)
+        #endregion Constructors
+
+        #region Methods
+
+        private void ChangeColorOfTotalChangeRows()
         {
-            LoadPlayersIntoTable(_league.ActivePlayers);
-            LoadTeamsIntoComboBox(_league.AllTeams);
+            foreach (DataGridViewRow row in playerStatsDataView.Rows)
+            {
+                DataGridViewCell cell = row.Cells["Total Change"];
+                switch ((int)cell.Value)
+                {
+                    case int n when (n >= 10):
+                        cell.Style.BackColor = Color.LightBlue;
+                        break;
+
+                    case int n when (n >= 5):
+                        cell.Style.BackColor = Color.Green;
+                        break;
+
+                    case int n when (n > 0):
+                        cell.Style.BackColor = Color.LightGreen;
+                        break;
+
+                    case int n when (n <= -10):
+                        cell.Style.BackColor = Color.Red;
+                        break;
+
+                    case int n when (n <= -5):
+                        cell.Style.BackColor = Color.Orange;
+                        break;
+
+                    case int n when (n < 0):
+                        cell.Style.BackColor = Color.PaleVioletRed;
+                        break;
+                }
+            }
+        }
+
+        private int GetLatestDifference(List<int> values)
+        {
+            return values.Last() - values[values.Count - 2];
+        }
+
+        private string GetSign(int value)
+        {
+            return value > 0 ? "+" : String.Empty;
         }
 
         private void LoadPlayersIntoTable(List<Player> players)
@@ -84,80 +132,8 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
         }
 
-        private void ChangeColorOfTotalChangeRows()
-        {
-            foreach (DataGridViewRow row in playerStatsDataView.Rows)
-            {
-                DataGridViewCell cell = row.Cells["Total Change"];
-                switch ((int)cell.Value)
-                {
-                    case int n when (n >= 10):
-                        cell.Style.BackColor = Color.LightBlue;
-                        break;
-
-                    case int n when (n >= 5):
-                        cell.Style.BackColor = Color.Green;
-                        break;
-
-                    case int n when (n > 0):
-                        cell.Style.BackColor = Color.LightGreen;
-                        break;
-
-                    case int n when (n <= -10):
-                        cell.Style.BackColor = Color.Red;
-                        break;
-
-                    case int n when (n <= -5):
-                        cell.Style.BackColor = Color.Orange;
-                        break;
-
-                    case int n when (n < 0):
-                        cell.Style.BackColor = Color.PaleVioletRed;
-                        break;
-                }
-            }
-        }
-
-        private void SelectByTeamAndRetirement()
-        {
-            if (_playerTable == null)
-            {
-                return;
-            }
-            var query = from p in _playerTable.AsEnumerable()
-                        where (_selectedTeam == null || p.Field<int?>("TeamID") == _selectedTeam.TeamID)
-                        where p.Field<bool>("Retired") == _retiredPlayers
-                        select p;
-            playerStatsDataView.DataSource = query.CopyToDataTable();
-            ChangeColorOfTotalChangeRows();
-        }
-
-        private void teamBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-        }
-
         private void playerStatsDataView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-        }
-
-        private void teamSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox box = (ComboBox)sender;
-            if (box.SelectedIndex == 0)
-            {
-                _selectedTeam = null;
-            }
-            else
-            {
-                _selectedTeam = (Team)box.SelectedItem;
-            }
-            SelectByTeamAndRetirement();
-        }
-
-        private void retirementCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            _retiredPlayers = ((CheckBox)sender).Checked;
-            SelectByTeamAndRetirement();
         }
 
         private void playerStatsDataView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -197,14 +173,50 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
         }
 
-        private string GetSign(int value)
+        private void ProgressionAndRetirementForm_Load(object sender, EventArgs e)
         {
-            return value > 0 ? "+" : String.Empty;
+            LoadPlayersIntoTable(_league.ActivePlayers);
+            LoadTeamsIntoComboBox(_league.AllTeams);
         }
 
-        private int GetLatestDifference(List<int> values)
+        private void retirementCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            return values.Last() - values[values.Count - 2];
+            _retiredPlayers = ((CheckBox)sender).Checked;
+            SelectByTeamAndRetirement();
         }
+
+        private void SelectByTeamAndRetirement()
+        {
+            if (_playerTable == null)
+            {
+                return;
+            }
+            var query = from p in _playerTable.AsEnumerable()
+                        where (_selectedTeam == null || p.Field<int?>("TeamID") == _selectedTeam.TeamID)
+                        where p.Field<bool>("Retired") == _retiredPlayers
+                        select p;
+            playerStatsDataView.DataSource = query.CopyToDataTable();
+            ChangeColorOfTotalChangeRows();
+        }
+
+        private void teamBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void teamSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox box = (ComboBox)sender;
+            if (box.SelectedIndex == 0)
+            {
+                _selectedTeam = null;
+            }
+            else
+            {
+                _selectedTeam = (Team)box.SelectedItem;
+            }
+            SelectByTeamAndRetirement();
+        }
+
+        #endregion Methods
     }
 }

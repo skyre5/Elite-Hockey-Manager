@@ -9,11 +9,36 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
 {
     public partial class NewGameForm : Form
     {
+        #region Fields
+
         private BindingList<League> leagueList;
+
+        #endregion Fields
+
+        #region Constructors
 
         public NewGameForm()
         {
             InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        private void NewGameForm_Load(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.LoadListToFile<League>("LeagueData.data", out leagueList))
+            {
+                MessageBox.Show("Saved league list did not load in correctly");
+            }
+            //Loads each league into the form as leagueControl
+            foreach (League league in leagueList)
+            {
+                LeagueControl lg = new LeagueControl(league);
+                leaguesLayoutPanel.Controls.Add(lg);
+                lg.SelectButtonClicked += SelectTeamLeagueControlClick;
+            }
         }
 
         private void newLeagueButton_Click(object sender, EventArgs e)
@@ -29,21 +54,6 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 this.Hide();
                 gameForm.ShowDialog();
                 this.Close();
-            }
-        }
-
-        private void NewGameForm_Load(object sender, EventArgs e)
-        {
-            if (!SaveLoadUtils.LoadListToFile<League>("LeagueData.data", out leagueList))
-            {
-                MessageBox.Show("Saved league list did not load in correctly");
-            }
-            //Loads each league into the form as leagueControl
-            foreach (League league in leagueList)
-            {
-                LeagueControl lg = new LeagueControl(league);
-                leaguesLayoutPanel.Controls.Add(lg);
-                lg.SelectButtonClicked += SelectTeamLeagueControlClick;
             }
         }
 
@@ -63,5 +73,7 @@ namespace Elite_Hockey_Manager.Forms.HelperForms
                 MessageBox.Show("Error casting event object to LeagueControl object");
             }
         }
+
+        #endregion Methods
     }
 }

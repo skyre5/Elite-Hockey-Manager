@@ -5,27 +5,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
     public static class ContractGenerator
     {
-        private static Random rand = new Random();
+        #region Fields
 
         //Salary cap of the league the system is currently generating contracts for
         //Default of 50
         private static double _salaryCap = 50.0;
 
-        /// <summary>
-        /// Sets the salary cap for the league that the ContractGenerator is generating for
-        /// </summary>
-        /// <param name="newCap">New cap being set(Must be between 40.0 and 100.0)</param>
-        public static void SetSalaryCap(double newCap)
-        {
-            if (newCap < 40.0 || newCap > 100.0)
-            {
-                throw new ArgumentException("New Salary Cap must be between 40 and 100");
-            }
-            else
-            {
-                _salaryCap = newCap;
-            }
-        }
+        private static Random rand = new Random();
+
+        #endregion Fields
+
+        #region Methods
 
         public static void GenerateContract(Player player, Team signingTeam, int year = 1)
         {
@@ -46,6 +36,30 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             {
                 GenerateVeteranContract(player, year, signingTeam);
             }
+        }
+
+        /// <summary>
+        /// Sets the salary cap for the league that the ContractGenerator is generating for
+        /// </summary>
+        /// <param name="newCap">New cap being set(Must be between 40.0 and 100.0)</param>
+        public static void SetSalaryCap(double newCap)
+        {
+            if (newCap < 40.0 || newCap > 100.0)
+            {
+                throw new ArgumentException("New Salary Cap must be between 40 and 100");
+            }
+            else
+            {
+                _salaryCap = newCap;
+            }
+        }
+
+        private static double GenerateContractAmount(double minAmount, double maxAmount)
+        {
+            int lowerBound = (int)(minAmount / .25);
+            int upperBound = (int)(maxAmount / .25);
+            int amount = rand.Next(lowerBound, upperBound + 1);
+            return (amount * 0.25);
         }
 
         private static void GenerateVeteranContract(Player player, int year, Team signingTeam)
@@ -99,14 +113,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 Contract contract = new Contract(year, duration, amount, signingTeam);
                 player.AddContract(contract);
             }
-        }
-
-        private static double GenerateContractAmount(double minAmount, double maxAmount)
-        {
-            int lowerBound = (int)(minAmount / .25);
-            int upperBound = (int)(maxAmount / .25);
-            int amount = rand.Next(lowerBound, upperBound + 1);
-            return (amount * 0.25);
         }
 
         private static void GenerateYouthContract(Forward player, int year, Team signingTeam)
@@ -265,5 +271,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
             return years;
         }
+
+        #endregion Methods
     }
 }

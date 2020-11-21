@@ -5,18 +5,24 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 {
     public abstract partial class SimLeagueControl : UserControl
     {
-        public event Action<int> LeagueSimmedEvent;
+        #region Constructors
 
         public SimLeagueControl()
         {
             InitializeComponent();
         }
 
-        protected void RaiseLeagueSimmedEvent(int arg)
-        {
-            //If LeagueSimmedEvent is not null, invoke event
-            LeagueSimmedEvent?.Invoke(arg);
-        }
+        #endregion Constructors
+
+        #region Events
+
+        public event Action<int> LeagueSimmedEvent;
+
+        #endregion Events
+
+        #region Methods
+
+        public abstract void advanceStateButton_Click(object sender, EventArgs e);
 
         /// <summary>
         /// Enables and displays button to advance to the next league state
@@ -26,8 +32,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             advanceStateButton.Enabled = enabled;
             advanceStateButton.Visible = enabled;
         }
-
-        protected abstract void SetControlsText();
 
         public abstract void Sim1Button_Click(object sender, EventArgs e);
 
@@ -39,7 +43,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 
         public abstract void Sim5Button_Click(object sender, EventArgs e);
 
-        public abstract void advanceStateButton_Click(object sender, EventArgs e);
+        protected void RaiseLeagueSimmedEvent(int arg)
+        {
+            //If LeagueSimmedEvent is not null, invoke event
+            LeagueSimmedEvent?.Invoke(arg);
+        }
+
+        protected abstract void SetControlsText();
+
+        #endregion Methods
     }
 
     /// <summary>
@@ -47,6 +59,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
     /// </summary>
     public partial class SimLeagueControlMiddle : SimLeagueControl
     {
+        #region Methods
+
         public override void advanceStateButton_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
@@ -81,5 +95,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

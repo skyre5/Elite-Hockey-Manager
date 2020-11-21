@@ -7,13 +7,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class LeftWinger : WingerBase
     {
-        public override string Position
-        {
-            get
-            {
-                return "LW";
-            }
-        }
+        #region Constructors
 
         public LeftWinger(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -34,18 +28,26 @@ namespace Elite_Hockey_Manager.Classes
         protected LeftWinger(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public override string Position
+        {
+            get
+            {
+                return "LW";
+            }
+        }
+
+        #endregion Properties
     }
 
     [Serializable]
     public class RightWinger : WingerBase
     {
-        public override string Position
-        {
-            get
-            {
-                return "RW";
-            }
-        }
+        #region Constructors
 
         public RightWinger(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -66,5 +68,19 @@ namespace Elite_Hockey_Manager.Classes
         protected RightWinger(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public override string Position
+        {
+            get
+            {
+                return "RW";
+            }
+        }
+
+        #endregion Properties
     }
 }

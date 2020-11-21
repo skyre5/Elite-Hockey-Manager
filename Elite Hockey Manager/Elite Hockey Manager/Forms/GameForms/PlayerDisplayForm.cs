@@ -6,7 +6,23 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class PlayerDisplayForm : Form
     {
+        #region Fields
+
         private Player _player;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayerDisplayForm(Player player)
+        {
+            InitializeComponent();
+            Player = player;
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public Player Player
         {
@@ -24,11 +40,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             }
         }
 
-        public PlayerDisplayForm(Player player)
-        {
-            InitializeComponent();
-            Player = player;
-        }
+        #endregion Properties
+
+        #region Methods
 
         private void PlayerDisplayForm_Load(object sender, EventArgs e)
         {
@@ -56,5 +70,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             contractLabel.Text = $"Contract: {_player.CurrentContract.ContractAmount}M";
             playerAttributesPanel.Player = _player;
         }
+
+        #endregion Methods
     }
 }

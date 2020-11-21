@@ -7,11 +7,52 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
     [TestFixture()]
     public class TeamGeneratorTests
     {
+        #region Methods
+
         [Test()]
         public void ConstructTeamGeneratorTest()
         {
             Assert.IsNotNull(TeamGenerator.CityNames);
             Assert.IsNotNull(TeamGenerator.TeamNames);
+        }
+
+        [Test()]
+        public void FillDefendersTest()
+        {
+            Team testTeam = new Team("test", "test");
+            TeamGenerator.FillDefenders(testTeam);
+
+            int left = testTeam.Roster.OfType<LeftDefensemen>().Count();
+            Assert.GreaterOrEqual(left, 3);
+
+            int right = testTeam.Roster.OfType<RightDefensemen>().Count();
+            Assert.GreaterOrEqual(right, 3);
+        }
+
+        [Test()]
+        public void FillForwardsTest()
+        {
+            Team testTeam = new Team("test", "test");
+            TeamGenerator.FillForwards(testTeam);
+
+            int centers = testTeam.Roster.OfType<Center>().Count();
+            Assert.GreaterOrEqual(centers, 4);
+
+            int left = testTeam.Roster.OfType<LeftWinger>().Count();
+            Assert.GreaterOrEqual(left, 4);
+
+            int right = testTeam.Roster.OfType<RightWinger>().Count();
+            Assert.GreaterOrEqual(right, 4);
+        }
+
+        [Test()]
+        public void FillGoaliesTest()
+        {
+            Team testTeam = new Team("test", "test");
+            TeamGenerator.FillGoalies(testTeam);
+
+            int goalies = testTeam.Roster.OfType<Goalie>().Count();
+            Assert.GreaterOrEqual(goalies, 2);
         }
 
         [Test()]
@@ -35,43 +76,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
             TeamGenerator.Initialize();
         }
 
-        [Test()]
-        public void FillForwardsTest()
-        {
-            Team testTeam = new Team("test", "test");
-            TeamGenerator.FillForwards(testTeam);
-
-            int centers = testTeam.Roster.OfType<Center>().Count();
-            Assert.GreaterOrEqual(centers, 4);
-
-            int left = testTeam.Roster.OfType<LeftWinger>().Count();
-            Assert.GreaterOrEqual(left, 4);
-
-            int right = testTeam.Roster.OfType<RightWinger>().Count();
-            Assert.GreaterOrEqual(right, 4);
-        }
-
-        [Test()]
-        public void FillDefendersTest()
-        {
-            Team testTeam = new Team("test", "test");
-            TeamGenerator.FillDefenders(testTeam);
-
-            int left = testTeam.Roster.OfType<LeftDefensemen>().Count();
-            Assert.GreaterOrEqual(left, 3);
-
-            int right = testTeam.Roster.OfType<RightDefensemen>().Count();
-            Assert.GreaterOrEqual(right, 3);
-        }
-
-        [Test()]
-        public void FillGoaliesTest()
-        {
-            Team testTeam = new Team("test", "test");
-            TeamGenerator.FillGoalies(testTeam);
-
-            int goalies = testTeam.Roster.OfType<Goalie>().Count();
-            Assert.GreaterOrEqual(goalies, 2);
-        }
+        #endregion Methods
     }
 }

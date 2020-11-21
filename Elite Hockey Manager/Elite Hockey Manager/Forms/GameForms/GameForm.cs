@@ -6,17 +6,27 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class GameForm : Form
     {
-        public Game Game
-        {
-            get;
-            private set;
-        } = null;
+        #region Constructors
 
         public GameForm(Game game)
         {
             Game = game;
             InitializeComponent();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public Game Game
+        {
+            get;
+            private set;
+        } = null;
+
+        #endregion Properties
+
+        #region Methods
 
         private void GameForm_Load(object sender, EventArgs e)
         {
@@ -35,5 +45,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         {
             this.Text = Game.Title;
         }
+
+        #endregion Methods
     }
 }

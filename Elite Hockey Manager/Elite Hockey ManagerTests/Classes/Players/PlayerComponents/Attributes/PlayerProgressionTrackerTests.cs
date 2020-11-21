@@ -6,6 +6,8 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes.Tests
     [TestFixture()]
     public class PlayerProgressionTrackerTests
     {
+        #region Methods
+
         [Test()]
         public void PlayerProgressionTrackerTest()
         {
@@ -36,5 +38,7 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes.Tests
             //Tests that the new given overall of the player was updated into the list as well as holding the initial overall
             Assert.AreEqual(new List<int>() { 80, 83 }, testTracker.OverallTrackerList);
         }
+
+        #endregion Methods
     }
 }

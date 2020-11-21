@@ -7,6 +7,23 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
 {
     public partial class PlayoffMatchupViewControl : UserControl
     {
+        #region Fields
+
+        private PlayoffSeries _series;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PlayoffMatchupViewControl()
+        {
+            InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public PlayoffSeries Series
         {
             get
@@ -15,11 +32,21 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
-        private PlayoffSeries _series;
+        #endregion Properties
 
-        public PlayoffMatchupViewControl()
+        #region Methods
+
+        public void SetSeries(PlayoffSeries series)
         {
-            InitializeComponent();
+            _series = series;
+            highSeedTeamPlayoffControl.Team = series.HighSeedTeam;
+            highSeedTeamPlayoffControl.Seed = series.HighSeed;
+            highSeedTeamPlayoffControl.Wins = series.HighWins;
+            highSeedTeamPlayoffControl.UpdateText();
+            lowSeedTeamPlayoffControl.Team = series.LowSeedTeam;
+            lowSeedTeamPlayoffControl.Seed = series.LowSeed;
+            lowSeedTeamPlayoffControl.Wins = series.LowWins;
+            lowSeedTeamPlayoffControl.UpdateText();
         }
 
         public void UpdateDisplayByManualUserSim(object obj, EventArgs e)
@@ -38,17 +65,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
             }
         }
 
-        public void SetSeries(PlayoffSeries series)
-        {
-            _series = series;
-            highSeedTeamPlayoffControl.Team = series.HighSeedTeam;
-            highSeedTeamPlayoffControl.Seed = series.HighSeed;
-            highSeedTeamPlayoffControl.Wins = series.HighWins;
-            highSeedTeamPlayoffControl.UpdateText();
-            lowSeedTeamPlayoffControl.Team = series.LowSeedTeam;
-            lowSeedTeamPlayoffControl.Seed = series.LowSeed;
-            lowSeedTeamPlayoffControl.Wins = series.LowWins;
-            lowSeedTeamPlayoffControl.UpdateText();
-        }
+        #endregion Methods
     }
 }

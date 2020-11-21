@@ -6,37 +6,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
 {
     public class PlayerLabel : System.Windows.Forms.Label
     {
-        public Player Player
-        {
-            get
-            {
-                return _player;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _player = value;
-                }
-            }
-        }
+        #region Fields
 
-        public bool DisplayTeamAbbreviation
-        {
-            get
-            {
-                return _displayTeamAbbreviation;
-            }
-            set
-            {
-                _displayTeamAbbreviation = value;
-                UpdateTeamAbbreviation();
-            }
-        }
+        private bool _displayTeamAbbreviation = false;
 
         private Player _player;
-        private bool _displayTeamAbbreviation = false;
+
         private string displayPlayerString;
+
+        #endregion Fields
+
+        #region Constructors
 
         public PlayerLabel()
         {
@@ -63,6 +43,42 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
             displayPlayerString = $"{_player.Position}:{_player.FullName} {statToDisplay:0.##}";
             this.Text = displayPlayerString;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return _displayTeamAbbreviation;
+            }
+            set
+            {
+                _displayTeamAbbreviation = value;
+                UpdateTeamAbbreviation();
+            }
+        }
+
+        public Player Player
+        {
+            get
+            {
+                return _player;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _player = value;
+                }
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         private void LabelDoubleClicked(object sender, EventArgs e)
         {
@@ -93,5 +109,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
                 this.Text = displayPlayerString;
             }
         }
+
+        #endregion Methods
     }
 }

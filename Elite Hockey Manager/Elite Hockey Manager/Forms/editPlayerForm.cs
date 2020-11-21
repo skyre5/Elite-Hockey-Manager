@@ -7,16 +7,26 @@ namespace Elite_Hockey_Manager.Forms
 {
     public partial class EditPlayerForm : Form
     {
+        #region Fields
+
         //Value used to tell if there was a change when leaving a textbox
         private string initialValue;
 
         private Player player;
+
+        #endregion Fields
+
+        #region Constructors
 
         public EditPlayerForm(Player chosenPlayer)
         {
             player = chosenPlayer;
             InitializeComponent();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         private void EditPlayerForm_Load(object sender, EventArgs e)
         {
@@ -29,68 +39,9 @@ namespace Elite_Hockey_Manager.Forms
             FillStats();
         }
 
-        private void TextBoxLeave(object sender, EventArgs e)
+        private void exitButton_Click(object sender, EventArgs e)
         {
-            TextBox statText = (TextBox)sender;
-            string propertyName = (string)statText.Tag;
-            string newValue = statText.Text.Trim();
-            //If there has been a change
-            if (newValue != initialValue)
-            {
-                PropertyInfo property;
-                try
-                {
-                    property = player.Attributes.GetType().GetProperty(propertyName);
-                    property.SetValue(player.Attributes, Convert.ChangeType(newValue, property.PropertyType), null);
-                    statText.Text = property.GetValue(player.Attributes).ToString();
-                    overallLabel.Text = $"Overall: {player.Overall}";
-                }
-                catch (Exception ex)
-                {
-                    statText.Text = initialValue;
-                    MessageBox.Show(ex.ToString());
-                    return;
-                }
-            }
-        }
-
-        private void TextBoxEnter(object sender, EventArgs e)
-        {
-            TextBox statBox = (TextBox)sender;
-            initialValue = statBox.Text.Trim();
-        }
-
-        private void GeneralTextBoxLeave(object sender, EventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            string generalText = textBox.Text.Trim();
-            //If a change has occured
-            if (generalText == initialValue)
-            {
-                return;
-            }
-            try
-            {
-                switch (textBox.Tag.ToString())
-                {
-                    case "FirstName":
-                        player.FirstName = generalText;
-                        break;
-
-                    case "LastName":
-                        player.LastName = generalText;
-                        break;
-
-                    case "Age":
-                        player.Age = int.Parse(generalText);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                textBox.Text = initialValue;
-                MessageBox.Show(ex.ToString());
-            }
+            this.Close();
         }
 
         private void FillStats()
@@ -132,9 +83,70 @@ namespace Elite_Hockey_Manager.Forms
             }
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
+        private void GeneralTextBoxLeave(object sender, EventArgs e)
         {
-            this.Close();
+            TextBox textBox = (TextBox)sender;
+            string generalText = textBox.Text.Trim();
+            //If a change has occured
+            if (generalText == initialValue)
+            {
+                return;
+            }
+            try
+            {
+                switch (textBox.Tag.ToString())
+                {
+                    case "FirstName":
+                        player.FirstName = generalText;
+                        break;
+
+                    case "LastName":
+                        player.LastName = generalText;
+                        break;
+
+                    case "Age":
+                        player.Age = int.Parse(generalText);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                textBox.Text = initialValue;
+                MessageBox.Show(ex.ToString());
+            }
         }
+
+        private void TextBoxEnter(object sender, EventArgs e)
+        {
+            TextBox statBox = (TextBox)sender;
+            initialValue = statBox.Text.Trim();
+        }
+
+        private void TextBoxLeave(object sender, EventArgs e)
+        {
+            TextBox statText = (TextBox)sender;
+            string propertyName = (string)statText.Tag;
+            string newValue = statText.Text.Trim();
+            //If there has been a change
+            if (newValue != initialValue)
+            {
+                PropertyInfo property;
+                try
+                {
+                    property = player.Attributes.GetType().GetProperty(propertyName);
+                    property.SetValue(player.Attributes, Convert.ChangeType(newValue, property.PropertyType), null);
+                    statText.Text = property.GetValue(player.Attributes).ToString();
+                    overallLabel.Text = $"Overall: {player.Overall}";
+                }
+                catch (Exception ex)
+                {
+                    statText.Text = initialValue;
+                    MessageBox.Show(ex.ToString());
+                    return;
+                }
+            }
+        }
+
+        #endregion Methods
     }
 }

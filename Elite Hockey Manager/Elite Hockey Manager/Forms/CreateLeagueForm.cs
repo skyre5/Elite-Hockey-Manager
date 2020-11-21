@@ -10,113 +10,27 @@ namespace Elite_Hockey_Manager.Forms
 {
     public partial class CreateLeagueForm : Form
     {
-        private League selectedLeague = null;
-        private BindingList<Team> firstConference;
-        private BindingList<Team> secondConference;
-        private BindingList<League> LeagueList;
+        #region Fields
 
-        private BindingList<Team> UserCreatedTeamList;
         private BindingList<Team> displayUserCreatedTeamList;
+        private BindingList<Team> firstConference;
+        private BindingList<League> LeagueList;
+        private BindingList<Team> secondConference;
+        private League selectedLeague = null;
+        private BindingList<Team> UserCreatedTeamList;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CreateLeagueForm()
         {
             InitializeComponent();
         }
 
-        private void createLeagueBtn_Click(object sender, EventArgs e)
-        {
-            LeagueInfoForm leagueForm = new LeagueInfoForm();
-            leagueForm.ShowDialog();
-            if (leagueForm.createdLeague != null)
-            {
-                League newLeague = leagueForm.createdLeague;
-                LeagueList.Add(newLeague);
-                selectedLeague = newLeague;
-            }
-        }
+        #endregion Constructors
 
-        private void LeagueForm_Load(object sender, EventArgs e)
-        {
-            if (!SaveLoadUtils.LoadListToFile<League>("LeagueData.data", out LeagueList))
-            {
-                MessageBox.Show("Saved player data not loaded in correctly");
-            }
-            if (!SaveLoadUtils.LoadListToFile<Team>("TeamData.data", out UserCreatedTeamList))
-            {
-                MessageBox.Show("Teams not loaded correctly");
-            }
-            leagueListBox.DataSource = LeagueList;
-        }
-
-        private void leagueListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (leagueListBox.SelectedItem != null)
-            {
-                selectedLeague = (League)leagueListBox.SelectedItem;
-                LoadConferences(selectedLeague);
-            }
-        }
-
-        private void LoadConferences(League league)
-        {
-            if (league == null)
-            {
-                firstConference.Clear();
-                secondConference.Clear();
-            }
-            else
-            {
-                displayUserCreatedTeamList = new BindingList<Team>(UserCreatedTeamList.Except(league.AllTeams).ToList());
-                firstConference = new BindingList<Team>(league.FirstConference);
-                secondConference = new BindingList<Team>(league.SecondConference);
-                firstConferenceListBox.DataSource = firstConference;
-                secondConferenceListBox.DataSource = secondConference;
-                userTeamsListBox.DataSource = displayUserCreatedTeamList;
-            }
-        }
-
-        private void fillBtn_Click(object sender, EventArgs e)
-        {
-            if (selectedLeague != null)
-            {
-                selectedLeague.FillRemainingTeams();
-                LoadConferences(selectedLeague);
-            }
-        }
-
-        private void deleteBtn_Click(object sender, EventArgs e)
-        {
-            if (leagueListBox.SelectedItem != null)
-            {
-                LeagueList.Remove((League)leagueListBox.SelectedItem);
-                LoadConferences((League)leagueListBox.SelectedItem);
-            }
-        }
-
-        private void saveExitBtn_Click(object sender, EventArgs e)
-        {
-            if (!SaveLoadUtils.SaveListToFile<League>("LeagueData.data", LeagueList))
-            {
-                MessageBox.Show("Save Failed: Check console");
-            }
-            else
-            {
-                this.Close();
-            }
-        }
-
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void saveBtn_Click(object sender, EventArgs e)
-        {
-            if (!SaveLoadUtils.SaveListToFile<League>("LeagueData.data", LeagueList))
-            {
-                MessageBox.Show("Save Failed: Check console");
-            }
-        }
+        #region Methods
 
         private void addFirstConferenceBtn_Click(object sender, EventArgs e)
         {
@@ -182,6 +96,81 @@ namespace Elite_Hockey_Manager.Forms
             }
         }
 
+        private void createLeagueBtn_Click(object sender, EventArgs e)
+        {
+            LeagueInfoForm leagueForm = new LeagueInfoForm();
+            leagueForm.ShowDialog();
+            if (leagueForm.createdLeague != null)
+            {
+                League newLeague = leagueForm.createdLeague;
+                LeagueList.Add(newLeague);
+                selectedLeague = newLeague;
+            }
+        }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            if (leagueListBox.SelectedItem != null)
+            {
+                LeagueList.Remove((League)leagueListBox.SelectedItem);
+                LoadConferences((League)leagueListBox.SelectedItem);
+            }
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void fillBtn_Click(object sender, EventArgs e)
+        {
+            if (selectedLeague != null)
+            {
+                selectedLeague.FillRemainingTeams();
+                LoadConferences(selectedLeague);
+            }
+        }
+
+        private void LeagueForm_Load(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.LoadListToFile<League>("LeagueData.data", out LeagueList))
+            {
+                MessageBox.Show("Saved player data not loaded in correctly");
+            }
+            if (!SaveLoadUtils.LoadListToFile<Team>("TeamData.data", out UserCreatedTeamList))
+            {
+                MessageBox.Show("Teams not loaded correctly");
+            }
+            leagueListBox.DataSource = LeagueList;
+        }
+
+        private void leagueListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (leagueListBox.SelectedItem != null)
+            {
+                selectedLeague = (League)leagueListBox.SelectedItem;
+                LoadConferences(selectedLeague);
+            }
+        }
+
+        private void LoadConferences(League league)
+        {
+            if (league == null)
+            {
+                firstConference.Clear();
+                secondConference.Clear();
+            }
+            else
+            {
+                displayUserCreatedTeamList = new BindingList<Team>(UserCreatedTeamList.Except(league.AllTeams).ToList());
+                firstConference = new BindingList<Team>(league.FirstConference);
+                secondConference = new BindingList<Team>(league.SecondConference);
+                firstConferenceListBox.DataSource = firstConference;
+                secondConferenceListBox.DataSource = secondConference;
+                userTeamsListBox.DataSource = displayUserCreatedTeamList;
+            }
+        }
+
         private void removeButton_Click(object sender, EventArgs e)
         {
             if (firstConferenceListBox.SelectedItem != null)
@@ -203,5 +192,27 @@ namespace Elite_Hockey_Manager.Forms
                 }
             }
         }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.SaveListToFile<League>("LeagueData.data", LeagueList))
+            {
+                MessageBox.Show("Save Failed: Check console");
+            }
+        }
+
+        private void saveExitBtn_Click(object sender, EventArgs e)
+        {
+            if (!SaveLoadUtils.SaveListToFile<League>("LeagueData.data", LeagueList))
+            {
+                MessageBox.Show("Save Failed: Check console");
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,9 @@
 ﻿namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
-    using System;
-    using System.Windows.Forms;
-
     using Elite_Hockey_Manager.Classes.GameComponents;
     using Elite_Hockey_Manager.Forms.GameForms;
+    using System;
+    using System.Windows.Forms;
 
     /// <summary>
     /// The game display control.

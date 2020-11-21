@@ -7,13 +7,7 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class LeftDefensemen : Defender
     {
-        public override string Position
-        {
-            get
-            {
-                return "LD";
-            }
-        }
+        #region Constructors
 
         public LeftDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -34,18 +28,26 @@ namespace Elite_Hockey_Manager.Classes
         protected LeftDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public override string Position
+        {
+            get
+            {
+                return "LD";
+            }
+        }
+
+        #endregion Properties
     }
 
     [Serializable]
     public class RightDefensemen : Defender
     {
-        public override string Position
-        {
-            get
-            {
-                return "RD";
-            }
-        }
+        #region Constructors
 
         public RightDefensemen(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
@@ -66,5 +68,19 @@ namespace Elite_Hockey_Manager.Classes
         protected RightDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public override string Position
+        {
+            get
+            {
+                return "RD";
+            }
+        }
+
+        #endregion Properties
     }
 }

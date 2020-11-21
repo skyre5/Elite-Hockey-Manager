@@ -10,7 +10,13 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
     public partial class FreeAgencyForm : Form
     {
+        #region Fields
+
         private List<Player> _freeAgents = new List<Player>();
+
+        #endregion Fields
+
+        #region Constructors
 
         public FreeAgencyForm(League league)
         {
@@ -21,28 +27,9 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
             }
         }
 
-        private void GetFreeAgents(League league)
-        {
-            List<Player> baseFreeAgents = league.SignedPlayers.Where(p => p.CurrentContract.YearSigned == league.Year).ToList();
-            _freeAgents = baseFreeAgents.Where(p => p.CareerContracts.Count > 1)
-                .Where(p => p.CareerContracts[p.CareerContracts.Count() - 2].SigningTeam != p.CurrentTeam).ToList();
-        }
+        #endregion Constructors
 
-        private void FreeAgencyForm_Load(object sender, EventArgs e)
-        {
-            FillLayoutPanel();
-            SetTotalMoneySpent();
-        }
-
-        private void SetTotalMoneySpent()
-        {
-            double totalSpent = 0;
-            foreach (Player player in _freeAgents)
-            {
-                totalSpent += player.CurrentContract.YearsRemaining * player.CurrentContract.ContractAmount;
-            }
-            totalSpentLabel.Text = $"Cash Spent: {(totalSpent * 1E6).ToString("C", CultureInfo.CurrentCulture)}";
-        }
+        #region Methods
 
         private void FillLayoutPanel()
         {
@@ -63,5 +50,30 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 playersLayoutPanel.Controls.Add(signingLabel);
             }
         }
+
+        private void FreeAgencyForm_Load(object sender, EventArgs e)
+        {
+            FillLayoutPanel();
+            SetTotalMoneySpent();
+        }
+
+        private void GetFreeAgents(League league)
+        {
+            List<Player> baseFreeAgents = league.SignedPlayers.Where(p => p.CurrentContract.YearSigned == league.Year).ToList();
+            _freeAgents = baseFreeAgents.Where(p => p.CareerContracts.Count > 1)
+                .Where(p => p.CareerContracts[p.CareerContracts.Count() - 2].SigningTeam != p.CurrentTeam).ToList();
+        }
+
+        private void SetTotalMoneySpent()
+        {
+            double totalSpent = 0;
+            foreach (Player player in _freeAgents)
+            {
+                totalSpent += player.CurrentContract.YearsRemaining * player.CurrentContract.ContractAmount;
+            }
+            totalSpentLabel.Text = $"Cash Spent: {(totalSpent * 1E6).ToString("C", CultureInfo.CurrentCulture)}";
+        }
+
+        #endregion Methods
     }
 }

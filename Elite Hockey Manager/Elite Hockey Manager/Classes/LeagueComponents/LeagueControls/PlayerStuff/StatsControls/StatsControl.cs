@@ -8,6 +8,29 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
 {
     public partial class StatsControl : UserControl
     {
+        #region Constructors
+
+        public StatsControl()
+        {
+            InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public bool DisplayTeamAbbreviation
+        {
+            get
+            {
+                return playerStatsControl.DisplayTeamAbbreviation;
+            }
+            set
+            {
+                playerStatsControl.DisplayTeamAbbreviation = value;
+            }
+        }
+
         public StatsDisplayType DisplayType
         {
             get
@@ -38,41 +61,19 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             }
         }
 
-        public bool DisplayTeamAbbreviation
-        {
-            get
-            {
-                return playerStatsControl.DisplayTeamAbbreviation;
-            }
-            set
-            {
-                playerStatsControl.DisplayTeamAbbreviation = value;
-            }
-        }
+        #endregion Properties
 
-        public StatsControl()
-        {
-            InitializeComponent();
-        }
+        #region Methods
 
-        private void skaterStatsButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Sets desired array of goalies to be stored and sorted within child playerStatsControl class
+        /// Only updates display if goalie display type is active
+        /// </summary>
+        /// <param name="goalies"></param>
+        public void InsertGoalieList(Goalie[] goalies)
         {
-            DisplayType = StatsDisplayType.Skater;
-            skaterStatsButton.Enabled = false;
-            goalieStatsButton.Enabled = true;
-            playerStatsControl.UpdateStats();
-        }
-
-        private void goalieStatsButton_Click(object sender, EventArgs e)
-        {
-            DisplayType = StatsDisplayType.Goalie;
-            skaterStatsButton.Enabled = true;
-            goalieStatsButton.Enabled = false;
-            playerStatsControl.UpdateStats();
-        }
-
-        private void statsFormButton_Click(object sender, EventArgs e)
-        {
+            //Logic handled within PlayerStatsControl class
+            this.playerStatsControl.StoredGoalies = goalies;
         }
 
         /// <summary>
@@ -99,28 +100,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
             this.playerStatsControl.StoredSkaters = skaters;
         }
 
-        /// <summary>
-        /// Sets desired array of goalies to be stored and sorted within child playerStatsControl class
-        /// Only updates display if goalie display type is active
-        /// </summary>
-        /// <param name="goalies"></param>
-        public void InsertGoalieList(Goalie[] goalies)
-        {
-            //Logic handled within PlayerStatsControl class
-            this.playerStatsControl.StoredGoalies = goalies;
-        }
-
-        private void AdjustDisplayForDisplayTypeChange(int pastWidth)
-        {
-            //Adjusts the width of the titleLabel so that it will be center alligned again, and adjust size for auto size
-            titleLabel.Width = playerStatsControl.Width;
-            //Sets the location of the statsFormButton to align with the right side of the control
-            statsFormButton.Location = new Point(playerStatsControl.Width + playerStatsControl.Location.X - statsFormButton.Size.Width,
-                statsFormButton.Location.Y);
-            //Moves the entire control so that the autosize difference will stay aligned with the right side of where it was initially placed
-            this.Location = new Point(this.Location.X + (pastWidth - this.Width), this.Location.Y);
-        }
-
         private void AdjustButtonsToNewDisplayType(StatsDisplayType newDisplayType)
         {
             if (newDisplayType == StatsDisplayType.Goalie)
@@ -134,5 +113,38 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStu
                 goalieStatsButton.Enabled = true;
             }
         }
+
+        private void AdjustDisplayForDisplayTypeChange(int pastWidth)
+        {
+            //Adjusts the width of the titleLabel so that it will be center alligned again, and adjust size for auto size
+            titleLabel.Width = playerStatsControl.Width;
+            //Sets the location of the statsFormButton to align with the right side of the control
+            statsFormButton.Location = new Point(playerStatsControl.Width + playerStatsControl.Location.X - statsFormButton.Size.Width,
+                statsFormButton.Location.Y);
+            //Moves the entire control so that the autosize difference will stay aligned with the right side of where it was initially placed
+            this.Location = new Point(this.Location.X + (pastWidth - this.Width), this.Location.Y);
+        }
+
+        private void goalieStatsButton_Click(object sender, EventArgs e)
+        {
+            DisplayType = StatsDisplayType.Goalie;
+            skaterStatsButton.Enabled = true;
+            goalieStatsButton.Enabled = false;
+            playerStatsControl.UpdateStats();
+        }
+
+        private void skaterStatsButton_Click(object sender, EventArgs e)
+        {
+            DisplayType = StatsDisplayType.Skater;
+            skaterStatsButton.Enabled = false;
+            goalieStatsButton.Enabled = true;
+            playerStatsControl.UpdateStats();
+        }
+
+        private void statsFormButton_Click(object sender, EventArgs e)
+        {
+        }
+
+        #endregion Methods
     }
 }

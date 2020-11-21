@@ -10,78 +10,19 @@ namespace Elite_Hockey_Manager.Classes
     [Serializable]
     public class Team : IEquatable<Team>, IComparable<Team> //,ISerializable
     {
-        private int _year = 1;
-        private string _location;
-        private string _teamName;
+        #region Fields
+
+        private static int idCount = 0;
         private string _abbreviation;
+        private string _location;
         private string _logoPath = null;
         private int _teamID = -1;
-        private static int idCount = 0;
+        private string _teamName;
+        private int _year = 1;
 
-        public event EventHandler TeamStatsUpdated;
+        #endregion Fields
 
-        public int Year
-        {
-            get
-            {
-                return _year;
-            }
-        }
-
-        public string TeamName
-        {
-            get
-            {
-                return _teamName;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Team name must contain characters");
-                }
-                else
-                {
-                    _teamName = value.Trim();
-                }
-            }
-        }
-
-        public string Abbreviation
-        {
-            get
-            {
-                return _abbreviation;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value) || value.Length > 3)
-                {
-                    throw new ArgumentException("Abbreviation must be 1 to 3 characters");
-                }
-                else
-                {
-                    _abbreviation = value.Trim();
-                }
-            }
-        }
-
-        public string TeamNameWithRecord
-        {
-            get
-            {
-                return TeamName + CurrentSeasonStats.Record();
-            }
-        }
-
-        /// <summary>
-        /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
-        /// </summary>
-        public List<Player> Roster
-        {
-            get;
-            private set;
-        } = new List<Player>();
+        #region Constructors
 
         public Team(string location, string name)
         {
@@ -108,17 +49,75 @@ namespace Elite_Hockey_Manager.Classes
             SetTeamStatsEvent();
         }
 
-        public string LogoPath
+        #endregion Constructors
+
+        #region Events
+
+        public event EventHandler TeamStatsUpdated;
+
+        #endregion Events
+
+        #region Properties
+
+        public string Abbreviation
         {
             get
             {
-                return _logoPath;
+                return _abbreviation;
             }
             set
             {
-                _logoPath = value;
+                if (string.IsNullOrWhiteSpace(value) || value.Length > 3)
+                {
+                    throw new ArgumentException("Abbreviation must be 1 to 3 characters");
+                }
+                else
+                {
+                    _abbreviation = value.Trim();
+                }
             }
         }
+
+        public TeamStats CurrentRegularSeasonStats
+        {
+            get
+            {
+                if (SeasonTeamStats.Last().Playoff)
+                {
+                    //Gets the second to last teamStats of the list
+                    return SeasonTeamStats[SeasonTeamStats.Count - 2];
+                }
+                else
+                {
+                    return SeasonTeamStats.Last();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the latest seasonal stats from the SeasonTeamStats list
+        /// </summary>
+        public TeamStats CurrentSeasonStats
+        {
+            get
+            {
+                return SeasonTeamStats.Last();
+            }
+        }
+
+        public Defender[,] Defenders { get; } = new Defender[3, 2];
+
+        public Forward[,] Forwards { get; } = new Forward[4, 3];
+
+        public string FullName
+        {
+            get
+            {
+                return $"{_location} {_teamName}";
+            }
+        }
+
+        public Goalie[] Goalies { get; } = new Goalie[2];
 
         public string Location
         {
@@ -161,13 +160,31 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public string FullName
+        public string LogoPath
         {
             get
             {
-                return $"{_location} {_teamName}";
+                return _logoPath;
+            }
+            set
+            {
+                _logoPath = value;
             }
         }
+
+        /// <summary>
+        /// Roster should only used to view teams players, no adding or removing of players should be done directly from list
+        /// </summary>
+        public List<Player> Roster
+        {
+            get;
+            private set;
+        } = new List<Player>();
+
+        /// <summary>
+        /// List of all season stats through game history
+        /// </summary>
+        public List<TeamStats> SeasonTeamStats { get; private set; } = new List<TeamStats>();
 
         public int TeamID
         {
@@ -177,86 +194,44 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public Forward[,] Forwards { get; } = new Forward[4, 3];
-        public Defender[,] Defenders { get; } = new Defender[3, 2];
-        public Goalie[] Goalies { get; } = new Goalie[2];
-
-        /// <summary>
-        /// List of all season stats through game history
-        /// </summary>
-        public List<TeamStats> SeasonTeamStats { get; private set; } = new List<TeamStats>();
-
-        /// <summary>
-        /// Gets the latest seasonal stats from the SeasonTeamStats list
-        /// </summary>
-        public TeamStats CurrentSeasonStats
+        public string TeamName
         {
             get
             {
-                return SeasonTeamStats.Last();
+                return _teamName;
             }
-        }
-
-        public TeamStats CurrentRegularSeasonStats
-        {
-            get
+            set
             {
-                if (SeasonTeamStats.Last().Playoff)
+                if (string.IsNullOrWhiteSpace(value))
                 {
-                    //Gets the second to last teamStats of the list
-                    return SeasonTeamStats[SeasonTeamStats.Count - 2];
+                    throw new ArgumentException("Team name must contain characters");
                 }
                 else
                 {
-                    return SeasonTeamStats.Last();
+                    _teamName = value.Trim();
                 }
             }
         }
 
-        /// <summary>
-        /// Gets an array of size 3 for a specific forward line
-        /// </summary>
-        /// <param name="line">Line 1-4 for forward lines</param>
-        /// <returns>Returns array of cooresponding line of forwards</returns>
-        public Skater[] GetForwardLine(int line)
+        public string TeamNameWithRecord
         {
-            if (line < 1 || line > 4)
+            get
             {
-                throw new ArgumentOutOfRangeException("Invalid line number(1-4)");
+                return TeamName + CurrentSeasonStats.Record();
             }
-            return GetRow(Forwards, line - 1);
         }
 
-        /// <summary>
-        /// Gets an array of size 2 for a specific defensive line
-        /// </summary>
-        /// <param name="line">Line 1-3 representing 1st, 2nd, 3rd pairing</param>
-        /// <returns>Returns array of 2 defenders for cooresponding defensive pairing</returns>
-        public Skater[] GetDefensiveLine(int line)
+        public int Year
         {
-            if (line < 1 || line > 3)
+            get
             {
-                throw new ArgumentException("Invalid line number(1-3)");
+                return _year;
             }
-            return GetRow(Defenders, line - 1);
         }
 
-        /// <summary>
-        /// Gets the starter or backup goalie for a game
-        /// </summary>
-        /// <returns>Returns the goalie that will be playing a game</returns>
-        public Goalie GetGamesStartingGoalie()
-        {
-            //If the starting goalies fatigue is greater than 10, returns backup
-            if (Goalies[0].Attributes.Fatigue >= 10)
-            {
-                //If backup goaltender plays, reduce starters fatigue by 10
-                Goalies[0].Attributes.Fatigue -= 10;
-                return Goalies[1];
-            }
-            //Returns starter
-            return Goalies[0];
-        }
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Helper function to get a row of a 2d array based on row
@@ -281,15 +256,6 @@ namespace Elite_Hockey_Manager.Classes
             return line;
         }
 
-        public void AddNewSkater(Skater skater)
-        {
-            //skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
-            //Adds a link to this Team object to the player that will link to the current team they play for
-            skater.CurrentTeam = this;
-            ContractGenerator.GenerateContract(skater, this, Year);
-            Roster.Add(skater);
-        }
-
         public void AddNewGoalie(Goalie goalie)
         {
             //goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
@@ -311,14 +277,124 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public override string ToString()
+        public void AddNewSkater(Skater skater)
         {
-            return FullName;
+            //skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
+            //Adds a link to this Team object to the player that will link to the current team they play for
+            skater.CurrentTeam = this;
+            ContractGenerator.GenerateContract(skater, this, Year);
+            Roster.Add(skater);
         }
 
-        public override int GetHashCode()
+        /// <summary>
+        /// Adds new teamstats object to this Team class for the playoffs for the current year
+        /// Adds new playerstats object to each playoff player for the current year
+        /// </summary>
+        public void AddPlayoffsStatsToTeamAndPlayers()
         {
-            return _teamID.GetHashCode() ^ FullName.GetHashCode();
+            //
+            SeasonTeamStats.Add(new TeamStats(Year, true));
+            foreach (Player player in Roster)
+            {
+                if (player is Skater)
+                {
+                    Skater skater = (Skater)player;
+                    skater.AddStats(this._year, this._teamID, true);
+                }
+                if (player is Goalie)
+                {
+                    Goalie goalie = (Goalie)player;
+                    goalie.AddStats(this._year, this._teamID, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the 3 defensive lines sorted by overall and with no injured defenders
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
+        public void AutoSetDefenseLines()
+        {
+            List<Player> leftDefenders = GetPlayersOfType<LeftDefensemen>();
+            CheckForInjury(leftDefenders, 0, 4, 3, PlayerGenerator.GenerateDefender);
+            List<Player> rightDefenders = GetPlayersOfType<RightDefensemen>();
+            CheckForInjury(rightDefenders, 1, 4, 3, PlayerGenerator.GenerateDefender);
+            for (int i = 0; i <= 2; i++)
+            {
+                Defenders[i, 0] = (Defender)leftDefenders[i];
+                Defenders[i, 1] = (Defender)rightDefenders[i];
+            }
+        }
+
+        /// <summary>
+        /// Sets the 4 forward lines sorted by overall and with no injured forwards
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
+        public void AutoSetForwardLines()
+        {
+            List<Player> leftWings = GetPlayersOfType<LeftWinger>();
+            CheckForInjury(leftWings, 0, 5, 4, PlayerGenerator.GenerateForward);
+            List<Player> rightWings = GetPlayersOfType<RightWinger>();
+            CheckForInjury(rightWings, 1, 5, 4, PlayerGenerator.GenerateForward);
+            List<Player> centers = GetPlayersOfType<Center>();
+            CheckForInjury(centers, 2, 5, 4, PlayerGenerator.GenerateForward);
+            for (int i = 0; i <= 3; i++)
+            {
+                Forwards[i, 0] = (Forward)leftWings[i];
+                Forwards[i, 1] = (Forward)centers[i];
+                Forwards[i, 2] = (Forward)rightWings[i];
+            }
+        }
+
+        /// <summary>
+        /// Sets the 2 goalies sorted by overall with no injured goalies
+        /// Will sign new role players if unable to meet required amount
+        /// </summary>
+        public void AutoSetGoalies()
+        {
+            List<Player> goalies = GetPlayersOfType<Goalie>();
+            while (goalies.Count < 2)
+            {
+                Goalie emergencyCreateGoalie = PlayerGenerator.GenerateGoalie(3);
+                this.AddNewGoalie(emergencyCreateGoalie);
+                goalies.Add(emergencyCreateGoalie);
+                //Sets the players progression tracker for when a goalie must be created
+                //only occurs in this function as well as the one in CheckForInjury
+                emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
+            }
+            Goalies[0] = (Goalie)goalies[0];
+            Goalies[1] = (Goalie)goalies[1];
+        }
+
+        public void AutoSetLines()
+        {
+            AutoSetForwardLines();
+            AutoSetDefenseLines();
+            AutoSetGoalies();
+        }
+
+        /// <summary>
+        /// Comparator for teams. Compares by points, then goals for, then alphabetically
+        /// </summary>
+        /// <param name="other">Team being compared to</param>
+        /// <returns></returns>
+        public int CompareTo(Team other)
+        {
+            //Any context of sorting teams will be done by regular season stats, if the context that this is used is in the playoffs will ensure regular seasons stats are used
+            TeamStats t1 = this.CurrentRegularSeasonStats;
+            TeamStats t2 = other.CurrentRegularSeasonStats;
+            if (t1.Points == t2.Points)
+            {
+                if (t1.GoalsFor == t2.GoalsFor)
+                {
+                    //If both teams have same amount of points and goalsFor, compare alphabetically
+                    return this.TeamName.CompareTo(other.TeamName);
+                }
+                //If points are the same, compare by goalsFor
+                return t1.GoalsFor.CompareTo(t2.GoalsFor);
+            }
+            //If points are different, sort by points
+            return t1.Points.CompareTo(t2.Points);
         }
 
         public bool Equals(Team other)
@@ -327,9 +403,64 @@ namespace Elite_Hockey_Manager.Classes
             //return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
         }
 
-        public int GetPositionCount<T>()
+        public double GetCapSpent()
         {
-            return Roster.Where(player => player is T).Count();
+            double totalCap = 0;
+            for (int i = 0; i < Roster.Count; i++)
+            {
+                totalCap += Roster[i].CurrentContract.ContractAmount;
+            }
+            return totalCap;
+        }
+
+        /// <summary>
+        /// Gets an array of size 2 for a specific defensive line
+        /// </summary>
+        /// <param name="line">Line 1-3 representing 1st, 2nd, 3rd pairing</param>
+        /// <returns>Returns array of 2 defenders for cooresponding defensive pairing</returns>
+        public Skater[] GetDefensiveLine(int line)
+        {
+            if (line < 1 || line > 3)
+            {
+                throw new ArgumentException("Invalid line number(1-3)");
+            }
+            return GetRow(Defenders, line - 1);
+        }
+
+        /// <summary>
+        /// Gets an array of size 3 for a specific forward line
+        /// </summary>
+        /// <param name="line">Line 1-4 for forward lines</param>
+        /// <returns>Returns array of cooresponding line of forwards</returns>
+        public Skater[] GetForwardLine(int line)
+        {
+            if (line < 1 || line > 4)
+            {
+                throw new ArgumentOutOfRangeException("Invalid line number(1-4)");
+            }
+            return GetRow(Forwards, line - 1);
+        }
+
+        /// <summary>
+        /// Gets the starter or backup goalie for a game
+        /// </summary>
+        /// <returns>Returns the goalie that will be playing a game</returns>
+        public Goalie GetGamesStartingGoalie()
+        {
+            //If the starting goalies fatigue is greater than 10, returns backup
+            if (Goalies[0].Attributes.Fatigue >= 10)
+            {
+                //If backup goaltender plays, reduce starters fatigue by 10
+                Goalies[0].Attributes.Fatigue -= 10;
+                return Goalies[1];
+            }
+            //Returns starter
+            return Goalies[0];
+        }
+
+        public override int GetHashCode()
+        {
+            return _teamID.GetHashCode() ^ FullName.GetHashCode();
         }
 
         /// <summary>
@@ -346,38 +477,14 @@ namespace Elite_Hockey_Manager.Classes
                 .OrderByDescending(item => item.Overall).ToList();
         }
 
-        public double GetCapSpent()
+        public int GetPositionCount<T>()
         {
-            double totalCap = 0;
-            for (int i = 0; i < Roster.Count; i++)
-            {
-                totalCap += Roster[i].CurrentContract.ContractAmount;
-            }
-            return totalCap;
+            return Roster.Where(player => player is T).Count();
         }
 
-        /// <summary>
-        /// Boolean function that returns whether the team has a valid number or greater of forwards(12), defenders(6), and goalies(2)
-        /// </summary>
-        /// <returns>
-        /// True - Team has valid number of players at all positions
-        /// False - Team has an issue at one of the categories
-        /// </returns>
-        public bool ValidMinimumTeamSize()
+        public override string ToString()
         {
-            if (Roster.OfType<Forward>().Count() < 12)
-            {
-                return false;
-            }
-            if (Roster.OfType<Defender>().Count() < 6)
-            {
-                return false;
-            }
-            if (Roster.OfType<Goalie>().Count() < 2)
-            {
-                return false;
-            }
-            return true;
+            return FullName;
         }
 
         public void ValidateLines()
@@ -413,91 +520,33 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public void AutoSetLines()
+        /// <summary>
+        /// Boolean function that returns whether the team has a valid number or greater of forwards(12), defenders(6), and goalies(2)
+        /// </summary>
+        /// <returns>
+        /// True - Team has valid number of players at all positions
+        /// False - Team has an issue at one of the categories
+        /// </returns>
+        public bool ValidMinimumTeamSize()
         {
-            AutoSetForwardLines();
-            AutoSetDefenseLines();
-            AutoSetGoalies();
+            if (Roster.OfType<Forward>().Count() < 12)
+            {
+                return false;
+            }
+            if (Roster.OfType<Defender>().Count() < 6)
+            {
+                return false;
+            }
+            if (Roster.OfType<Goalie>().Count() < 2)
+            {
+                return false;
+            }
+            return true;
         }
 
-        /// <summary>
-        /// Sets the 4 forward lines sorted by overall and with no injured forwards
-        /// Will sign new role players if unable to meet required amount
-        /// </summary>
-        public void AutoSetForwardLines()
+        internal void AdvanceYear()
         {
-            List<Player> leftWings = GetPlayersOfType<LeftWinger>();
-            CheckForInjury(leftWings, 0, 5, 4, PlayerGenerator.GenerateForward);
-            List<Player> rightWings = GetPlayersOfType<RightWinger>();
-            CheckForInjury(rightWings, 1, 5, 4, PlayerGenerator.GenerateForward);
-            List<Player> centers = GetPlayersOfType<Center>();
-            CheckForInjury(centers, 2, 5, 4, PlayerGenerator.GenerateForward);
-            for (int i = 0; i <= 3; i++)
-            {
-                Forwards[i, 0] = (Forward)leftWings[i];
-                Forwards[i, 1] = (Forward)centers[i];
-                Forwards[i, 2] = (Forward)rightWings[i];
-            }
-        }
-
-        /// <summary>
-        /// Sets the 3 defensive lines sorted by overall and with no injured defenders
-        /// Will sign new role players if unable to meet required amount
-        /// </summary>
-        public void AutoSetDefenseLines()
-        {
-            List<Player> leftDefenders = GetPlayersOfType<LeftDefensemen>();
-            CheckForInjury(leftDefenders, 0, 4, 3, PlayerGenerator.GenerateDefender);
-            List<Player> rightDefenders = GetPlayersOfType<RightDefensemen>();
-            CheckForInjury(rightDefenders, 1, 4, 3, PlayerGenerator.GenerateDefender);
-            for (int i = 0; i <= 2; i++)
-            {
-                Defenders[i, 0] = (Defender)leftDefenders[i];
-                Defenders[i, 1] = (Defender)rightDefenders[i];
-            }
-        }
-
-        /// <summary>
-        /// Sets the 2 goalies sorted by overall with no injured goalies
-        /// Will sign new role players if unable to meet required amount
-        /// </summary>
-        public void AutoSetGoalies()
-        {
-            List<Player> goalies = GetPlayersOfType<Goalie>();
-            while (goalies.Count < 2)
-            {
-                Goalie emergencyCreateGoalie = PlayerGenerator.GenerateGoalie(3);
-                this.AddNewGoalie(emergencyCreateGoalie);
-                goalies.Add(emergencyCreateGoalie);
-                //Sets the players progression tracker for when a goalie must be created
-                //only occurs in this function as well as the one in CheckForInjury
-                emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
-            }
-            Goalies[0] = (Goalie)goalies[0];
-            Goalies[1] = (Goalie)goalies[1];
-        }
-
-        /// <summary>
-        /// Adds new teamstats object to this Team class for the playoffs for the current year
-        /// Adds new playerstats object to each playoff player for the current year
-        /// </summary>
-        public void AddPlayoffsStatsToTeamAndPlayers()
-        {
-            //
-            SeasonTeamStats.Add(new TeamStats(Year, true));
-            foreach (Player player in Roster)
-            {
-                if (player is Skater)
-                {
-                    Skater skater = (Skater)player;
-                    skater.AddStats(this._year, this._teamID, true);
-                }
-                if (player is Goalie)
-                {
-                    Goalie goalie = (Goalie)player;
-                    goalie.AddStats(this._year, this._teamID, true);
-                }
-            }
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -522,11 +571,6 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        internal void AdvanceYear()
-        {
-            //throw new NotImplementedException();
-        }
-
         private void SetTeamStatsEvent()
         {
             this.CurrentSeasonStats.TeamStatsUpdated += TriggerTeamStatsEvent;
@@ -537,29 +581,7 @@ namespace Elite_Hockey_Manager.Classes
             TeamStatsUpdated?.Invoke(this, null);
         }
 
-        /// <summary>
-        /// Comparator for teams. Compares by points, then goals for, then alphabetically
-        /// </summary>
-        /// <param name="other">Team being compared to</param>
-        /// <returns></returns>
-        public int CompareTo(Team other)
-        {
-            //Any context of sorting teams will be done by regular season stats, if the context that this is used is in the playoffs will ensure regular seasons stats are used
-            TeamStats t1 = this.CurrentRegularSeasonStats;
-            TeamStats t2 = other.CurrentRegularSeasonStats;
-            if (t1.Points == t2.Points)
-            {
-                if (t1.GoalsFor == t2.GoalsFor)
-                {
-                    //If both teams have same amount of points and goalsFor, compare alphabetically
-                    return this.TeamName.CompareTo(other.TeamName);
-                }
-                //If points are the same, compare by goalsFor
-                return t1.GoalsFor.CompareTo(t2.GoalsFor);
-            }
-            //If points are different, sort by points
-            return t1.Points.CompareTo(t2.Points);
-        }
+        #endregion Methods
 
         //protected Team(SerializationInfo info, StreamingContext context)
         //{

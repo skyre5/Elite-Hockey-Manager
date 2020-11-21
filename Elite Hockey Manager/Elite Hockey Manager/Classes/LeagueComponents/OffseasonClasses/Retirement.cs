@@ -5,6 +5,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
     public static class Retirement
     {
+        #region Methods
+
         /// <summary>
         /// Function that is called on every player every year as long as they are not retired
         /// Will determine whether the play chooses to retire based on several factors such as:
@@ -43,6 +45,32 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             double randomNumber = rand.NextDouble();
             //If randomNumber is less than the base percentage calculated, the player will retire
             return randomNumber < basePercentage;
+        }
+
+        public static bool IsStartingLevelPlayer(Player player, Team team)
+        {
+            //If the team is null, then there is no chance they are a starting level player
+            if (team is null)
+            {
+                return false;
+            }
+
+            int startingSpots;
+            if (player is Forward)
+                startingSpots = 4;
+            else if (player is Defender)
+                startingSpots = 3;
+            else
+                startingSpots = 2;
+
+            //Finds the players rank among players at that position on the team
+            int rosterRank = team.Roster.Where(p => p.Position == player.Position).OrderByDescending(x => x.Overall)
+                .Where(p => p.Overall > player.Overall).Count() + 1;
+
+            if (rosterRank <= startingSpots)
+                return true;
+            else
+                return false;
         }
 
         private static double AgeToPercentage(int age)
@@ -86,30 +114,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
             }
         }
 
-        public static bool IsStartingLevelPlayer(Player player, Team team)
-        {
-            //If the team is null, then there is no chance they are a starting level player
-            if (team is null)
-            {
-                return false;
-            }
-
-            int startingSpots;
-            if (player is Forward)
-                startingSpots = 4;
-            else if (player is Defender)
-                startingSpots = 3;
-            else
-                startingSpots = 2;
-
-            //Finds the players rank among players at that position on the team
-            int rosterRank = team.Roster.Where(p => p.Position == player.Position).OrderByDescending(x => x.Overall)
-                .Where(p => p.Overall > player.Overall).Count() + 1;
-
-            if (rosterRank <= startingSpots)
-                return true;
-            else
-                return false;
-        }
+        #endregion Methods
     }
 }

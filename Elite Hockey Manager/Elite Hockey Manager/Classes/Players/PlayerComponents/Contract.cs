@@ -5,49 +5,34 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
     [Serializable]
     public class Contract //: ISerializable
     {
-        public int YearSigned
-        {
-            get
-            {
-                return _yearSigned;
-            }
-            private set
-            {
-                if (value < 1)
-                {
-                    throw new ArgumentOutOfRangeException("Year signed must be at least 1");
-                }
-                else
-                {
-                    _yearSigned = value;
-                }
-            }
-        }
+        #region Fields
 
-        public Team SigningTeam { get; private set; } = null;
-        private int _yearSigned = 1;
-        private int _contractDuration = 1;
-        public int YearsRemaining { get; set; } = 1;
         private double _contractAmount = .5;
 
-        public int ContractDuration
+        private int _contractDuration = 1;
+
+        private int _yearSigned = 1;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Contract(int year, int duration, double amount, Team signingTeam)
         {
-            get
-            {
-                return _contractDuration;
-            }
-            private set
-            {
-                if (value > 8 || value < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Contract years must be between 0 and 8 years");
-                }
-                else
-                {
-                    _contractDuration = value;
-                }
-            }
+            this.YearSigned = year;
+            this.ContractDuration = duration;
+            this.YearsRemaining = duration;
+            this.ContractAmount = amount;
+            this.SigningTeam = signingTeam;
         }
+
+        public Contract()
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public double ContractAmount
         {
@@ -68,18 +53,49 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
             }
         }
 
-        public Contract(int year, int duration, double amount, Team signingTeam)
+        public int ContractDuration
         {
-            this.YearSigned = year;
-            this.ContractDuration = duration;
-            this.YearsRemaining = duration;
-            this.ContractAmount = amount;
-            this.SigningTeam = signingTeam;
+            get
+            {
+                return _contractDuration;
+            }
+            private set
+            {
+                if (value > 8 || value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Contract years must be between 0 and 8 years");
+                }
+                else
+                {
+                    _contractDuration = value;
+                }
+            }
         }
 
-        public Contract()
+        public Team SigningTeam { get; private set; } = null;
+
+        public int YearSigned
         {
+            get
+            {
+                return _yearSigned;
+            }
+            private set
+            {
+                if (value < 1)
+                {
+                    throw new ArgumentOutOfRangeException("Year signed must be at least 1");
+                }
+                else
+                {
+                    _yearSigned = value;
+                }
+            }
         }
+
+        public int YearsRemaining { get; set; } = 1;
+
+        #endregion Properties
 
         //protected Contract(SerializationInfo info, StreamingContext context)
         //{

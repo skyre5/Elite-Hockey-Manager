@@ -5,67 +5,22 @@ using System.Linq;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
-    public class TeamPair
-    {
-        public Team team;
-        public ScheduleCounter counter;
-
-        public TeamPair(Team newTeam)
-        {
-            team = newTeam;
-            counter = new ScheduleCounter();
-        }
-
-        public override string ToString()
-        {
-            return $"{team.TeamName} Home:{counter.homeGamesScheduled} Away:{counter.awayGamesScheduled}";
-        }
-    }
-
-    public class ScheduleCounter
-    {
-        public int homeGamesScheduled;
-        public int awayGamesScheduled;
-    }
-
     [Serializable]
     public class Schedule
     {
-        private Random rand;
-        private List<Team> _firstConference;
-        private List<Team> _secondConference;
+        #region Fields
+
         public List<TeamPair> _teamsList = new List<TeamPair>();
+        private List<Team> _firstConference;
         private int _maxGamesPerDay;
         private int _scheduleSize;
         private List<List<Game>> _seasonSchedule = new List<List<Game>>();
+        private List<Team> _secondConference;
+        private Random rand;
 
-        public List<List<Game>> SeasonSchedule
-        {
-            get
-            {
-                return _seasonSchedule;
-            }
-        }
+        #endregion Fields
 
-        public int Length
-        {
-            get
-            {
-                return _seasonSchedule.Count;
-            }
-        }
-
-        public void SimDay(int day)
-        {
-            if (day < 0 || day >= SeasonSchedule.Count)
-            {
-                throw new IndexOutOfRangeException("Day must be within the range of season length");
-            }
-            foreach (Game game in SeasonSchedule[day])
-            {
-                game.PlayGame();
-            }
-        }
+        #region Constructors
 
         public Schedule(List<Team> firstConference, List<Team> secondConference, Random random)
         {
@@ -80,21 +35,67 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             GenerateRegularSeason();
         }
 
-        /// <summary>
-        /// Function to return total number of games scheduled for season
-        /// </summary>
-        /// <returns>Integer of number of games scheduled</returns>
-        public int TotalGamesScheduled()
+        #endregion Constructors
+
+        #region Properties
+
+        public int Length
         {
-            int totalGames = 0;
-            foreach (List<Game> day in _seasonSchedule)
+            get
             {
-                foreach (Game game in day)
+                return _seasonSchedule.Count;
+            }
+        }
+
+        public List<List<Game>> SeasonSchedule
+        {
+            get
+            {
+                return _seasonSchedule;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Function to force the etnire schedule to be simmed, used in case of error simming schedule
+        /// </summary>
+        public void ForceFinishSimming()
+        {
+            for (int i = 0; i < _seasonSchedule.Count; i++)
+            {
+                foreach (Game game in _seasonSchedule[i])
                 {
-                    totalGames++;
+                    if (!game.Finished)
+                    {
+                        game.PlayGame();
+                    }
                 }
             }
-            return totalGames;
+        }
+
+        /// <summary>
+        /// Function to determine if there are any games left to sim
+        /// </summary>
+        /// <returns>Return boolean of if the schedule is done being simmed
+        /// True - League is done simming all games in this class
+        /// False - League still needs to sim games
+        /// </returns>
+        public bool IsFinishedSimming()
+        {
+            for (int i = 0; i < _seasonSchedule.Count; i++)
+            {
+                foreach (Game game in _seasonSchedule[i])
+                {
+                    if (!game.Finished)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -126,40 +127,69 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return totalGames;
         }
 
-        /// <summary>
-        /// Function to determine if there are any games left to sim
-        /// </summary>
-        /// <returns>Return boolean of if the schedule is done being simmed
-        /// True - League is done simming all games in this class
-        /// False - League still needs to sim games
-        /// </returns>
-        public bool IsFinishedSimming()
+        public void SimDay(int day)
         {
-            for (int i = 0; i < _seasonSchedule.Count; i++)
+            if (day < 0 || day >= SeasonSchedule.Count)
             {
-                foreach (Game game in _seasonSchedule[i])
-                {
-                    if (!game.Finished)
-                    {
-                        return false;
-                    }
-                }
+                throw new IndexOutOfRangeException("Day must be within the range of season length");
             }
-            return true;
+            foreach (Game game in SeasonSchedule[day])
+            {
+                game.PlayGame();
+            }
         }
 
         /// <summary>
-        /// Function to force the etnire schedule to be simmed, used in case of error simming schedule
+        /// Function to return total number of games scheduled for season
         /// </summary>
-        public void ForceFinishSimming()
+        /// <returns>Integer of number of games scheduled</returns>
+        public int TotalGamesScheduled()
         {
-            for (int i = 0; i < _seasonSchedule.Count; i++)
+            int totalGames = 0;
+            foreach (List<Game> day in _seasonSchedule)
             {
-                foreach (Game game in _seasonSchedule[i])
+                foreach (Game game in day)
                 {
-                    if (!game.Finished)
+                    totalGames++;
+                }
+            }
+            return totalGames;
+        }
+
+        private TeamPair ChooseAwayTeam(List<TeamPair> awayTeams)
+        {
+            //Chooses a random team among the away teams list
+            int choice = rand.Next(0, awayTeams.Count);
+            TeamPair chosenTeam = awayTeams[choice];
+            //Removes chosen away team from the pool
+            awayTeams.RemoveAt(choice);
+            return chosenTeam;
+        }
+
+        private void FixOddTeamLeague(TeamPair lastTeam, ref int newGameNumber)
+        {
+            //home game missing
+            while (lastTeam.counter.awayGamesScheduled != 41 && lastTeam.counter.homeGamesScheduled != 41)
+            {
+                for (int i = 0; i <= _seasonSchedule.Count; i++)
+                {
+                    for (int j = 0; j < _seasonSchedule[i].Count; j++)
                     {
-                        game.PlayGame();
+                        if (_seasonSchedule[i][j].HomeTeam != lastTeam.team && _seasonSchedule[i][j].AwayTeam != lastTeam.team)
+                        {
+                            Game game = _seasonSchedule[i][j];
+                            Team homeTeam = game.HomeTeam;
+                            Team awayTeam = game.AwayTeam;
+                            int gameNumber = game.GameNumber;
+                            _seasonSchedule[i].RemoveAt(j);
+                            _seasonSchedule[i].Add(new Game(lastTeam.team, awayTeam, rand, gameNumber));
+                            lastTeam.counter.homeGamesScheduled++;
+                            _seasonSchedule[i].Add(new Game(homeTeam, lastTeam.team, rand, newGameNumber));
+                            newGameNumber++;
+                            lastTeam.counter.awayGamesScheduled++;
+                            i = _seasonSchedule.Count;
+                            break;
+                        }
                     }
                 }
             }
@@ -201,56 +231,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             }
         }
 
-        private void FixOddTeamLeague(TeamPair lastTeam, ref int newGameNumber)
-        {
-            //home game missing
-            while (lastTeam.counter.awayGamesScheduled != 41 && lastTeam.counter.homeGamesScheduled != 41)
-            {
-                for (int i = 0; i <= _seasonSchedule.Count; i++)
-                {
-                    for (int j = 0; j < _seasonSchedule[i].Count; j++)
-                    {
-                        if (_seasonSchedule[i][j].HomeTeam != lastTeam.team && _seasonSchedule[i][j].AwayTeam != lastTeam.team)
-                        {
-                            Game game = _seasonSchedule[i][j];
-                            Team homeTeam = game.HomeTeam;
-                            Team awayTeam = game.AwayTeam;
-                            int gameNumber = game.GameNumber;
-                            _seasonSchedule[i].RemoveAt(j);
-                            _seasonSchedule[i].Add(new Game(lastTeam.team, awayTeam, rand, gameNumber));
-                            lastTeam.counter.homeGamesScheduled++;
-                            _seasonSchedule[i].Add(new Game(homeTeam, lastTeam.team, rand, newGameNumber));
-                            newGameNumber++;
-                            lastTeam.counter.awayGamesScheduled++;
-                            i = _seasonSchedule.Count;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private TeamPair ChooseAwayTeam(List<TeamPair> awayTeams)
-        {
-            //Chooses a random team among the away teams list
-            int choice = rand.Next(0, awayTeams.Count);
-            TeamPair chosenTeam = awayTeams[choice];
-            //Removes chosen away team from the pool
-            awayTeams.RemoveAt(choice);
-            return chosenTeam;
-        }
-
-        private List<TeamPair> GetHomeTeams()
-        {
-            //Takes only teams where they have played less than 41 home games
-            List<TeamPair> homeTeams = _teamsList.Where(x => x.counter.homeGamesScheduled < 41)
-                //Sorts by home games the team has played
-                .OrderBy(x => x.counter.homeGamesScheduled)
-                //Takes the max number of games that can be played in a day
-                .Take(_maxGamesPerDay).ToList();
-            return homeTeams;
-        }
-
         private List<TeamPair> GetAwayTeams(List<TeamPair> homeTeams)
         {
             List<TeamPair> onlyAwayTeams = _teamsList.Except(homeTeams).ToList();
@@ -284,13 +264,15 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             return awayTeams;
         }
 
-        private void SetTeamsList()
+        private List<TeamPair> GetHomeTeams()
         {
-            List<Team> allTeams = _firstConference.Concat(_secondConference).ToList();
-            foreach (Team team in allTeams)
-            {
-                _teamsList.Add(new TeamPair(team));
-            }
+            //Takes only teams where they have played less than 41 home games
+            List<TeamPair> homeTeams = _teamsList.Where(x => x.counter.homeGamesScheduled < 41)
+                //Sorts by home games the team has played
+                .OrderBy(x => x.counter.homeGamesScheduled)
+                //Takes the max number of games that can be played in a day
+                .Take(_maxGamesPerDay).ToList();
+            return homeTeams;
         }
 
         private void SetMaxGamesInADay()
@@ -300,5 +282,55 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             if (teamsCount > 10) teamsCount = 10;
             _maxGamesPerDay = teamsCount;
         }
+
+        private void SetTeamsList()
+        {
+            List<Team> allTeams = _firstConference.Concat(_secondConference).ToList();
+            foreach (Team team in allTeams)
+            {
+                _teamsList.Add(new TeamPair(team));
+            }
+        }
+
+        #endregion Methods
+    }
+
+    public class ScheduleCounter
+    {
+        #region Fields
+
+        public int awayGamesScheduled;
+        public int homeGamesScheduled;
+
+        #endregion Fields
+    }
+
+    public class TeamPair
+    {
+        #region Fields
+
+        public ScheduleCounter counter;
+        public Team team;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public TeamPair(Team newTeam)
+        {
+            team = newTeam;
+            counter = new ScheduleCounter();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return $"{team.TeamName} Home:{counter.homeGamesScheduled} Away:{counter.awayGamesScheduled}";
+        }
+
+        #endregion Methods
     }
 }

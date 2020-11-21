@@ -6,6 +6,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
 {
     public static class Resign
     {
+        #region Methods
+
         public static void SimulateResignPeriod(League league, Random rand)
         {
             List<Team> teams = league.AllTeams;
@@ -55,5 +57,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.OffseasonClasses
                 }
             }
         }
+
+        #endregion Methods
     }
 }

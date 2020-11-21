@@ -8,7 +8,13 @@ namespace Elite_Hockey_Manager.Forms.GameForms
 {
     public partial class ViewTeamForm : Form
     {
+        #region Fields
+
         private Team _team;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ViewTeamForm(Team team)
         {
@@ -23,10 +29,16 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             this.Text = team.FullName;
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         private void ViewTeamForm_Load(object sender, EventArgs e)
         {
             statsControl.InsertSkaterList(_team.Roster.Where(player => player is Skater).Cast<Skater>().ToArray());
             statsControl.InsertGoalieList(_team.Goalies);
         }
+
+        #endregion Methods
     }
 }

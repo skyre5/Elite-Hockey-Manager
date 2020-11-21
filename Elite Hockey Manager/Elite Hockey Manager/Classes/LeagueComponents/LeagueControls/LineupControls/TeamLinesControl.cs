@@ -7,7 +7,22 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
     public partial class TeamLinesControl : UserControl
     {
+        #region Fields
+
         private Team _team;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public TeamLinesControl()
+        {
+            InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public Team Team
         {
@@ -25,10 +40,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             }
         }
 
-        public TeamLinesControl()
-        {
-            InitializeComponent();
-        }
+        #endregion Properties
+
+        #region Methods
 
         public void DisplayLines()
         {
@@ -56,5 +70,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
         private void TeamLinesControl_Load(object sender, EventArgs e)
         {
         }
+
+        #endregion Methods
     }
 }
