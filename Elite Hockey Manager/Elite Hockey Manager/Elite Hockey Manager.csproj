@@ -232,12 +232,13 @@
     <Compile Include="Classes\Players\Wingers.cs" />
     <Compile Include="Classes\Players\Defensemen.cs" />
     <Compile Include="Classes\Players\Skater.cs" />
-    <Compile Include="Classes\SaveLoadUtils.cs" />
+    <Compile Include="Classes\Utility\SaveLoadUtils.cs" />
     <Compile Include="Classes\Stats\GoalieStats.cs" />
     <Compile Include="Classes\Players\Player.cs" />
     <Compile Include="Classes\Stats\SkaterStats.cs" />
     <Compile Include="Classes\Stats\PlayerStats.cs" />
     <Compile Include="Classes\Stats\TeamStats.cs" />
+    <Compile Include="Classes\Utility\SortableBindingList.cs" />
     <Compile Include="Forms\EditPlayerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -426,6 +427,9 @@
     <EmbeddedResource Include="Forms\GameForms\PlayerDisplayForm.resx">
       <DependentUpon>PlayerDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\PlayerStatsForm.resx">
+      <DependentUpon>PlayerStatsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\ViewTeamForm.resx">
       <DependentUpon>ViewTeamForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -520,6 +524,7 @@
   <ItemGroup>
     <None Include="Resources\kisspng-x-mark-cross-computer-icons-clip-art-cartoon-geometry-5ade5d7e5281a9.570242631524522366338.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

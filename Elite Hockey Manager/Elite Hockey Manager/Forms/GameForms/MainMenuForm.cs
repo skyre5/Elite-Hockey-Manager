@@ -39,7 +39,7 @@
             League = league;
 
             // Events for stats menu clicks
-            this.playerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, false);
+            this.currentSeasonPlayerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, false);
             this.allTimePlayerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, true);
             this.currentSeasonTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, false);
             this.allTimeTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, true);
