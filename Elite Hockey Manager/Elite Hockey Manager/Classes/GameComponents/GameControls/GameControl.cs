@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public partial class GameControl : UserControl
     {
         #region Fields

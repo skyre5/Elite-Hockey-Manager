@@ -1,103 +1,184 @@
-﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-
-namespace Elite_Hockey_Manager.Classes
+﻿namespace Elite_Hockey_Manager.Classes.Players
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.Serialization;
+
+    using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+    using Elite_Hockey_Manager.Classes.Stats;
+
+    /// <summary>
+    /// The skater. Abstract class for all players besides the goalie
+    /// </summary>
     [Serializable]
     public abstract class Skater : Player
     {
-        #region Fields
-
-        protected SkaterAttributes _attributes;
-        protected List<SkaterStats> _stats = new List<SkaterStats>();
-
-        #endregion Fields
-
         #region Constructors
 
-        public Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class
+        /// </summary>
+        /// <param name="first">
+        /// player first name
+        /// </param>
+        /// <param name="last">
+        /// player last name
+        /// </param>
+        /// <param name="age">
+        /// player age
+        /// </param>
+        /// <param name="attributes">
+        /// player's skater attributes
+        /// </param>
+        protected Skater(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age)
         {
-            _attributes = attributes;
+            this.SkaterAttributes = attributes;
         }
 
-        public Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class.
+        /// </summary>
+        /// <param name="first">
+        /// The first name
+        /// </param>
+        /// <param name="last">
+        /// The last name
+        /// </param>
+        /// <param name="age">
+        /// The age
+        /// </param>
+        /// <param name="contract">
+        /// The contract
+        /// </param>
+        /// <param name="attributes">
+        /// The attributes
+        /// </param>
+        protected Skater(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract)
         {
-            _attributes = attributes;
+            this.SkaterAttributes = attributes;
         }
 
-        public Skater(string first, string last, int age) : base(first, last, age)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class.
+        /// </summary>
+        /// <param name="first">
+        /// The first.
+        /// </param>
+        /// <param name="last">
+        /// The last.
+        /// </param>
+        /// <param name="age">
+        /// The age.
+        /// </param>
+        protected Skater(string first, string last, int age) : base(first, last, age)
         {
-            _attributes = new SkaterAttributes();
+            this.SkaterAttributes = new SkaterAttributes();
         }
 
-        public Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class.
+        /// </summary>
+        /// <param name="first">
+        /// The first.
+        /// </param>
+        /// <param name="last">
+        /// The last.
+        /// </param>
+        /// <param name="age">
+        /// The age.
+        /// </param>
+        /// <param name="contract">
+        /// The contract.
+        /// </param>
+        protected Skater(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
-            _attributes = new SkaterAttributes();
+            this.SkaterAttributes = new SkaterAttributes();
         }
 
-        public Skater(SerializationInfo info, StreamingContext context) : base(info, context)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class.
+        /// </summary>
+        /// <param name="info">
+        /// The info.
+        /// </param>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        protected Skater(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this._attributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
+            this.SkaterAttributes = (SkaterAttributes)info.GetValue("Attributes", typeof(SkaterAttributes));
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public override BaseAttributes Attributes
-        {
-            get
-            {
-                return _attributes;
-            }
-        }
+        /// <summary>
+        /// Gets the attributes in base form
+        /// </summary>
+        public override BaseAttributes Attributes => this.SkaterAttributes;
 
-        public SkaterAttributes SkaterAttributes
-        {
-            get
-            {
-                return (SkaterAttributes)_attributes;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the skater attributes
+        /// </summary>
+        public SkaterAttributes SkaterAttributes { get; protected set; }
 
+        /// <summary>
+        /// Gets the current skater stats for this season
+        /// </summary>
         public SkaterStats Stats
         {
             get
             {
-                //If there are no stats on list add a new invalid skaterstats object
-                if (_stats.Count == 0)
+                // If there are no stats on list add a new invalid SkaterStats object
+                if (this.StatsList.Count == 0)
                 {
-                    Console.WriteLine("Unset skater stats added\n" + new System.Diagnostics.StackTrace().ToString());
-                    _stats.Add(new SkaterStats(-1, -1));
+                    Console.WriteLine(@"Unset skater stats added\n" + new System.Diagnostics.StackTrace());
+                    this.StatsList.Add(new SkaterStats(-1, -1));
                 }
-                return _stats.Last();
+
+                return this.StatsList.Last();
             }
         }
 
-        public List<SkaterStats> StatsList
-        {
-            get
-            {
-                return _stats;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the stats list. Holds all the players seasons of regular season and playoffs
+        /// </summary>
+        public List<SkaterStats> StatsList { get; protected set; } = new List<SkaterStats>();
 
         #endregion Properties
 
         #region Methods
 
-        public override void AddStats(int year, int teamID, bool playoffs)
+        /// <summary>
+        /// Adds a new season of stats to be tracked. Either a new season of regular season play or playoffs
+        /// </summary>
+        /// <param name="year">year of stats to be tracked</param>
+        /// <param name="teamId">id for team the player is playing on</param>
+        /// <param name="playoffs">whether the stats are for playoffs or regular season</param>
+        public override void AddStats(int year, int teamId, bool playoffs)
         {
-            _stats.Add(new SkaterStats(year, teamID, playoffs));
+            this.StatsList.Add(new SkaterStats(year, teamId, playoffs));
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        /// <summary>
+        /// Gets the all time stats of the player
+        /// </summary>
+        /// <returns>AllTimeSkaterStats object is returned</returns>
+        public AllTimeSkaterStats GetAllTimeSkaterStats()
         {
-            base.GetObjectData(info, context);
-            info.AddValue("Attributes", this._attributes);
+            AllTimeSkaterStats allTimeStats = new AllTimeSkaterStats();
+            foreach (SkaterStats stats in this.StatsList)
+            {
+                // Only add regular season stats
+                if (stats.Playoff == false)
+                {
+                    allTimeStats.AddSeasonalStats(stats);
+                }
+            }
+
+            return allTimeStats;
         }
 
         #endregion Methods

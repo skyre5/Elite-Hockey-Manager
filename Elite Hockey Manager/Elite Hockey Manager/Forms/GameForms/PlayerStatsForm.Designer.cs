@@ -45,7 +45,7 @@
             this.playerStatsDataGridView.Location = new System.Drawing.Point(12, 12);
             this.playerStatsDataGridView.Name = "playerStatsDataGridView";
             this.playerStatsDataGridView.ReadOnly = true;
-            this.playerStatsDataGridView.Size = new System.Drawing.Size(653, 452);
+            this.playerStatsDataGridView.Size = new System.Drawing.Size(934, 542);
             this.playerStatsDataGridView.TabIndex = 0;
             // 
             // teamBindingSource
@@ -56,7 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(917, 585);
+            this.ClientSize = new System.Drawing.Size(960, 585);
             this.Controls.Add(this.playerStatsDataGridView);
             this.Name = "PlayerStatsForm";
             this.Text = "PlayerStatsForm";

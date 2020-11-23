@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [Serializable]
     public abstract class Defender : Skater
     {
@@ -45,7 +47,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             get
             {
-                return _attributes.DefenseRating();
+                return SkaterAttributes.DefenseRating();
             }
         }
 
@@ -71,7 +73,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             DefensePlayerStatus status = (DefensePlayerStatus)playerStatus;
             PlayerStatus = status;
-            _attributes.GenerateDefenseStatRanges(status, _age);
+            SkaterAttributes.GenerateDefenseStatRanges(status, _age);
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -5,6 +5,8 @@ using System.Reflection;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public static class TeamGenerator
     {
         #region Fields

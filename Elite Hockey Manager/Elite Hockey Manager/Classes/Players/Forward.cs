@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [Serializable]
     public abstract class Forward : Skater
     {
@@ -63,7 +65,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
             PlayerStatus = status;
-            _attributes.GenerateForwardStatRanges(status, _age);
+            SkaterAttributes.GenerateForwardStatRanges(status, _age);
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

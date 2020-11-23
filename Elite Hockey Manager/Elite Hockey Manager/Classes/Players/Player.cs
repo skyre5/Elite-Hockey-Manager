@@ -133,7 +133,6 @@ namespace Elite_Hockey_Manager.Classes
         public abstract BaseAttributes Attributes
         {
             get;
-            //set;
         }
 
         public List<Contract> CareerContracts { get; } = new List<Contract>();

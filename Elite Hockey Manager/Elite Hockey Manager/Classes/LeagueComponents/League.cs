@@ -427,10 +427,16 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void AdvanceToRegularSeason()
         {
-            State = LeagueState.RegularSeason;
-            DayIndex = 0;
-            _leagueHistorySchedules.Add(new LeagueComponents.Schedule(FirstConference, SecondConference, rand));
-            AddYearlyStats();
+            this.State = LeagueState.RegularSeason;
+            this.DayIndex = 0;
+            this._leagueHistorySchedules.Add(new LeagueComponents.Schedule(this.FirstConference, this.SecondConference, this.rand));
+            this.AddYearlyStats();
+
+            // Makes sure old players are removed from active lineup and new players are placed into lineup
+            foreach (Team team in AllTeams)
+            {
+                team.AutoSetLines();
+            }
         }
 
         /// <summary>

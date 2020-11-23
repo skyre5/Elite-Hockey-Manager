@@ -6,6 +6,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff.StatsControls
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public partial class StatsControl : UserControl
     {
         #region Constructors

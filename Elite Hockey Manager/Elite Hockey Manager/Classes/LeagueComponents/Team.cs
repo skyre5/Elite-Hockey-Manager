@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [Serializable]
     public class Team : IEquatable<Team>, IComparable<Team> //,ISerializable
     {

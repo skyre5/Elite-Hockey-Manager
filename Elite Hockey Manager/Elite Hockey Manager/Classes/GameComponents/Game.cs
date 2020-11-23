@@ -6,6 +6,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
+    using Elite_Hockey_Manager.Classes.Players;
+
     /// <summary>
     /// enum for the separate shot types, each shot type will be weighted on different attribute values
     /// </summary>

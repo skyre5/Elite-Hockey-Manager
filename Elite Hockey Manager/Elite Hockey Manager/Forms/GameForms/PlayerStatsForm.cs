@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Elite_Hockey_Manager.Forms.GameForms
+﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
-    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
 
     using Elite_Hockey_Manager.Classes;
+    using Elite_Hockey_Manager.Classes.Players;
     using Elite_Hockey_Manager.Classes.Utility;
 
+    /// <summary>
+    /// The player stats form
+    /// </summary>
     public partial class PlayerStatsForm : Form
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerStatsForm"/> class.
+        /// </summary>
         public PlayerStatsForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>
@@ -37,6 +36,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         {
             if (allTime)
             {
+                this.SetAllTimeSeasonStats(league);
             }
             else
             {
@@ -49,6 +49,32 @@ namespace Elite_Hockey_Manager.Forms.GameForms
         #region Methods
 
         /// <summary>
+        /// Sets the dataGridView to the all time stats of the players
+        /// </summary>
+        /// <param name="league">League containing all players that ever played</param>
+        private void SetAllTimeSeasonStats(League league)
+        {
+            List<Skater> allSkaters = league.Players.OfType<Skater>().ToList();
+            var playerAndCareerStatsQuery =
+                from p in allSkaters select new { p.FullName, AllTimeStats = p.GetAllTimeSkaterStats() };
+            var displayQuery = from p in playerAndCareerStatsQuery
+                               where p.AllTimeStats.GamesPlayed > 0
+                               orderby p.AllTimeStats.Points descending
+                               select new
+                               {
+                                   p.FullName,
+                                   p.AllTimeStats.Seasons,
+                                   p.AllTimeStats.GamesPlayed,
+                                   p.AllTimeStats.Points,
+                                   p.AllTimeStats.Goals,
+                                   p.AllTimeStats.Assists,
+                                   p.AllTimeStats.PlusMinus
+                               };
+            var allTimeStatsBindingList = displayQuery.ToList().ToSortableBindingList();
+            this.playerStatsDataGridView.DataSource = allTimeStatsBindingList;
+        }
+
+        /// <summary>
         /// Sets the DataGridView to the stats of the current season
         /// </summary>
         /// <param name="league">League containing the signed players from this season</param>
@@ -57,16 +83,16 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             List<Skater> signedSkaters = league.SignedPlayers.OfType<Skater>().ToList();
             var query = from p in signedSkaters
                         where p.Stats.GamesPlayed > 0
-                        orderby p.Stats.Points
+                        orderby p.Stats.Points descending
                         select new
                         {
                             p.FullName,
                             p.Overall,
                             p.Position,
                             p.Age,
+                            p.Stats.Points,
                             p.Stats.Goals,
                             p.Stats.Assists,
-                            p.Stats.Points,
                             p.Stats.PlusMinus
                         };
 

@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace Elite_Hockey_Manager.Classes.Tests
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [TestFixture()]
     public class TeamTests
     {
