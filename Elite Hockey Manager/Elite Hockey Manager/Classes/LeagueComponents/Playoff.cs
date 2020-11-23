@@ -238,6 +238,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 PlayoffSeries finalSeries = playoffSeriesArray.Last()[0];
                 FinishedSimming = true;
                 Champion = finalSeries.Winner;
+
+                // Sets the playoff stats of the championship team as true
+                finalSeries.Winner.CurrentSeasonStats.Champion = true;
             }
             //If there are still more rounds to be played
             else

@@ -412,6 +412,7 @@ namespace Elite_Hockey_Manager.Classes
             }
             else
             {
+                this.AssignPresidentsTrophyWinner();
                 //Turns the state of the league to playoffs
                 this.State = LeagueState.Playoffs;
                 //Confirms the two conferences are sorted so the playoff teams are correct
@@ -649,6 +650,16 @@ namespace Elite_Hockey_Manager.Classes
             {
                 player.AddStats(this.Year, player.CurrentTeam.TeamID, false);
             }
+        }
+
+        /// <summary>
+        /// Adds the presidents trophy designation to the stats of the best regular season team
+        /// </summary>
+        private void AssignPresidentsTrophyWinner()
+        {
+            // Gets the top ranked team by order of points and sets them as having won a championship for that season
+            Team winningTeam = this.AllTeams.OrderByDescending(t => t.CurrentRegularSeasonStats.Points).First();
+            winningTeam.CurrentRegularSeasonStats.Champion = true;
         }
 
         /// <summary>

@@ -16,31 +16,31 @@ namespace Elite_Hockey_Manager.Classes.Stats
             Playoff = playoff;
         }
 
-        protected TeamStats(SerializationInfo info, StreamingContext context)
-        {
-            this.Year = (int)info.GetValue("Year", typeof(int));
-            this.Playoff = (bool)info.GetValue("Playoff", typeof(bool));
+        //protected TeamStats(SerializationInfo info, StreamingContext context)
+        //{
+        //    this.Year = (int)info.GetValue("Year", typeof(int));
+        //    this.Playoff = (bool)info.GetValue("Playoff", typeof(bool));
 
-            this.Wins = (int)info.GetValue("Wins", typeof(int));
-            this.OvertimeWins = (int)info.GetValue("OvertimeWins", typeof(int));
-            this.ShootoutWins = (int)info.GetValue("ShootoutWins", typeof(int));
+        //    this.Wins = (int)info.GetValue("Wins", typeof(int));
+        //    this.OvertimeWins = (int)info.GetValue("OvertimeWins", typeof(int));
+        //    this.ShootoutWins = (int)info.GetValue("ShootoutWins", typeof(int));
 
-            this.Losses = (int)info.GetValue("Losses", typeof(int));
-            this.OvertimeLosses = (int)info.GetValue("OvertimeLosses", typeof(int));
-            this.ShootoutLosses = (int)info.GetValue("ShootoutLosses", typeof(int));
+        //    this.Losses = (int)info.GetValue("Losses", typeof(int));
+        //    this.OvertimeLosses = (int)info.GetValue("OvertimeLosses", typeof(int));
+        //    this.ShootoutLosses = (int)info.GetValue("ShootoutLosses", typeof(int));
 
-            this.GoalsFor = (int)info.GetValue("GoalsFor", typeof(int));
-            this.GoalsAgainst = (int)info.GetValue("GoalsAgainst", typeof(int));
+        //    this.GoalsFor = (int)info.GetValue("GoalsFor", typeof(int));
+        //    this.GoalsAgainst = (int)info.GetValue("GoalsAgainst", typeof(int));
 
-            this.ShotsFor = (int)info.GetValue("ShotsFor", typeof(int));
-            this.ShotsAgainst = (int)info.GetValue("ShotsAgainst", typeof(int));
+        //    this.ShotsFor = (int)info.GetValue("ShotsFor", typeof(int));
+        //    this.ShotsAgainst = (int)info.GetValue("ShotsAgainst", typeof(int));
 
-            this.PowerplaysFor = (int)info.GetValue("PowerplaysFor", typeof(int));
-            this.PowerplayGoals = (int)info.GetValue("PowerplayGoals", typeof(int));
+        //    this.PowerplaysFor = (int)info.GetValue("PowerplaysFor", typeof(int));
+        //    this.PowerplayGoals = (int)info.GetValue("PowerplayGoals", typeof(int));
 
-            this.PowerplaysAgainst = (int)info.GetValue("PowerplaysAgainst", typeof(int));
-            this.PowerplayGoalsAgainst = (int)info.GetValue("PowerplayGoalsAgainst", typeof(int));
-        }
+        //    this.PowerplaysAgainst = (int)info.GetValue("PowerplaysAgainst", typeof(int));
+        //    this.PowerplayGoalsAgainst = (int)info.GetValue("PowerplayGoalsAgainst", typeof(int));
+        //}
 
         #endregion Constructors
 
@@ -51,6 +51,17 @@ namespace Elite_Hockey_Manager.Classes.Stats
         #endregion Events
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the season resulted in a championship
+        /// Presidents trophy for regular season championship
+        /// Stanley cup trophy for playoff championship
+        /// </summary>
+        public bool Champion
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Total goals team lets up

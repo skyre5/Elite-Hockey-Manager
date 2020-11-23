@@ -405,6 +405,21 @@ namespace Elite_Hockey_Manager.Classes
             //return int.Equals(_teamID, other.TeamID) && String.Equals(FullName, other.FullName);
         }
 
+        /// <summary>
+        /// Gets the all time stats for the team
+        /// </summary>
+        /// <returns>AllTimeTeamStats object is returned with all the stats from this team</returns>
+        public AllTimeTeamStats GetAllTimeTeamStats()
+        {
+            AllTimeTeamStats allTimeTeamStats = new AllTimeTeamStats();
+            foreach (TeamStats stats in SeasonTeamStats)
+            {
+                allTimeTeamStats.AddSeasonalStats(stats);
+            }
+
+            return allTimeTeamStats;
+        }
+
         public double GetCapSpent()
         {
             double totalCap = 0;

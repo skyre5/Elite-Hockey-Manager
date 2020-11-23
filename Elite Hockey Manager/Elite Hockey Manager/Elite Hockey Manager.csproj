@@ -233,6 +233,7 @@
     <Compile Include="Classes\Players\Defensemen.cs" />
     <Compile Include="Classes\Players\Skater.cs" />
     <Compile Include="Classes\Stats\AllTimeSkaterStats.cs" />
+    <Compile Include="Classes\Stats\AllTimeTeamStats.cs" />
     <Compile Include="Classes\Utility\SaveLoadUtils.cs" />
     <Compile Include="Classes\Stats\GoalieStats.cs" />
     <Compile Include="Classes\Players\Player.cs" />
@@ -430,6 +431,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\PlayerStatsForm.resx">
       <DependentUpon>PlayerStatsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GameForms\TeamStatsForm.resx">
+      <DependentUpon>TeamStatsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameForms\ViewTeamForm.resx">
       <DependentUpon>ViewTeamForm.cs</DependentUpon>
