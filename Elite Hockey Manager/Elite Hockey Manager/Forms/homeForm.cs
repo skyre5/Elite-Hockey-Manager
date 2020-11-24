@@ -93,5 +93,17 @@ namespace Elite_Hockey_Manager
         }
 
         #endregion Methods
+
+        /// <summary>
+        /// Opens the importNewGameForm where the player can import existing information from the NHL API
+        /// </summary>
+        /// <param name="sender">button obj</param>
+        /// <param name="e">event args</param>
+        private void ImportNewGameButton_Click(object sender, EventArgs e)
+        {
+            ImportForm form = new ImportForm();
+            this.Hide();
+            form.ShowDialog();
+        }
     }
 }
