@@ -22,7 +22,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
 
         #region Methods
 
-        public abstract void advanceStateButton_Click(object sender, EventArgs e);
+        public abstract void AdvanceStateButton_Click(object sender, EventArgs e);
 
         /// <summary>
         /// Enables and displays button to advance to the next league state
@@ -61,7 +61,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
     {
         #region Methods
 
-        public override void advanceStateButton_Click(object sender, EventArgs e)
+        public override void AdvanceStateButton_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }

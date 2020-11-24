@@ -1,132 +1,183 @@
-﻿using System;
-
-namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
+﻿namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeagueControls
 {
+    using System;
+
+    /// <summary>
+    /// The offseason stages
+    /// </summary>
     public enum OffseasonStage
     {
+        /// <summary>
+        /// Stage where players attributes are changed and players decide to retire from the league
+        /// </summary>
         ProgressionAndRetirement,
+
+        /// <summary>
+        /// Stage where new players are drafted to teams based on talent level and attributes
+        /// </summary>
         Draft,
+
+        /// <summary>
+        /// Stage where players may choose to sign contracts with their team from the prior season
+        /// </summary>
         Resign,
+
+        /// <summary>
+        /// Stage where players without contracts may join a new team
+        /// </summary>
         FreeAgency
     }
 
 #if DEBUG
 
+    /// <summary>
+    /// The sim league offseason control
+    /// </summary>
     public partial class SimLeagueOffseasonControl : SimLeagueControlMiddle
 #else
         public partial class SimLeagueOffseasonControl : SimLeagueControl
 #endif
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimLeagueOffseasonControl"/> class.
+        /// </summary>
+        public SimLeagueOffseasonControl()
+        {
+            this.InitializeComponent();
+            this.UpdateTitle();
+        }
+
+        #endregion Constructors
+
+        #region Events
+
+        /// <summary>
+        /// Event for advancing from the offseason to the regular season
+        /// </summary>
+        public event Action AdvanceToRegularSeasonEvent;
+
+        /// <summary>
+        /// Event to trigger opening one of the offseason stages form
+        /// </summary>
+        public event Action<OffseasonStage> OpenStageFormEvent;
+
+        /// <summary>
+        /// Event for simulating through all remaining stages
+        /// </summary>
+        public event Action SimAllStagesEvent;
+
+        /// <summary>
+        /// Event for advancing to the next offseason stage
+        /// </summary>
+        public event Action StageAdvancedEvent;
+
+        #endregion Events
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the current OffseasonStage of the control
+        /// </summary>
         public OffseasonStage StageIndex
         {
             get;
             private set;
-        } = 0;
-
-        //public readonly string[] Stages = new string[] { "Draft", "Resign Window", "Free Agency" };
-        public event Action<OffseasonStage> OpenStageFormEvent;
-
-        public event Action StageAdvancedEvent;
-
-        public event Action SimAllStagesEvent;
-
-        public event Action AdvanceToRegularSeasonEvent;
-
-        public SimLeagueOffseasonControl()
-        {
-            InitializeComponent();
-            UpdateTitle();
         }
+            = 0;
 
-        private void UpdateTitle()
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Advances the offseason to the regular season
+        /// </summary>
+        /// <param name="sender">button sender</param>
+        /// <param name="e">event args</param>
+        public override void AdvanceStateButton_Click(object sender, EventArgs e)
         {
-            stageLabel.Text = $"Stage: {StageIndex}";
+            this.AdvanceToRegularSeasonEvent?.Invoke();
         }
 
         /// <summary>
-        /// Opens form for the cooresponding offseason stage
+        /// Resets the control to its initial state and display
+        /// Resets stage index and hides advance to regular season button
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        public void ResetControl()
+        {
+            this.StageIndex = OffseasonStage.ProgressionAndRetirement;
+            this.UpdateTitle();
+            advanceStateButton.Visible = false;
+            advanceStateButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// Opens form for the corresponding offseason stage
+        /// </summary>
+        /// <param name="sender">Button object</param>
+        /// <param name="e">event args</param>
         public override void Sim1Button_Click(object sender, EventArgs e)
         {
-            OpenStageFormEvent?.Invoke(StageIndex);
+            this.OpenStageFormEvent?.Invoke(this.StageIndex);
         }
 
         /// <summary>
         /// Sims to the next stage of the offseason, retirement, draft, signings, etc...
         /// Denoted by the sending of a -1 to signal a sim to the next offseason stage
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">button object</param>
+        /// <param name="e">event args</param>
         public override void Sim2Button_Click(object sender, EventArgs e)
         {
-            //If the stage index is not the final stage before the next season which is free agency, advange to the next stage within the enum OffseasonStage
-            if (StageIndex != OffseasonStage.FreeAgency)
+            // If the stage index is not the final stage before the next season which is free agency, advange to the next stage within the enum OffseasonStage
+            if (this.StageIndex != OffseasonStage.FreeAgency)
             {
-                StageIndex++;
-                UpdateTitle();
-                if (StageIndex == OffseasonStage.FreeAgency)
+                this.StageIndex++;
+                this.UpdateTitle();
+                if (this.StageIndex == OffseasonStage.FreeAgency)
                 {
                     advanceStateButton.Visible = true;
                     advanceStateButton.Enabled = true;
                 }
-                StageAdvancedEvent?.Invoke();
+
+                this.StageAdvancedEvent?.Invoke();
             }
         }
 
         /// <summary>
-        /// Sims entire rest of offseason
+        /// Simulates the remaining stages of offseason
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">button object</param>
+        /// <param name="e">event args</param>
         public override void Sim3Button_Click(object sender, EventArgs e)
         {
-            SimAllStagesEvent?.Invoke();
+            // If the stage advance event isn't set, then the offseason cannot be simmed
+            if (this.StageAdvancedEvent == null)
+            {
+                return;
+            }
+
+            while (this.StageIndex != OffseasonStage.FreeAgency)
+            {
+                this.StageIndex++;
+                this.StageAdvancedEvent?.Invoke();
+            }
+
+            this.UpdateTitle();
+            advanceStateButton.Visible = true;
+            advanceStateButton.Enabled = true;
         }
 
         /// <summary>
-        ///
+        /// Updates the title label within the control to reflect current offseason stage
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void Sim4Button_Click(object sender, EventArgs e)
+        private void UpdateTitle()
         {
-            RaiseLeagueSimmedEvent(1);
+            this.stageLabel.Text = $@"Stage: {this.StageIndex}";
         }
 
-        /// <summary>
-        /// Sims 3 days during the free agency period which lasts a set number of days
-        /// Only stage of offseason that tracks days
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void Sim5Button_Click(object sender, EventArgs e)
-        {
-            //Sims 3 days of the free agency period
-            RaiseLeagueSimmedEvent(3);
-        }
-
-        /// <summary>
-        /// Advances the offseason to the regular season
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void advanceStateButton_Click(object sender, EventArgs e)
-        {
-            AdvanceToRegularSeasonEvent?.Invoke();
-        }
-
-        private void simThirdButton_Click(object sender, EventArgs e)
-        {
-        }
-
-        public void ResetControl()
-        {
-            StageIndex = OffseasonStage.ProgressionAndRetirement;
-            UpdateTitle();
-            advanceStateButton.Visible = false;
-            advanceStateButton.Enabled = false;
-        }
+        #endregion Methods
     }
 }

@@ -9,7 +9,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         public partial class SimLeagueRegularSeasonControl : SimLeagueControl
 #endif
     {
+        #region Fields
+
         public EventHandler AdvanceLeagueStateToPlayoffs;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SimLeagueRegularSeasonControl()
         {
@@ -17,15 +23,13 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             SetControlsText();
         }
 
-        protected override void SetControlsText()
+        #endregion Constructors
+
+        #region Methods
+
+        public override void AdvanceStateButton_Click(object sender, EventArgs e)
         {
-            simDisplayLabel.Text = "Sim Regular Season:";
-            simFirstButton.Text = "1 Day";
-            simSecondButton.Text = "3 Days";
-            simThirdButton.Text = "7 Days";
-            simFourthButton.Text = "30 Days";
-            simFifthButton.Text = "Season";
-            advanceStateButton.Text = "Advance To Playoffs";
+            AdvanceLeagueStateToPlayoffs(this, null);
         }
 
         /// <summary>
@@ -79,9 +83,17 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
             RaiseLeagueSimmedEvent(-1);
         }
 
-        public override void advanceStateButton_Click(object sender, EventArgs e)
+        protected override void SetControlsText()
         {
-            AdvanceLeagueStateToPlayoffs(this, null);
+            simDisplayLabel.Text = "Sim Regular Season:";
+            simFirstButton.Text = "1 Day";
+            simSecondButton.Text = "3 Days";
+            simThirdButton.Text = "7 Days";
+            simFourthButton.Text = "30 Days";
+            simFifthButton.Text = "Season";
+            advanceStateButton.Text = "Advance To Playoffs";
         }
+
+        #endregion Methods
     }
 }

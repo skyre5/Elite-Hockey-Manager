@@ -79,7 +79,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.SimLeague
         {
         }
 
-        public override void advanceStateButton_Click(object sender, EventArgs e)
+        public override void AdvanceStateButton_Click(object sender, EventArgs e)
         {
             AdvanceLeagueStateToOffseason(this, null);
         }

@@ -106,7 +106,7 @@
             this.advanceStateButton.Text = "Advance State";
             this.advanceStateButton.UseVisualStyleBackColor = true;
             this.advanceStateButton.Visible = false;
-            this.advanceStateButton.Click += new System.EventHandler(this.advanceStateButton_Click);
+            this.advanceStateButton.Click += new System.EventHandler(this.AdvanceStateButton_Click);
             // 
             // SimLeagueControl
             // 

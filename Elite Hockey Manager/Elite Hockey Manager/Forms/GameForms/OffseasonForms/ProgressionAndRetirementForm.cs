@@ -96,10 +96,12 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                         select new
                         {
                             p.ProgressionTracker,
-                            p.CurrentTeam.TeamID,
+                            p.CurrentTeam?.TeamID,
                             Name = p.FullName,
                             p.Age,
-                            BaseOverall = p.ProgressionTracker.OverallTrackerList[p.ProgressionTracker.OverallTrackerList.Count - 2],
+                            BaseOverall =
+                                           p.ProgressionTracker.OverallTrackerList
+                                               [p.ProgressionTracker.OverallTrackerList.Count - 2],
                             NewOverall = p.ProgressionTracker.OverallTrackerList.Last(),
                             TotalChange = p.ProgressionTracker.LatestTotalChangeInAttributes(),
                             p.Retired

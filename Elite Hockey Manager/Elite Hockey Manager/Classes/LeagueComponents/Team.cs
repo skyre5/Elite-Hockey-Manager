@@ -258,7 +258,7 @@ namespace Elite_Hockey_Manager.Classes
             return line;
         }
 
-        public void AddNewGoalie(Goalie goalie)
+        public void AddNewGoalieAndContract(Goalie goalie)
         {
             //goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for
@@ -267,19 +267,19 @@ namespace Elite_Hockey_Manager.Classes
             Roster.Add(goalie);
         }
 
-        public void AddNewPlayer(Player pickedPlayer)
+        public void AddNewPlayerAndContract(Player pickedPlayer)
         {
             if (pickedPlayer is Goalie)
             {
-                AddNewGoalie((Goalie)pickedPlayer);
+                this.AddNewGoalieAndContract((Goalie)pickedPlayer);
             }
             else if (pickedPlayer is Skater)
             {
-                AddNewSkater((Skater)pickedPlayer);
+                this.AddNewSkaterAndContract((Skater)pickedPlayer);
             }
         }
 
-        public void AddNewSkater(Skater skater)
+        public void AddNewSkaterAndContract(Skater skater)
         {
             //skater.StatsList.Add(new SkaterStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for
@@ -309,6 +309,14 @@ namespace Elite_Hockey_Manager.Classes
                     goalie.AddStats(this._year, this._teamID, true);
                 }
             }
+        }
+
+        /// <summary>
+        /// Advances the teams internal year to the next one
+        /// </summary>
+        public void AdvanceYear()
+        {
+            this._year++;
         }
 
         /// <summary>
@@ -358,7 +366,7 @@ namespace Elite_Hockey_Manager.Classes
             while (goalies.Count < 2)
             {
                 Goalie emergencyCreateGoalie = PlayerGenerator.GenerateGoalie(3);
-                this.AddNewGoalie(emergencyCreateGoalie);
+                this.AddNewGoalieAndContract(emergencyCreateGoalie);
                 goalies.Add(emergencyCreateGoalie);
                 //Sets the players progression tracker for when a goalie must be created
                 //only occurs in this function as well as the one in CheckForInjury
@@ -561,11 +569,6 @@ namespace Elite_Hockey_Manager.Classes
             return true;
         }
 
-        internal void AdvanceYear()
-        {
-            //throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Checks to make sure there are a sufficient amount of players to fill out the forward and defensive lines
         /// </summary>
@@ -580,7 +583,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 Player emergencyCreatePlayer = createPlayerFunc(position, quality, -1);
                 players.Add(emergencyCreatePlayer);
-                this.AddNewSkater((Skater)emergencyCreatePlayer);
+                this.AddNewSkaterAndContract((Skater)emergencyCreatePlayer);
                 emergencyCreatePlayer.AddStats(this._year, this._teamID, false);
                 //Adds a players progression tracker when abruptely created mid season for emergency purposes
                 //Only occurs in this function and AutoSetGoalies function
