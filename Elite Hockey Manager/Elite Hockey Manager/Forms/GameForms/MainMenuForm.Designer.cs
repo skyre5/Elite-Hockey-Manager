@@ -93,7 +93,7 @@
             // 
             this.playoffDisplayControl.Enabled = false;
             this.playoffDisplayControl.League = null;
-            this.playoffDisplayControl.Location = new System.Drawing.Point(0, 63);
+            this.playoffDisplayControl.Location = new System.Drawing.Point(12, 27);
             this.playoffDisplayControl.Name = "playoffDisplayControl";
             this.playoffDisplayControl.SelectedRounds = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDisplays.PlayoffRounds.Four;
             this.playoffDisplayControl.Size = new System.Drawing.Size(966, 299);
@@ -139,7 +139,7 @@
             // 
             // simLeagueOffseasonControl1
             // 
-            this.simLeagueOffseasonControl1.Location = new System.Drawing.Point(476, 359);
+            this.simLeagueOffseasonControl1.Location = new System.Drawing.Point(476, 346);
             this.simLeagueOffseasonControl1.Name = "simLeagueOffseasonControl1";
             this.simLeagueOffseasonControl1.Size = new System.Drawing.Size(360, 58);
             this.simLeagueOffseasonControl1.TabIndex = 8;
@@ -170,19 +170,19 @@
             this.currentSeasonPlayerStatsMenuItem,
             this.allTimePlayerStatsMenuItem});
             this.playerStatsMenuItem.Name = "playerStatsMenuItem";
-            this.playerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playerStatsMenuItem.Size = new System.Drawing.Size(134, 22);
             this.playerStatsMenuItem.Text = "Player Stats";
             // 
             // currentSeasonPlayerStatsMenuItem
             // 
             this.currentSeasonPlayerStatsMenuItem.Name = "currentSeasonPlayerStatsMenuItem";
-            this.currentSeasonPlayerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.currentSeasonPlayerStatsMenuItem.Size = new System.Drawing.Size(154, 22);
             this.currentSeasonPlayerStatsMenuItem.Text = "Current Season";
             // 
             // allTimePlayerStatsMenuItem
             // 
             this.allTimePlayerStatsMenuItem.Name = "allTimePlayerStatsMenuItem";
-            this.allTimePlayerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allTimePlayerStatsMenuItem.Size = new System.Drawing.Size(154, 22);
             this.allTimePlayerStatsMenuItem.Text = "All Time";
             // 
             // teamMenuItem
@@ -191,7 +191,7 @@
             this.currentSeasonTeamStatsMenuItem,
             this.allTimeTeamStatsMenuItem});
             this.teamMenuItem.Name = "teamMenuItem";
-            this.teamMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teamMenuItem.Size = new System.Drawing.Size(134, 22);
             this.teamMenuItem.Text = "Team Stats";
             // 
             // currentSeasonTeamStatsMenuItem
