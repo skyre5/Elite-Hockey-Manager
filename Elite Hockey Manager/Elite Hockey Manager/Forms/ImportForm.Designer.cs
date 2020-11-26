@@ -28,23 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.firstConferenceLabel = new System.Windows.Forms.Label();
+            this.secondConferenceLabel = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
+            this.startGameButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // firstConferenceLabel
             // 
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(301, 302);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.firstConferenceLabel.Location = new System.Drawing.Point(185, 9);
+            this.firstConferenceLabel.Name = "firstConferenceLabel";
+            this.firstConferenceLabel.Size = new System.Drawing.Size(162, 302);
+            this.firstConferenceLabel.TabIndex = 0;
+            this.firstConferenceLabel.Text = "label1";
+            // 
+            // secondConferenceLabel
+            // 
+            this.secondConferenceLabel.Location = new System.Drawing.Point(354, 9);
+            this.secondConferenceLabel.Name = "secondConferenceLabel";
+            this.secondConferenceLabel.Size = new System.Drawing.Size(131, 302);
+            this.secondConferenceLabel.TabIndex = 1;
+            this.secondConferenceLabel.Text = "label1";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Location = new System.Drawing.Point(12, 9);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(137, 38);
+            this.statusLabel.TabIndex = 2;
+            this.statusLabel.Text = "Import Status:";
+            // 
+            // startGameButton
+            // 
+            this.startGameButton.Location = new System.Drawing.Point(163, 403);
+            this.startGameButton.Name = "startGameButton";
+            this.startGameButton.Size = new System.Drawing.Size(134, 23);
+            this.startGameButton.TabIndex = 3;
+            this.startGameButton.Text = "Create League";
+            this.startGameButton.UseVisualStyleBackColor = true;
+            this.startGameButton.Click += new System.EventHandler(this.StartGameButton_Click);
             // 
             // ImportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 450);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.startGameButton);
+            this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.secondConferenceLabel);
+            this.Controls.Add(this.firstConferenceLabel);
             this.Name = "ImportForm";
             this.Text = "ImportForm";
             this.Load += new System.EventHandler(this.ImportForm_Load);
@@ -54,6 +86,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label firstConferenceLabel;
+        private System.Windows.Forms.Label secondConferenceLabel;
+        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Button startGameButton;
     }
 }

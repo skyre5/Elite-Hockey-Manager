@@ -9,6 +9,8 @@ namespace Elite_Hockey_Manager.Classes
 {
     using Elite_Hockey_Manager.Classes.Players;
 
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public class Team : IEquatable<Team>, IComparable<Team> //,ISerializable
     {
@@ -43,12 +45,49 @@ namespace Elite_Hockey_Manager.Classes
         {
             Location = location;
             TeamName = name;
+
+            // Abbreviation is first letter of team location and team name
+            Abbreviation = String.Concat(location[0], _teamName[0]);
             LogoPath = imagePath;
             idCount++;
             _teamID = idCount;
             //Adds the initial season TeamStats to the team class
             SeasonTeamStats.Add(new TeamStats(1));
             SetTeamStatsEvent();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Team"/> class.
+        /// </summary>
+        /// <param name="team">
+        /// JToken json object from online API call for an NHL team
+        /// </param>
+        public Team(JToken team)
+        {
+            this.Location = this.TrySelectToken(team, "locationName");
+            this.TeamName = this.TrySelectToken(team, "teamName");
+            this.Abbreviation = this.TrySelectToken(team, "abbreviation");
+
+            this._teamID = ++idCount;
+            this.SeasonTeamStats.Add(new TeamStats(1));
+            this.SetTeamStatsEvent();
+        }
+
+        /// <summary>
+        /// Tries to grab particular select token out of JToken object gather from online API
+        /// Throws argument of information is not found
+        /// </summary>
+        /// <param name="team">JToken made up of team information</param>
+        /// <param name="key">particular data key in JToken</param>
+        /// <returns>The information of that particular key</returns>
+        private string TrySelectToken(JToken team, string key)
+        {
+            string info = team.SelectToken(key)?.ToString();
+            if (info == null)
+            {
+                throw new ArgumentException($"JToken unable to access token {key}");
+            }
+            return info;
         }
 
         #endregion Constructors
