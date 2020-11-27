@@ -39,21 +39,38 @@
         /// <summary>
         /// Calls the online API and returns the data returned in a JObject object
         /// </summary>
-        /// <param name="callString">string for online API call</param>
-        /// <returns>JObject response</returns>
-        private JObject CallApi(string callString)
+        /// <param name="callString">
+        /// string for online API call
+        /// </param>
+        /// <param name="data">
+        /// The data returned from the API call
+        /// </param>
+        /// <returns>
+        /// JObject response
+        /// </returns>
+        private bool CallApi(string callString, out JObject data)
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync(callString).Result;
-            bool responseSuccessful = response.IsSuccessStatusCode;
-            while ((!responseSuccessful) && response.StatusCode != HttpStatusCode.NotFound)
+            try
             {
-                response = client.GetAsync(callString).Result;
-                responseSuccessful = response.IsSuccessStatusCode;
-            }
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = client.GetAsync(callString).Result;
+                bool responseSuccessful = response.IsSuccessStatusCode;
+                while ((!responseSuccessful) && response.StatusCode != HttpStatusCode.NotFound)
+                {
+                    response = client.GetAsync(callString).Result;
+                    responseSuccessful = response.IsSuccessStatusCode;
+                }
 
-            string stringResult = response.Content.ReadAsStringAsync().Result;
-            return JObject.Parse(stringResult);
+                string stringResult = response.Content.ReadAsStringAsync().Result;
+                data = JObject.Parse(stringResult);
+                return true;
+            }
+            catch (AggregateException ex)
+            {
+                Console.WriteLine($@"API request failed {ex}");
+                data = null;
+                return false;
+            }
         }
 
         /// <summary>
@@ -62,10 +79,15 @@
         /// <returns>List of conference names</returns>
         private List<string> GetConferenceNames()
         {
-            JObject data = this.CallApi("https://statsapi.web.nhl.com/api/v1/conferences");
-            JToken conferences = data.SelectToken("conferences");
-
-            return conferences?.Select(conference => conference.SelectToken("name")?.ToString()).ToList();
+            if (this.CallApi("https://statsapi.web.nhl.com/api/v1/conferences", out JObject conferenceData))
+            {
+                JToken conferences = conferenceData.SelectToken("conferences");
+                return conferences?.Select(conference => conference.SelectToken("name")?.ToString()).ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -82,14 +104,9 @@
         private void ImportForm_Load(object sender, EventArgs e)
         {
             JObject teamsData;
-            try
+            if (!this.CallApi("https://statsapi.web.nhl.com/api/v1/teams/", out teamsData))
             {
-                teamsData = this.CallApi("https://statsapii.web.nhl.com/api/v1/teams/");
-            }
-            catch (HttpRequestException ex)
-            {
-                this.statusLabel.Text = $@"Error occurred when calling for teams API {ex}";
-                Console.WriteLine(ex);
+                this.statusLabel.Text = @"API request failed";
                 return;
             }
 
