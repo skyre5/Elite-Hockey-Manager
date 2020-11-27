@@ -1,8 +1,10 @@
 ﻿namespace Elite_Hockey_Manager.Forms
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Windows.Forms;
 
     using Elite_Hockey_Manager.Classes;
@@ -35,6 +37,38 @@
         #region Methods
 
         /// <summary>
+        /// Calls the online API and returns the data returned in a JObject object
+        /// </summary>
+        /// <param name="callString">string for online API call</param>
+        /// <returns>JObject response</returns>
+        private JObject CallApi(string callString)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync(callString).Result;
+            bool responseSuccessful = response.IsSuccessStatusCode;
+            while ((!responseSuccessful) && response.StatusCode != HttpStatusCode.NotFound)
+            {
+                response = client.GetAsync(callString).Result;
+                responseSuccessful = response.IsSuccessStatusCode;
+            }
+
+            string stringResult = response.Content.ReadAsStringAsync().Result;
+            return JObject.Parse(stringResult);
+        }
+
+        /// <summary>
+        /// Gets the conference names from the online NHL API
+        /// </summary>
+        /// <returns>List of conference names</returns>
+        private List<string> GetConferenceNames()
+        {
+            JObject data = this.CallApi("https://statsapi.web.nhl.com/api/v1/conferences");
+            JToken conferences = data.SelectToken("conferences");
+
+            return conferences?.Select(conference => conference.SelectToken("name")?.ToString()).ToList();
+        }
+
+        /// <summary>
         /// The import function that loads in NHL data from the API upon form load
         /// </summary>
         /// <param name="sender">
@@ -47,20 +81,19 @@
         /// </exception>
         private void ImportForm_Load(object sender, EventArgs e)
         {
-            var client = new System.Net.Http.HttpClient();
-            string teamsString = "https://statsapi.web.nhl.com/api/v1/teams/";
-            var response = client.GetAsync(teamsString).Result;
-            bool responseSuccessful = response.IsSuccessStatusCode;
-            while ((!responseSuccessful) && (response.StatusCode != HttpStatusCode.NotFound))
+            JObject teamsData;
+            try
             {
-                response = client.GetAsync(teamsString).Result;
-                responseSuccessful = response.IsSuccessStatusCode;
+                teamsData = this.CallApi("https://statsapii.web.nhl.com/api/v1/teams/");
+            }
+            catch (HttpRequestException ex)
+            {
+                this.statusLabel.Text = $@"Error occurred when calling for teams API {ex}";
+                Console.WriteLine(ex);
+                return;
             }
 
-            var stringResult = response.Content.ReadAsStringAsync().Result;
-            var json = JObject.Parse(stringResult);
-
-            var teamsArray = json.SelectToken("teams");
+            var teamsArray = teamsData.SelectToken("teams");
 
             // Checks whether there is any info to process
             if (teamsArray == null)
@@ -68,7 +101,25 @@
                 return;
             }
 
-            League importLeague = new League("National Hockey League", "NHL", teamsArray.Count());
+            // Gets the conference names from the API
+            List<string> conferenceNames = this.GetConferenceNames();
+            League importLeague;
+
+            // If the GetConferenceNames function had an error or returned invalid data then use default values
+            if (conferenceNames != null && conferenceNames.Count == 2 && !conferenceNames.Contains(null))
+            {
+                importLeague = new League(
+                    "National Hockey League",
+                    "NHL",
+                    teamsArray.Count(),
+                    conferenceNames[0],
+                    conferenceNames[1]);
+            }
+            else
+            {
+                importLeague = new League("National Hockey League", "NHL", teamsArray.Count());
+            }
+
             foreach (var teamInfo in teamsArray)
             {
                 try

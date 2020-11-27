@@ -54,7 +54,7 @@
             // 
             this.statusLabel.Location = new System.Drawing.Point(12, 9);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(137, 38);
+            this.statusLabel.Size = new System.Drawing.Size(137, 85);
             this.statusLabel.TabIndex = 2;
             this.statusLabel.Text = "Import Status:";
             // 
