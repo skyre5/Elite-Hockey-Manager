@@ -7,6 +7,10 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Utility;
+
+    using Newtonsoft.Json.Linq;
+
     public enum DefensePlayerStatus : int
     {
         Unset,
@@ -105,6 +109,24 @@ namespace Elite_Hockey_Manager.Classes
             this.CareerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
             this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
             this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="playerToken">
+        /// The player token containing information gathered from online
+        /// </param>
+        protected Player(JToken playerToken)
+        {
+            // Tries to import the available player information on the token
+            this.FirstName = Import.TrySelectToken(playerToken, "firstName");
+            this.LastName = Import.TrySelectToken(playerToken, "lastName");
+            this.Age = int.Parse(Import.TrySelectToken(playerToken, "currentAge"));
+
+            // this.PlayerNumber = int.Parse(Import.TrySelectToken(playerToken, "primaryNumber"));
+            idCount++;
+            this._playerID = idCount;
         }
 
         #endregion Constructors

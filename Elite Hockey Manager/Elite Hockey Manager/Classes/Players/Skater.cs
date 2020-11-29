@@ -8,6 +8,8 @@
     using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
     using Elite_Hockey_Manager.Classes.Stats;
 
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     /// The skater. Abstract class for all players besides the goalie
     /// </summary>
@@ -72,6 +74,17 @@
         /// The age.
         /// </param>
         protected Skater(string first, string last, int age) : base(first, last, age)
+        {
+            this.SkaterAttributes = new SkaterAttributes();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skater"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        protected Skater(JToken token) : base(token)
         {
             this.SkaterAttributes = new SkaterAttributes();
         }

@@ -74,6 +74,52 @@
         }
 
         /// <summary>
+        /// Creates a player with the information from the JToken for the specified player imported from NHL API
+        /// </summary>
+        /// <param name="baseToken">Token containing player information and ID</param>
+        /// <returns>Player object of the created player with information added</returns>
+        private Player CreatePlayerFromToken(JToken baseToken)
+        {
+            string id = baseToken.SelectToken("person.id")?.ToString();
+            JObject playerObject;
+            this.CallApi($"https://statsapi.web.nhl.com/api/v1/people/{id}", out playerObject);
+            JToken playerToken = playerObject.SelectToken("people[0]");
+
+            // Gets the players position as a short designation {C, RW, LW, D, G}
+            string position = playerToken?.SelectToken("primaryPosition.code")?.ToString();
+
+            // API doesn't give left or right defense designation so set it as their shooting hand
+            if (position == "D")
+            {
+                position = playerToken.SelectToken("shootsCatches")?.ToString() == "L" ? "LD" : "RD";
+            }
+
+            switch (position)
+            {
+                case "C":
+                    return new Center(playerToken);
+
+                case "R":
+                    return new RightWinger(playerToken);
+
+                case "L":
+                    return new LeftWinger(playerToken);
+
+                case "LD":
+                    return new LeftDefensemen(playerToken);
+
+                case "RD":
+                    return new RightDefensemen(playerToken);
+
+                case "G":
+                    return new Goalie(playerToken);
+
+                default:
+                    throw new ArgumentException("Unexpected position string in Token");
+            }
+        }
+
+        /// <summary>
         /// Gets the conference names from the online NHL API
         /// </summary>
         /// <returns>List of conference names</returns>
@@ -141,15 +187,19 @@
             {
                 try
                 {
+                    // Constructs team out of JToken object
                     Team team = new Team(teamInfo);
+
+                    // Imports player from online ROSTER into team roster
+                    this.ImportPlayersIntoTeam(team);
                     string conference = teamInfo.SelectToken("conference.name")?.ToString();
-                    if (conference == "Eastern")
-                    {
-                        importLeague.AddTeam(team, 2);
-                    }
-                    else if (conference == "Western")
+                    if (conference == importLeague.FirstConferenceName)
                     {
                         importLeague.AddTeam(team);
+                    }
+                    else if (conference == importLeague.SecondConferenceName)
+                    {
+                        importLeague.AddTeam(team, 2);
                     }
                     else
                     {
@@ -167,6 +217,26 @@
             this.CreatedLeague = importLeague;
             this.statusLabel.Text = @"Import Successful: Imported League shown to the right";
             this.LoadConferencesIntoDisplay();
+        }
+
+        /// <summary>
+        /// Imports players from NHL team into the team
+        /// </summary>
+        /// <param name="team">Team that is importing players</param>
+        private void ImportPlayersIntoTeam(Team team)
+        {
+            JObject rosterData;
+            this.CallApi($"https://statsapi.web.nhl.com/api/v1/teams/{team.TeamID}?expand=team.roster", out rosterData);
+            JToken playerList = rosterData.SelectToken("teams[0].roster.roster");
+            if (playerList != null)
+            {
+                foreach (JToken player in playerList)
+                {
+                    Player createdPlayer = this.CreatePlayerFromToken(player);
+                    team.AddNewPlayerAndContract(createdPlayer);
+                    createdPlayer.AddStats(1, team.TeamID, false);
+                }
+            }
         }
 
         /// <summary>
@@ -205,7 +275,7 @@
         /// </param>
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            this.CreatedLeague.FillLeagueWithPlayers();
+            // this.CreatedLeague.FillLeagueWithPlayers();
             MainMenuForm form = new MainMenuForm(this.CreatedLeague);
             this.Hide();
             form.ShowDialog();

@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public class Center : Forward
     {
@@ -22,6 +24,16 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         public Center(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Center"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        public Center(JToken token) : base(token)
         {
         }
 

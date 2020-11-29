@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public abstract class WingerBase : Forward
     {
@@ -26,6 +28,16 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         public WingerBase(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WingerBase"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        protected WingerBase(JToken token) : base(token)
         {
         }
 

@@ -8,6 +8,7 @@ using System.Linq;
 namespace Elite_Hockey_Manager.Classes
 {
     using Elite_Hockey_Manager.Classes.Players;
+    using Elite_Hockey_Manager.Classes.Utility;
 
     using Newtonsoft.Json.Linq;
 
@@ -64,30 +65,12 @@ namespace Elite_Hockey_Manager.Classes
         /// </param>
         public Team(JToken team)
         {
-            this.Location = this.TrySelectToken(team, "locationName");
-            this.TeamName = this.TrySelectToken(team, "teamName");
-            this.Abbreviation = this.TrySelectToken(team, "abbreviation");
-
-            this._teamID = ++idCount;
+            this.Location = Import.TrySelectToken(team, "locationName");
+            this.TeamName = Import.TrySelectToken(team, "teamName");
+            this.Abbreviation = Import.TrySelectToken(team, "abbreviation");
+            this._teamID = int.Parse(Import.TrySelectToken(team, "id"));
             this.SeasonTeamStats.Add(new TeamStats(1));
             this.SetTeamStatsEvent();
-        }
-
-        /// <summary>
-        /// Tries to grab particular select token out of JToken object gather from online API
-        /// Throws argument of information is not found
-        /// </summary>
-        /// <param name="team">JToken made up of team information</param>
-        /// <param name="key">particular data key in JToken</param>
-        /// <returns>The information of that particular key</returns>
-        private string TrySelectToken(JToken team, string key)
-        {
-            string info = team.SelectToken(key)?.ToString();
-            if (info == null)
-            {
-                throw new ArgumentException($"JToken unable to access token {key}");
-            }
-            return info;
         }
 
         #endregion Constructors

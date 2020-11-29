@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public class LeftDefensemen : Defender
     {
@@ -22,6 +24,16 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         public LeftDefensemen(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeftDefensemen"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        public LeftDefensemen(JToken token) : base(token)
         {
         }
 
@@ -62,6 +74,16 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         public RightDefensemen(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RightDefensemen"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        public RightDefensemen(JToken token) : base(token)
         {
         }
 

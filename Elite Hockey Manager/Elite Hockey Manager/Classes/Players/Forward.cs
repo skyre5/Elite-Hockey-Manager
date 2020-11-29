@@ -6,6 +6,8 @@ namespace Elite_Hockey_Manager.Classes
 {
     using Elite_Hockey_Manager.Classes.Players;
 
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public abstract class Forward : Skater
     {
@@ -37,6 +39,16 @@ namespace Elite_Hockey_Manager.Classes
             {
                 this.PlayerStatus = ForwardPlayerStatus.Unset;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        protected Forward(JToken token) : base(token)
+        {
         }
 
         #endregion Constructors

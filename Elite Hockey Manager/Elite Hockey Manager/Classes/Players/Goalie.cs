@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Newtonsoft.Json.Linq;
+
     [Serializable]
     public class Goalie : Player
     {
@@ -34,6 +36,17 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         public Goalie(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        {
+            this._attributes = new GoalieAttributes();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Goalie"/> class.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        public Goalie(JToken token) : base(token)
         {
             this._attributes = new GoalieAttributes();
         }

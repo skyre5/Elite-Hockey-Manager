@@ -237,6 +237,7 @@
     <Compile Include="Classes\Players\Skater.cs" />
     <Compile Include="Classes\Stats\AllTimeSkaterStats.cs" />
     <Compile Include="Classes\Stats\AllTimeTeamStats.cs" />
+    <Compile Include="Classes\Utility\Import.cs" />
     <Compile Include="Classes\Utility\SaveLoadUtils.cs" />
     <Compile Include="Classes\Stats\GoalieStats.cs" />
     <Compile Include="Classes\Players\Player.cs" />
