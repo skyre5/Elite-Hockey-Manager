@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -236,17 +237,15 @@
         }
 
         /// <summary>
-        /// The import function that loads in NHL data from the API upon form load
+        /// Imports league details from online API
         /// </summary>
         /// <param name="sender">
         /// The sender.
         /// </param>
         /// <param name="e">
-        /// The event args
+        /// The DoWorkEvent args
         /// </param>
-        /// <exception cref="ArgumentException"> Thrown when the API doesn't give expected data
-        /// </exception>
-        private void ImportForm_Load(object sender, EventArgs e)
+        private void ImportLeague_DoWork(object sender, DoWorkEventArgs e)
         {
             JObject teamsData;
             if (!this.CallApi("https://statsapi.web.nhl.com/api/v1/teams/", out teamsData))
@@ -282,6 +281,11 @@
                 importLeague = new League("National Hockey League", "NHL", teamsArray.Count());
             }
 
+            // Stores how many percentage points go up for each team imported simplified to an integer
+            int basePercentage = 100 / teamsArray.Count();
+
+            // Stores how many teams have been successfully imported
+            int teamsImported = 0;
             foreach (var teamInfo in teamsArray)
             {
                 try
@@ -304,6 +308,9 @@
                     {
                         throw new ArgumentException("Conference name not matched in importForm");
                     }
+
+                    // Iterates and reports the amount of teams that have been imported correctly
+                    this.importLeagueBackgroundWorker.ReportProgress(basePercentage * ++teamsImported);
                 }
                 catch (ArgumentException ex)
                 {
@@ -314,8 +321,6 @@
             }
 
             this.CreatedLeague = importLeague;
-            this.statusLabel.Text = @"Import Successful: Imported League shown to the right";
-            this.LoadConferencesIntoDisplay();
         }
 
         /// <summary>
@@ -364,6 +369,56 @@
         }
 
         #endregion Methods
+
+        /// <summary>
+        /// Button that starts the process of importing online data from an API
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportButton_Click(object sender, EventArgs e)
+        {
+            this.importLeagueBackgroundWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Reports progress in importing of league
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportLeagueBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            this.importProgressBar.Value = e.ProgressPercentage;
+        }
+
+        /// <summary>
+        /// Runs when the import of the league is finished
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.importProgressBar.Value = 100;
+
+            // If the import successfully created a league then enable the player to start a league with it
+            if (this.CreatedLeague != null)
+            {
+                this.statusLabel.Text = @"Import Successful: Imported League shown to the right";
+                this.LoadConferencesIntoDisplay();
+                this.startGameButton.Enabled = true;
+            }
+        }
 
         /// <summary>
         /// Starts a game based on the imported league
