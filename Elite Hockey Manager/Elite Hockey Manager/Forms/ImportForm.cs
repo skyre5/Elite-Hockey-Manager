@@ -17,6 +17,20 @@
     /// </summary>
     public partial class ImportForm : Form
     {
+        #region Fields
+
+        /// <summary>
+        /// Bool variable to alternate each team to have around an equal number of left and right defenders
+        /// </summary>
+        private static bool alternatingDefenderBool = true;
+
+        /// <summary>
+        /// Random object to be used across form to ensure random results
+        /// </summary>
+        private readonly Random rand = new Random();
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -75,10 +89,11 @@
 
         /// <summary>
         /// Creates a player with the information from the JToken for the specified player imported from NHL API
+        /// Calls the NHL API for that specific player, can get expensive when done for an entire league and send 600 API calls
         /// </summary>
         /// <param name="baseToken">Token containing player information and ID</param>
         /// <returns>Player object of the created player with information added</returns>
-        private Player CreatePlayerFromToken(JToken baseToken)
+        private Player CreateDetailedPlayerFromToken(JToken baseToken)
         {
             string id = baseToken.SelectToken("person.id")?.ToString();
             JObject playerObject;
@@ -117,6 +132,90 @@
                 default:
                     throw new ArgumentException("Unexpected position string in Token");
             }
+        }
+
+        /// <summary>
+        /// Creates simple player with just position and name
+        /// Randomly creates age
+        /// </summary>
+        /// <param name="baseToken">
+        /// Token containing player information
+        /// </param>
+        /// <returns>
+        /// The <see cref="Player"/>.
+        /// </returns>
+        private Player CreateSimplePlayerFromToken(JToken baseToken)
+        {
+            Player returnPlayer;
+
+            // Gets the useful info out of the JToken extracted from the API for each player
+            string fullName = baseToken.SelectToken("person.fullName")?.ToString();
+            string position = baseToken.SelectToken("position.code")?.ToString();
+            int? playerNumber = baseToken.SelectToken("jerseyNumber")?.ToObject<int>();
+
+            // If any of the info is null then the JToken is incomplete and import fails
+            if (fullName == null || position == null)
+            {
+                throw new ArgumentNullException(nameof(baseToken), @"JToken doesn't contain player information");
+            }
+
+            // Some players have not been given player numbers from the API, in that case give a random number
+            if (playerNumber == null)
+            {
+                playerNumber = this.rand.Next(1, 100);
+            }
+
+            // Splits the fullname given by the API into first and last name
+            string[] names = fullName.Split(' ');
+
+            // If the players full name splits into more than 2 names, append them into the 2nd array place
+            // Example of a 3 length name is Michael Dal Colle, 4 length Jacob De La Rose
+            if (names.Count() > 2)
+            {
+                for (int i = 2; i < names.Count(); i++)
+                {
+                    names[1] += names[i];
+                }
+            }
+
+            // If the player is listed as a defender turn him into a left or right defender based on alternating static variable
+            if (position == "D")
+            {
+                position = alternatingDefenderBool ? "LD" : "RD";
+            }
+
+            switch (position)
+            {
+                case "C":
+                    returnPlayer = new Center(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                case "R":
+                    returnPlayer = new RightWinger(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                case "L":
+                    returnPlayer = new LeftWinger(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                case "LD":
+                    returnPlayer = new LeftDefensemen(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                case "RD":
+                    returnPlayer = new RightDefensemen(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                case "G":
+                    returnPlayer = new Goalie(names[0], names[1], this.rand.Next(18, 41));
+                    break;
+
+                default:
+                    throw new ArgumentException("Unexpected position string in Token");
+            }
+
+            returnPlayer.PlayerNumber = (int)playerNumber;
+            return returnPlayer;
         }
 
         /// <summary>
@@ -230,9 +329,11 @@
             JToken playerList = rosterData.SelectToken("teams[0].roster.roster");
             if (playerList != null)
             {
-                foreach (JToken player in playerList)
+                foreach (JToken playerToken in playerList)
                 {
-                    Player createdPlayer = this.CreatePlayerFromToken(player);
+                    Player createdPlayer = this.CreateSimplePlayerFromToken(playerToken);
+
+                    // Player createdPlayer = this.CreateDetailedPlayerFromToken(player);
                     team.AddNewPlayerAndContract(createdPlayer);
                     createdPlayer.AddStats(1, team.TeamID, false);
                 }

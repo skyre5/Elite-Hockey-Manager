@@ -237,7 +237,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 return _playerNumber;
             }
-            private set
+            set
             {
                 if (value < 1 || value > 99)
                 {
