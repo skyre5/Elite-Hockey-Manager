@@ -366,10 +366,10 @@ namespace Elite_Hockey_Manager.Classes
         {
             List<Player> leftWings = GetPlayersOfType<LeftWinger>();
             CheckForInjury(leftWings, 0, 5, 4, PlayerGenerator.GenerateForward);
-            List<Player> rightWings = GetPlayersOfType<RightWinger>();
-            CheckForInjury(rightWings, 1, 5, 4, PlayerGenerator.GenerateForward);
             List<Player> centers = GetPlayersOfType<Center>();
-            CheckForInjury(centers, 2, 5, 4, PlayerGenerator.GenerateForward);
+            CheckForInjury(centers, 1, 5, 4, PlayerGenerator.GenerateForward);
+            List<Player> rightWings = GetPlayersOfType<RightWinger>();
+            CheckForInjury(rightWings, 2, 5, 4, PlayerGenerator.GenerateForward);
             for (int i = 0; i <= 3; i++)
             {
                 Forwards[i, 0] = (Forward)leftWings[i];

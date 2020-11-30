@@ -183,6 +183,9 @@
             if (position == "D")
             {
                 position = alternatingDefenderBool ? "LD" : "RD";
+
+                // Switches the defenders position for the next creation of a defender
+                alternatingDefenderBool = !alternatingDefenderBool;
             }
 
             switch (position)
