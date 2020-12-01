@@ -41,6 +41,10 @@
             // Events for stats menu clicks
             this.currentSeasonPlayerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, false);
             this.allTimePlayerStatsMenuItem.Click += (o, e) => this.PlayerStatsMenuItem_Click(o, e, true);
+
+            // Opens the player stats form when the open stats form button is pressed on the stats control
+            this.leagueLeadersStatsControl.OpenStatsPageEvent += () => this.PlayerStatsMenuItem_Click(null, null, false);
+
             this.currentSeasonTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, false);
             this.allTimeTeamStatsMenuItem.Click += (o, e) => this.TeamStatsMenuItem_Click(o, e, true);
 

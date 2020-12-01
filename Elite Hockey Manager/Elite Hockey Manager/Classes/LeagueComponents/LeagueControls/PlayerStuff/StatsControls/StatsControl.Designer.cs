@@ -53,7 +53,7 @@
             this.skaterStatsButton.TabIndex = 2;
             this.skaterStatsButton.Text = "Skater";
             this.skaterStatsButton.UseVisualStyleBackColor = true;
-            this.skaterStatsButton.Click += new System.EventHandler(this.skaterStatsButton_Click);
+            this.skaterStatsButton.Click += new System.EventHandler(this.SkaterStatsButton_Click);
             // 
             // goalieStatsButton
             // 
@@ -63,7 +63,7 @@
             this.goalieStatsButton.TabIndex = 3;
             this.goalieStatsButton.Text = "Goalie";
             this.goalieStatsButton.UseVisualStyleBackColor = true;
-            this.goalieStatsButton.Click += new System.EventHandler(this.goalieStatsButton_Click);
+            this.goalieStatsButton.Click += new System.EventHandler(this.GoalieStatsButton_Click);
             // 
             // statsFormButton
             // 
@@ -73,7 +73,7 @@
             this.statsFormButton.TabIndex = 4;
             this.statsFormButton.Text = "Open Stats Page";
             this.statsFormButton.UseVisualStyleBackColor = true;
-            this.statsFormButton.Click += new System.EventHandler(this.statsFormButton_Click);
+            this.statsFormButton.Click += new System.EventHandler(this.StatsFormButton_Click);
             // 
             // playerStatsControl
             // 
