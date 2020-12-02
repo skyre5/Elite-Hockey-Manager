@@ -120,6 +120,15 @@ namespace Elite_Hockey_Manager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2019.
+        /// </summary>
+        internal static string finalYearImport {
+            get {
+                return ResourceManager.GetString("finalYearImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aaron
         ///Abdul
         ///Abe
@@ -191,6 +200,15 @@ namespace Elite_Hockey_Manager.Properties {
         internal static string firstNames {
             get {
                 return ResourceManager.GetString("firstNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1995.
+        /// </summary>
+        internal static string firstYearImport {
+            get {
+                return ResourceManager.GetString("firstYearImport", resourceCulture);
             }
         }
         

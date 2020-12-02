@@ -35,6 +35,8 @@
             this.importButton = new System.Windows.Forms.Button();
             this.importLeagueBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.importProgressBar = new System.Windows.Forms.ProgressBar();
+            this.selectSeasonComboBox = new System.Windows.Forms.ComboBox();
+            this.seasonLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // firstConferenceLabel
@@ -96,11 +98,31 @@
             this.importProgressBar.Size = new System.Drawing.Size(122, 23);
             this.importProgressBar.TabIndex = 5;
             // 
+            // selectSeasonComboBox
+            // 
+            this.selectSeasonComboBox.FormattingEnabled = true;
+            this.selectSeasonComboBox.Location = new System.Drawing.Point(15, 196);
+            this.selectSeasonComboBox.Name = "selectSeasonComboBox";
+            this.selectSeasonComboBox.Size = new System.Drawing.Size(121, 21);
+            this.selectSeasonComboBox.TabIndex = 6;
+            this.selectSeasonComboBox.SelectedIndexChanged += new System.EventHandler(this.SelectSeasonComboBox_SelectedIndexChanged);
+            // 
+            // seasonLabel
+            // 
+            this.seasonLabel.AutoSize = true;
+            this.seasonLabel.Location = new System.Drawing.Point(15, 177);
+            this.seasonLabel.Name = "seasonLabel";
+            this.seasonLabel.Size = new System.Drawing.Size(76, 13);
+            this.seasonLabel.TabIndex = 7;
+            this.seasonLabel.Text = "Select Season";
+            // 
             // ImportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 450);
+            this.Controls.Add(this.seasonLabel);
+            this.Controls.Add(this.selectSeasonComboBox);
             this.Controls.Add(this.importProgressBar);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.startGameButton);
@@ -109,7 +131,9 @@
             this.Controls.Add(this.firstConferenceLabel);
             this.Name = "ImportForm";
             this.Text = "ImportForm";
+            this.Load += new System.EventHandler(this.ImportForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -122,5 +146,7 @@
         private System.Windows.Forms.Button importButton;
         private System.ComponentModel.BackgroundWorker importLeagueBackgroundWorker;
         private System.Windows.Forms.ProgressBar importProgressBar;
+        private System.Windows.Forms.ComboBox selectSeasonComboBox;
+        private System.Windows.Forms.Label seasonLabel;
     }
 }

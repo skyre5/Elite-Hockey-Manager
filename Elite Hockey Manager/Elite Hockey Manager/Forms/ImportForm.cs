@@ -50,6 +50,15 @@
 
         #endregion Constructors
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the selected season string that will be appended onto the API calls
+        /// </summary>
+        private string SelectedSeason { get; set; }
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>
@@ -231,7 +240,7 @@
         /// <returns>List of conference names</returns>
         private List<string> GetConferenceNames()
         {
-            if (this.CallApi("https://statsapi.web.nhl.com/api/v1/conferences", out JObject conferenceData))
+            if (this.CallApi($"https://statsapi.web.nhl.com/api/v1/conferences?season={SelectedSeason}", out JObject conferenceData))
             {
                 JToken conferences = conferenceData.SelectToken("conferences");
                 return conferences?.Select(conference => conference.SelectToken("name")?.ToString()).ToList();
@@ -240,6 +249,48 @@
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Button that starts the process of importing online data from an API
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportButton_Click(object sender, EventArgs e)
+        {
+            this.importLeagueBackgroundWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Setups form functionality upon form load
+        /// </summary>
+        /// <param name="sender">sender object</param>
+        /// <param name="e">event args</param>
+        private void ImportForm_Load(object sender, EventArgs e)
+        {
+            // Begins loading of seasons from 1995 currently
+            // TODO Add functionality for seasons prior to 1967 where there was only one conference
+            // TODO Add functionality for season prior to 1974 and after 1967 where divisions represent conferences in the API
+            // TODO Add functionality for season from 1974 to 1992 where the conferences had different names
+            // TODO Change league class rules to allow uneven conferences by more than 1 team (14 team conference and 12 team conference from 1993-1994
+            // TODO Fix errors in 2004-2005 api call (lockout year)
+            int firstYear = int.Parse(Properties.Resources.firstYearImport);
+            int finalYear = int.Parse(Properties.Resources.finalYearImport);
+
+            // Begins building list from most recent season to the first season available
+            for (int year = finalYear; year >= firstYear; year--)
+            {
+                string displayString = $"{year}-{year + 1}";
+                this.selectSeasonComboBox.Items.Add(displayString);
+            }
+            this.selectSeasonComboBox.Items.Remove("2004-2005");
+
+            // Sets the selected index to be the most recent year
+            this.selectSeasonComboBox.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -254,7 +305,7 @@
         private void ImportLeague_DoWork(object sender, DoWorkEventArgs e)
         {
             JObject teamsData;
-            if (!this.CallApi("https://statsapi.web.nhl.com/api/v1/teams/", out teamsData))
+            if (!this.CallApi($"https://statsapi.web.nhl.com/api/v1/teams?season={SelectedSeason}", out teamsData))
             {
                 this.statusLabel.Text = @"API request failed";
                 return;
@@ -330,13 +381,49 @@
         }
 
         /// <summary>
+        /// Reports progress in importing of league
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportLeagueBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            this.importProgressBar.Value = e.ProgressPercentage;
+        }
+
+        /// <summary>
+        /// Runs when the import of the league is finished
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ImportLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.importProgressBar.Value = 100;
+
+            // If the import successfully created a league then enable the player to start a league with it
+            if (this.CreatedLeague != null)
+            {
+                this.statusLabel.Text = @"Import Successful: Imported League shown to the right";
+                this.LoadConferencesIntoDisplay();
+                this.startGameButton.Enabled = true;
+            }
+        }
+
+        /// <summary>
         /// Imports players from NHL team into the team
         /// </summary>
         /// <param name="team">Team that is importing players</param>
         private void ImportPlayersIntoTeam(Team team)
         {
             JObject rosterData;
-            this.CallApi($"https://statsapi.web.nhl.com/api/v1/teams/{team.TeamID}?expand=team.roster", out rosterData);
+            this.CallApi($"https://statsapi.web.nhl.com/api/v1/teams/{team.TeamID}?expand=team.roster&season={SelectedSeason}", out rosterData);
             JToken playerList = rosterData.SelectToken("teams[0].roster.roster");
             if (playerList != null)
             {
@@ -374,56 +461,16 @@
             }
         }
 
-        #endregion Methods
-
         /// <summary>
-        /// Button that starts the process of importing online data from an API
+        /// Stores the new selected season in a property upon selected index change
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ImportButton_Click(object sender, EventArgs e)
+        /// <param name="sender">ComboBox sender</param>
+        /// <param name="e">event args</param>
+        private void SelectSeasonComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.importLeagueBackgroundWorker.RunWorkerAsync();
-        }
-
-        /// <summary>
-        /// Reports progress in importing of league
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ImportLeagueBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            this.importProgressBar.Value = e.ProgressPercentage;
-        }
-
-        /// <summary>
-        /// Runs when the import of the league is finished
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ImportLeagueBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            this.importProgressBar.Value = 100;
-
-            // If the import successfully created a league then enable the player to start a league with it
-            if (this.CreatedLeague != null)
-            {
-                this.statusLabel.Text = @"Import Successful: Imported League shown to the right";
-                this.LoadConferencesIntoDisplay();
-                this.startGameButton.Enabled = true;
-            }
+            ComboBox selectedComboBox = (ComboBox)sender;
+            string displayString = (string)selectedComboBox.SelectedItem;
+            this.SelectedSeason = displayString.Remove(4, 1);
         }
 
         /// <summary>
@@ -444,4 +491,6 @@
             this.Close();
         }
     }
+
+    #endregion Methods
 }
