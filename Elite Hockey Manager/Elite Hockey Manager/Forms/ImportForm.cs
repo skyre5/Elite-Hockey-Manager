@@ -9,6 +9,7 @@
     using System.Windows.Forms;
 
     using Elite_Hockey_Manager.Classes;
+    using Elite_Hockey_Manager.Classes.LeagueComponents;
     using Elite_Hockey_Manager.Forms.GameForms;
 
     using Newtonsoft.Json.Linq;
@@ -191,33 +192,35 @@
             switch (position)
             {
                 case "C":
-                    returnPlayer = new Center(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateForward(1, this.rand.Next(1, 5));
                     break;
 
                 case "R":
-                    returnPlayer = new RightWinger(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateForward(2, this.rand.Next(1, 5));
                     break;
 
                 case "L":
-                    returnPlayer = new LeftWinger(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateForward(0, this.rand.Next(1, 5));
                     break;
 
                 case "LD":
-                    returnPlayer = new LeftDefensemen(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateDefender(0, this.rand.Next(1, 4));
                     break;
 
                 case "RD":
-                    returnPlayer = new RightDefensemen(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateDefender(0, this.rand.Next(1, 4));
                     break;
 
                 case "G":
-                    returnPlayer = new Goalie(names[0], names[1], this.rand.Next(18, 41));
+                    returnPlayer = PlayerGenerator.GenerateGoalie(this.rand.Next(1, 3));
                     break;
 
                 default:
                     throw new ArgumentException("Unexpected position string in Token");
             }
 
+            returnPlayer.FirstName = names[0];
+            returnPlayer.LastName = names[1];
             returnPlayer.PlayerNumber = (int)playerNumber;
             return returnPlayer;
         }

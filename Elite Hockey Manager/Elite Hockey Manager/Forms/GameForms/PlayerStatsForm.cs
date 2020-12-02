@@ -11,7 +11,7 @@
     /// <summary>
     /// The player stats form
     /// </summary>
-    public partial class PlayerStatsForm : Form
+    public sealed partial class PlayerStatsForm : Form
     {
         #region Constructors
 
@@ -36,10 +36,12 @@
         {
             if (allTime)
             {
+                this.Text = $@"{league.LeagueName}: All Time Skater Stats";
                 this.SetAllTimeSeasonStats(league);
             }
             else
             {
+                this.Text = $@"{league.LeagueName}: Year {league.Year} Skater Stats";
                 this.SetCurrentSeasonStats(league);
             }
         }
