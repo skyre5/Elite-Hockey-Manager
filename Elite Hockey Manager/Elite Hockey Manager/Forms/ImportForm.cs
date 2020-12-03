@@ -272,11 +272,10 @@
         /// <param name="e">event args</param>
         private void ImportForm_Load(object sender, EventArgs e)
         {
-            // Begins loading of seasons from 1995 currently
+            // Begins loading of seasons from 1993 currently
             // TODO Add functionality for seasons prior to 1967 where there was only one conference
             // TODO Add functionality for season prior to 1974 and after 1967 where divisions represent conferences in the API
             // TODO Add functionality for season from 1974 to 1992 where the conferences had different names
-            // TODO Change league class rules to allow uneven conferences by more than 1 team (14 team conference and 12 team conference from 1993-1994
             // TODO Fix errors in 2004-2005 api call (lockout year)
             int firstYear = int.Parse(Properties.Resources.firstYearImport);
             int finalYear = int.Parse(Properties.Resources.finalYearImport);
@@ -287,6 +286,8 @@
                 string displayString = $"{year}-{year + 1}";
                 this.selectSeasonComboBox.Items.Add(displayString);
             }
+
+            // Removes year that was not played and has issues in API
             this.selectSeasonComboBox.Items.Remove("2004-2005");
 
             // Sets the selected index to be the most recent year
@@ -355,11 +356,11 @@
                     string conference = teamInfo.SelectToken("conference.name")?.ToString();
                     if (conference == importLeague.FirstConferenceName)
                     {
-                        importLeague.AddTeam(team);
+                        importLeague.AddTeam(team, 1, false);
                     }
                     else if (conference == importLeague.SecondConferenceName)
                     {
-                        importLeague.AddTeam(team, 2);
+                        importLeague.AddTeam(team, 2, false);
                     }
                     else
                     {

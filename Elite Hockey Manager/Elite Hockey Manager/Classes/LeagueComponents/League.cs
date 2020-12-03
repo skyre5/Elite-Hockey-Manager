@@ -334,37 +334,52 @@ namespace Elite_Hockey_Manager.Classes
             teamList.Reverse();
         }
 
-        public void AddTeam(Team team, int conference = 1)
+        /// <summary>
+        /// Adds a team to the league through one of the two conferences a league has
+        /// </summary>
+        /// <param name="team">The team being added</param>
+        /// <param name="conference">
+        /// Which conference to add team to
+        /// 1-First
+        /// 2-Second
+        /// </param>
+        /// <param name="hasEnforcedSpacing">Whether the function enforces conferences to be within 1 size of each other</param>
+        public void AddTeam(Team team, int conference = 1, bool hasEnforcedSpacing = false)
         {
             if (team == null)
             {
-                throw new ArgumentNullException("Team is not defined. Cannot be added to conference");
+                throw new ArgumentNullException(nameof(team), @"team was passed as null");
             }
-            //Throws exception if an exact team object already exists in league
-            if (DoesTeamExist(team))
+
+            // Throws exception if an exact team object already exists in league
+            if (this.DoesTeamExist(team))
             {
-                throw new ArgumentException("Team already exists within the league, league can't have mutliples of a single team");
+                throw new ArgumentException("Team already exists within the league, league can't have multiples of a single team");
             }
-            if (AllTeams.Count == _numberOfTeams)
+
+            // Throws exception if the league has no additional space to add any teams
+            if (this.AllTeams.Count == this._numberOfTeams)
             {
                 throw new ArgumentException("League is full, can not add another team");
             }
-            if (!ConferenceSpaceCheck(conference))
+
+            // Throws an exception if there is enforced spacing and one conference is guaranteed to become 2 teams greater than the other conference
+            if (hasEnforcedSpacing && !this.ConferenceSpaceCheck(conference))
             {
                 throw new ArgumentException("Conference is full, can only add to the other conference");
             }
             switch (conference)
             {
                 case 1:
-                    FirstConference.Add(team);
+                    this.FirstConference.Add(team);
                     break;
 
                 case 2:
-                    SecondConference.Add(team);
+                    this.SecondConference.Add(team);
                     break;
 
                 default:
-                    throw new ArgumentException("Conference is not defined");
+                    throw new ArgumentException("Conference is properly defined");
             }
         }
 
@@ -670,33 +685,35 @@ namespace Elite_Hockey_Manager.Classes
         /// 1 - First Conference
         /// 2 - Second conference
         /// </param>
-        /// <returns></returns>
+        /// <returns>Whether the conference that is attempting to add a team can take another team</returns>
         private bool ConferenceSpaceCheck(int conference)
         {
             int selectedConferenceSize;
             if (conference == 1)
             {
-                selectedConferenceSize = FirstConference.Count;
+                selectedConferenceSize = this.FirstConference.Count;
             }
             else if (conference == 2)
             {
-                selectedConferenceSize = SecondConference.Count;
+                selectedConferenceSize = this.SecondConference.Count;
             }
             else
             {
-                //Error, not specified conference
+                // Error, not specified conference
                 throw new ArgumentException("Invalid conference selection");
             }
-            if (_numberOfTeams % 2 == 0)
+
+            // An even league size will ensure both conferences have the exact same amount of teams
+            if (this._numberOfTeams % 2 == 0)
             {
-                int maxTeams = _numberOfTeams / 2;
-                return !(selectedConferenceSize == maxTeams);
+                int maxTeams = this._numberOfTeams / 2;
+                return selectedConferenceSize != maxTeams;
             }
-            //If odd
             else
             {
-                int maxTeams = (_numberOfTeams + 1) / 2;
-                return !(selectedConferenceSize == maxTeams);
+                // If the amount of teams is odd, one conference will have an additional team
+                int maxTeams = (this._numberOfTeams + 1) / 2;
+                return selectedConferenceSize != maxTeams;
             }
         }
 

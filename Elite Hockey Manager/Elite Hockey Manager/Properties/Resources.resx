@@ -144,7 +144,7 @@
     <comment>The final year of the nhl that is able to be imported (2019-2020)</comment>
   </data>
   <data name="firstYearImport" xml:space="preserve">
-    <value>1995</value>
-    <comment>The first year of the nhl that importing is able to access (1995-1996)</comment>
+    <value>1993</value>
+    <comment>The first year of the nhl that importing is able to access (1993-1995)</comment>
   </data>
 </root>
