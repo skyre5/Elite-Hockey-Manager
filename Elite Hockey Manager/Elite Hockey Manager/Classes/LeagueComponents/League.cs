@@ -344,7 +344,7 @@ namespace Elite_Hockey_Manager.Classes
         /// 2-Second
         /// </param>
         /// <param name="hasEnforcedSpacing">Whether the function enforces conferences to be within 1 size of each other</param>
-        public void AddTeam(Team team, int conference = 1, bool hasEnforcedSpacing = false)
+        public void AddTeam(Team team, int conference = 1, bool hasEnforcedSpacing = true)
         {
             if (team == null)
             {

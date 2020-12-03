@@ -240,6 +240,14 @@
         /// <returns>List of conference names</returns>
         private List<string> GetConferenceNames()
         {
+            int season = int.Parse(this.SelectedSeason.Substring(0, 4));
+
+            // If the year is between 1974 and 1992 the conferences have a separate name prior to becoming eastern and wester conference
+            if (season <= 1992 && season >= 1974)
+            {
+                return new List<string>() { "Clarence Campbell", "Prince of Wales" };
+            }
+
             if (this.CallApi($"https://statsapi.web.nhl.com/api/v1/conferences?season={SelectedSeason}", out JObject conferenceData))
             {
                 JToken conferences = conferenceData.SelectToken("conferences");
@@ -275,7 +283,6 @@
             // Begins loading of seasons from 1993 currently
             // TODO Add functionality for seasons prior to 1967 where there was only one conference
             // TODO Add functionality for season prior to 1974 and after 1967 where divisions represent conferences in the API
-            // TODO Add functionality for season from 1974 to 1992 where the conferences had different names
             // TODO Fix errors in 2004-2005 api call (lockout year)
             int firstYear = int.Parse(Properties.Resources.firstYearImport);
             int finalYear = int.Parse(Properties.Resources.finalYearImport);
