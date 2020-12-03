@@ -204,7 +204,7 @@ namespace Elite_Hockey_Manager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1974.
+        ///   Looks up a localized string similar to 1967.
         /// </summary>
         internal static string firstYearImport {
             get {

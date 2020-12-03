@@ -6,10 +6,12 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Runtime.Remoting.Metadata.W3cXsd2001;
     using System.Windows.Forms;
 
     using Elite_Hockey_Manager.Classes;
     using Elite_Hockey_Manager.Classes.LeagueComponents;
+    using Elite_Hockey_Manager.Classes.Utility;
     using Elite_Hockey_Manager.Forms.GameForms;
 
     using Newtonsoft.Json.Linq;
@@ -242,6 +244,13 @@
         {
             int season = int.Parse(this.SelectedSeason.Substring(0, 4));
 
+            // If the year is between 1967 and 1973 there are no conferences and each team is in one of 2 divisions
+            // When teams are added to league they will have to view the Division property of the JToken instead of conference
+            if (season <= 1973 && season >= 1967)
+            {
+                return new List<string>() { "East", "West" };
+            }
+
             // If the year is between 1974 and 1992 the conferences have a separate name prior to becoming eastern and wester conference
             if (season <= 1992 && season >= 1974)
             {
@@ -360,12 +369,28 @@
 
                     // Imports player from online ROSTER into team roster
                     this.ImportPlayersIntoTeam(team);
-                    string conference = teamInfo.SelectToken("conference.name")?.ToString();
-                    if (conference == importLeague.FirstConferenceName)
+
+                    // Holds the conference of the current team
+                    string conferenceName;
+
+                    // Gets the season of the import into an int
+                    int season = int.Parse(this.SelectedSeason.Substring(0, 4));
+
+                    // If the year is between 1967 and 1973 there are no conferences listed in API, but the divisions act as conferences for our purpose
+                    if (season <= 1973 && season >= 1967)
+                    {
+                        conferenceName = Import.TrySelectToken(teamInfo, "division.name");
+                    }
+                    else
+                    {
+                        conferenceName = Import.TrySelectToken(teamInfo, "conference.name");
+                    }
+
+                    if (conferenceName == importLeague.FirstConferenceName)
                     {
                         importLeague.AddTeam(team, 1, false);
                     }
-                    else if (conference == importLeague.SecondConferenceName)
+                    else if (conferenceName == importLeague.SecondConferenceName)
                     {
                         importLeague.AddTeam(team, 2, false);
                     }
