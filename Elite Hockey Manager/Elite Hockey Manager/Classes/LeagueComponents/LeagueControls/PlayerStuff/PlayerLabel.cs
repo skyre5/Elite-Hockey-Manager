@@ -40,7 +40,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.LineupCon
         public PlayerLabel(Player player, double statToDisplay) : this()
         {
             Player = player;
-            displayPlayerString = $"{_player.Position}:{_player.FullName} {statToDisplay:0.##}";
+            displayPlayerString = $"{_player.PositionAbbreviation}:{_player.FullName} {statToDisplay:0.##}";
             this.Text = displayPlayerString;
         }
 

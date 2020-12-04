@@ -64,7 +64,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
         private Label CreateDraftPickLabel(DraftPick draftPick)
         {
             Label pickLabel = new Label();
-            pickLabel.Text = $"{draftPick.Team.FullName} select ({draftPick.Player.Position}) {draftPick.Player.FullName} OVR:{draftPick.Player.Overall} with pick #{draftPick.Pick}";
+            pickLabel.Text = $"{draftPick.Team.FullName} select ({draftPick.Player.PositionAbbreviation}) {draftPick.Player.FullName} OVR:{draftPick.Player.Overall} with pick #{draftPick.Pick}";
             pickLabel.AutoSize = true;
             pickLabel.MouseDoubleClick += (sender, e) => { OpenPlayerFormOnDoubleClickHandler(sender, e, draftPick.Player); };
             return pickLabel;

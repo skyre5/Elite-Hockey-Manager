@@ -86,7 +86,7 @@
             }
 
             // Finds the players rank among players at that position on the team
-            int rosterRank = team.Roster.Where(p => p.Position == player.Position)
+            int rosterRank = team.Roster.Where(p => p.PositionAbbreviation == player.PositionAbbreviation)
                                  .OrderByDescending(x => x.Overall).Count(p => p.Overall > player.Overall) + 1;
 
             // If the player is within the top starting spots of their team, they are a starting player

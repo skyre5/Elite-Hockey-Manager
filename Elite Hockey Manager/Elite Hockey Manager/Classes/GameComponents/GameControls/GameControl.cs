@@ -196,9 +196,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             Game.SetStartingGoalies();
             //Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
             homeLineControl.SetGoalie(
-                $@"{Game.PlayersOnIce.HomeGoalie.LastName}({Game.PlayersOnIce.HomeGoalie.Position})");
+                $@"{Game.PlayersOnIce.HomeGoalie.LastName}({Game.PlayersOnIce.HomeGoalie.PositionAbbreviation})");
             awayLineControl.SetGoalie(
-                $@"{Game.PlayersOnIce.AwayGoalie.LastName}({Game.PlayersOnIce.AwayGoalie.Position})");
+                $@"{Game.PlayersOnIce.AwayGoalie.LastName}({Game.PlayersOnIce.AwayGoalie.PositionAbbreviation})");
             eventsTabControl.SelectedTab.Controls.Add(activeEventPanel);
             if (Game.Finished)
             {
@@ -314,7 +314,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             string lineString = "";
             foreach (Skater skater in players)
             {
-                lineString += $@"{skater.LastName}({skater.Position}) ";
+                lineString += $@"{skater.LastName}({skater.PositionAbbreviation}) ";
             }
             return lineString.Trim();
         }

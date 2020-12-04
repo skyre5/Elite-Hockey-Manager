@@ -98,7 +98,7 @@ namespace Elite_Hockey_Manager.Classes
             protected set;
         } = GoaliePlayerStatus.Unset;
 
-        public override int PlayerStatusID
+        public override int PlayerStatusId
         {
             get
             {
@@ -106,7 +106,7 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public override string Position
+        public override string PositionAbbreviation
         {
             get
             {
@@ -144,18 +144,11 @@ namespace Elite_Hockey_Manager.Classes
             _stats.Add(new GoalieStats(year, teamID, playoffs));
         }
 
-        public override void GenerateStats(int playerStatus)
+        public override void GenerateAttributes(int playerStatus)
         {
             GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
             PlayerStatus = status;
             _attributes.GenerateGoalieStatRanges(status, _age);
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Attributes", this._attributes);
-            info.AddValue("PlayerStatus", this.PlayerStatus);
-            base.GetObjectData(info, context);
         }
 
         #endregion Methods

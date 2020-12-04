@@ -40,7 +40,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 {
                     //Stores the player object in the label so that it can be used to open up the player label
                     Tag = player,
-                    Text = $"{player.FullName} ({player.Position}) joined the {player.CurrentTeam.TeamName}, moving on from the " +
+                    Text = $"{player.FullName} ({player.PositionAbbreviation}) joined the {player.CurrentTeam.TeamName}, moving on from the " +
                     //Team they were previously signed on
                     //TODO Create ability to determine if the player was previously unsigned for the entire previous year
                     $"{player.CareerContracts[player.CareerContracts.Count() - 2].SigningTeam.TeamName} " +

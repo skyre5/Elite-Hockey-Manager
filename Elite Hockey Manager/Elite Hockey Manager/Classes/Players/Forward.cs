@@ -61,7 +61,7 @@ namespace Elite_Hockey_Manager.Classes
             protected set;
         } = ForwardPlayerStatus.Unset;
 
-        public override int PlayerStatusID
+        public override int PlayerStatusId
         {
             get
             {
@@ -73,17 +73,11 @@ namespace Elite_Hockey_Manager.Classes
 
         #region Methods
 
-        public override void GenerateStats(int playerStatus)
+        public override void GenerateAttributes(int playerStatus)
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
             PlayerStatus = status;
             SkaterAttributes.GenerateForwardStatRanges(status, _age);
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("PlayerStatus", this.PlayerStatus);
-            base.GetObjectData(info, context);
         }
 
         #endregion Methods

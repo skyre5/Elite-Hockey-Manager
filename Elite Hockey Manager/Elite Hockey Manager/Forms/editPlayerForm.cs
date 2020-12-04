@@ -36,7 +36,7 @@ namespace Elite_Hockey_Manager.Forms
             firstText.Text = player.FirstName;
             lastText.Text = player.LastName;
             ageText.Text = player.Age.ToString();
-            idText.Text = player.ID.ToString();
+            idText.Text = player.Id.ToString();
             overallLabel.Text = $"Overall: {player.Overall}";
             FillStats();
         }

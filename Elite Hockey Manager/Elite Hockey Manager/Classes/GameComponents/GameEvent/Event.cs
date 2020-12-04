@@ -209,14 +209,14 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         public override string ToString()
         {
             string returnString =
-                $"({Side}) {EnumExtensions.GoalTypeToShortenedString(GoalType)} Goal: {Player.Position}:{Player.LastName}";
+                $"({Side}) {EnumExtensions.GoalTypeToShortenedString(GoalType)} Goal: {Player.PositionAbbreviation}:{Player.LastName}";
             if (Assister1 != null)
             {
-                returnString += $"-{Assister1.Position}:{Assister1.LastName}";
+                returnString += $"-{Assister1.PositionAbbreviation}:{Assister1.LastName}";
             }
             if (Assister2 != null)
             {
-                returnString += $"-{Assister2.Position}:{Assister2.LastName}";
+                returnString += $"-{Assister2.PositionAbbreviation}:{Assister2.LastName}";
             }
             return returnString;
         }
@@ -265,7 +265,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 
         public override string ToString()
         {
-            return $"({Side}) {Player.Position}:{Player.LastName} Hit On {PlayerHit.Position}:{PlayerHit.LastName}";
+            return $"({Side}) {Player.PositionAbbreviation}:{Player.LastName} Hit On {PlayerHit.PositionAbbreviation}:{PlayerHit.LastName}";
         }
 
         #endregion Methods
@@ -326,7 +326,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 
         public override string ToString()
         {
-            return $"({Side}) {Minutes} Minute Penalty-{Player.Position}:{Player.LastName}";
+            return $"({Side}) {Minutes} Minute Penalty-{Player.PositionAbbreviation}:{Player.LastName}";
         }
 
         #endregion Methods
@@ -369,7 +369,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 
         public override string ToString()
         {
-            return $"({Side}) {ShotType} {Player.Position}:{Player.LastName}";
+            return $"({Side}) {ShotType} {Player.PositionAbbreviation}:{Player.LastName}";
         }
 
         #endregion Methods

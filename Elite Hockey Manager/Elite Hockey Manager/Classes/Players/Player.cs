@@ -45,8 +45,8 @@ namespace Elite_Hockey_Manager.Classes
         Role
     }
 
-    //[Serializable]
-    public abstract class Player : ISerializable
+    [Serializable]
+    public abstract class Player
     {
         #region Fields
 
@@ -133,51 +133,62 @@ namespace Elite_Hockey_Manager.Classes
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the players age
+        /// </summary>
         public int Age
         {
-            get
-            {
-                return _age;
-            }
+            get => this._age;
             set
             {
+                // Age should not be given below 18 and above 50 is too high for it to be set
                 if (value < 17 || value > 50)
                 {
                     throw new ArgumentException("Error: Age set should be within the range of 17 to 50");
                 }
-                else
-                {
-                    _age = value;
-                }
+
+                this._age = value;
             }
         }
 
+        /// <summary>
+        /// Gets the players BaseAttribute class
+        /// </summary>
         public abstract BaseAttributes Attributes
         {
             get;
         }
 
+        /// <summary>
+        /// Gets the players history of contracts in their career in order of signing
+        /// </summary>
         public List<Contract> CareerContracts { get; } = new List<Contract>();
 
+        /// <summary>
+        /// Gets the players latest contract
+        /// In the instance of a player not having any contracts then it will create one(should not happen)
+        /// </summary>
         public Contract CurrentContract
         {
             get
             {
-                if (CareerContracts.Count == 0)
+                if (this.CareerContracts.Count == 0)
                 {
-                    CareerContracts.Add(new Contract());
-                    CareerContracts.Last();
+                    // Gives player a default contract with the lowest available value and 1 year
+                    this.CareerContracts.Add(new Contract());
                 }
-                return CareerContracts.Last();
+
+                return this.CareerContracts.Last();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the players first name
+        /// </summary>
         public string FirstName
         {
-            get
-            {
-                return _firstName;
-            }
+            get => this._firstName;
+
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -186,33 +197,27 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    _firstName = value;
+                    this._firstName = value;
                 }
             }
         }
 
-        public string FullName
-        {
-            get
-            {
-                return _firstName + " " + _lastName;
-            }
-        }
+        /// <summary>
+        /// Gets the players full name
+        /// </summary>
+        public string FullName => $"{this._firstName} {this._lastName}";
 
-        public int ID
-        {
-            get
-            {
-                return _playerID;
-            }
-        }
+        /// <summary>
+        /// Gets the players unique id
+        /// </summary>
+        public int Id => this._playerID;
 
+        /// <summary>
+        /// Gets or sets the players last name
+        /// </summary>
         public string LastName
         {
-            get
-            {
-                return _lastName;
-            }
+            get => this._lastName;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -221,46 +226,61 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    _lastName = value;
+                    this._lastName = value;
                 }
             }
         }
 
+        /// <summary>
+        /// Gets the overall of the player based on their attributes and position
+        /// </summary>
         public abstract int Overall
         {
             get;
         }
 
+        /// <summary>
+        /// Gets or sets the player's jersey number
+        /// </summary>
         public int PlayerNumber
         {
-            get
-            {
-                return _playerNumber;
-            }
+            get => this._playerNumber;
             set
             {
                 if (value < 1 || value > 99)
                 {
                     throw new ArgumentException("Number must fall between 1 and 99");
                 }
+
+                this._playerNumber = value;
             }
         }
 
-        public abstract int PlayerStatusID
+        /// <summary>
+        /// Gets the players PlayerStatusID which holds a value for how their talent level
+        /// Separate PlayerStatusID meanings between Forwards, Defenders, and Goalies
+        /// </summary>
+        public abstract int PlayerStatusId
         {
             get;
         }
 
-        public abstract string Position
+        /// <summary>
+        /// Gets the players position abbreviation
+        /// </summary>
+        public abstract string PositionAbbreviation
         {
             get;
         }
 
+        /// <summary>
+        /// Gets the player's progression tracker which holds a history of their overall and attribute values throughout their career
+        /// </summary>
         public PlayerProgressionTracker ProgressionTracker { get; private set; }
 
         /// <summary>
-        /// Keeps track of if the player is currently retired
-        /// If player is retired, then no further additions should be made to this history
+        /// Gets or sets a value indicating whether the player is retired and not playing
+        /// Default value of false
         /// </summary>
         public bool Retired { get; set; } = false;
 
@@ -272,40 +292,47 @@ namespace Elite_Hockey_Manager.Classes
         /// Method to add contract to a player
         /// Contracts are added upon league creation, injury replacement players, draft pick created players, resign, and free agency
         /// </summary>
-        /// <param name="contract"></param>
+        /// <param name="contract">Pre-filled contract object</param>
         public void AddContract(Contract contract)
         {
             if (contract == null)
             {
-                throw new ArgumentNullException("Null contract object can not be added");
+                throw new ArgumentNullException(nameof(contract), @"Null contract object can not be added");
             }
-            CareerContracts.Add(contract);
+
+            // Adds the contract to their contract history
+            this.CareerContracts.Add(contract);
         }
 
-        public abstract void AddStats(int year, int teamID, bool playoffs);
+        /// <summary>
+        /// Adds a new year of stats to the players stats history
+        /// </summary>
+        /// <param name="year">Year of the new stats object</param>
+        /// <param name="teamId">The team the player is playing for during the new stats season</param>
+        /// <param name="playoffs">Whether the new stats season represents a new playoff season</param>
+        public abstract void AddStats(int year, int teamId, bool playoffs);
 
         /// <summary>
         /// Advances the players age by a year and updates their attributes based on age and player status
         /// </summary>
         public void AgePlayerAndProgress()
         {
-            Attributes.ProgressPlayer(this._age, this.Position, this.PlayerStatusID);
+            // Changes a players attributes based on age and talent level
+            this.Attributes.ProgressPlayer(this._age, this.PositionAbbreviation, this.PlayerStatusId);
+
+            // Stores the changes in the players ProgressionTracker
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
-            Age++;
+
+            // Advances the players age by a year
+            this.Age++;
         }
 
-        public abstract void GenerateStats(int playerStatus);
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("First", this._firstName);
-            info.AddValue("Last", this._lastName);
-            info.AddValue("Age", this._age);
-            info.AddValue("PlayerID", this._playerID);
-            info.AddValue("Contracts", this.CareerContracts);
-            info.AddValue("PlayerNumber", this._playerNumber);
-            info.AddValue("CurrentTeam", this.CurrentTeam);
-        }
+        /// <summary>
+        /// Generates a player's base attributes based on talent level
+        /// Player's playerStatusID is set by passed PlayerStatus showing talent level
+        /// </summary>
+        /// <param name="playerStatus">The playerStatus value of the player being set. The talent level they are at their position</param>
+        public abstract void GenerateAttributes(int playerStatus);
 
         /// <summary>
         /// Initializes the player progression tracker when they are created and have been given their base attributes
@@ -313,14 +340,18 @@ namespace Elite_Hockey_Manager.Classes
         /// <param name="year">Year in the league for which the players rookie season would take place</param>
         public void InitializePlayerProgressionTracker(int year)
         {
-            //Attributes defined in skater for its children subclasses
-            //Overall defined in each non abstract child
+            // Attributes defined in skater for its children subclasses
+            // Overall defined in each non abstract child
             this.ProgressionTracker = new PlayerProgressionTracker(year, this.Overall, this.Attributes);
         }
 
+        /// <summary>
+        /// Returns formatted string should the players position abbreviation, number, name, and overall
+        /// </summary>
+        /// <returns>formatted display string</returns>
         public override string ToString()
         {
-            return String.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.Position, this.FullName, this.PlayerNumber, this.Overall);
+            return string.Format("{0,-2}:#{2,-2} {1,-20}: Ovr:{3,-5}", this.PositionAbbreviation, this.FullName, this.PlayerNumber, this.Overall);
         }
 
         #endregion Methods

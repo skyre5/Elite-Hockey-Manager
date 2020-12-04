@@ -90,7 +90,7 @@
                         {
                             p.FullName,
                             p.Overall,
-                            p.Position,
+                            Position = p.PositionAbbreviation,
                             p.Age,
                             p.Stats.Points,
                             p.Stats.Goals,

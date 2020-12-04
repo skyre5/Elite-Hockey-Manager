@@ -37,7 +37,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
                 {
                     //Stores the player object in the label so that it can be used to open up the player label
                     Tag = player,
-                    Text = $"{player.FullName} ({player.Position}) resigned with the {player.CurrentTeam.TeamName} at " +
+                    Text = $"{player.FullName} ({player.PositionAbbreviation}) resigned with the {player.CurrentTeam.TeamName} at " +
                     $"{player.CurrentContract.ContractAmount} AAV for {player.CurrentContract.ContractDuration} years",
                     AutoSize = true
                 };

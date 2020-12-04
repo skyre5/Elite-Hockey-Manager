@@ -45,7 +45,7 @@ namespace Elite_Hockey_Manager.Classes
 
         #region Properties
 
-        public override string Position
+        public override string PositionAbbreviation
         {
             get
             {
@@ -95,7 +95,7 @@ namespace Elite_Hockey_Manager.Classes
 
         #region Properties
 
-        public override string Position
+        public override string PositionAbbreviation
         {
             get
             {

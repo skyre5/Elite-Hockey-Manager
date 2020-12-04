@@ -53,7 +53,7 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public override string Position
+        public override string PositionAbbreviation
         {
             get
             {

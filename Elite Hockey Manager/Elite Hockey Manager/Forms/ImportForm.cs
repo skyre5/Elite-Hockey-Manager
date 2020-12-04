@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Runtime.Remoting.Metadata.W3cXsd2001;
     using System.Windows.Forms;
 
     using Elite_Hockey_Manager.Classes;
@@ -27,6 +26,11 @@
         /// Bool variable to alternate each team to have around an equal number of left and right defenders
         /// </summary>
         private static bool alternatingDefenderBool = true;
+
+        /// <summary>
+        /// Holds the teams in a hypothetical eastern conference for the original six era of the NHL between 1942 and 1966
+        /// </summary>
+        private readonly string[] originalSixEastConference = new string[] { "NYR", "BOS", "MTL" };
 
         /// <summary>
         /// Random object to be used across form to ensure random results
@@ -291,7 +295,6 @@
         {
             // Begins loading of seasons from 1993 currently
             // TODO Add functionality for seasons prior to 1967 where there was only one conference
-            // TODO Add functionality for season prior to 1974 and after 1967 where divisions represent conferences in the API
             // TODO Fix errors in 2004-2005 api call (lockout year)
             int firstYear = int.Parse(Properties.Resources.firstYearImport);
             int finalYear = int.Parse(Properties.Resources.finalYearImport);
@@ -376,13 +379,20 @@
                     // Gets the season of the import into an int
                     int season = int.Parse(this.SelectedSeason.Substring(0, 4));
 
-                    // If the year is between 1967 and 1973 there are no conferences listed in API, but the divisions act as conferences for our purpose
-                    if (season <= 1973 && season >= 1967)
+                    // If in the original six era of between 1942 and 1966
+                    if (season <= 1966 && season >= 1942)
                     {
+                        string abbreviation = Import.TrySelectToken(teamInfo, "abbreviation");
+                        conferenceName = this.originalSixEastConference.Contains(abbreviation) ? "Eastern" : "Western";
+                    }
+                    else if (season <= 1973 && season >= 1967)
+                    {
+                        // If the year is between 1967 and 1973 there are no conferences listed in API, but the divisions act as conferences for our purpose
                         conferenceName = Import.TrySelectToken(teamInfo, "division.name");
                     }
                     else
                     {
+                        // The conference is tracked properly from 1974 onward
                         conferenceName = Import.TrySelectToken(teamInfo, "conference.name");
                     }
 

@@ -626,7 +626,7 @@
                 total += weights[i];
                 if (decidingNumber <= total)
                 {
-                    player.GenerateStats(i + 1);
+                    player.GenerateAttributes(i + 1);
                     break;
                 }
             }

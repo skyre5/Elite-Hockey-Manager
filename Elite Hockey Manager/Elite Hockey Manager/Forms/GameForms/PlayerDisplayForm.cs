@@ -53,7 +53,7 @@ namespace Elite_Hockey_Manager.Forms.GameForms
             ageLabel.Text = $"Age: {_player.Age.ToString()}";
 
             //Sets player status depending on whether play is Forward, Defender, or Goalie
-            int statusId = _player.PlayerStatusID;
+            int statusId = _player.PlayerStatusId;
             if (_player is Forward)
             {
                 statusLabel.Text = $"Status: {((ForwardPlayerStatus)statusId).ToString()}";
