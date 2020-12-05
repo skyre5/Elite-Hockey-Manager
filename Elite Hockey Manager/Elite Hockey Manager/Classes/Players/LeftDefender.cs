@@ -7,15 +7,15 @@
     using Newtonsoft.Json.Linq;
 
     /// <summary>
-    /// The base forward player class, base class for left winger, right winger, and center
+    /// Left Defender player class
     /// </summary>
     [Serializable]
-    public abstract class Forward : Skater
+    public class LeftDefender : Defender
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// Initializes a new instance of the <see cref="LeftDefender"/> class.
         /// </summary>
         /// <param name="first">
         /// Player's first name
@@ -27,14 +27,14 @@
         /// Player's age
         /// </param>
         /// <param name="attributes">
-        /// Player's base attributes
+        /// Player's base attribute
         /// </param>
-        protected Forward(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
+        public LeftDefender(string first, string last, int age, SkaterAttributes attributes) : base(first, last, age, attributes)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// Initializes a new instance of the <see cref="LeftDefender"/> class.
         /// </summary>
         /// <param name="first">
         /// Player's first name
@@ -49,14 +49,14 @@
         /// Player's base contract
         /// </param>
         /// <param name="attributes">
-        /// Player's base attributes
+        /// Player's base attribute
         /// </param>
-        protected Forward(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
+        public LeftDefender(string first, string last, int age, Contract contract, SkaterAttributes attributes) : base(first, last, age, contract, attributes)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// Initializes a new instance of the <see cref="LeftDefender"/> class.
         /// </summary>
         /// <param name="first">
         /// Player's first name
@@ -67,12 +67,12 @@
         /// <param name="age">
         /// Player's age
         /// </param>
-        protected Forward(string first, string last, int age) : base(first, last, age)
+        public LeftDefender(string first, string last, int age) : base(first, last, age)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// Initializes a new instance of the <see cref="LeftDefender"/> class.
         /// </summary>
         /// <param name="first">
         /// Player's first name
@@ -86,17 +86,17 @@
         /// <param name="contract">
         /// Player's base contract
         /// </param>
-        protected Forward(string first, string last, int age, Contract contract) : base(first, last, age, contract)
+        public LeftDefender(string first, string last, int age, Contract contract) : base(first, last, age, contract)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Forward"/> class.
+        /// Initializes a new instance of the <see cref="LeftDefender"/> class.
         /// </summary>
         /// <param name="token">
         /// The token.
         /// </param>
-        protected Forward(JToken token) : base(token)
+        public LeftDefender(JToken token) : base(token)
         {
         }
 
@@ -105,35 +105,10 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the player's forwardStatusId(Talent Level)
+        /// Gets the player's positional abbreviation
         /// </summary>
-        public ForwardPlayerStatus PlayerStatus
-        {
-            get;
-            protected set;
-        }
-            = ForwardPlayerStatus.Unset;
-
-        /// <summary>
-        /// Gets the player's base status id
-        /// </summary>
-        public override int PlayerStatusId => (int)this.PlayerStatus;
+        public override string PositionAbbreviation => "LD";
 
         #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Generates forward's attributes based on forward status id
-        /// </summary>
-        /// <param name="playerStatus">Forward player status id</param>
-        public override void GenerateAttributes(int playerStatus)
-        {
-            ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
-            this.PlayerStatus = status;
-            this.SkaterAttributes.GenerateForwardStatRanges(status, this.Age);
-        }
-
-        #endregion Methods
     }
 }

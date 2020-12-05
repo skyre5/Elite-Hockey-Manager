@@ -45,7 +45,7 @@ namespace Elite_Hockey_Manager.Classes.Tests
             Team testTeam = new Team("Test", "Test");
 
             Center testCenter = new Center("Test", "Test", 21);
-            LeftDefensemen testDefender = new LeftDefensemen("Test", "Test", 22);
+            LeftDefender testDefender = new LeftDefender("Test", "Test", 22);
             Goalie testGoalie = new Goalie("Test", "Test", 21);
 
             testTeam.Roster.Add(testCenter);

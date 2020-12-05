@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [TestFixture()]
     public class TeamGeneratorTests
     {
@@ -22,10 +24,10 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.Tests
             Team testTeam = new Team("test", "test");
             TeamGenerator.FillDefenders(testTeam);
 
-            int left = testTeam.Roster.OfType<LeftDefensemen>().Count();
+            int left = testTeam.Roster.OfType<LeftDefender>().Count();
             Assert.GreaterOrEqual(left, 3);
 
-            int right = testTeam.Roster.OfType<RightDefensemen>().Count();
+            int right = testTeam.Roster.OfType<RightDefender>().Count();
             Assert.GreaterOrEqual(right, 3);
         }
 

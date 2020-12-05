@@ -100,11 +100,11 @@ namespace Elite_Hockey_Manager.Forms
                         break;
 
                     case "LD":
-                        newPlayer = new LeftDefensemen(firstName, lastName, age, SA);
+                        newPlayer = new LeftDefender(firstName, lastName, age, SA);
                         break;
 
                     case "RD":
-                        newPlayer = new RightDefensemen(firstName, lastName, age, SA);
+                        newPlayer = new RightDefender(firstName, lastName, age, SA);
                         break;
                 }
                 if (newPlayer != null)
@@ -387,13 +387,13 @@ namespace Elite_Hockey_Manager.Forms
                     break;
 
                 case 8:
-                    CategorizePlayerList<LeftDefensemen>();
-                    sortType = typeof(LeftDefensemen);
+                    CategorizePlayerList<LeftDefender>();
+                    sortType = typeof(LeftDefender);
                     break;
 
                 case 9:
-                    CategorizePlayerList<RightDefensemen>();
-                    sortType = typeof(RightDefensemen);
+                    CategorizePlayerList<RightDefender>();
+                    sortType = typeof(RightDefender);
                     break;
             }
         }

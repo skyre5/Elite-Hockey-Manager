@@ -82,7 +82,7 @@
             return player;
         }
 
-        public static LeftDefensemen CreateRandomLeftDefender()
+        public static LeftDefender CreateRandomLeftDefender()
         {
             if (_status == -1)
             {
@@ -94,7 +94,7 @@
                 return null;
             }
             int age = GetAge();
-            LeftDefensemen player = new LeftDefensemen(names.Item1, names.Item2, age);
+            LeftDefender player = new LeftDefender(names.Item1, names.Item2, age);
             return player;
         }
 
@@ -114,7 +114,7 @@
             return player;
         }
 
-        public static RightDefensemen CreateRandomRightDefender()
+        public static RightDefender CreateRandomRightDefender()
         {
             if (_status == -1)
             {
@@ -126,7 +126,7 @@
                 return null;
             }
             int age = GetAge();
-            RightDefensemen player = new RightDefensemen(names.Item1, names.Item2, age);
+            RightDefender player = new RightDefender(names.Item1, names.Item2, age);
             return player;
         }
 

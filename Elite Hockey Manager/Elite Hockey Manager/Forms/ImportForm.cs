@@ -139,10 +139,10 @@
                     return new LeftWinger(playerToken);
 
                 case "LD":
-                    return new LeftDefensemen(playerToken);
+                    return new LeftDefender(playerToken);
 
                 case "RD":
-                    return new RightDefensemen(playerToken);
+                    return new RightDefender(playerToken);
 
                 case "G":
                     return new Goalie(playerToken);

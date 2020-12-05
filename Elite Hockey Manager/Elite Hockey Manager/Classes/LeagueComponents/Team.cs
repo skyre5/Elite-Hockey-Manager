@@ -347,9 +347,9 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public void AutoSetDefenseLines()
         {
-            List<Player> leftDefenders = GetPlayersOfType<LeftDefensemen>();
+            List<Player> leftDefenders = GetPlayersOfType<LeftDefender>();
             CheckForInjury(leftDefenders, 0, 4, 3, PlayerGenerator.GenerateDefender);
-            List<Player> rightDefenders = GetPlayersOfType<RightDefensemen>();
+            List<Player> rightDefenders = GetPlayersOfType<RightDefender>();
             CheckForInjury(rightDefenders, 1, 4, 3, PlayerGenerator.GenerateDefender);
             for (int i = 0; i <= 2; i++)
             {

@@ -51,8 +51,8 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
             FillTableLayout<LeftWinger>(ForwardLayoutPanel, 0, 4);
             FillTableLayout<Center>(ForwardLayoutPanel, 1, 4);
             FillTableLayout<RightWinger>(ForwardLayoutPanel, 2, 4);
-            FillTableLayout<LeftDefensemen>(defenseLayoutPanel, 0, 3);
-            FillTableLayout<RightDefensemen>(defenseLayoutPanel, 1, 3);
+            FillTableLayout<LeftDefender>(defenseLayoutPanel, 0, 3);
+            FillTableLayout<RightDefender>(defenseLayoutPanel, 1, 3);
             FillTableLayout<Goalie>(goalieLayoutPanel, 0, 2);
         }
 

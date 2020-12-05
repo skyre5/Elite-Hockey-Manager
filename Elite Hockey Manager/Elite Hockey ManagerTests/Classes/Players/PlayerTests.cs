@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace Elite_Hockey_Manager.Classes.Tests
 {
     using Elite_Hockey_Manager.Classes.LeagueComponents;
+    using Elite_Hockey_Manager.Classes.Players;
 
     [TestFixture()]
     public class PlayerTests

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.Serialization;
 
     using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
     using Elite_Hockey_Manager.Classes.Stats;
@@ -42,13 +41,13 @@
         /// Initializes a new instance of the <see cref="Skater"/> class.
         /// </summary>
         /// <param name="first">
-        /// The first name
+        /// Player's first name
         /// </param>
         /// <param name="last">
-        /// The last name
+        /// Player's last name
         /// </param>
         /// <param name="age">
-        /// The age
+        /// Player's age
         /// </param>
         /// <param name="contract">
         /// The contract
@@ -65,13 +64,13 @@
         /// Initializes a new instance of the <see cref="Skater"/> class.
         /// </summary>
         /// <param name="first">
-        /// The first.
+        /// Player's first name
         /// </param>
         /// <param name="last">
-        /// The last.
+        /// Player's last name
         /// </param>
         /// <param name="age">
-        /// The age.
+        /// Player's age
         /// </param>
         protected Skater(string first, string last, int age) : base(first, last, age)
         {
@@ -93,13 +92,13 @@
         /// Initializes a new instance of the <see cref="Skater"/> class.
         /// </summary>
         /// <param name="first">
-        /// The first.
+        /// Player's first name
         /// </param>
         /// <param name="last">
-        /// The last.
+        /// Player's last name
         /// </param>
         /// <param name="age">
-        /// The age.
+        /// Player's age
         /// </param>
         /// <param name="contract">
         /// The contract.

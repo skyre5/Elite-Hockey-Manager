@@ -231,9 +231,11 @@
     <Compile Include="Classes\Players\Forward.cs" />
     <Compile Include="Classes\Players\Goalie.cs" />
     <Compile Include="Classes\Players\PlayerComponents\Contract.cs" />
+    <Compile Include="Classes\Players\RightDefender.cs" />
+    <Compile Include="Classes\Players\RightWinger.cs" />
     <Compile Include="Classes\Players\WingerBase.cs" />
-    <Compile Include="Classes\Players\Wingers.cs" />
-    <Compile Include="Classes\Players\Defensemen.cs" />
+    <Compile Include="Classes\Players\LeftWinger.cs" />
+    <Compile Include="Classes\Players\LeftDefender.cs" />
     <Compile Include="Classes\Players\Skater.cs" />
     <Compile Include="Classes\Stats\AllTimeSkaterStats.cs" />
     <Compile Include="Classes\Stats\AllTimeTeamStats.cs" />
