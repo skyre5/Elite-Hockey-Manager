@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Elite_Hockey_Manager.Classes.Players;
+
     /// <summary>
     /// The free agency class to simulate signing of unsigned players to new teams
     /// </summary>

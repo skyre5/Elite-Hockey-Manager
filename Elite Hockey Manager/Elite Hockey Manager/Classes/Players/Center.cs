@@ -37,10 +37,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        protected Center(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         #endregion Constructors
 
         #region Properties

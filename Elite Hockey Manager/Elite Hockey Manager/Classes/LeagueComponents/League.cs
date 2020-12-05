@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public enum LeagueState
     {
         Unset,

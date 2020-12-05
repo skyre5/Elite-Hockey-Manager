@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     using Newtonsoft.Json.Linq;
 
     [Serializable]
@@ -49,19 +51,6 @@ namespace Elite_Hockey_Manager.Classes
         public Goalie(JToken token) : base(token)
         {
             this._attributes = new GoalieAttributes();
-        }
-
-        protected Goalie(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this._attributes = (GoalieAttributes)info.GetValue("Attributes", typeof(GoalieAttributes));
-            try
-            {
-                this.PlayerStatus = (GoaliePlayerStatus)info.GetValue("PlayerStatus", typeof(GoaliePlayerStatus));
-            }
-            catch
-            {
-                this.PlayerStatus = GoaliePlayerStatus.Unset;
-            }
         }
 
         #endregion Constructors
@@ -148,7 +137,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             GoaliePlayerStatus status = (GoaliePlayerStatus)playerStatus;
             PlayerStatus = status;
-            _attributes.GenerateGoalieStatRanges(status, _age);
+            _attributes.GenerateGoalieStatRanges(status, this.Age);
         }
 
         #endregion Methods

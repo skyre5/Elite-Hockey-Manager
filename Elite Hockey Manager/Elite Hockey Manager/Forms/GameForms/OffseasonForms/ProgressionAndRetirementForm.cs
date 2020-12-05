@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public partial class ProgressionAndRetirementForm : Form
     {
         #region Fields

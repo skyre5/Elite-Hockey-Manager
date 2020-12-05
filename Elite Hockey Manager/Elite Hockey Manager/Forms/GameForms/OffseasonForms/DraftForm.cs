@@ -6,6 +6,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Forms.GameForms.OffseasonForms
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public partial class DraftForm : Form
     {
         #region Fields

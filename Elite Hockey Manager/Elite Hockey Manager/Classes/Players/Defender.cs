@@ -29,18 +29,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        public Defender(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            try
-            {
-                this.PlayerStatus = (DefensePlayerStatus)info.GetValue("PlayerStatus", typeof(DefensePlayerStatus));
-            }
-            catch
-            {
-                this.PlayerStatus = DefensePlayerStatus.Unset;
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Defender"/> class.
         /// </summary>
@@ -85,7 +73,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             DefensePlayerStatus status = (DefensePlayerStatus)playerStatus;
             PlayerStatus = status;
-            SkaterAttributes.GenerateDefenseStatRanges(status, _age);
+            SkaterAttributes.GenerateDefenseStatRanges(status, this.Age);
         }
 
         #endregion Methods

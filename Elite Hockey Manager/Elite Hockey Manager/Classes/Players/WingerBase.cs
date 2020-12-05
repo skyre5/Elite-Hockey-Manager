@@ -27,10 +27,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        public WingerBase(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WingerBase"/> class.
         /// </summary>

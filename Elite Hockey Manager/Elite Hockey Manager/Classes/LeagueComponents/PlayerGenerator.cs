@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using Elite_Hockey_Manager.Classes.Players;
+
     public static class PlayerGenerator
     {
         #region Fields
@@ -167,7 +169,7 @@
             }
             else
             {
-                newDefender.Age = 18;
+                newDefender.Age = age;
             }
             switch (quality)
             {
@@ -340,7 +342,7 @@
             }
             else
             {
-                newForward.Age = 18;
+                newForward.Age = age;
             }
             switch (quality)
             {
@@ -436,7 +438,7 @@
             }
             else
             {
-                newGoalie.Age = 18;
+                newGoalie.Age = age;
             }
             switch (quality)
             {

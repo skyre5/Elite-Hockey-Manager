@@ -5,6 +5,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public partial class TeamLinesControl : UserControl
     {
         #region Fields

@@ -2,6 +2,8 @@
 
 namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public enum GoalType : int
     {
         EvenStrength,

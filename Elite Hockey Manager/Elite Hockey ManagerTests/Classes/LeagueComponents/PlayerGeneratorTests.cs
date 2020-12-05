@@ -4,6 +4,7 @@ using System.Linq;
 namespace Elite_Hockey_Manager.Classes.Tests
 {
     using Elite_Hockey_Manager.Classes.LeagueComponents;
+    using Elite_Hockey_Manager.Classes.Players;
 
     [TestFixture()]
     public class PlayerGeneratorTests

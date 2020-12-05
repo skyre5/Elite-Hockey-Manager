@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Elite_Hockey_Manager.Classes.Players;
+
     /// <summary>
     /// The resign class handling resign period of league where players can resign with their existing team
     /// </summary>

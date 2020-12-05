@@ -29,18 +29,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        public Forward(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            try
-            {
-                this.PlayerStatus = (ForwardPlayerStatus)info.GetValue("PlayerStatus", typeof(ForwardPlayerStatus));
-            }
-            catch
-            {
-                this.PlayerStatus = ForwardPlayerStatus.Unset;
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Forward"/> class.
         /// </summary>
@@ -77,7 +65,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             ForwardPlayerStatus status = (ForwardPlayerStatus)playerStatus;
             PlayerStatus = status;
-            SkaterAttributes.GenerateForwardStatRanges(status, _age);
+            SkaterAttributes.GenerateForwardStatRanges(status, this.Age);
         }
 
         #endregion Methods

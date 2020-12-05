@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayerStuff
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public class PlayerAttributesTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
     {
         #region Fields

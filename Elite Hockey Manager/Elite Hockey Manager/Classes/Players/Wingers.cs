@@ -37,10 +37,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        protected LeftWinger(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         #endregion Constructors
 
         #region Properties
@@ -84,10 +80,6 @@ namespace Elite_Hockey_Manager.Classes
         /// The token.
         /// </param>
         public RightWinger(JToken token) : base(token)
-        {
-        }
-
-        protected RightWinger(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

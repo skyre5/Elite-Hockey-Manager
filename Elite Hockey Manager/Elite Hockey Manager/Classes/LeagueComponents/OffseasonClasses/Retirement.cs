@@ -3,6 +3,8 @@
     using System;
     using System.Linq;
 
+    using Elite_Hockey_Manager.Classes.Players;
+
     /// <summary>
     /// Retirement class that handles the retirement functions of the league
     /// </summary>

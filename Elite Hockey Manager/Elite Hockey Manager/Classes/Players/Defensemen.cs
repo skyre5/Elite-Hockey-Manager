@@ -37,10 +37,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        protected LeftDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         #endregion Constructors
 
         #region Properties
@@ -84,10 +80,6 @@ namespace Elite_Hockey_Manager.Classes
         /// The token.
         /// </param>
         public RightDefensemen(JToken token) : base(token)
-        {
-        }
-
-        protected RightDefensemen(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

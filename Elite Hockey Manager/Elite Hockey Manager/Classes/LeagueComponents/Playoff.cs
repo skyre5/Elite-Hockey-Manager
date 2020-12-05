@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     [Serializable]
     public class Playoff : ISerializable
     {

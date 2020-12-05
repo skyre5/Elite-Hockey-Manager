@@ -10,6 +10,7 @@
 
     using Elite_Hockey_Manager.Classes;
     using Elite_Hockey_Manager.Classes.LeagueComponents;
+    using Elite_Hockey_Manager.Classes.Players;
     using Elite_Hockey_Manager.Classes.Utility;
     using Elite_Hockey_Manager.Forms.GameForms;
 

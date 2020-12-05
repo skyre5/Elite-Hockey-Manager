@@ -3,6 +3,8 @@ using System;
 
 namespace Elite_Hockey_Manager.Classes.LeagueComponents
 {
+    using Elite_Hockey_Manager.Classes.Players;
+
     public static class ContractGenerator
     {
         #region Fields

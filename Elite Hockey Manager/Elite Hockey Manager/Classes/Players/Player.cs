@@ -1,114 +1,239 @@
-﻿using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
-using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-
-namespace Elite_Hockey_Manager.Classes
+﻿namespace Elite_Hockey_Manager.Classes.Players
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Elite_Hockey_Manager.Classes.Players.PlayerComponents;
+    using Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes;
     using Elite_Hockey_Manager.Classes.Utility;
 
     using Newtonsoft.Json.Linq;
 
-    public enum DefensePlayerStatus : int
+    /// <summary>
+    /// Tracks the talent level of a defender
+    /// </summary>
+    public enum DefensePlayerStatus
     {
+        /// <summary>
+        /// Talent level for a player than never had their statusID set, no active players should have this id
+        /// </summary>
         Unset,
+
+        /// <summary>
+        /// Highest talent level possible, very rare
+        /// </summary>
         Generational,
+
+        /// <summary>
+        /// 2nd Highest talent level, rare
+        /// </summary>
         Superstar,
+
+        /// <summary>
+        /// 3rd highest talent level, average expected talent level of 1st pairing player
+        /// </summary>
         FirstPairing,
+
+        /// <summary>
+        /// 4th highest talent level, average expected talent level of a 2nd pairing player
+        /// </summary>
         SecondPairing,
+
+        /// <summary>
+        /// 5th highest talent level, average expected talent level of a 3rd pairing player
+        /// </summary>
         BottomPairing,
+
+        /// <summary>
+        /// Lowest talent level, expected in all players that do not have a higher talent level
+        /// </summary>
         Role
     }
 
-    public enum ForwardPlayerStatus : int
+    /// <summary>
+    /// Tracks the talent level of a forward
+    /// </summary>
+    public enum ForwardPlayerStatus
     {
+        /// <summary>
+        /// Talent level for a player than never had their statusID set, no active players should have this id
+        /// </summary>
         Unset,
+
+        /// <summary>
+        /// Highest talent level, very rare
+        /// </summary>
         Generational,
+
+        /// <summary>
+        /// 2nd highest level, rare
+        /// </summary>
         Superstar,
+
+        /// <summary>
+        /// 3rd highest level, expected talent level of a 1st line player
+        /// </summary>
         FirstLine,
+
+        /// <summary>
+        /// 4th highest level, expected talent level of a 1st line/2nd line player
+        /// </summary>
         TopSix,
+
+        /// <summary>
+        /// 5th highest level, expected talent level of a 1st/2nd/3rd line player
+        /// </summary>
         TopNine,
+
+        /// <summary>
+        /// 6th highest talent level, expected talent level of a 3rd/4th line player
+        /// </summary>
         BottomSix,
+
+        /// <summary>
+        /// Lowest talent level, talent level of any remaining players without a higher talent level
+        /// </summary>
         RolePlayer
     }
 
-    public enum GoaliePlayerStatus : int
+    /// <summary>
+    /// Tracks the talent level of a goalie
+    /// </summary>
+    public enum GoaliePlayerStatus
     {
+        /// <summary>
+        /// Talent level for a player than never had their statusID set, no active players should have this id
+        /// </summary>
         Unset,
+
+        /// <summary>
+        /// Highest talent level, very rare
+        /// </summary>
         Generational,
+
+        /// <summary>
+        /// 2nd highest talent level, rare
+        /// </summary>
         Elite,
+
+        /// <summary>
+        /// 3rd highest talent level, expected talent level of a upper tier starter
+        /// </summary>
         Starter,
+
+        /// <summary>
+        /// 4th highest talent level, expected talent level of a lower tier starter
+        /// </summary>
         LowStarter,
+
+        /// <summary>
+        /// 5th highest talent level, expected talent level of a backup goalie
+        /// </summary>
         Backup,
+
+        /// <summary>
+        /// Lowest talent level, talent level of any remaining players without a higher talent level
+        /// </summary>
         Role
     }
 
+    /// <summary>
+    /// The base player object that all players in the system inherit from
+    /// </summary>
     [Serializable]
     public abstract class Player
     {
         #region Fields
 
-        //Keeps track of the players current team, if it is null they are a free agent
-        public Team CurrentTeam = null;
+        /// <summary>
+        /// Static variable that increments with each new player, ensures each player is unique
+        /// Default value of 0
+        /// TODO add way for idCount to be restored upon load of a saved game
+        /// </summary>
+        private static int idCount;
 
-        protected int _age;
+        /// <summary>
+        /// age of the player
+        /// </summary>
+        private int age;
 
-        protected string _firstName;
+        /// <summary>
+        /// Player's first name
+        /// </summary>
+        private string firstName;
 
-        protected string _lastName;
+        /// <summary>
+        /// Player's last name
+        /// </summary>
+        private string lastName;
 
-        //Incrementing int that will hold all players that play in the league
-        private static int idCount = 0;
+        /// <summary>
+        /// Players unique id
+        /// </summary>
+        private int playerId;
 
-        //Static random object for use in player number generation
-        private static Random rand = new Random();
-
-        //Set in constructor after incrementing the id count
-        private int _playerID;
-
-        //Random number between 1 and 99
-        private int _playerNumber = rand.Next(1, 100);
+        /// <summary>
+        /// The player's jersey number, between 1 and 99
+        /// </summary>
+        private int playerNumber = new Random().Next(1, 100);
 
         #endregion Fields
 
         #region Constructors
 
-        public Player(string first, string last, int age, Contract contract)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="first">
+        /// player's first name
+        /// </param>
+        /// <param name="last">
+        /// player's last name
+        /// </param>
+        /// <param name="age">
+        /// player's age
+        /// </param>
+        protected Player(string first, string last, int age)
         {
-            //Input validation done in setters
-            FirstName = first;
-            LastName = last;
-            Age = age;
-            //Increments player id
-            idCount++;
-            _playerID = idCount;
+            // Input validation done in setters
+            this.FirstName = first;
+            this.LastName = last;
+            this.Age = age;
 
-            //Adds initial contract to player
-            CareerContracts.Add(contract);
+            // Increments player id
+            idCount++;
+            this.playerId = idCount;
         }
 
-        public Player(string first, string last, int age)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="first">
+        /// player's first name
+        /// </param>
+        /// <param name="last">
+        /// player's last name
+        /// </param>
+        /// <param name="age">
+        /// player's age
+        /// </param>
+        /// <param name="contract">
+        /// player's base contract
+        /// </param>
+        protected Player(string first, string last, int age, Contract contract)
         {
-            //Input validation done in setters
-            FirstName = first;
-            LastName = last;
-            Age = age;
-            //Increments player id
-            idCount++;
-            _playerID = idCount;
-        }
+            // Input validation done in setters
+            this.FirstName = first;
+            this.LastName = last;
+            this.Age = age;
 
-        public Player(SerializationInfo info, StreamingContext context)
-        {
-            this._firstName = (string)info.GetValue("First", typeof(string));
-            this._lastName = (string)info.GetValue("Last", typeof(string));
-            this._age = (int)info.GetValue("Age", typeof(int));
-            this._playerID = (int)info.GetValue("PlayerID", typeof(int));
-            this.CareerContracts = (List<Contract>)info.GetValue("Contracts", typeof(List<Contract>));
-            this._playerNumber = (int)info.GetValue("PlayerNumber", typeof(int));
-            this.CurrentTeam = (Team)info.GetValue("CurrentTeam", typeof(Team));
+            // Increments player id
+            idCount++;
+            this.playerId = idCount;
+
+            // Adds initial contract to player
+            this.CareerContracts.Add(contract);
         }
 
         /// <summary>
@@ -126,7 +251,7 @@ namespace Elite_Hockey_Manager.Classes
 
             // this.PlayerNumber = int.Parse(Import.TrySelectToken(playerToken, "primaryNumber"));
             idCount++;
-            this._playerID = idCount;
+            this.playerId = idCount;
         }
 
         #endregion Constructors
@@ -138,7 +263,7 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public int Age
         {
-            get => this._age;
+            get => this.age;
             set
             {
                 // Age should not be given below 18 and above 50 is too high for it to be set
@@ -147,7 +272,7 @@ namespace Elite_Hockey_Manager.Classes
                     throw new ArgumentException("Error: Age set should be within the range of 17 to 50");
                 }
 
-                this._age = value;
+                this.age = value;
             }
         }
 
@@ -183,11 +308,16 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         /// <summary>
+        /// Gets or sets the players current team, if it is null they are a free agent
+        /// </summary>
+        public Team CurrentTeam { get; set; } = null;
+
+        /// <summary>
         /// Gets or sets the players first name
         /// </summary>
         public string FirstName
         {
-            get => this._firstName;
+            get => this.firstName;
 
             set
             {
@@ -197,7 +327,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    this._firstName = value;
+                    this.firstName = value;
                 }
             }
         }
@@ -205,19 +335,19 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// Gets the players full name
         /// </summary>
-        public string FullName => $"{this._firstName} {this._lastName}";
+        public string FullName => $"{this.firstName} {this.lastName}";
 
         /// <summary>
         /// Gets the players unique id
         /// </summary>
-        public int Id => this._playerID;
+        public int Id => this.playerId;
 
         /// <summary>
         /// Gets or sets the players last name
         /// </summary>
         public string LastName
         {
-            get => this._lastName;
+            get => this.lastName;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -226,7 +356,7 @@ namespace Elite_Hockey_Manager.Classes
                 }
                 else
                 {
-                    this._lastName = value;
+                    this.lastName = value;
                 }
             }
         }
@@ -244,7 +374,7 @@ namespace Elite_Hockey_Manager.Classes
         /// </summary>
         public int PlayerNumber
         {
-            get => this._playerNumber;
+            get => this.playerNumber;
             set
             {
                 if (value < 1 || value > 99)
@@ -252,7 +382,7 @@ namespace Elite_Hockey_Manager.Classes
                     throw new ArgumentException("Number must fall between 1 and 99");
                 }
 
-                this._playerNumber = value;
+                this.playerNumber = value;
             }
         }
 
@@ -318,7 +448,7 @@ namespace Elite_Hockey_Manager.Classes
         public void AgePlayerAndProgress()
         {
             // Changes a players attributes based on age and talent level
-            this.Attributes.ProgressPlayer(this._age, this.PositionAbbreviation, this.PlayerStatusId);
+            this.Attributes.ProgressPlayer(this.Age, this.PositionAbbreviation, this.PlayerStatusId);
 
             // Stores the changes in the players ProgressionTracker
             this.ProgressionTracker.UpdatePlayerAttributes(this.Overall, this.Attributes);
