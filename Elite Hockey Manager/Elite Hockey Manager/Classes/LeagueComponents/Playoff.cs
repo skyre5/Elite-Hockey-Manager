@@ -12,7 +12,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     using Elite_Hockey_Manager.Classes.Players;
 
     [Serializable]
-    public class Playoff : ISerializable
+    public class Playoff
     {
         #region Fields
 
@@ -52,11 +52,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             DefinePlayoffSeriesArray();
             //Creates playoff matchups so highest ranked seeds go against lowest seeds and so on for both sides
             CreatePlayoffMatchups();
-        }
-
-        protected Playoff(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion Constructors
@@ -176,11 +171,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
                 }
             }
             return daySchedule;
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
         }
 
         public void SimPlayoffsDoWork(object sender, DoWorkEventArgs e)
@@ -389,7 +379,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     }
 
     [Serializable]
-    public class PlayoffSeries : ISerializable
+    public class PlayoffSeries
     {
         #region Fields
 
@@ -419,11 +409,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             rand = leagueRand;
             //Creates the series matches
             CreateGamesSchedule();
-        }
-
-        protected PlayoffSeries(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion Constructors
@@ -518,11 +503,6 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
         public Game GetGameByIndex(int dayIndex)
         {
             return seriesGames[dayIndex];
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

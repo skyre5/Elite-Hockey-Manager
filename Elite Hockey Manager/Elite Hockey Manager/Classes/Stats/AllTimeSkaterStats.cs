@@ -1,8 +1,11 @@
 ﻿namespace Elite_Hockey_Manager.Classes.Stats
 {
+    using System;
+
     /// <summary>
     /// A players all time stats culminating all their seasons in the league
     /// </summary>
+    [Serializable]
     public class AllTimeSkaterStats
     {
         #region Properties

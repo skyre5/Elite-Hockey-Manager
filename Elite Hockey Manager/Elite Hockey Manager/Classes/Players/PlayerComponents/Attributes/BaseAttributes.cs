@@ -3,8 +3,8 @@ using System.Runtime.Serialization;
 
 namespace Elite_Hockey_Manager.Classes
 {
-    //[Serializable]
-    public abstract class BaseAttributes : ISerializable
+    [Serializable]
+    public abstract class BaseAttributes
     {
         #region Fields
 
@@ -28,14 +28,6 @@ namespace Elite_Hockey_Manager.Classes
         {
         }
 
-        public BaseAttributes(SerializationInfo info, StreamingContext context)
-        {
-            this._clutchness = (int)info.GetValue("Clutchness", typeof(int));
-            this._consistency = (int)info.GetValue("Consistency", typeof(int));
-            this._fatigue = (int)info.GetValue("Fatigue", typeof(int));
-            this._injuryLength = (int)info.GetValue("InjuryLength", typeof(int));
-        }
-
         #endregion Constructors
 
         #region Properties
@@ -48,14 +40,6 @@ namespace Elite_Hockey_Manager.Classes
             }
             set
             {
-                //if (value < 1 || value > 100)
-                //{
-                //    throw new ArgumentOutOfRangeException();
-                //}
-                //else
-                //{
-                //    _clutchness = value;
-                //}
                 CheckRating(ref _clutchness, value);
             }
         }
@@ -151,14 +135,6 @@ namespace Elite_Hockey_Manager.Classes
             return names;
         }
 
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Clutchness", this._clutchness);
-            info.AddValue("Consistency", this._consistency);
-            info.AddValue("Fatigue", this._fatigue);
-            info.AddValue("InjuryLength", this._injuryLength);
-        }
-
         protected abstract void GenerateStats(int age, int lower, int upper, int guarantee);
 
         protected abstract void GuaranteedStatChoice(int rating);
@@ -202,7 +178,7 @@ namespace Elite_Hockey_Manager.Classes
             {
                 lower -= 1 + (2 * (age - 36));
                 upper -= 1 + (age - 36);
-                guarantee -= (age - 36);
+                guarantee -= age - 36;
             }
         }
 

@@ -13,7 +13,7 @@ namespace Elite_Hockey_Manager.Classes
     using Newtonsoft.Json.Linq;
 
     [Serializable]
-    public class Team : IEquatable<Team>, IComparable<Team> //,ISerializable
+    public class Team : IEquatable<Team>, IComparable<Team>
     {
         #region Fields
 
@@ -624,24 +624,5 @@ namespace Elite_Hockey_Manager.Classes
         }
 
         #endregion Methods
-
-        //protected Team(SerializationInfo info, StreamingContext context)
-        //{
-        //    this._teamName = (string)info.GetValue("TeamName", typeof(string));
-        //    this._location = (string)info.GetValue("Location", typeof(string));
-        //    this._logoPath = (string)info.GetValue("Logo", typeof(string));
-        //    this._teamID = (int)info.GetValue("ID", typeof(int));
-        //    this._abbreviation = (string)info.GetValue("Abbreviation", typeof(string));
-        //    this.seasonTeamStats = (List<TeamStats>)info.GetValue("SeasonTeamStats", typeof(List<TeamStats>));
-        //}
-        //public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        //{
-        //    info.AddValue("TeamName", this._teamName);
-        //    info.AddValue("Location", this._location);
-        //    info.AddValue("Logo", this._logoPath);
-        //    info.AddValue("ID", this._teamID);
-        //    info.AddValue("Abbreviation", this._abbreviation);
-        //    info.AddValue("SeasonTeamStats", this.seasonTeamStats);
-        //}
     }
 }

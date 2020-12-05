@@ -1,5 +1,8 @@
 ﻿namespace Elite_Hockey_Manager.Classes
 {
+    using System;
+
+    [Serializable]
     public class GoalieStats : PlayerStats
     {
         #region Constructors

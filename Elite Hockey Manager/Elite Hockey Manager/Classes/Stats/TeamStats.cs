@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Elite_Hockey_Manager.Classes.Stats
 {
     [Serializable]
-    public class TeamStats : ISerializable
+    public class TeamStats
     {
         #region Constructors
 
@@ -15,32 +15,6 @@ namespace Elite_Hockey_Manager.Classes.Stats
             Year = year;
             Playoff = playoff;
         }
-
-        //protected TeamStats(SerializationInfo info, StreamingContext context)
-        //{
-        //    this.Year = (int)info.GetValue("Year", typeof(int));
-        //    this.Playoff = (bool)info.GetValue("Playoff", typeof(bool));
-
-        //    this.Wins = (int)info.GetValue("Wins", typeof(int));
-        //    this.OvertimeWins = (int)info.GetValue("OvertimeWins", typeof(int));
-        //    this.ShootoutWins = (int)info.GetValue("ShootoutWins", typeof(int));
-
-        //    this.Losses = (int)info.GetValue("Losses", typeof(int));
-        //    this.OvertimeLosses = (int)info.GetValue("OvertimeLosses", typeof(int));
-        //    this.ShootoutLosses = (int)info.GetValue("ShootoutLosses", typeof(int));
-
-        //    this.GoalsFor = (int)info.GetValue("GoalsFor", typeof(int));
-        //    this.GoalsAgainst = (int)info.GetValue("GoalsAgainst", typeof(int));
-
-        //    this.ShotsFor = (int)info.GetValue("ShotsFor", typeof(int));
-        //    this.ShotsAgainst = (int)info.GetValue("ShotsAgainst", typeof(int));
-
-        //    this.PowerplaysFor = (int)info.GetValue("PowerplaysFor", typeof(int));
-        //    this.PowerplayGoals = (int)info.GetValue("PowerplayGoals", typeof(int));
-
-        //    this.PowerplaysAgainst = (int)info.GetValue("PowerplaysAgainst", typeof(int));
-        //    this.PowerplayGoalsAgainst = (int)info.GetValue("PowerplayGoalsAgainst", typeof(int));
-        //}
 
         #endregion Constructors
 
@@ -223,32 +197,6 @@ namespace Elite_Hockey_Manager.Classes.Stats
         #endregion Properties
 
         #region Methods
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Year", this.Year);
-            info.AddValue("Playoff", this.Playoff);
-
-            info.AddValue("Wins", this.Wins);
-            info.AddValue("OvertimeWins", this.OvertimeWins);
-            info.AddValue("ShootoutWins", this.ShootoutWins);
-
-            info.AddValue("Losses", this.Losses);
-            info.AddValue("OvertimeLosses", this.OvertimeLosses);
-            info.AddValue("ShootoutLosses", this.ShootoutLosses);
-
-            info.AddValue("GoalsFor", this.GoalsFor);
-            info.AddValue("GoalsAgainst", this.GoalsAgainst);
-
-            info.AddValue("ShotsFor", this.ShotsFor);
-            info.AddValue("ShotsAgainst", this.ShotsAgainst);
-
-            info.AddValue("PowerplaysFor", this.PowerplaysFor);
-            info.AddValue("PowerplayGoals", this.PowerplayGoals);
-
-            info.AddValue("PowerplaysAgainst", this.PowerplaysAgainst);
-            info.AddValue("PowerplayGoalsAgainst", this.PowerplayGoalsAgainst);
-        }
 
         public void InsertGameStats(Game game, Side side)
         {

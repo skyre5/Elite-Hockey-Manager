@@ -20,7 +20,7 @@ namespace Elite_Hockey_Manager.Classes
     }
 
     [Serializable]
-    public class League : ISerializable
+    public class League
     {
         #region Fields
 
@@ -62,27 +62,6 @@ namespace Elite_Hockey_Manager.Classes
 
             this.FirstConferenceName = firstConferenceName;
             this.SecondConferenceName = secondConferenceName;
-        }
-
-        protected League(SerializationInfo info, StreamingContext context)
-        {
-            this.LeagueName = (string)info.GetValue("LeagueName", typeof(string));
-            this.Abbreviation = (string)info.GetValue("LeagueAbbreviation", typeof(string));
-            this.NumberOfTeams = (int)info.GetValue("TeamAmount", typeof(int));
-
-            this.FirstConference = (List<Team>)info.GetValue("FirstConference", typeof(List<Team>));
-            this.FirstConferenceName = (string)info.GetValue("FirstConferenceName", typeof(string));
-
-            this.SecondConference = (List<Team>)info.GetValue("SecondConference", typeof(List<Team>));
-            this.SecondConferenceName = (string)info.GetValue("SecondConferenceName", typeof(string));
-
-            this.rand = (Random)info.GetValue("Random", typeof(Random));
-
-            this.State = (LeagueState)info.GetValue("State", typeof(LeagueState));
-
-            this._leagueHistorySchedules = (List<Schedule>)info.GetValue("Schedules", typeof(List<Schedule>));
-            this._leagueHistoryPlayoffs = (List<Playoff>)info.GetValue("Playoffs", typeof(List<Playoff>));
-            this._leagueHistoryDrafts = (List<Draft>)info.GetValue("Drafts", typeof(List<Draft>));
         }
 
         #endregion Constructors
@@ -511,27 +490,6 @@ namespace Elite_Hockey_Manager.Classes
                 FillConference(FirstConference, maxConferenceSize);
                 FillConference(SecondConference, maxConferenceSize);
             }
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("LeagueName", this.LeagueName);
-            info.AddValue("LeagueAbbreviation", this.Abbreviation);
-            info.AddValue("TeamAmount", this.NumberOfTeams);
-
-            info.AddValue("FirstConference", this.FirstConference);
-            info.AddValue("FirstConferenceName", this.FirstConferenceName);
-
-            info.AddValue("SecondConference", this.SecondConference);
-            info.AddValue("SecondConferenceName", this.SecondConferenceName);
-
-            info.AddValue("Random", this.rand);
-
-            info.AddValue("State", this.State);
-
-            info.AddValue("Schedules", this._leagueHistorySchedules);
-            info.AddValue("Playoffs", this._leagueHistoryPlayoffs);
-            info.AddValue("Drafts", this._leagueHistoryDrafts);
         }
 
         public int GetTeamErrorCount()

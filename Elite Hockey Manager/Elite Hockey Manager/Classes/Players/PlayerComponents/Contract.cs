@@ -3,7 +3,7 @@
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
 {
     [Serializable]
-    public class Contract //: ISerializable
+    public class Contract
     {
         #region Fields
 
@@ -96,28 +96,5 @@ namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents
         public int YearsRemaining { get; set; } = 1;
 
         #endregion Properties
-
-        //protected Contract(SerializationInfo info, StreamingContext context)
-        //{
-        //    this._yearSigned = (int)info.GetValue("Year", typeof(int));
-        //    this._contractDuration = (int)info.GetValue("Duration", typeof(int));
-        //    this._contractAmount = (double)info.GetValue("Amount", typeof(double));
-        //    //Versioning of contracts prior to contracts having remaining years
-        //    try
-        //    {
-        //        this.YearsRemaining = (int)info.GetValue("YearsRemaining", typeof(int));
-        //    }
-        //    catch
-        //    {
-        //        this.YearsRemaining = 1;
-        //    }
-        //}
-        //public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        //{
-        //    info.AddValue("Year", this._yearSigned);
-        //    info.AddValue("Duration", this._contractDuration);
-        //    info.AddValue("Amount", this._contractAmount);
-        //    info.AddValue("YearsRemaining", this.YearsRemaining);
-        //}
     }
 }

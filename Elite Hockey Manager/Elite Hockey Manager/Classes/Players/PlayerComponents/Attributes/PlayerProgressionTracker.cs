@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Elite_Hockey_Manager.Classes.Players.PlayerComponents.Attributes
 {
+    [Serializable]
     public class PlayerProgressionTracker
     {
         #region Constructors

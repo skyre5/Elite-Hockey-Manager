@@ -42,6 +42,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         #endregion Methods
     }
 
+    [Serializable]
     public abstract class Event
     {
         #region Fields
@@ -130,6 +131,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         #endregion Properties
     }
 
+    [Serializable]
     public class GoalEvent : Event
     {
         #region Fields
@@ -226,6 +228,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         #endregion Methods
     }
 
+    [Serializable]
     public class HitEvent : Event
     {
         #region Fields
@@ -273,6 +276,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         #endregion Methods
     }
 
+    [Serializable]
     public class PenaltyEvent : Event
     {
         #region Fields
@@ -334,6 +338,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameEvent
         #endregion Methods
     }
 
+    [Serializable]
     public class ShotEvent : Event
     {
         #region Fields

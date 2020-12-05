@@ -1,8 +1,11 @@
 ﻿namespace Elite_Hockey_Manager.Classes.Stats
 {
+    using System;
+
     /// <summary>
     /// The all time team stats
     /// </summary>
+    [Serializable]
     public class AllTimeTeamStats
     {
         #region Properties

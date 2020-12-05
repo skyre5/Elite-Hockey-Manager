@@ -19,7 +19,7 @@ namespace Elite_Hockey_Manager.Classes
         Faceoff
     }
 
-    //[Serializable]
+    [Serializable]
     public class SkaterAttributes : BaseAttributes
     {
         #region Fields
@@ -47,17 +47,6 @@ namespace Elite_Hockey_Manager.Classes
 
         public SkaterAttributes()
         {
-        }
-
-        protected SkaterAttributes(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this._wristShot = (int)info.GetValue("WristShot", typeof(int));
-            this._slapShot = (int)info.GetValue("SlapShot", typeof(int));
-            this._awareness = (int)info.GetValue("Awareness", typeof(int));
-            this._checking = (int)info.GetValue("Checking", typeof(int));
-            this._deking = (int)info.GetValue("Deking", typeof(int));
-            this._speed = (int)info.GetValue("Speed", typeof(int));
-            this._faceoff = (int)info.GetValue("Faceoff", typeof(int));
         }
 
         #endregion Constructors
@@ -331,18 +320,6 @@ namespace Elite_Hockey_Manager.Classes
             };
             Tuple<string, int>[] statNames = newNames.Concat(parentNames).ToArray();
             return statNames;
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("WristShot", this._wristShot);
-            info.AddValue("SlapShot", this._slapShot);
-            info.AddValue("Awareness", this._awareness);
-            info.AddValue("Checking", this._checking);
-            info.AddValue("Deking", this._deking);
-            info.AddValue("Speed", this._speed);
-            info.AddValue("Faceoff", this._faceoff);
         }
 
         public int WingerOverall()
