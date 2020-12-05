@@ -41,7 +41,11 @@
             }
             else
             {
-                this.Text = $@"{league.LeagueName}: Year {league.Year} Skater Stats";
+                // Checks if the league is currently in playoffs or offseason where the latest stats to display will be playoff stats
+                bool isPlayoffStats = league.State == LeagueState.Offseason || league.State == LeagueState.Playoffs;
+
+                // Adds playoff to string if appropriate
+                this.Text = $@"{league.LeagueName}: Year {league.Year} {(isPlayoffStats ? "Playoff " : "")}Skater Stats";
                 this.SetCurrentSeasonStats(league);
             }
         }
@@ -82,8 +86,21 @@
         /// <param name="league">League containing the signed players from this season</param>
         private void SetCurrentSeasonStats(League league)
         {
-            List<Skater> signedSkaters = league.SignedPlayers.OfType<Skater>().ToList();
-            var query = from p in signedSkaters
+            List<Skater> baseSkaters;
+
+            // If the league is currently in the playoffs then display all playoff player's playoff stats
+            // If the league is in offseason, then the latest stats are still playoffs
+            if (league.State == LeagueState.Playoffs || league.State == LeagueState.Offseason)
+            {
+                baseSkaters = league.currentPlayoff.GetAllPlayoffPlayers().OfType<Skater>().ToList();
+            }
+            else
+            {
+                // Show every signed players regular season stats
+                baseSkaters = league.SignedPlayers.OfType<Skater>().ToList();
+            }
+
+            var query = from p in baseSkaters
                         where p.Stats.GamesPlayed > 0
                         orderby p.Stats.Points descending
                         select new
