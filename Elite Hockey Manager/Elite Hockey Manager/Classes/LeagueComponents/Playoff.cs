@@ -86,21 +86,38 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
             private set;
         } = false;
 
-        //Returns a shallow copy of the teams in the playoffs for the first conference
+        /// <summary>
+        /// Gets a shallow copy of all the playoff teams in the first conference
+        /// </summary>
         public List<Team> FirstConferencePlayoffTeams
         {
             get
             {
-                return new List<Team>(_firstConference);
+                return new List<Team>(this._firstConference);
             }
         }
 
-        //Returns a shallow copy of the teams in the playoffs for the first conference
+        /// <summary>
+        /// Gets a list of all the playoff teams
+        /// </summary>
+        public List<Team> PlayoffTeams
+        {
+            get
+            {
+                List<Team> allTeams = this.FirstConferencePlayoffTeams;
+                allTeams.AddRange(this.SecondConferencePlayoffTeams);
+                return allTeams;
+            }
+        }
+
+        /// <summary>
+        /// Gets a shallow copy of all the playoff teams in the second conference
+        /// </summary>
         public List<Team> SecondConferencePlayoffTeams
         {
             get
             {
-                return new List<Team>(_secondConference);
+                return new List<Team>(this._secondConference);
             }
         }
 
