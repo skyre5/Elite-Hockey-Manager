@@ -37,6 +37,8 @@
     /// <summary>
     /// The players on ice.
     /// </summary>
+    ///
+    [Serializable]
     public struct PlayersOnIce
     {
         #region Fields

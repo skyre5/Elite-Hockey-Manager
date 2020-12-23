@@ -47,6 +47,8 @@
             this.teamMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentSeasonTeamStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allTimeTeamStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,6 +150,7 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
             this.statsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -170,7 +173,7 @@
             this.currentSeasonPlayerStatsMenuItem,
             this.allTimePlayerStatsMenuItem});
             this.playerStatsMenuItem.Name = "playerStatsMenuItem";
-            this.playerStatsMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.playerStatsMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playerStatsMenuItem.Text = "Player Stats";
             // 
             // currentSeasonPlayerStatsMenuItem
@@ -191,7 +194,7 @@
             this.currentSeasonTeamStatsMenuItem,
             this.allTimeTeamStatsMenuItem});
             this.teamMenuItem.Name = "teamMenuItem";
-            this.teamMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.teamMenuItem.Size = new System.Drawing.Size(180, 22);
             this.teamMenuItem.Text = "Team Stats";
             // 
             // currentSeasonTeamStatsMenuItem
@@ -205,6 +208,21 @@
             this.allTimeTeamStatsMenuItem.Name = "allTimeTeamStatsMenuItem";
             this.allTimeTeamStatsMenuItem.Size = new System.Drawing.Size(154, 22);
             this.allTimeTeamStatsMenuItem.Text = "All Time";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // MainMenuForm
             // 
@@ -252,5 +270,7 @@
         private System.Windows.Forms.ToolStripMenuItem allTimePlayerStatsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentSeasonTeamStatsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allTimeTeamStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }

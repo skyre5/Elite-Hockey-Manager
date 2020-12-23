@@ -46,14 +46,8 @@ namespace Elite_Hockey_Manager
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Team x = TeamGenerator.GetTeam();
-            Team y = TeamGenerator.GetTeam();
-            TeamGenerator.FillTeam(x);
-            TeamGenerator.FillTeam(y);
-            x.Roster.Add(PlayerGenerator.GenerateForward(1, 1));
-            x.AutoSetForwardLines();
-            Game game = new Game(x, y, new Random());
-            game.PlayGame();
+            League loadedLeague = SaveLoadUtils.LoadLeague("Elite Hockey League");
+            Console.WriteLine(loadedLeague.NumberOfTeams);
         }
 
         private void HomeForm_FormClosing(object sender, FormClosingEventArgs e)

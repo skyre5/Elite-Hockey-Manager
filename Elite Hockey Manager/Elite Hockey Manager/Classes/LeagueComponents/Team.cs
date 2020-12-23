@@ -77,6 +77,7 @@ namespace Elite_Hockey_Manager.Classes
 
         #region Events
 
+        [field: NonSerialized]
         public event EventHandler TeamStatsUpdated;
 
         #endregion Events

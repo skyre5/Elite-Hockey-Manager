@@ -380,5 +380,15 @@
         }
 
         #endregion Methods
+
+        /// <summary>
+        /// Saves the current league into a file
+        /// </summary>
+        /// <param name="sender">obj sender</param>
+        /// <param name="e">e args</param>
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLoadUtils.SaveLeague(this.League);
+        }
     }
 }

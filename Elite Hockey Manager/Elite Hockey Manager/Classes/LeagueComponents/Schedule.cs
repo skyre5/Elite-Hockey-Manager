@@ -10,7 +10,9 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents
     {
         #region Fields
 
+        [NonSerialized]
         public List<TeamPair> _teamsList = new List<TeamPair>();
+
         private List<Team> _firstConference;
         private int _maxGamesPerDay;
         private int _scheduleSize;
