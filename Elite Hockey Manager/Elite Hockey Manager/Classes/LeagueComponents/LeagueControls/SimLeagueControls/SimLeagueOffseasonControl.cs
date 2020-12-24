@@ -2,32 +2,6 @@
 {
     using System;
 
-    /// <summary>
-    /// The offseason stages
-    /// </summary>
-    public enum OffseasonStage
-    {
-        /// <summary>
-        /// Stage where players attributes are changed and players decide to retire from the league
-        /// </summary>
-        ProgressionAndRetirement,
-
-        /// <summary>
-        /// Stage where new players are drafted to teams based on talent level and attributes
-        /// </summary>
-        Draft,
-
-        /// <summary>
-        /// Stage where players may choose to sign contracts with their team from the prior season
-        /// </summary>
-        Resign,
-
-        /// <summary>
-        /// Stage where players without contracts may join a new team
-        /// </summary>
-        FreeAgency
-    }
-
 #if DEBUG
 
     /// <summary>

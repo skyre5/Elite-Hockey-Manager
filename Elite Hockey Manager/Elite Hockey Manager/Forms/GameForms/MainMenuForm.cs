@@ -72,10 +72,14 @@
             this.simLeagueOffseasonControl1.OpenStageFormEvent += this.SimLeagueOffseasonControl1_OpenStageFormEvent;
             this.simLeagueOffseasonControl1.StageAdvancedEvent += () =>
                 {
+                    // Sets the leagues offseason stage to that of the stage the control is in after advancing
+                    this.League.OffseasonStage = simLeagueOffseasonControl1.StageIndex;
+
                     switch (simLeagueOffseasonControl1.StageIndex)
                     {
                         case OffseasonStage.Resign:
                         {
+                            // If the user did not sim the draft or did not complete the draft, finish the remaining sim
                             if (!League.CurrentDraft.DoneDrafting)
                             {
                                 League.CurrentDraft.SimDraft();

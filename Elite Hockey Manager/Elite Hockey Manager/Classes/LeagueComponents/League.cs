@@ -19,6 +19,32 @@ namespace Elite_Hockey_Manager.Classes
         Offseason
     }
 
+    /// <summary>
+    /// The offseason stages
+    /// </summary>
+    public enum OffseasonStage
+    {
+        /// <summary>
+        /// Stage where players attributes are changed and players decide to retire from the league
+        /// </summary>
+        ProgressionAndRetirement,
+
+        /// <summary>
+        /// Stage where new players are drafted to teams based on talent level and attributes
+        /// </summary>
+        Draft,
+
+        /// <summary>
+        /// Stage where players may choose to sign contracts with their team from the prior season
+        /// </summary>
+        Resign,
+
+        /// <summary>
+        /// Stage where players without contracts may join a new team
+        /// </summary>
+        FreeAgency
+    }
+
     [Serializable]
     public class League
     {
@@ -212,6 +238,11 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the current offseason stage when the league is in the offseason
+        /// </summary>
+        public OffseasonStage OffseasonStage { get; set; }
+
         public List<Player> Players
         {
             get
@@ -261,8 +292,7 @@ namespace Elite_Hockey_Manager.Classes
                         return returnString += $@"Day{this.CurrentPlayoff.CurrentDay}";
 
                     case LeagueState.Offseason:
-                        //TODO Put current offseason stage into League class, currently only tracked in simleagueoffseason control
-                        return returnString;
+                        return returnString += $@"{this.OffseasonStage}";
 
                     default:
                         // If state is a null value
@@ -402,8 +432,11 @@ namespace Elite_Hockey_Manager.Classes
 
         public void AdvanceToOffseason()
         {
-            Year++;
-            State = LeagueState.Offseason;
+            this.Year++;
+            this.State = LeagueState.Offseason;
+
+            // Sets the offseason stage to the first stage of the offseason
+            this.OffseasonStage = OffseasonStage.ProgressionAndRetirement;
 
             //Updates each teams internal year variable
             foreach (Team team in AllTeams)
