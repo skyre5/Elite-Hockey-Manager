@@ -61,7 +61,7 @@
             // Background worker for playoff will use Playoff.SimPlayoffsDoWork function
             this.simPlayoffBackgroundWorker.DoWork += (o, args) =>
             {
-                League.currentPlayoff.SimPlayoffsDoWork(o, args);
+                League.CurrentPlayoff.SimPlayoffsDoWork(o, args);
             };
 
             // Events for switch from playoffs to offseason
@@ -129,7 +129,7 @@
             this.standingsControl.Visible = false;
             this.standingsControl.Enabled = false;
 
-            this.leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
+            this.leagueLeadersStatsControl.InsertPlayerList(League.CurrentPlayoff.GetAllPlayoffPlayers().ToArray());
 
             this.playoffDisplayControl.Visible = true;
             this.playoffDisplayControl.Enabled = true;
@@ -146,7 +146,7 @@
             this.simProgressBar.Visible = false;
             this.simProgressBar.Enabled = false;
 
-            Playoff playoff = League.currentPlayoff;
+            Playoff playoff = League.CurrentPlayoff;
             this.leagueGamesDisplay.SetSchedule(playoff.GetCurrentPlayoffGames());
             this.leagueGamesDisplay.SetPlayoffRoundAndDay(playoff.CurrentRound, playoff.CurrentDay);
             this.leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(this.playoffDisplayControl.GetActivePlayoffMatchupViewControls(playoff.CurrentRound));
@@ -333,14 +333,14 @@
         private void SimPlayoffBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.playoffDisplayControl.UpdatePlayoffs();
-            this.leagueGamesDisplay.SetSchedule(League.currentPlayoff.GetCurrentPlayoffGames());
-            this.leagueGamesDisplay.SetPlayoffRoundAndDay(League.currentPlayoff.CurrentRound, League.currentPlayoff.CurrentDay);
-            this.leagueLeadersStatsControl.InsertPlayerList(League.currentPlayoff.GetAllPlayoffPlayers().ToArray());
+            this.leagueGamesDisplay.SetSchedule(League.CurrentPlayoff.GetCurrentPlayoffGames());
+            this.leagueGamesDisplay.SetPlayoffRoundAndDay(League.CurrentPlayoff.CurrentRound, League.CurrentPlayoff.CurrentDay);
+            this.leagueLeadersStatsControl.InsertPlayerList(League.CurrentPlayoff.GetAllPlayoffPlayers().ToArray());
 
             // If the playoffs are not done being simulated, there are still games to be played
-            if (!League.currentPlayoff.FinishedSimming)
+            if (!League.CurrentPlayoff.FinishedSimming)
             {
-                this.leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(this.playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.currentPlayoff.CurrentRound));
+                this.leagueGamesDisplay.LinkPlayoffMatchupViewControlEvents(this.playoffDisplayControl.GetActivePlayoffMatchupViewControls(League.CurrentPlayoff.CurrentRound));
             }
             else
             {

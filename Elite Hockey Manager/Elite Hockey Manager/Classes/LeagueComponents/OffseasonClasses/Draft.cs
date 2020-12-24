@@ -9,6 +9,7 @@
     /// <summary>
     /// The draft pick structure holding all the information for a single pick
     /// </summary>
+    [Serializable]
     public struct DraftPick
     {
         #region Fields

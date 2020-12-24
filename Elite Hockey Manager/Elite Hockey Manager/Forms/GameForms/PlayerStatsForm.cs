@@ -61,7 +61,7 @@
                 this.Text = $@"{league.LeagueName}: Year {league.Year} {(isPlayoffStats ? "Playoff " : "")}Skater Stats";
 
                 // Adds all playoff teams to the team selection combo box if in playoffs, all teams otherwise
-                this.LoadTeamsIntoComboBox(isPlayoffStats ? league.currentPlayoff.PlayoffTeams : league.AllTeams);
+                this.LoadTeamsIntoComboBox(isPlayoffStats ? league.CurrentPlayoff.PlayoffTeams : league.AllTeams);
                 this.SetCurrentSeasonStats(league);
             }
         }
@@ -148,7 +148,7 @@
             // If the league is in offseason, then the latest stats are still playoffs
             if (league.State == LeagueState.Playoffs || league.State == LeagueState.Offseason)
             {
-                this.skaters = league.currentPlayoff.GetAllPlayoffPlayers().OfType<Skater>().ToList();
+                this.skaters = league.CurrentPlayoff.GetAllPlayoffPlayers().OfType<Skater>().ToList();
             }
             else
             {

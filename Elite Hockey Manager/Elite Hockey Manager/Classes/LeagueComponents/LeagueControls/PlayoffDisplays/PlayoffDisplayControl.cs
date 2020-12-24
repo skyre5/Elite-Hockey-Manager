@@ -86,7 +86,7 @@ namespace Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.PlayoffDi
         public void UpdatePlayoffs()
         {
             UpdateDisplay();
-            Playoff playoff = _league.currentPlayoff;
+            Playoff playoff = _league.CurrentPlayoff;
             if (playoff == null || playoff.PlayoffYear != _league.Year)
             {
                 throw new ArgumentException("Playoff being set on is invalid or null");

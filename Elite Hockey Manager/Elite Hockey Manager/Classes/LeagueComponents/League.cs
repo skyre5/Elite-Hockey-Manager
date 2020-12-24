@@ -141,7 +141,7 @@ namespace Elite_Hockey_Manager.Classes
             }
         }
 
-        public Playoff currentPlayoff
+        public Playoff CurrentPlayoff
         {
             get
             {
@@ -233,7 +233,43 @@ namespace Elite_Hockey_Manager.Classes
             private set;
         } = PlayoffRounds.Two;
 
+        /// <summary>
+        /// Gets the players that are no longer play eligible that have retired
+        /// </summary>
         public List<Player> RetiredPlayers { get; private set; } = new List<Player>();
+
+        /// <summary>
+        /// Gets a save name to signify details about where the league is currently from its file name
+        /// </summary>
+        public String SaveStateName
+        {
+            get
+            {
+                // Builds the base string with the year and current state that the league is in as the Enums name
+                string returnString = $@"Y{this.Year}{this.State}";
+
+                switch (this.State)
+                {
+                    // Adds a day indicator for regular season and playoffs
+                    case LeagueState.Unset:
+                        return returnString;
+
+                    case LeagueState.RegularSeason:
+                        return returnString += $@"Day{this.DayIndex}";
+
+                    case LeagueState.Playoffs:
+                        return returnString += $@"Day{this.CurrentPlayoff.CurrentDay}";
+
+                    case LeagueState.Offseason:
+                        //TODO Put current offseason stage into League class, currently only tracked in simleagueoffseason control
+                        return returnString;
+
+                    default:
+                        // If state is a null value
+                        return returnString;
+                }
+            }
+        }
 
         public List<Team> SecondConference
         {
@@ -697,7 +733,7 @@ namespace Elite_Hockey_Manager.Classes
         {
             Team[] DraftOrder = new Team[AllTeams.Count()];
             //Playoff teams in order for draft selection
-            Team[] orderedPlayoffTeams = currentPlayoff.DraftOrderedPlayoffTeams();
+            Team[] orderedPlayoffTeams = CurrentPlayoff.DraftOrderedPlayoffTeams();
             //All non playoff teams
             Team[] nonPlayoffTeams = AllTeams.Except(orderedPlayoffTeams.ToList()).ToArray();
             //Sort by regular season standing in ascending order

@@ -13,12 +13,13 @@ namespace Elite_Hockey_Manager.Classes
         /// <summary>
         /// Loads a serialized file into a league object to be loaded into game
         /// </summary>
-        /// <param name="name">name of the league to load from a file</param>
+        /// <param name="leagueName">name of the league to load from a file</param>
+        /// <param name="saveName">name of the save from the league to be loaded</param>
         /// <returns>The league object or null if failed</returns>
-        public static League LoadLeague(string name)
+        public static League LoadLeague(string leagueName, string saveName)
         {
             League returnLeague;
-            string filePathName = $@"Files\Saves\{name}.save";
+            string filePathName = $@"Files\Saves\{leagueName}\{saveName}";
             if (File.Exists(filePathName))
             {
                 try
@@ -125,15 +126,20 @@ namespace Elite_Hockey_Manager.Classes
             // Creates a directory for the saves if one does not exist
             Directory.CreateDirectory(@"Files\Saves\");
 
+            // Creates a folder for saves of this league if one does not already exist
+            Directory.CreateDirectory($@"Files\Saves\{league.LeagueName}");
+
             // Tries to save the league under a file in the saves folder with the leagues name as its file name
             // Will overwrite any existing prior save
             try
             {
-                Stream leagueStream = File.Open($@"Files\Saves\{league.LeagueName}.save", FileMode.Create);
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(leagueStream, league);
-                leagueStream.Close();
-                return true;
+                using (Stream leagueStream = File.Open($@"Files\Saves\{league.LeagueName}\{league.SaveStateName}.save", FileMode.Create))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(leagueStream, league);
+                    leagueStream.Close();
+                    return true;
+                }
             }
             // If fails, gives user error in console and returns false so save failed
             catch (Exception e)

@@ -46,7 +46,7 @@ namespace Elite_Hockey_Manager
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            League loadedLeague = SaveLoadUtils.LoadLeague("Elite Hockey League");
+            League loadedLeague = SaveLoadUtils.LoadLeague("Elite Hockey League", "Y2Offseason.save");
             Console.WriteLine(loadedLeague.NumberOfTeams);
         }
 
