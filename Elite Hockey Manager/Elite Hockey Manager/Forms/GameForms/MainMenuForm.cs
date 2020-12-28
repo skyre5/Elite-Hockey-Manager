@@ -52,8 +52,15 @@
             this.simLeagueBackgroundWorker.DoWork += league.SimLeagueDoWork;
 
             // Events for switch from regular season to playoffs
-            this.simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) => League.AdvanceToPlayoffs();
-            this.simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) => this.ChangeLayoutToPlayoffs();
+            this.simLeagueRegularSeasonControl.AdvanceLeagueStateToPlayoffs += (o, e) =>
+            {
+                this.League.AdvanceToPlayoffs();
+
+                // Autosave for league in a fresh playoff state
+                SaveLoadUtils.SaveLeague(this.League, true);
+
+                this.ChangeLayoutToPlayoffs();
+            };
 
             // Sim events from the simLeaguePlayoffControl will go to the main menus SimPlayoffs function
             this.simLeaguePlayoffControl.LeagueSimmedEvent += this.SimPlayoffs;
@@ -65,8 +72,15 @@
             };
 
             // Events for switch from playoffs to offseason
-            this.simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => League.AdvanceToOffseason();
-            this.simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) => this.ChangeLayoutToOffseason();
+            this.simLeaguePlayoffControl.AdvanceLeagueStateToOffseason += (o, e) =>
+            {
+                this.League.AdvanceToOffseason();
+
+                // Autosave for league in a fresh offseason state
+                SaveLoadUtils.SaveLeague(this.League, true);
+
+                this.ChangeLayoutToOffseason();
+            };
 
             // Events for off-season control
             this.simLeagueOffseasonControl1.OpenStageFormEvent += this.SimLeagueOffseasonControl1_OpenStageFormEvent;
@@ -97,6 +111,10 @@
             this.simLeagueOffseasonControl1.AdvanceToRegularSeasonEvent += () =>
             {
                 League.AdvanceToRegularSeason();
+
+                // Autosave for league in a fresh regular season state
+                SaveLoadUtils.SaveLeague(this.League, true);
+
                 ChangeLayoutToRegularSeason();
             };
         }
@@ -198,8 +216,12 @@
             if (League.State == LeagueState.Unset)
             {
                 League.StartSeason();
+
+                // Autosave for league in a fresh regular season state
+                SaveLoadUtils.SaveLeague(this.League, true);
             }
 
+            //Loads teams in league into standings control display
             this.standingsControl.LoadSortConferences();
             this.leagueGamesDisplay.SetSchedule(League.DayIndex >= League.LeagueSchedule.SeasonSchedule.Count
                                                     ? new List<Game>()

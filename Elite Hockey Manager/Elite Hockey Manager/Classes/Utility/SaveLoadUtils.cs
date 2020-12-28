@@ -119,9 +119,9 @@ namespace Elite_Hockey_Manager.Classes
         /// Saves a league into a file in the files\saves folder of the project
         /// </summary>
         /// <param name="league">league object in its most current state</param>
-        /// <param name="autosave">whether the save is done automatically or by user input</param>
+        /// <param name="autoSave">whether the save is done automatically or by user input</param>
         /// <returns>Whether the save worked successfully</returns>
-        public static bool SaveLeague(League league, bool autosave = false)
+        public static bool SaveLeague(League league, bool autoSave = false)
         {
             // Creates a directory for the saves if one does not exist
             Directory.CreateDirectory(@"Files\Saves\");
@@ -131,9 +131,11 @@ namespace Elite_Hockey_Manager.Classes
 
             // Tries to save the league under a file in the saves folder with the leagues name as its file name
             // Will overwrite any existing prior save
+            // Adds (auto) to autosaves
             try
             {
-                using (Stream leagueStream = File.Open($@"Files\Saves\{league.LeagueName}\{league.SaveStateName}.save", FileMode.Create))
+                using (Stream leagueStream = File.Open($@"Files\Saves\{league.LeagueName}\" +
+                    $@"{(autoSave ? "(auto)" : string.Empty)}{league.SaveStateName}.save", FileMode.Create))
                 {
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(leagueStream, league);
