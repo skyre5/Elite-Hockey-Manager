@@ -1,12 +1,11 @@
 ﻿namespace Elite_Hockey_Manager.Forms.GameForms
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Forms;
-
     using Elite_Hockey_Manager.Classes;
     using Elite_Hockey_Manager.Classes.Players;
     using Elite_Hockey_Manager.Classes.Utility;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
 
     /// <summary>
     /// The player stats form
@@ -160,14 +159,12 @@
             this.FillViewByTeam();
         }
 
-        #endregion Methods
-
         /// <summary>
-        /// Event when TeamSelectionComboBox selection is changed
+        /// Event when user changes teamSelectionComboBox
         /// </summary>
-        /// <param name="sender">combo box sender</param>
-        /// <param name="e">event args</param>
-        private void TeamSelectionComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TeamSelectionComboBox_SelectionChangeCommitted(object sender, System.EventArgs e)
         {
             ComboBox box = (ComboBox)sender;
             if (box.SelectedIndex == 0)
@@ -180,5 +177,7 @@
                 this.FillViewByTeam((Team)box.SelectedItem);
             }
         }
+
+        #endregion Methods
     }
 }

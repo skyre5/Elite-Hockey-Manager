@@ -72,7 +72,7 @@
             this.teamSelectionComboBox.Name = "teamSelectionComboBox";
             this.teamSelectionComboBox.Size = new System.Drawing.Size(121, 21);
             this.teamSelectionComboBox.TabIndex = 2;
-            this.teamSelectionComboBox.SelectedIndexChanged += new System.EventHandler(this.TeamSelectionComboBox_SelectedIndexChanged);
+            this.teamSelectionComboBox.SelectionChangeCommitted += new System.EventHandler(this.TeamSelectionComboBox_SelectionChangeCommitted);
             // 
             // PlayerStatsForm
             // 
