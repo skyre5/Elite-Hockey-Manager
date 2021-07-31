@@ -15,6 +15,11 @@
         #region Fields
 
         /// <summary>
+        /// Static variable for holding league across various call locations
+        /// </summary>
+        public static League League;
+
+        /// <summary>
         /// Stores the list of all the players for the relevant season
         /// </summary>
         private List<Skater> skaters;
@@ -34,34 +39,45 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerStatsForm"/> class.
         /// </summary>
-        /// <param name="league">
-        /// League containing players
-        /// </param>
         /// <param name="allTime">
         /// Whether the stats are for career stats or stats of the current season
         /// </param>
-        public PlayerStatsForm(League league, bool allTime) : this()
+        public PlayerStatsForm(bool allTime, Team team = null) : this()
         {
+            if (League == null)
+            {
+                MessageBox.Show("No League Property Set");
+                return;
+            }
+
             if (allTime)
             {
-                this.Text = $@"{league.LeagueName}: All Time Skater Stats";
+                this.Text = $@"{League.LeagueName}: All Time Skater Stats";
 
                 // Team selection disabled when viewing all time stats
                 this.teamSelectionComboBox.Visible = false;
                 this.teamSelectionComboBox.Enabled = false;
-                this.SetAllTimeSeasonStats(league);
+                this.SetAllTimeSeasonStats(League);
             }
             else
             {
                 // Checks if the league is currently in playoffs or offseason where the latest stats to display will be playoff stats
-                bool isPlayoffStats = league.State == LeagueState.Offseason || league.State == LeagueState.Playoffs;
+                bool isPlayoffStats = League.State == LeagueState.Offseason || League.State == LeagueState.Playoffs;
 
-                // Adds playoff to string if appropriate
-                this.Text = $@"{league.LeagueName}: Year {league.Year} {(isPlayoffStats ? "Playoff " : "")}Skater Stats";
+                // Adds playoff to form title if appropriate
+                this.Text = $@"{League.LeagueName}: Year {League.Year} {(isPlayoffStats ? "Playoff " : "")}Skater Stats";
 
                 // Adds all playoff teams to the team selection combo box if in playoffs, all teams otherwise
-                this.LoadTeamsIntoComboBox(isPlayoffStats ? league.CurrentPlayoff.PlayoffTeams : league.AllTeams);
-                this.SetCurrentSeasonStats(league);
+                this.LoadTeamsIntoComboBox(isPlayoffStats ? League.CurrentPlayoff.PlayoffTeams : League.AllTeams);
+
+                // If team is set, select that team within the teamSelectionComboBox
+                // Will not trigger event for selection changed
+                if (team != null)
+                {
+                    this.teamSelectionComboBox.SelectedItem = team;
+                }
+
+                this.SetCurrentSeasonStats(League, team);
             }
         }
 
@@ -141,7 +157,8 @@
         /// Sets the DataGridView to the stats of the current season
         /// </summary>
         /// <param name="league">League containing the signed players from this season</param>
-        private void SetCurrentSeasonStats(League league)
+        /// <param name="team">Team to show players of</param>
+        private void SetCurrentSeasonStats(League league, Team team = null)
         {
             // If the league is currently in the playoffs then display all playoff player's playoff stats
             // If the league is in offseason, then the latest stats are still playoffs
@@ -156,7 +173,7 @@
             }
 
             // Fills the view with all the skaters from the current season
-            this.FillViewByTeam();
+            this.FillViewByTeam(team);
         }
 
         /// <summary>

@@ -129,7 +129,9 @@
         public League League { get; }
 
         #endregion Properties
+
         #region Methods
+
         /// <summary>
         /// Changes the layout of this form to match a view displaying offseason controls
         /// </summary>
@@ -231,6 +233,9 @@
             // Sets the statsControls list of player that will be sorted by their statistics, displays league leaders for each category
             this.leagueLeadersStatsControl.InsertPlayerList(League.SignedPlayers.ToArray());
             this.simLeagueRegularSeasonControl.LeagueSimmedEvent += this.SimLeague;
+
+            // Sets static League variable in PlayerStatsForm to the currently played league, allows access to stats from any calling location
+            PlayerStatsForm.League = League;
         }
 
         /// <summary>
@@ -241,7 +246,7 @@
         /// <param name="allTime">Whether the form will load all time stats or current season stats</param>
         private void PlayerStatsMenuItem_Click(object sender, EventArgs e, bool allTime)
         {
-            PlayerStatsForm form = new PlayerStatsForm(League, allTime);
+            PlayerStatsForm form = new PlayerStatsForm(allTime);
             form.ShowDialog();
         }
 

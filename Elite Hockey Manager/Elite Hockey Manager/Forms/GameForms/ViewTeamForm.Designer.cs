@@ -38,12 +38,14 @@
             this.statsControl.AutoSize = true;
             this.statsControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.statsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.statsControl.DisplayTeamAbbreviation = false;
             this.statsControl.DisplayType = Elite_Hockey_Manager.Classes.LeagueComponents.LeagueControls.StatsDisplayType.Skater;
             this.statsControl.Location = new System.Drawing.Point(466, 347);
             this.statsControl.Name = "statsControl";
             this.statsControl.Size = new System.Drawing.Size(748, 284);
             this.statsControl.TabIndex = 4;
             this.statsControl.Title = "Team Name";
+            this.statsControl.OpenStatsPageEvent += new System.Action(this.StatsControl_OpenStatsPageEvent);
             // 
             // teamCapControl
             // 
