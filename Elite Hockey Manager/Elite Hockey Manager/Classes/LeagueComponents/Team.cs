@@ -283,7 +283,6 @@ namespace Elite_Hockey_Manager.Classes
 
         public void AddNewGoalieAndContract(Goalie goalie)
         {
-            //goalie.StatsList.Add(new GoalieStats(_year, this.TeamID));
             //Adds a link to this Team object to the player that will link to the current team they play for
             goalie.CurrentTeam = this;
             ContractGenerator.GenerateContract(goalie, this, Year);
@@ -394,6 +393,8 @@ namespace Elite_Hockey_Manager.Classes
                 //Sets the players progression tracker for when a goalie must be created
                 //only occurs in this function as well as the one in CheckForInjury
                 emergencyCreateGoalie.InitializePlayerProgressionTracker(_year);
+                // Adds a stats object for the current season to emergency goalie
+                emergencyCreateGoalie.AddStats(this._year, this._teamID, false);
             }
             Goalies[0] = (Goalie)goalies[0];
             Goalies[1] = (Goalie)goalies[1];
