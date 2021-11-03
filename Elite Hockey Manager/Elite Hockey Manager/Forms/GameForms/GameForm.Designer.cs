@@ -35,7 +35,7 @@
             // 
             // gameControl
             // 
-            this.gameControl.Game = null;
+
             this.gameControl.Location = new System.Drawing.Point(4, 12);
             this.gameControl.Name = "gameControl";
             this.gameControl.SimSpeed = 1;
