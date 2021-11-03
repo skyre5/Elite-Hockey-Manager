@@ -42,7 +42,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.0</LangVersion>
+    <LangVersion>7</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +54,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.0</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\EHMLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -128,7 +133,9 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\StatsControls\StatsControl.Designer.cs">
       <DependentUpon>StatsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.cs" />
+    <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayoffDisplays\PlayoffDisplayControl.Designer.cs">
       <DependentUpon>PlayoffDisplayControl.cs</DependentUpon>
     </Compile>
@@ -193,9 +200,7 @@
     <Compile Include="Classes\LeagueComponents\LeagueControls\PlayerStuff\PlayerLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\LineupControls\TeamCapControl.Designer.cs">
       <DependentUpon>TeamCapControl.cs</DependentUpon>
     </Compile>
@@ -546,6 +551,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\Saves\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="hnet.com-image.ico" />
+    <Content Include="Resources\EHMLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
