@@ -112,7 +112,6 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="e"></param>
         private void eventsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            playersTabControl.Controls.Clear();
             //Does a copy without reference so the logic within this class doesn't affect the game's functionality or cause undesired effects on this class' logic
             gameEvents = new List<Event>(Game.GameEvents);
             List<Event> sortedEvents = new List<Event>();

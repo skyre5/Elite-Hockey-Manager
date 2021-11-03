@@ -37,9 +37,6 @@
             this.scoreLabel = new System.Windows.Forms.Label();
             this.homeTeamLabel = new System.Windows.Forms.Label();
             this.awayTeamLabel = new System.Windows.Forms.Label();
-            this.playersTabControl = new System.Windows.Forms.TabControl();
-            this.homePlayersPage = new System.Windows.Forms.TabPage();
-            this.awayPlayersPage = new System.Windows.Forms.TabPage();
             this.eventsTabControl = new System.Windows.Forms.TabControl();
             this.allEventsPage = new System.Windows.Forms.TabPage();
             this.goalsPage = new System.Windows.Forms.TabPage();
@@ -58,7 +55,6 @@
             this.shotCounterControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.ShotCounterControl();
             this.awayLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.AwayLineControl();
             this.homeLineControl = new Elite_Hockey_Manager.Classes.GameComponents.GameControls.HomeLineControl();
-            this.playersTabControl.SuspendLayout();
             this.eventsTabControl.SuspendLayout();
             this.simGroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.faceoffChart)).BeginInit();
@@ -109,36 +105,6 @@
             this.awayTeamLabel.Size = new System.Drawing.Size(33, 13);
             this.awayTeamLabel.TabIndex = 6;
             this.awayTeamLabel.Text = "Away";
-            // 
-            // playersTabControl
-            // 
-            this.playersTabControl.Controls.Add(this.homePlayersPage);
-            this.playersTabControl.Controls.Add(this.awayPlayersPage);
-            this.playersTabControl.Location = new System.Drawing.Point(795, 107);
-            this.playersTabControl.Name = "playersTabControl";
-            this.playersTabControl.SelectedIndex = 0;
-            this.playersTabControl.Size = new System.Drawing.Size(151, 379);
-            this.playersTabControl.TabIndex = 7;
-            // 
-            // homePlayersPage
-            // 
-            this.homePlayersPage.Location = new System.Drawing.Point(4, 22);
-            this.homePlayersPage.Name = "homePlayersPage";
-            this.homePlayersPage.Padding = new System.Windows.Forms.Padding(3);
-            this.homePlayersPage.Size = new System.Drawing.Size(143, 353);
-            this.homePlayersPage.TabIndex = 0;
-            this.homePlayersPage.Text = "Home";
-            this.homePlayersPage.UseVisualStyleBackColor = true;
-            // 
-            // awayPlayersPage
-            // 
-            this.awayPlayersPage.Location = new System.Drawing.Point(4, 22);
-            this.awayPlayersPage.Name = "awayPlayersPage";
-            this.awayPlayersPage.Padding = new System.Windows.Forms.Padding(3);
-            this.awayPlayersPage.Size = new System.Drawing.Size(143, 353);
-            this.awayPlayersPage.TabIndex = 1;
-            this.awayPlayersPage.Text = "Away";
-            this.awayPlayersPage.UseVisualStyleBackColor = true;
             // 
             // eventsTabControl
             // 
@@ -350,7 +316,6 @@
             this.Controls.Add(this.simGroupbox);
             this.Controls.Add(this.eventsTabControl);
             this.Controls.Add(this.shotCounterControl);
-            this.Controls.Add(this.playersTabControl);
             this.Controls.Add(this.awayTeamLabel);
             this.Controls.Add(this.homeTeamLabel);
             this.Controls.Add(this.awayLineControl);
@@ -359,8 +324,7 @@
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.periodLabel);
             this.Name = "GameControl";
-            this.Size = new System.Drawing.Size(949, 524);
-            this.playersTabControl.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(827, 524);
             this.eventsTabControl.ResumeLayout(false);
             this.simGroupbox.ResumeLayout(false);
             this.simGroupbox.PerformLayout();
@@ -379,9 +343,6 @@
         private AwayLineControl awayLineControl;
         private System.Windows.Forms.Label homeTeamLabel;
         private System.Windows.Forms.Label awayTeamLabel;
-        private System.Windows.Forms.TabControl playersTabControl;
-        private System.Windows.Forms.TabPage homePlayersPage;
-        private System.Windows.Forms.TabPage awayPlayersPage;
         private ShotCounterControl shotCounterControl;
         private System.Windows.Forms.TabControl eventsTabControl;
         private System.Windows.Forms.TabPage allEventsPage;

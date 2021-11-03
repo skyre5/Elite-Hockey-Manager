@@ -35,6 +35,7 @@
             // 
             // gameControl
             // 
+            this.gameControl.Game = null;
             this.gameControl.Location = new System.Drawing.Point(4, 12);
             this.gameControl.Name = "gameControl";
             this.gameControl.SimSpeed = 1;
@@ -45,7 +46,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(956, 564);
+            this.ClientSize = new System.Drawing.Size(839, 564);
             this.Controls.Add(this.gameControl);
             this.Name = "GameForm";
             this.Text = "game title";

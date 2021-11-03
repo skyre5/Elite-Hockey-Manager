@@ -551,6 +551,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\Saves\" />
+    <Folder Include="Screenshots\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="hnet.com-image.ico" />
