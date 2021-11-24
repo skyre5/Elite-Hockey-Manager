@@ -63,7 +63,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             set
             {
                 _simSpeed = value;
-                //If timer is active reset timer, set new interval and restart timer
+                // If timer is active reset timer, set new interval and restart timer
                 if (timer.Enabled == true)
                 {
                     timer.Stop();
@@ -91,12 +91,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             }
         }
 
-        private void chart1_Click(object sender, EventArgs e)
-        {
-        }
-
         /// <summary>
-        /// Sets sim speed to 8 increments per sim period
+        /// Sets sim speed to 8 (2 minutes)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -112,37 +108,36 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="e"></param>
         private void eventsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Does a copy without reference so the logic within this class doesn't affect the game's functionality or cause undesired effects on this class' logic
+            // Does a copy without reference so the logic within this class doesn't affect the game's functionality or cause undesired effects on this class' logic
             gameEvents = new List<Event>(Game.GameEvents);
-            List<Event> sortedEvents = new List<Event>();
+
             switch ((sender as TabControl).SelectedIndex)
             {
-                //All events
+                // All events
                 case 0:
                     eventType = typeof(Event);
-                    sortedEvents = gameEvents.Where(x => x is Event).ToList();
                     break;
-                //Goals
+                // Goals
                 case 1:
                     eventType = typeof(GoalEvent);
-                    sortedEvents = gameEvents.Where(x => x is GoalEvent).ToList();
                     break;
-                //Penalties
+                // Penalties
                 case 2:
                     eventType = typeof(PenaltyEvent);
-                    sortedEvents = gameEvents.Where(x => x is PenaltyEvent).ToList();
                     break;
-                //Shots
+                // Shots
                 case 3:
                     eventType = typeof(ShotEvent);
-                    sortedEvents = gameEvents.Where(x => x is ShotEvent).ToList();
                     break;
             }
-            InsertEventsInTabPage(eventsTabControl.SelectedTab, sortedEvents);
+
+            // Sorts the list of events to only include type that the user chose
+            SortEvents(ref gameEvents);
+            InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
         }
 
         /// <summary>
-        /// Sets sim speed to 4 increments per sim period
+        /// Sets sim speed to 4 (1 minute)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -160,24 +155,29 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private void gameButton_Click(object sender, EventArgs e)
         {
             timer.Stop();
-            //Sims the entire/rest of the game
+            // Sims the entire/rest of the game
             Game.PlayGame();
             SetTime(Game.TimeInterval);
-            //Updates to the final period and score of the finished game
+
+            // Updates to the final period and score of the finished game
             UpdatePeriodLabel();
             UpdateScoreLabel();
-            //Updates current faceoff stats
+
+            // Updates current faceoff stats
             UpdateFaceoffChart();
-            //Sets player controls to the active lines
+
+            // Sets the line displays to the current players on the ice
             SetPlayerLineControls();
-            //Updates shot controls
             shotCounterControl.UpdateShotControl(Game);
-            //Gets all the new events since the last time it the eventspanel was updated
+
+            // Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
-            //Sets the new event index for incoming new events
+
+            // Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(ref newGameEvents, eventType);
-            //Adds events to layoutpanel
+            SortEvents(ref newGameEvents);
+
+            // Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
 
@@ -186,14 +186,17 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// </summary>
         private void GameControlLoad()
         {
-            //Updates the score label with the games current info
+            // Updates the score label with the games current info
             UpdateScoreLabel();
             UpdatePeriodLabel();
-            //Updates current faceoff stats
+
+            // Updates current faceoff stats
             UpdateFaceoffChart();
-            //Sets the starting goalies for the team at the time of opening the form
+
+            // Sets the starting goalies for the team at the time of opening the form
             Game.SetStartingGoalies();
-            //Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
+
+            // Sets goalies for the game into the linedisplays, only needs to be updated with a goalie replacement
             homeLineControl.SetGoalie(
                 $@"{Game.PlayersOnIce.HomeGoalie.LastName}({Game.PlayersOnIce.HomeGoalie.PositionAbbreviation})");
             awayLineControl.SetGoalie(
@@ -205,13 +208,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
                 simGroupbox.Visible = false;
                 gameEvents = Game.GameEvents;
                 InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
-                //Updates shot control to finished game stats
+                // Updates shot control to finished game stats
                 shotCounterControl.UpdateShotControl(Game);
-                //Sets the players on the ice if the game was loaded in finished
+                // Sets the players on the ice if the game was loaded in finished
                 SetPlayerLineControls();
             }
         }
 
+        /// <summary>
+        /// Initializes the timer with its event handlers, and the rate at which the event will fire when on
+        /// </summary>
         private void InitializeTimer()
         {
             timer = new Timer();
@@ -230,20 +236,19 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="events">List of events for that tabpage's sorted criteria</param>
         private void InsertEventsInTabPage(TabPage tabPage, List<Event> events)
         {
+            // Clears all the labels from the activeEventPanel so that the newly sorted events may be added
             activeEventPanel.Controls.Clear();
+
+            // Removes the activeEventPanel from the current tab, panel will only exist in the active tab
             tabPage.Controls.Clear();
-            foreach (Event x in events)
-            {
-                Label label = new Label();
-                label.AutoSize = true;
-                label.Text = x.ToString();
-                activeEventPanel.Controls.Add(label);
-            }
+
+            // Adds display of selected events to the active tabPage
+            AddEventsToLayout(events);
             tabPage.Controls.Add(activeEventPanel);
         }
 
         /// <summary>
-        /// Sets sim speed to 1 increments per sim period
+        /// Sets sim speed to 1 (15 seconds)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -289,7 +294,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             // Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(ref newGameEvents, eventType);
+            SortEvents(ref newGameEvents);
             // Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
@@ -341,17 +346,24 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <summary>
         /// Sets the time Label to show time in the game
         /// </summary>
-        /// <param name="timeInterval">
-        ///
+        /// <param name="timeIntervals">
+        /// the amount of intervals the game is into the current period
         /// </param>
-        private void SetTime(int timeInterval)
+        private void SetTime(int timeIntervals)
         {
+            // Sets a TimeSpan object to 20 minutes (Length of a period)
             TimeSpan clockTime = new TimeSpan(0, 20, 0);
-            TimeSpan second = TimeSpan.FromSeconds(15);
-            //No multiply functionality directly for timespan so multiplies ticks of the interval in ticks by the total intervals
-            TimeSpan difference = TimeSpan.FromTicks(second.Ticks * (timeInterval));
+
+            // Sets a timeSpan object to 15 seconds to be multiplied to find the current time remaining in period
+            TimeSpan intervalSeconds = TimeSpan.FromSeconds(15);
+
+            // No multiply functionality directly for timespan so multiplies ticks of the interval in ticks by the total intervals of period
+            TimeSpan difference = TimeSpan.FromTicks(intervalSeconds.Ticks * (timeIntervals));
+
+            // Subtracts the total amount of time into the period from 20 minutes to get game time
             clockTime = (clockTime - difference);
-            //2 spaces for both minutes and seconds display
+
+            // 2 spaces for both minutes and seconds display
             timeLabel.Text = clockTime.ToString(@"mm\:ss");
         }
 
@@ -359,22 +371,21 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// Sorts events in a list by their subclass of event
         /// </summary>
         /// <param name="events">List of events</param>
-        /// <param name="type">Subtype to get events of only that type</param>
-        private void SortEvents(ref List<Event> events, Type type)
+        private void SortEvents(ref List<Event> events)
         {
-            if (type == typeof(Event))
+            if (eventType == typeof(Event))
             {
                 events = events.Where(x => x is Event).ToList();
             }
-            else if (type == typeof(GoalEvent))
+            else if (eventType == typeof(GoalEvent))
             {
                 events = events.Where(x => x is GoalEvent).ToList();
             }
-            else if (type == typeof(PenaltyEvent))
+            else if (eventType == typeof(PenaltyEvent))
             {
                 events = events.Where(x => x is PenaltyEvent).ToList();
             }
-            else if (type == typeof(ShotEvent))
+            else if (eventType == typeof(ShotEvent))
             {
                 events = events.Where(x => x is ShotEvent).ToList();
             }
@@ -413,7 +424,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             SetPlayerLineControls();
             //Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(ref newGameEvents, eventType);
+            SortEvents(ref newGameEvents);
             gameEvents.AddRange(newGameEvents);
             AddEventsToLayout(newGameEvents);
             if (Game.Finished == false)
@@ -431,7 +442,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         }
 
         /// <summary>
-        /// Sets sim speed to 2 increments per sim period
+        /// Sets sim speed to 2 (30 seconds)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -445,7 +456,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// </summary>
         private void UpdateFaceoffChart()
         {
-            //Clears the faceoffs series point data and readds them when updated
+            // Clears the faceoffs series point data and readds them when updated
             faceoffChart.Series[0].Points.Clear();
             faceoffChart.Series[0].Points.AddXY("Away", Game.AwayFaceoffWins);
             faceoffChart.Series[0].Points.AddXY("Home", Game.HomeFaceoffWins);
@@ -465,7 +476,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// </summary>
         private void UpdateScoreLabel()
         {
-            //Updates score in format of away abbreviation and score first them home score and home abbreviation
+            // Updates score in format of away abbreviation and score first them home score and home abbreviation
             scoreLabel.Text =
                 $"{Game.AwayTeam.Abbreviation} {Game.AwayScore}-{Game.HomeScore} {Game.HomeTeam.Abbreviation}";
         }

@@ -285,7 +285,6 @@
             title1.Name = "Faceoffs";
             title1.Text = "Faceoffs";
             this.faceoffChart.Titles.Add(title1);
-            this.faceoffChart.Click += new System.EventHandler(this.chart1_Click);
             // 
             // shotCounterControl
             // 
