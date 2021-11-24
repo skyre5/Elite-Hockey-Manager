@@ -10,7 +10,7 @@ A hockey management simulator built in c#. Simulates all facets of an entire lea
 - **Import teams and players from any season in NHL history using the NHL public api**
 - Cumulative stat tracking of teams and players across the entire length of the league
 
-## To do
+## Goals
 - Loading from a saved state
 - Redo user created player system
 - Allow roster sharing, possibly host online in database
