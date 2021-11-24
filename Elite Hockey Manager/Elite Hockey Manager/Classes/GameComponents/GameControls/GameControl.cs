@@ -176,7 +176,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             //Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(newGameEvents, eventType);
+            SortEvents(ref newGameEvents, eventType);
             //Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
@@ -215,8 +215,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private void InitializeTimer()
         {
             timer = new Timer();
-            //1.5 seconds
+
+            // Base interval set at 1.5 seconds between events
             timer.Interval = 1500;
+
+            // Sets TimerFinished function to Timer.Tick event each increment
             timer.Tick += TimerFinished;
         }
 
@@ -266,23 +269,28 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="e"></param>
         private void periodButton_Click(object sender, EventArgs e)
         {
+            // Pauses the game for user input
             timer.Stop();
+
+            //Finishes the current period the game is in
             Game.PlayPeriod();
+
+            // Updates displays to current state of the game
             SetTime(Game.TimeInterval);
-            //Updates period and score label to updated status
             UpdatePeriodLabel();
             UpdateScoreLabel();
-            //Updates current faceoff stats
             UpdateFaceoffChart();
-            //Sets player controls to the active lines
-            SetPlayerLineControls();
             shotCounterControl.UpdateShotControl(Game);
-            //Gets all the new events since the last time it the eventspanel was updated
+
+            // Sets player controls to the active lines
+            SetPlayerLineControls();
+
+            // Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
-            //Sets the new event index for incoming new events
+            // Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(newGameEvents, eventType);
-            //Adds events to layoutpanel
+            SortEvents(ref newGameEvents, eventType);
+            // Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
 
@@ -318,6 +326,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             return lineString.Trim();
         }
 
+        /// <summary>
+        /// Takes the forwards and defenders currently on the ice from each team and gives them to each team's display control
+        /// </summary>
         private void SetPlayerLineControls()
         {
             homeLineControl.SetForwards(PlayerLineToString(Game.PlayersOnIce.HomeForwards));
@@ -349,7 +360,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// </summary>
         /// <param name="events">List of events</param>
         /// <param name="type">Subtype to get events of only that type</param>
-        private void SortEvents(List<Event> events, Type type)
+        private void SortEvents(ref List<Event> events, Type type)
         {
             if (type == typeof(Event))
             {
@@ -402,7 +413,7 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             SetPlayerLineControls();
             //Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
-            SortEvents(newGameEvents, eventType);
+            SortEvents(ref newGameEvents, eventType);
             gameEvents.AddRange(newGameEvents);
             AddEventsToLayout(newGameEvents);
             if (Game.Finished == false)
