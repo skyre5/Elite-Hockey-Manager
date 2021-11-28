@@ -1,5 +1,5 @@
-﻿using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
-using System;
+﻿using System;
+using Elite_Hockey_Manager.Classes.GameComponents.GameEvent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -84,9 +84,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         {
             foreach (Event x in events)
             {
-                Label label = new Label();
-                label.AutoSize = true;
-                label.Text = x.ToString();
+                Label label = new Label
+                {
+                    AutoSize = true,
+                    Text = x.ToString()
+                };
                 activeEventPanel.Controls.Add(label);
             }
         }
@@ -226,10 +228,11 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// </summary>
         private void InitializeTimer()
         {
-            timer = new Timer();
-
-            // Base interval set at 1.5 seconds between events
-            timer.Interval = 1500;
+            timer = new Timer
+            {
+                // Base interval set at 1.5 seconds between events
+                Interval = 1500
+            };
 
             // Sets TimerFinished function to Timer.Tick event each increment
             timer.Tick += TimerFinished;

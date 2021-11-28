@@ -53,6 +53,8 @@ namespace Elite_Hockey_Manager.Classes
         public const double MINSALARYCAP = 40;
         private static double _salaryCap = 50;
 
+        private readonly Random rand = new Random();
+
         //Stores all the drafts that occur in the leagues history
         private List<Draft> _leagueHistoryDrafts = new List<Draft>();
 
@@ -64,7 +66,6 @@ namespace Elite_Hockey_Manager.Classes
 
         private int _numberOfTeams;
         private int _scheduleLength;
-        private Random rand = new Random();
 
         #endregion Fields
 
