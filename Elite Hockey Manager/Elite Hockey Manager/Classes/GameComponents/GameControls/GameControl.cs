@@ -18,7 +18,6 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private FlowLayoutPanel activeEventPanel = new FlowLayoutPanel();
         private int eventIndex = 0;
         private Type eventType = typeof(Event);
-        private List<Event> gameEvents = new List<Event>();
         private int period = 1;
         private Timer timer;
 
@@ -60,9 +59,10 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             {
                 return _simSpeed;
             }
-            set
+            private set
             {
                 _simSpeed = value;
+
                 // If timer is active reset timer, set new interval and restart timer
                 if (timer.Enabled == true)
                 {
@@ -108,8 +108,8 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         /// <param name="e"></param>
         private void eventsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Does a copy without reference so the logic within this class doesn't affect the game's functionality or cause undesired effects on this class' logic
-            gameEvents = new List<Event>(Game.GameEvents);
+            // Deep copy to avoid errors
+            List<Event> gameEvents = new List<Event>(Game.GameEvents);
 
             switch ((sender as TabControl).SelectedIndex)
             {
@@ -206,10 +206,16 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             {
                 timeLabel.Text = "";
                 simGroupbox.Visible = false;
-                gameEvents = Game.GameEvents;
+
+                // Deep copy to avoid errors
+                List<Event> gameEvents = new List<Event>(Game.GameEvents);
+
+                // Inserts events into page, no sorting is ever decided upon load so unnecessary to sort it
                 InsertEventsInTabPage(eventsTabControl.SelectedTab, gameEvents);
+
                 // Updates shot control to finished game stats
                 shotCounterControl.UpdateShotControl(Game);
+
                 // Sets the players on the ice if the game was loaded in finished
                 SetPlayerLineControls();
             }
@@ -294,8 +300,9 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
             // Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
+
+            // sorts and adds events to layoutpanel
             SortEvents(ref newGameEvents);
-            // Adds events to layoutpanel
             AddEventsToLayout(newGameEvents);
         }
 
@@ -399,33 +406,34 @@ namespace Elite_Hockey_Manager.Classes.GameComponents.GameControls
         private void TimerFinished(object sender, EventArgs e)
         {
             timer.Stop();
-            //Increments 1-8 periods of time
+            // Increments 1-8 periods of time
             Game.IncrementTime(SimSpeed);
-            //Update time of game
+            // Update time of game
             SetTime(Game.TimeInterval);
-            //Updates shot totals
+            // Updates shot totals
             shotCounterControl.UpdateShotControl(Game);
 
-            //Gets all the new events since the last time it the eventspanel was updated
+            // Gets all the new events since the last time it the eventspanel was updated
             List<Event> newGameEvents = Game.GameEvents.GetRange(eventIndex, Game.GameEvents.Count - eventIndex);
-            //If the newly simulated events contained a goal, change the score
+            // If the newly simulated events contained a goal, change the score
             if (newGameEvents.OfType<GoalEvent>().Any())
             {
                 UpdateScoreLabel();
             }
-            //Change periodlabel if the game period changes
+            // Change periodlabel if the game period changes
             if (period != Game.Period)
             {
                 UpdatePeriodLabel();
             }
-            //Updates current faceoff stats
+            // Updates current faceoff stats
             UpdateFaceoffChart();
-            //Sets player controls to the active lines
+            // Sets player controls to the active lines
             SetPlayerLineControls();
-            //Sets the new event index for incoming new events
+            // Sets the new event index for incoming new events
             eventIndex = Game.GameEvents.Count == 0 ? eventIndex = 0 : eventIndex = Game.GameEvents.Count;
+
+            // Sorts the events and adds them to display panel
             SortEvents(ref newGameEvents);
-            gameEvents.AddRange(newGameEvents);
             AddEventsToLayout(newGameEvents);
             if (Game.Finished == false)
             {

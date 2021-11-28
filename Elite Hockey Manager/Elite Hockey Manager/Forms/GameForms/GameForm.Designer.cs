@@ -38,7 +38,6 @@
 
             this.gameControl.Location = new System.Drawing.Point(4, 12);
             this.gameControl.Name = "gameControl";
-            this.gameControl.SimSpeed = 1;
             this.gameControl.Size = new System.Drawing.Size(940, 486);
             this.gameControl.TabIndex = 0;
             // 
