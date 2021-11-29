@@ -109,6 +109,7 @@
       <DependentUpon>ShotCounterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\GameComponents\GameEvent\Event.cs" />
+    <Compile Include="Classes\LeagueComponents\DraftPick.cs" />
     <Compile Include="Classes\LeagueComponents\LeagueControls\GameDisplayControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
